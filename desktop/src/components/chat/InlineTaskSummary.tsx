@@ -1,4 +1,5 @@
 import type { TaskSummaryItem } from '../../types/chat'
+import { useTranslation } from '../../i18n'
 
 const statusIcon: Record<TaskSummaryItem['status'], string> = {
   pending: 'radio_button_unchecked',
@@ -13,7 +14,8 @@ const statusColor: Record<TaskSummaryItem['status'], string> = {
 }
 
 export function InlineTaskSummary({ tasks }: { tasks: TaskSummaryItem[] }) {
-  const completed = tasks.filter((t) => t.status === 'completed').length
+  const t = useTranslation()
+  const completed = tasks.filter((tk) => tk.status === 'completed').length
   const total = tasks.length
 
   return (
@@ -25,7 +27,7 @@ export function InlineTaskSummary({ tasks }: { tasks: TaskSummaryItem[] }) {
           </span>
         </div>
         <span className="text-xs font-semibold text-[var(--color-text-primary)]">
-          Tasks completed
+          {t('tasks.completed')}
         </span>
         <span className="text-[10px] text-[var(--color-text-tertiary)] tabular-nums">
           {completed}/{total}

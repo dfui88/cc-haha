@@ -1,14 +1,15 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
 import { useSessionStore } from '../../stores/sessionStore'
 import { useUIStore } from '../../stores/uiStore'
+import { useTranslation } from '../../i18n'
 import { ProjectFilter } from './ProjectFilter'
 import type { SessionListItem } from '../../types/session'
 
 const isTauri = typeof window !== 'undefined' && ('__TAURI_INTERNALS__' in window || '__TAURI__' in window)
 
-type TimeGroup = 'Today' | 'Yesterday' | 'Last 7 days' | 'Last 30 days' | 'Older'
+type TimeGroup = 'today' | 'yesterday' | 'last7days' | 'last30days' | 'older'
 
-const TIME_GROUP_ORDER: TimeGroup[] = ['Today', 'Yesterday', 'Last 7 days', 'Last 30 days', 'Older']
+const TIME_GROUP_ORDER: TimeGroup[] = ['today', 'yesterday', 'last7days', 'last30days', 'older']
 
 export function Sidebar() {
   const {
@@ -79,6 +80,16 @@ export function Sidebar() {
     setRenameValue('')
   }, [renamingId, renameValue, renameSession])
 
+  const t = useTranslation()
+
+  const TIME_GROUP_LABELS: Record<TimeGroup, string> = {
+    today: t('sidebar.timeGroup.today'),
+    yesterday: t('sidebar.timeGroup.yesterday'),
+    last7days: t('sidebar.timeGroup.last7days'),
+    last30days: t('sidebar.timeGroup.last30days'),
+    older: t('sidebar.timeGroup.older'),
+  }
+
   return (
     <aside data-tauri-drag-region className="w-[var(--sidebar-width)] h-full flex flex-col bg-[var(--color-surface-sidebar)] border-r border-[var(--color-border)] select-none">
       {/* Brand logo — extra top padding in desktop to clear macOS traffic lights */}
@@ -106,14 +117,14 @@ export function Sidebar() {
           onClick={() => { setActiveView('code'); setActiveSession(null) }}
           icon={<PlusIcon />}
         >
-          New session
+          {t('sidebar.newSession')}
         </NavItem>
         <NavItem
           active={activeView === 'scheduled'}
           onClick={() => setActiveView('scheduled')}
           icon={<ClockIcon />}
         >
-          Scheduled
+          {t('sidebar.scheduled')}
         </NavItem>
       </div>
 
@@ -127,7 +138,7 @@ export function Sidebar() {
         <input
           id="sidebar-search"
           type="text"
-          placeholder="Search sessions..."
+          placeholder={t('sidebar.searchPlaceholder')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full h-7 px-2 text-xs rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] outline-none focus:border-[var(--color-border-focus)]"
@@ -138,19 +149,19 @@ export function Sidebar() {
       <div className="flex-1 overflow-y-auto px-3">
         {error && (
           <div className="mx-1 mt-2 rounded-[var(--radius-md)] border border-[var(--color-error)]/20 bg-[var(--color-error)]/5 px-3 py-2">
-            <div className="text-xs font-medium text-[var(--color-error)]">Session list failed to load</div>
+            <div className="text-xs font-medium text-[var(--color-error)]">{t('sidebar.sessionListFailed')}</div>
             <div className="mt-1 text-[11px] text-[var(--color-text-secondary)] break-words">{error}</div>
             <button
               onClick={() => fetchSessions()}
               className="mt-2 text-[11px] font-medium text-[var(--color-brand)] hover:underline"
             >
-              Retry
+              {t('common.retry')}
             </button>
           </div>
         )}
         {filteredSessions.length === 0 && (
           <div className="px-3 py-4 text-xs text-[var(--color-text-tertiary)] text-center">
-            {searchQuery ? 'No matching sessions' : 'No sessions yet'}
+            {searchQuery ? t('sidebar.noMatching') : t('sidebar.noSessions')}
           </div>
         )}
         {TIME_GROUP_ORDER.map((group) => {
@@ -159,7 +170,7 @@ export function Sidebar() {
           return (
             <div key={group} className="mb-1">
               <div className="px-2 pt-3 pb-1 text-[11px] font-semibold text-[var(--color-text-tertiary)] tracking-wide">
-                {group}
+                {TIME_GROUP_LABELS[group]}
               </div>
               {items.map((session) => (
                 <div key={session.id} className="relative">
@@ -195,9 +206,9 @@ export function Sidebar() {
                       {!session.workDirExists && (
                         <span
                           className="text-[10px] text-[var(--color-warning)] flex-shrink-0"
-                          title={session.workDir ?? 'Missing workspace'}
+                          title={session.workDir ?? ''}
                         >
-                          missing dir
+                          {t('sidebar.missingDir')}
                         </span>
                       )}
                       <span className="text-[10px] text-[var(--color-text-tertiary)] flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -219,7 +230,7 @@ export function Sidebar() {
           onClick={() => setActiveView('settings')}
           icon={<span className="material-symbols-outlined text-[18px]">settings</span>}
         >
-          Settings
+          {t('sidebar.settings')}
         </NavItem>
       </div>
 
@@ -236,13 +247,13 @@ export function Sidebar() {
             }}
             className="w-full px-3 py-1.5 text-xs text-left text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)] transition-colors"
           >
-            Rename
+            {t('common.rename')}
           </button>
           <button
             onClick={() => handleDelete(contextMenu.id)}
             className="w-full px-3 py-1.5 text-xs text-left text-[var(--color-error)] hover:bg-[var(--color-surface-hover)] transition-colors"
           >
-            Delete
+            {t('common.delete')}
           </button>
         </div>
       )}
@@ -261,11 +272,11 @@ function groupByTime(sessions: SessionListItem[]): Map<TimeGroup, SessionListIte
   for (const session of sessions) {
     const ts = new Date(session.modifiedAt).getTime()
     let group: TimeGroup
-    if (ts >= startOfToday) group = 'Today'
-    else if (ts >= startOfYesterday) group = 'Yesterday'
-    else if (ts >= sevenDaysAgo) group = 'Last 7 days'
-    else if (ts >= thirtyDaysAgo) group = 'Last 30 days'
-    else group = 'Older'
+    if (ts >= startOfToday) group = 'today'
+    else if (ts >= startOfYesterday) group = 'yesterday'
+    else if (ts >= sevenDaysAgo) group = 'last7days'
+    else if (ts >= thirtyDaysAgo) group = 'last30days'
+    else group = 'older'
 
     if (!groups.has(group)) groups.set(group, [])
     groups.get(group)!.push(session)

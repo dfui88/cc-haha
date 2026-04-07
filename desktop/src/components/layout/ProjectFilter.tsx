@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { useSessionStore } from '../../stores/sessionStore'
+import { useTranslation } from '../../i18n'
 
 export function ProjectFilter() {
+  const t = useTranslation()
   const { availableProjects, selectedProjects, setSelectedProjects } = useSessionStore()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -19,9 +21,9 @@ export function ProjectFilter() {
   const isAllSelected = selectedProjects.length === 0
 
   const label = isAllSelected
-    ? 'All projects'
+    ? t('sidebar.allProjects')
     : selectedProjects.length === 1
-      ? getDisplayName(selectedProjects[0]!)
+      ? getDisplayName(selectedProjects[0]!, t('sidebar.other'))
       : `${selectedProjects.length} projects`
 
   const toggleProject = (path: string) => {
@@ -62,7 +64,7 @@ export function ProjectFilter() {
             className="w-full flex items-center gap-2.5 px-3 py-1.5 text-sm text-left hover:bg-[var(--color-surface-hover)] transition-colors"
           >
             <FolderIcon />
-            <span className="flex-1 text-[var(--color-text-primary)]">All projects</span>
+            <span className="flex-1 text-[var(--color-text-primary)]">{t('sidebar.allProjects')}</span>
             {isAllSelected && <CheckIcon />}
           </button>
 
@@ -78,7 +80,7 @@ export function ProjectFilter() {
                 className="w-full flex items-center gap-2.5 px-3 py-1.5 text-sm text-left hover:bg-[var(--color-surface-hover)] transition-colors"
               >
                 <FolderIcon />
-                <span className="flex-1 truncate text-[var(--color-text-primary)]">{getDisplayName(path)}</span>
+                <span className="flex-1 truncate text-[var(--color-text-primary)]">{getDisplayName(path, t('sidebar.other'))}</span>
                 {checked && <CheckIcon />}
               </button>
             )
@@ -89,10 +91,10 @@ export function ProjectFilter() {
   )
 }
 
-function getDisplayName(sanitizedPath: string): string {
-  if (!sanitizedPath || sanitizedPath === '_unknown') return 'Other'
+function getDisplayName(sanitizedPath: string, fallback: string = 'Other'): string {
+  if (!sanitizedPath || sanitizedPath === '_unknown') return fallback
   const segments = sanitizedPath.split('-').filter(Boolean)
-  return segments[segments.length - 1] || 'Other'
+  return segments[segments.length - 1] || fallback
 }
 
 function ChevronIcon({ open }: { open: boolean }) {

@@ -3,6 +3,7 @@ import { CodeViewer } from './CodeViewer'
 import { DiffViewer } from './DiffViewer'
 import { TerminalChrome } from './TerminalChrome'
 import { CopyButton } from '../shared/CopyButton'
+import { useTranslation } from '../../i18n'
 
 type Props = {
   toolName: string
@@ -27,14 +28,15 @@ const TOOL_ICONS: Record<string, string> = {
 
 export function ToolCallBlock({ toolName, input, result, compact = false }: Props) {
   const [expanded, setExpanded] = useState(false)
+  const t = useTranslation()
   const obj = input && typeof input === 'object' ? (input as Record<string, unknown>) : {}
   const icon = TOOL_ICONS[toolName] || 'build'
   const filePath = typeof obj.file_path === 'string' ? obj.file_path : ''
-  const summary = getToolSummary(toolName, obj)
-  const outputSummary = getToolResultSummary(toolName, result?.content)
+  const summary = getToolSummary(toolName, obj, t)
+  const outputSummary = getToolResultSummary(toolName, result?.content, t)
 
-  const preview = useMemo(() => renderPreview(toolName, obj, result), [obj, result, toolName])
-  const details = useMemo(() => renderDetails(toolName, obj), [obj, toolName])
+  const preview = useMemo(() => renderPreview(toolName, obj, result, t), [obj, result, toolName, t])
+  const details = useMemo(() => renderDetails(toolName, obj, t), [obj, toolName, t])
   const expandable = toolName === 'Edit' || toolName === 'Write'
 
   return (
@@ -94,6 +96,7 @@ function renderPreview(
   toolName: string,
   obj: Record<string, unknown>,
   result?: { content: unknown; isError: boolean } | null,
+  t?: (key: any, params?: any) => string,
 ) {
   const filePath = typeof obj.file_path === 'string' ? obj.file_path : 'file'
 
@@ -129,7 +132,7 @@ function renderPreview(
             : 'border-[var(--color-border)] bg-[var(--color-surface)]'
         }`}>
           <div className="flex items-center justify-between border-b border-[var(--color-border)]/60 px-3 py-2 text-[10px] uppercase tracking-[0.18em] text-[var(--color-outline)]">
-            <span>{result.isError ? 'Error Output' : 'Tool Output'}</span>
+            <span>{result.isError ? t?.('tool.errorOutput') ?? 'Error Output' : t?.('tool.toolOutput') ?? 'Tool Output'}</span>
             <CopyButton
               text={text}
               className="rounded-md border border-[var(--color-border)] px-2 py-1 text-[10px] normal-case tracking-normal text-[var(--color-text-tertiary)] transition-colors hover:text-[var(--color-text-primary)]"
@@ -144,7 +147,7 @@ function renderPreview(
   return null
 }
 
-function renderDetails(toolName: string, obj: Record<string, unknown>) {
+function renderDetails(toolName: string, obj: Record<string, unknown>, t?: (key: any, params?: any) => string) {
   if (toolName === 'Edit' || toolName === 'Write') {
     return null
   }
@@ -153,7 +156,7 @@ function renderDetails(toolName: string, obj: Record<string, unknown>) {
   return (
     <div className="overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)]">
       <div className="flex items-center justify-between border-b border-[var(--color-border)] px-3 py-2 text-[10px] uppercase tracking-[0.18em] text-[var(--color-outline)]">
-        <span>Tool Input</span>
+        <span>{t?.('tool.toolInput') ?? 'Tool Input'}</span>
         <CopyButton
           text={text}
           className="rounded-md border border-[var(--color-border)] px-2 py-1 text-[10px] normal-case tracking-normal text-[var(--color-text-tertiary)] transition-colors hover:text-[var(--color-text-primary)]"
@@ -164,7 +167,7 @@ function renderDetails(toolName: string, obj: Record<string, unknown>) {
   )
 }
 
-function getToolResultSummary(toolName: string, content: unknown): string {
+function getToolResultSummary(toolName: string, content: unknown, t?: (key: any, params?: any) => string): string {
   if (toolName === 'Bash') return ''
 
   const text = extractTextContent(content)
@@ -172,7 +175,7 @@ function getToolResultSummary(toolName: string, content: unknown): string {
 
   const lineCount = text.split('\n').length
   if (lineCount > 1) {
-    return `${lineCount} lines output`
+    return t?.('tool.linesOutput', { count: lineCount }) ?? `${lineCount} lines output`
   }
 
   const compact = text.replace(/\s+/g, ' ').trim()
@@ -181,18 +184,20 @@ function getToolResultSummary(toolName: string, content: unknown): string {
   return `${compact.slice(0, 36)}…`
 }
 
-function getToolSummary(toolName: string, obj: Record<string, unknown>): string {
+function getToolSummary(toolName: string, obj: Record<string, unknown>, t?: (key: any, params?: any) => string): string {
   switch (toolName) {
     case 'Bash':
       return typeof obj.command === 'string' ? obj.command : ''
     case 'Read':
-      return typeof obj.limit === 'number' ? `Read file contents` : 'Read file contents'
+      return t?.('tool.readFileContents') ?? 'Read file contents'
     case 'Write':
-      return typeof obj.content === 'string' ? `${obj.content.split('\n').length} lines created` : 'Create file'
+      return typeof obj.content === 'string'
+        ? (t?.('tool.linesCreated', { count: obj.content.split('\n').length }) ?? `${obj.content.split('\n').length} lines created`)
+        : (t?.('tool.createFile') ?? 'Create file')
     case 'Edit':
       return typeof obj.old_string === 'string' && typeof obj.new_string === 'string'
-        ? changedLineSummary(obj.old_string, obj.new_string)
-        : 'Update file contents'
+        ? changedLineSummary(obj.old_string, obj.new_string, t)
+        : (t?.('tool.updateFileContents') ?? 'Update file contents')
     case 'Glob':
       return typeof obj.pattern === 'string' ? obj.pattern : ''
     case 'Grep':
@@ -218,7 +223,7 @@ function extractTextContent(content: unknown): string | null {
   return null
 }
 
-function changedLineSummary(oldString: string, newString: string): string {
+function changedLineSummary(oldString: string, newString: string, t?: (key: any, params?: any) => string): string {
   const oldLines = oldString.split('\n')
   const newLines = newString.split('\n')
   let changed = 0
@@ -230,5 +235,5 @@ function changedLineSummary(oldString: string, newString: string): string {
     }
   }
 
-  return `${changed} lines changed`
+  return t?.('tool.linesChanged', { count: changed }) ?? `${changed} lines changed`
 }

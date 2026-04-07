@@ -1,7 +1,9 @@
 import { useTeamStore } from '../../stores/teamStore'
 import { MemberTag } from './MemberTag'
+import { useTranslation } from '../../i18n'
 
 export function TeamStatusBar() {
+  const t = useTranslation()
   const { activeTeam } = useTeamStore()
 
   if (!activeTeam) return null
@@ -11,10 +13,10 @@ export function TeamStatusBar() {
       {/* Team header */}
       <div className="px-4 py-2 flex items-center gap-2">
         <span className="text-xs font-semibold text-[var(--color-text-primary)]">
-          Team: {activeTeam.name}
+          {t('teams.team')} {activeTeam.name}
         </span>
         <span className="text-xs text-[var(--color-text-tertiary)]">
-          ({activeTeam.members.length} members)
+          ({activeTeam.members.length} {t('teams.members')})
         </span>
       </div>
 

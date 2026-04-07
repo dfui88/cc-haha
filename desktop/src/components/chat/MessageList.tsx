@@ -1,5 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { useChatStore } from '../../stores/chatStore'
+import { useTranslation } from '../../i18n'
+import type { TranslationKey } from '../../i18n/locales/en'
 import { UserMessage } from './UserMessage'
 import { AssistantMessage } from './AssistantMessage'
 import { ThinkingBlock } from './ThinkingBlock'
@@ -141,6 +143,8 @@ function MessageBlock({
   activeThinkingId: string | null
   toolResult?: { content: unknown; isError: boolean } | null
 }) {
+  const t = useTranslation()
+
   switch (message.type) {
     case 'user_text':
       return <UserMessage content={message.content} attachments={message.attachments} />
@@ -181,12 +185,16 @@ function MessageBlock({
           description={message.description}
         />
       )
-    case 'error':
+    case 'error': {
+      const errorKey = message.code ? `error.${message.code}` as TranslationKey : null
+      const errorText = errorKey ? t(errorKey) : null
+      const displayMessage = (errorText && errorText !== errorKey) ? errorText : message.message
       return (
         <div className="mb-3 px-4 py-2.5 rounded-lg bg-red-50 border border-red-200 text-sm text-[var(--color-error)]">
-          <strong>Error:</strong> {message.message}
+          <strong>Error:</strong> {displayMessage}
         </div>
       )
+    }
     case 'task_summary':
       return <InlineTaskSummary tasks={message.tasks} />
     case 'system':

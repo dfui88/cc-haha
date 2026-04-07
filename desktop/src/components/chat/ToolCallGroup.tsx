@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ToolCallBlock } from './ToolCallBlock'
+import { useTranslation } from '../../i18n'
 import type { UIMessage } from '../../types/chat'
 
 type ToolCall = Extract<UIMessage, { type: 'tool_use' }>
@@ -12,19 +13,19 @@ type Props = {
   isStreaming?: boolean
 }
 
-const TOOL_VERBS: Record<string, (count: number) => string> = {
-  Read: (n) => `Read ${n} file${n > 1 ? 's' : ''}`,
-  Write: (n) => `created ${n > 1 ? `${n} files` : 'a file'}`,
-  Edit: (n) => `edited ${n > 1 ? `${n} files` : 'a file'}`,
-  Bash: (n) => `ran ${n > 1 ? `${n} commands` : 'a command'}`,
-  Glob: (_n) => `found files`,
-  Grep: (n) => `searched ${n > 1 ? `${n} patterns` : 'code'}`,
-  Agent: (n) => `dispatched ${n > 1 ? `${n} agents` : 'an agent'}`,
-  WebSearch: (_n) => `searched the web`,
-  WebFetch: (n) => `fetched ${n > 1 ? `${n} pages` : 'a page'}`,
+const TOOL_VERBS: Record<string, (count: number, t: (key: any, params?: any) => string) => string> = {
+  Read: (n, t) => n === 1 ? t('toolGroup.readOne') : t('toolGroup.readMany', { count: n }),
+  Write: (n, t) => n === 1 ? t('toolGroup.createdOne') : t('toolGroup.createdMany', { count: n }),
+  Edit: (n, t) => n === 1 ? t('toolGroup.editedOne') : t('toolGroup.editedMany', { count: n }),
+  Bash: (n, t) => n === 1 ? t('toolGroup.ranOne') : t('toolGroup.ranMany', { count: n }),
+  Glob: (_n, t) => t('toolGroup.foundFiles'),
+  Grep: (n, t) => n === 1 ? t('toolGroup.searchedOne') : t('toolGroup.searchedMany', { count: n }),
+  Agent: (n, t) => n === 1 ? t('toolGroup.agentOne') : t('toolGroup.agentMany', { count: n }),
+  WebSearch: (_n, t) => t('toolGroup.searchedWeb'),
+  WebFetch: (n, t) => n === 1 ? t('toolGroup.fetchedOne') : t('toolGroup.fetchedMany', { count: n }),
 }
 
-function generateSummary(toolCalls: ToolCall[]): string {
+function generateSummary(toolCalls: ToolCall[], t: (key: any, params?: any) => string): string {
   const counts = new Map<string, number>()
   for (const tc of toolCalls) {
     counts.set(tc.toolName, (counts.get(tc.toolName) ?? 0) + 1)
@@ -33,7 +34,7 @@ function generateSummary(toolCalls: ToolCall[]): string {
   const parts: string[] = []
   for (const [name, count] of counts) {
     const verbFn = TOOL_VERBS[name]
-    parts.push(verbFn ? verbFn(count) : `${name} (${count})`)
+    parts.push(verbFn ? verbFn(count, t) : `${name} (${count})`)
   }
 
   return parts.join(', ')
@@ -66,7 +67,8 @@ export function ToolCallGroup({ toolCalls, resultMap, isStreaming }: Props) {
 /** Separated so the useState hook is never called conditionally. */
 function ToolCallGroupMulti({ toolCalls, resultMap, isStreaming }: Props) {
   const [expanded, setExpanded] = useState(false)
-  const summary = generateSummary(toolCalls)
+  const t = useTranslation()
+  const summary = generateSummary(toolCalls, t)
   const errorPresent = groupHasErrors(toolCalls, resultMap)
   const allComplete = toolCalls.every((tc) => resultMap.has(tc.toolUseId))
 

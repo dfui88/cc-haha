@@ -1,6 +1,8 @@
 import { useTeamStore } from '../../stores/teamStore'
+import { useTranslation } from '../../i18n'
 
 export function TranscriptView() {
+  const t = useTranslation()
   const { agentTranscript, viewingAgentId, activeTeam } = useTeamStore()
   const member = activeTeam?.members.find((m) => m.agentId === viewingAgentId)
 
@@ -11,7 +13,7 @@ export function TranscriptView() {
         <div className="flex items-center gap-3 mb-4">
           <div className="flex-1 h-px bg-[var(--color-border)]" />
           <span className="text-xs text-[var(--color-text-tertiary)]">
-            Viewing: {member?.role || viewingAgentId} transcript
+            {t('teams.viewing')} {member?.role || viewingAgentId} {t('teams.transcript')}
           </span>
           <div className="flex-1 h-px bg-[var(--color-border)]" />
         </div>
@@ -19,7 +21,7 @@ export function TranscriptView() {
         {/* Transcript messages */}
         {agentTranscript.length === 0 ? (
           <div className="text-center text-sm text-[var(--color-text-tertiary)] py-8">
-            No messages yet
+            {t('teams.noMessages')}
           </div>
         ) : (
           agentTranscript.map((msg) => (

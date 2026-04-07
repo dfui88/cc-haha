@@ -1,5 +1,6 @@
 import { forwardRef, useState, useEffect, useRef, useCallback, useImperativeHandle } from 'react'
 import { filesystemApi } from '../../api/filesystem'
+import { useTranslation } from '../../i18n'
 
 type DirEntry = {
   name: string
@@ -18,6 +19,7 @@ type Props = {
 }
 
 export const FileSearchMenu = forwardRef<FileSearchMenuHandle, Props>(({ cwd, filter = '', onSelect }, ref) => {
+  const t = useTranslation()
   const [entries, setEntries] = useState<DirEntry[]>([])
   const [currentPath, setCurrentPath] = useState(cwd)
   const [loading, setLoading] = useState(false)
@@ -133,10 +135,10 @@ export const FileSearchMenu = forwardRef<FileSearchMenuHandle, Props>(({ cwd, fi
       {/* File list */}
       <div ref={listRef} className="max-h-[300px] overflow-y-auto py-1">
         {loading && entries.length === 0 ? (
-          <div className="px-4 py-6 text-center text-xs text-[var(--color-text-tertiary)]">Searching...</div>
+          <div className="px-4 py-6 text-center text-xs text-[var(--color-text-tertiary)]">{t('fileSearch.searching')}</div>
         ) : entries.length === 0 ? (
           <div className="px-4 py-6 text-center text-xs text-[var(--color-text-tertiary)]">
-            {filter ? 'No files match' : 'No files in this directory'}
+            {filter ? t('fileSearch.noMatch') : t('fileSearch.noFiles')}
           </div>
         ) : (
           <>
@@ -183,11 +185,11 @@ export const FileSearchMenu = forwardRef<FileSearchMenuHandle, Props>(({ cwd, fi
       {/* Footer hint */}
       <div className="flex items-center gap-1.5 border-t border-[var(--color-border)] px-3 py-1.5 text-[10px] text-[var(--color-text-tertiary)]">
         <kbd className="rounded border border-[var(--color-border)] bg-[var(--color-surface-container-low)] px-1 py-0.5 font-mono">↑↓</kbd>
-        <span>navigate</span>
+        <span>{t('fileSearch.navigate')}</span>
         <kbd className="ml-2 rounded border border-[var(--color-border)] bg-[var(--color-surface-container-low)] px-1 py-0.5 font-mono">Enter</kbd>
-        <span>attach</span>
+        <span>{t('fileSearch.attach')}</span>
         <kbd className="ml-2 rounded border border-[var(--color-border)] bg-[var(--color-surface-container-low)] px-1 py-0.5 font-mono">Esc</kbd>
-        <span>close</span>
+        <span>{t('fileSearch.close')}</span>
       </div>
     </div>
   )

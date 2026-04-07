@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { sessionsApi, type RecentProject } from '../../api/sessions'
 import { filesystemApi } from '../../api/filesystem'
+import { useTranslation } from '../../i18n'
 
 type Props = {
   value: string
@@ -14,6 +15,7 @@ function isTauriRuntime() {
 }
 
 export function DirectoryPicker({ value, onChange }: Props) {
+  const t = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
   const [mode, setMode] = useState<'recent' | 'browse'>('recent')
   const [projects, setProjects] = useState<RecentProject[]>([])
@@ -69,7 +71,7 @@ export function DirectoryPicker({ value, onChange }: Props) {
         const selected = await open({
           directory: true,
           multiple: false,
-          title: 'Choose project folder',
+          title: t('dirPicker.chooseProjectFolder'),
         })
         if (selected) onChange(selected)
       } catch (err) {
@@ -120,7 +122,7 @@ export function DirectoryPicker({ value, onChange }: Props) {
           className="flex items-center gap-2 text-xs text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] transition-colors"
         >
           <span className="material-symbols-outlined text-[14px]">folder_open</span>
-          Select a project...
+          {t('dirPicker.selectProject')}
         </button>
       )}
 
@@ -130,13 +132,13 @@ export function DirectoryPicker({ value, onChange }: Props) {
           {mode === 'recent' ? (
             <>
               <div className="px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-[var(--color-outline)]">
-                Recent
+                {t('dirPicker.recent')}
               </div>
               <div className="max-h-[300px] overflow-y-auto">
                 {loading ? (
-                  <div className="px-4 py-6 text-center text-xs text-[var(--color-text-tertiary)]">Loading...</div>
+                  <div className="px-4 py-6 text-center text-xs text-[var(--color-text-tertiary)]">{t('common.loading')}</div>
                 ) : projects.length === 0 ? (
-                  <div className="px-4 py-6 text-center text-xs text-[var(--color-text-tertiary)]">No recent projects</div>
+                  <div className="px-4 py-6 text-center text-xs text-[var(--color-text-tertiary)]">{t('dirPicker.noRecent')}</div>
                 ) : (
                   projects.map((project) => {
                     const isSelected = project.realPath === value
@@ -182,7 +184,7 @@ export function DirectoryPicker({ value, onChange }: Props) {
                   className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-[var(--color-surface-hover)] transition-colors"
                 >
                   <span className="material-symbols-outlined text-[20px] text-[var(--color-text-tertiary)]">create_new_folder</span>
-                  <span className="text-sm text-[var(--color-text-secondary)]">Choose a different folder</span>
+                  <span className="text-sm text-[var(--color-text-secondary)]">{t('dirPicker.chooseFolder')}</span>
                 </button>
               </div>
             </>
@@ -191,7 +193,7 @@ export function DirectoryPicker({ value, onChange }: Props) {
             <>
               <div className="px-3 py-2 border-b border-[var(--color-border)] flex items-center gap-1 flex-wrap">
                 <button onClick={() => setMode('recent')} className="text-xs text-[var(--color-text-accent)] hover:underline mr-2">
-                  ← Recent
+                  {'← ' + t('dirPicker.recent')}
                 </button>
                 <button onClick={() => loadBrowseDir('/')} className="text-[10px] text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)]">/</button>
                 {browsePath.split('/').filter(Boolean).map((seg, i, arr) => (
@@ -207,7 +209,7 @@ export function DirectoryPicker({ value, onChange }: Props) {
 
               <div className="max-h-[240px] overflow-y-auto">
                 {loading ? (
-                  <div className="px-3 py-4 text-center text-xs text-[var(--color-text-tertiary)]">Loading...</div>
+                  <div className="px-3 py-4 text-center text-xs text-[var(--color-text-tertiary)]">{t('common.loading')}</div>
                 ) : (
                   <>
                     {browseParent && browseParent !== browsePath && (
@@ -217,7 +219,7 @@ export function DirectoryPicker({ value, onChange }: Props) {
                       </button>
                     )}
                     {browseEntries.length === 0 ? (
-                      <div className="px-3 py-4 text-center text-xs text-[var(--color-text-tertiary)]">No subdirectories</div>
+                      <div className="px-3 py-4 text-center text-xs text-[var(--color-text-tertiary)]">{t('dirPicker.noSubdirs')}</div>
                     ) : browseEntries.map((entry) => (
                       <button
                         key={entry.path}
@@ -226,7 +228,7 @@ export function DirectoryPicker({ value, onChange }: Props) {
                         <span className="material-symbols-outlined text-[16px] text-[var(--color-text-tertiary)]" onClick={() => loadBrowseDir(entry.path)}>folder</span>
                         <span className="text-xs text-[var(--color-text-primary)] flex-1" onClick={() => loadBrowseDir(entry.path)}>{entry.name}</span>
                         <button onClick={() => handleSelect(entry.path)} className="px-2 py-0.5 text-[10px] font-semibold text-[var(--color-brand)] hover:bg-[var(--color-primary-fixed)] rounded transition-colors">
-                          Select
+                          {t('common.select')}
                         </button>
                       </button>
                     ))}
@@ -238,7 +240,7 @@ export function DirectoryPicker({ value, onChange }: Props) {
               <div className="px-3 py-2 border-t border-[var(--color-border)] flex justify-between items-center">
                 <span className="text-[10px] text-[var(--color-text-tertiary)] font-[var(--font-mono)] truncate">{browsePath}</span>
                 <button onClick={() => handleSelect(browsePath)} className="px-3 py-1.5 bg-[var(--color-brand)] text-white text-xs font-semibold rounded-lg hover:opacity-90">
-                  Use this folder
+                  {t('dirPicker.useThisFolder')}
                 </button>
               </div>
             </>

@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from '../../i18n'
 
 export function ThinkingBlock({ content, isActive = false }: { content: string; isActive?: boolean }) {
+  const t = useTranslation()
   const [expanded, setExpanded] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
 
@@ -26,7 +28,7 @@ export function ThinkingBlock({ content, isActive = false }: { content: string; 
           {expanded ? '\u25BE' : '\u25B8'}
         </span>
         <span className="shrink-0 font-medium italic">
-          Thinking
+          {t('thinking.label')}
           {isActive && <span className="thinking-dots" />}
         </span>
         {!expanded && preview && (

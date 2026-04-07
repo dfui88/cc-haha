@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useChatStore } from '../../stores/chatStore'
+import { useTranslation } from '../../i18n'
 import { Button } from '../shared/Button'
 
 type QuestionOption = {
@@ -46,6 +47,7 @@ function parseInput(input: unknown): Question[] {
 
 export function AskUserQuestion({ toolUseId: _toolUseId, input }: Props) {
   const { sendMessage } = useChatStore()
+  const t = useTranslation()
   const questions = parseInput(input)
   const [activeTab, setActiveTab] = useState(0)
   const [selections, setSelections] = useState<Record<number, string>>({})
@@ -109,11 +111,11 @@ export function AskUserQuestion({ toolUseId: _toolUseId, input }: Props) {
         </div>
         <div className="flex-1 min-w-0">
           <span className="text-sm font-semibold text-[var(--color-text-primary)]">
-            Claude needs your input
+            {t('question.needsInput')}
           </span>
           {submitted && (
             <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--color-surface-container-high)] text-[var(--color-text-tertiary)]">
-              Answered
+              {t('question.answered')}
             </span>
           )}
         </div>
@@ -209,7 +211,7 @@ export function AskUserQuestion({ toolUseId: _toolUseId, input }: Props) {
         {!submitted && (
           <div>
             <label className="text-xs text-[var(--color-text-tertiary)] mb-1.5 block">
-              Or type a custom response:
+              {t('question.customResponse')}
             </label>
             <input
               type="text"
@@ -221,7 +223,7 @@ export function AskUserQuestion({ toolUseId: _toolUseId, input }: Props) {
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && allAnswered) handleSubmit()
               }}
-              placeholder="Type your answer..."
+              placeholder={t('question.typePlaceholder')}
               className="w-full px-3 py-2 text-sm bg-[var(--color-surface)] border border-[var(--color-outline-variant)]/40 rounded-[var(--radius-md)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] focus:outline-none focus:border-[var(--color-secondary)] focus:ring-1 focus:ring-[var(--color-secondary)]/30"
             />
           </div>
@@ -232,7 +234,7 @@ export function AskUserQuestion({ toolUseId: _toolUseId, input }: Props) {
           <div className="flex items-center gap-2 text-xs text-[var(--color-text-secondary)]">
             <span className="material-symbols-outlined text-[14px] text-[var(--color-success)]">check_circle</span>
             <span>
-              Answered: <strong>{freeText.trim() || Object.values(selections).join(', ')}</strong>
+              {t('question.answeredPrefix')}<strong>{freeText.trim() || Object.values(selections).join(', ')}</strong>
             </span>
           </div>
         )}
@@ -250,7 +252,7 @@ export function AskUserQuestion({ toolUseId: _toolUseId, input }: Props) {
               <span className="material-symbols-outlined text-[14px]">send</span>
             }
           >
-            Submit
+            {t('question.submit')}
           </Button>
         </div>
       )}

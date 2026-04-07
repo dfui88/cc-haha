@@ -1,6 +1,7 @@
 import { PermissionModeSelector } from '../controls/PermissionModeSelector'
 import { ModelSelector } from '../controls/ModelSelector'
 import { DirectoryPicker } from '../shared/DirectoryPicker'
+import { useTranslation } from '../../i18n'
 import type { PermissionMode } from '../../types/settings'
 
 type Props = {
@@ -31,9 +32,10 @@ export function PromptEditor({
   onModelChange,
   folderPath,
   onFolderPathChange,
-  useWorktree,
-  onUseWorktreeChange,
+  useWorktree: _useWorktree,
+  onUseWorktreeChange: _onUseWorktreeChange,
 }: Props) {
+  const t = useTranslation()
   return (
     <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] focus-within:border-[var(--color-border-focus)] transition-colors overflow-visible">
       {/* Prompt textarea */}
@@ -63,7 +65,7 @@ export function PromptEditor({
         {permissionMode === 'bypassPermissions' && (
           <div className="flex items-center gap-1.5 px-2 py-1.5 rounded-md bg-[var(--color-error)]/8 text-[10px] text-[var(--color-error)]">
             <span className="material-symbols-outlined text-[12px]">warning</span>
-            Bypass mode grants full system access{folderPath ? ` within ${folderPath}` : ' — select a folder to limit scope'}.
+            {t('promptEditor.bypassWarning')}{folderPath ? ` ${t('promptEditor.within')} ${folderPath}` : ` ${t('promptEditor.selectFolder')}`}.
           </div>
         )}
       </div>

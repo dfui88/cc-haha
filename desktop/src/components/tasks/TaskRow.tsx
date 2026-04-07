@@ -1,5 +1,6 @@
 import type { CronTask } from '../../types/task'
 import { useTaskStore } from '../../stores/taskStore'
+import { useTranslation } from '../../i18n'
 
 type Props = {
   task: CronTask
@@ -7,6 +8,7 @@ type Props = {
 
 export function TaskRow({ task }: Props) {
   const { deleteTask, updateTask } = useTaskStore()
+  const t = useTranslation()
 
   const toggleEnabled = () => {
     updateTask(task.id, { enabled: !task.enabled })
@@ -36,13 +38,13 @@ export function TaskRow({ task }: Props) {
             onClick={toggleEnabled}
             className="px-2 py-1 text-xs rounded-[var(--radius-sm)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-selected)] transition-colors"
           >
-            {task.enabled ? 'Disable' : 'Enable'}
+            {task.enabled ? t('common.disable') : t('common.enable')}
           </button>
           <button
             onClick={() => deleteTask(task.id)}
             className="px-2 py-1 text-xs rounded-[var(--radius-sm)] text-[var(--color-error)] hover:bg-red-50 transition-colors"
           >
-            Delete
+            {t('common.delete')}
           </button>
         </div>
       </div>

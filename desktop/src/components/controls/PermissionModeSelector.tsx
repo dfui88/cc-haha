@@ -3,42 +3,8 @@ import { createPortal } from 'react-dom'
 import { useSettingsStore } from '../../stores/settingsStore'
 import { useChatStore } from '../../stores/chatStore'
 import { useSessionStore } from '../../stores/sessionStore'
+import { useTranslation } from '../../i18n'
 import type { PermissionMode } from '../../types/settings'
-
-const PERMISSION_ITEMS: Array<{
-  value: PermissionMode
-  label: string
-  description: string
-  icon: string
-  color?: string
-}> = [
-  {
-    value: 'default',
-    label: 'Ask permissions',
-    description: 'Confirm file edits and higher-risk commands when CLI asks',
-    icon: 'verified_user',
-  },
-  {
-    value: 'acceptEdits',
-    label: 'Auto accept edits',
-    description: 'Claude writes to disk without asking',
-    icon: 'bolt',
-  },
-  {
-    value: 'plan',
-    label: 'Plan mode',
-    description: 'Architecture & reasoning only, no files',
-    icon: 'architecture',
-    color: 'text-[var(--color-text-tertiary)]',
-  },
-  {
-    value: 'bypassPermissions',
-    label: 'Bypass permissions',
-    description: 'Full tool access for shell and file system',
-    icon: 'gavel',
-    color: 'text-[var(--color-error)]',
-  },
-]
 
 const MODE_ICONS: Record<PermissionMode, string> = {
   default: 'verified_user',
@@ -46,14 +12,6 @@ const MODE_ICONS: Record<PermissionMode, string> = {
   plan: 'architecture',
   bypassPermissions: 'gavel',
   dontAsk: 'gavel',
-}
-
-const MODE_LABELS: Record<PermissionMode, string> = {
-  default: 'Ask permissions',
-  acceptEdits: 'Auto accept',
-  plan: 'Plan mode',
-  bypassPermissions: 'Bypass',
-  dontAsk: 'Don\'t ask',
 }
 
 type Props = {
@@ -65,6 +23,7 @@ type Props = {
 }
 
 export function PermissionModeSelector({ workDir: workDirProp, value, onChange }: Props = {}) {
+  const t = useTranslation()
   const { permissionMode: storeMode, setPermissionMode } = useSettingsStore()
   const setSessionPermissionMode = useChatStore((s) => s.setSessionPermissionMode)
   const sessions = useSessionStore((s) => s.sessions)
@@ -75,6 +34,49 @@ export function PermissionModeSelector({ workDir: workDirProp, value, onChange }
 
   const isControlled = value !== undefined
   const currentMode = isControlled ? value : storeMode
+
+  const PERMISSION_ITEMS: Array<{
+    value: PermissionMode
+    label: string
+    description: string
+    icon: string
+    color?: string
+  }> = [
+    {
+      value: 'default',
+      label: t('permMode.askPermissions'),
+      description: t('permMode.askPermDesc'),
+      icon: 'verified_user',
+    },
+    {
+      value: 'acceptEdits',
+      label: t('permMode.autoAccept'),
+      description: t('permMode.autoAcceptDesc'),
+      icon: 'bolt',
+    },
+    {
+      value: 'plan',
+      label: t('permMode.planMode'),
+      description: t('permMode.planModeDesc'),
+      icon: 'architecture',
+      color: 'text-[var(--color-text-tertiary)]',
+    },
+    {
+      value: 'bypassPermissions',
+      label: t('permMode.bypass'),
+      description: t('permMode.bypassDesc'),
+      icon: 'gavel',
+      color: 'text-[var(--color-error)]',
+    },
+  ]
+
+  const MODE_LABELS: Record<PermissionMode, string> = {
+    default: t('permMode.label.default'),
+    acceptEdits: t('permMode.label.acceptEdits'),
+    plan: t('permMode.label.plan'),
+    bypassPermissions: t('permMode.label.bypassPermissions'),
+    dontAsk: t('permMode.label.dontAsk'),
+  }
 
   const activeSession = sessions.find((s) => s.id === activeSessionId)
   const workDir = workDirProp || activeSession?.workDir || '~'
@@ -109,7 +111,7 @@ export function PermissionModeSelector({ workDir: workDirProp, value, onChange }
       {open && (
         <div className="absolute left-0 bottom-full mb-2 w-[320px] rounded-xl bg-[var(--color-surface-container-lowest)] border border-[var(--color-border)] shadow-[var(--shadow-dropdown)] z-50 py-2">
           <div className="px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-[var(--color-outline)]">
-            Execution Permissions
+            {t('permMode.executionPermissions')}
           </div>
           {PERMISSION_ITEMS.map((item) => (
             <button
@@ -164,16 +166,14 @@ export function PermissionModeSelector({ workDir: workDirProp, value, onChange }
                 <span className="material-symbols-outlined text-[22px] text-[var(--color-error)]">warning</span>
               </div>
               <div>
-                <div className="text-sm font-bold text-[var(--color-text-primary)]">Enable bypass permissions?</div>
-                <div className="text-xs text-[var(--color-text-tertiary)] mt-0.5">This grants full access to your system</div>
+                <div className="text-sm font-bold text-[var(--color-text-primary)]">{t('permMode.enableBypassTitle')}</div>
+                <div className="text-xs text-[var(--color-text-tertiary)] mt-0.5">{t('permMode.enableBypassSubtitle')}</div>
               </div>
             </div>
 
             {/* Body */}
             <div className="px-5 py-4">
-              <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed mb-3">
-                Claude will have <strong>unrestricted</strong> access to execute shell commands and modify files within:
-              </p>
+              <p className="text-xs text-[var(--color-text-secondary)] leading-relaxed mb-3" dangerouslySetInnerHTML={{ __html: t('permMode.enableBypassBody') }} />
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[var(--color-surface-container)] border border-[var(--color-border)]" title={workDir}>
                 <span className="material-symbols-outlined text-[16px] text-[var(--color-text-tertiary)] shrink-0">folder</span>
                 <code className="text-xs font-[var(--font-mono)] text-[var(--color-text-primary)] truncate">{workDir}</code>
@@ -181,15 +181,15 @@ export function PermissionModeSelector({ workDir: workDirProp, value, onChange }
               <ul className="mt-3 space-y-1.5 text-xs text-[var(--color-text-secondary)]">
                 <li className="flex items-start gap-2">
                   <span className="material-symbols-outlined text-[14px] text-[var(--color-error)] mt-0.5">check</span>
-                  Read, write, and delete any files
+                  {t('permMode.permReadWrite')}
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="material-symbols-outlined text-[14px] text-[var(--color-error)] mt-0.5">check</span>
-                  Execute arbitrary shell commands
+                  {t('permMode.permShell')}
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="material-symbols-outlined text-[14px] text-[var(--color-error)] mt-0.5">check</span>
-                  Install or remove packages
+                  {t('permMode.permPackages')}
                 </li>
               </ul>
             </div>
@@ -200,7 +200,7 @@ export function PermissionModeSelector({ workDir: workDirProp, value, onChange }
                 onClick={() => setConfirmDialog(false)}
                 className="px-4 py-2 text-xs font-semibold text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)] rounded-lg transition-colors"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
               <button
                 onClick={() => {
@@ -214,7 +214,7 @@ export function PermissionModeSelector({ workDir: workDirProp, value, onChange }
                 }}
                 className="px-4 py-2 text-xs font-semibold text-white bg-[var(--color-error)] hover:opacity-90 rounded-lg transition-colors"
               >
-                Enable bypass
+                {t('permMode.enableBypassBtn')}
               </button>
             </div>
           </div>

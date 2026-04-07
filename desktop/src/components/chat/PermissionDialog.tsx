@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useChatStore } from '../../stores/chatStore'
+import { useTranslation } from '../../i18n'
 import { Button } from '../shared/Button'
 import { DiffViewer } from './DiffViewer'
 
@@ -31,7 +32,7 @@ const TOOL_META: Record<string, { icon: string; label: string; color: string }> 
 /**
  * Extract human-readable detail lines from tool input.
  */
-function extractToolDetails(toolName: string, input: unknown): { primary: string; secondary?: string } {
+function extractToolDetails(toolName: string, input: unknown, t: (key: any, params?: any) => string): { primary: string; secondary?: string } {
   const obj = (input && typeof input === 'object') ? input as Record<string, unknown> : {}
 
   switch (toolName) {
@@ -42,7 +43,7 @@ function extractToolDetails(toolName: string, input: unknown): { primary: string
     }
     case 'Edit': {
       const filePath = typeof obj.file_path === 'string' ? obj.file_path : ''
-      return { primary: filePath, secondary: obj.old_string ? 'Replacing content in file' : undefined }
+      return { primary: filePath, secondary: obj.old_string ? t('permission.replacingContent') : undefined }
     }
     case 'Write': {
       const filePath = typeof obj.file_path === 'string' ? obj.file_path : ''
@@ -67,7 +68,7 @@ function extractToolDetails(toolName: string, input: unknown): { primary: string
   }
 }
 
-function getPermissionTitle(toolName: string, input: unknown) {
+function getPermissionTitle(toolName: string, input: unknown, t: (key: any, params?: any) => string) {
   const obj = (input && typeof input === 'object') ? input as Record<string, unknown> : {}
   const filePath = typeof obj.file_path === 'string' ? obj.file_path : ''
   const fileName = filePath ? filePath.split('/').pop() || filePath : ''
@@ -75,11 +76,11 @@ function getPermissionTitle(toolName: string, input: unknown) {
   switch (toolName) {
     case 'Edit':
     case 'Write':
-      return fileName ? `Allow Claude to ${toolName} ${fileName}?` : `Allow Claude to ${toolName.toLowerCase()} this file?`
+      return fileName ? t('permission.allowEditFile', { toolName, fileName }) : t('permission.allowEditFileGeneric', { toolName: toolName.toLowerCase() })
     case 'Bash':
-      return 'Allow Claude to run this command?'
+      return t('permission.allowBash')
     default:
-      return `Allow Claude to use ${toolName}?`
+      return t('permission.allowTool', { toolName })
   }
 }
 
@@ -110,14 +111,15 @@ function renderPermissionPreview(toolName: string, input: unknown) {
 
 export function PermissionDialog({ requestId, toolName, input, description }: Props) {
   const { respondToPermission, pendingPermission } = useChatStore()
+  const t = useTranslation()
   const isPending = pendingPermission?.requestId === requestId
   const [showRaw, setShowRaw] = useState(false)
 
   const meta = TOOL_META[toolName] || { icon: 'shield', label: toolName, color: '#87736D' }
-  const details = extractToolDetails(toolName, input)
+  const details = extractToolDetails(toolName, input, t)
   const rawInput = typeof input === 'string' ? input : JSON.stringify(input, null, 2)
   const preview = renderPermissionPreview(toolName, input)
-  const title = getPermissionTitle(toolName, input)
+  const title = getPermissionTitle(toolName, input, t)
   const allowRawToggle = !preview
 
   return (
@@ -151,12 +153,12 @@ export function PermissionDialog({ requestId, toolName, input, description }: Pr
             {isPending && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--color-warning)]/15 text-[var(--color-warning)]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-warning)] animate-pulse-dot" />
-                Awaiting approval
+                {t('permission.awaitingApproval')}
               </span>
             )}
             {!isPending && (
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--color-surface-container-high)] text-[var(--color-text-tertiary)]">
-                Responded
+                {t('permission.responded')}
               </span>
             )}
           </div>
@@ -204,7 +206,7 @@ export function PermissionDialog({ requestId, toolName, input, description }: Pr
             <span className="material-symbols-outlined text-[14px]">
               {showRaw ? 'expand_less' : 'expand_more'}
             </span>
-            {showRaw ? 'Hide details' : 'Show full input'}
+            {showRaw ? t('permission.hideDetails') : t('permission.showFullInput')}
           </button>
         )}
 
@@ -226,7 +228,7 @@ export function PermissionDialog({ requestId, toolName, input, description }: Pr
               <span className="material-symbols-outlined text-[14px]">check</span>
             }
           >
-            Allow
+            {t('permission.allow')}
           </Button>
           <Button
             variant="ghost"
@@ -236,7 +238,7 @@ export function PermissionDialog({ requestId, toolName, input, description }: Pr
               <span className="material-symbols-outlined text-[14px]">verified</span>
             }
           >
-            Allow for session
+            {t('permission.allowForSession')}
           </Button>
           <div className="flex-1" />
           <Button
@@ -247,7 +249,7 @@ export function PermissionDialog({ requestId, toolName, input, description }: Pr
               <span className="material-symbols-outlined text-[14px]">close</span>
             }
           >
-            Deny
+            {t('permission.deny')}
           </Button>
         </div>
       )}

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
+import { useTranslation } from '../../i18n'
 import { useChatStore } from '../../stores/chatStore'
 import { useSessionStore } from '../../stores/sessionStore'
 import { sessionsApi } from '../../api/sessions'
@@ -26,6 +27,7 @@ type Attachment = {
 }
 
 export function ChatInput() {
+  const t = useTranslation()
   const [input, setInput] = useState('')
   const [attachments, setAttachments] = useState<Attachment[]>([])
   const [plusMenuOpen, setPlusMenuOpen] = useState(false)
@@ -418,11 +420,11 @@ export function ChatInput() {
               </div>
               <div className="flex items-center gap-1.5 border-t border-[var(--color-border)] px-4 py-2 text-xs text-[var(--color-text-tertiary)]">
                 <kbd className="rounded border border-[var(--color-border)] bg-[var(--color-surface-container-low)] px-1.5 py-0.5 font-mono text-[10px]">Up/Down</kbd>
-                <span>navigate</span>
+                <span>{t('chat.navigate')}</span>
                 <kbd className="ml-2 rounded border border-[var(--color-border)] bg-[var(--color-surface-container-low)] px-1.5 py-0.5 font-mono text-[10px]">Enter</kbd>
-                <span>select</span>
+                <span>{t('chat.select')}</span>
                 <kbd className="ml-2 rounded border border-[var(--color-border)] bg-[var(--color-surface-container-low)] px-1.5 py-0.5 font-mono text-[10px]">Esc</kbd>
-                <span>dismiss</span>
+                <span>{t('chat.dismiss')}</span>
               </div>
             </div>
           )}
@@ -441,8 +443,8 @@ export function ChatInput() {
             onPaste={handlePaste}
             placeholder={
               isWorkspaceMissing
-                ? 'This session points to a missing workspace. Create a new session or pick another project.'
-                : 'Ask Claude to edit, debug or explain...'
+                ? t('chat.placeholderMissing')
+                : t('chat.placeholder')
             }
             disabled={isWorkspaceMissing}
             rows={1}
@@ -470,14 +472,14 @@ export function ChatInput() {
                       className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-[#F8F7F4]"
                     >
                       <span className="material-symbols-outlined text-[18px] text-[var(--color-text-secondary)]">attach_file</span>
-                      <span className="text-sm text-[var(--color-text-primary)]">Add files or photos</span>
+                      <span className="text-sm text-[var(--color-text-primary)]">{t('chat.addFiles')}</span>
                     </button>
                     <button
                       onClick={insertSlashCommand}
                       className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-[#F8F7F4]"
                     >
                       <span className="w-[24px] text-center text-[18px] font-bold text-[var(--color-text-secondary)]">/</span>
-                      <span className="text-sm text-[var(--color-text-primary)]">Slash commands</span>
+                      <span className="text-sm text-[var(--color-text-primary)]">{t('chat.slashCommands')}</span>
                     </button>
                   </div>
                 )}
@@ -491,7 +493,7 @@ export function ChatInput() {
               <button
                 onClick={isActive ? stopGeneration : handleSubmit}
                 disabled={!isActive && !canSubmit}
-                title={isActive ? 'Stop generation (Cmd+.)' : undefined}
+                title={isActive ? t('chat.stopTitle') : undefined}
                 className={`flex w-[112px] items-center justify-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold text-white transition-all hover:opacity-90 disabled:opacity-30 ${
                   isActive ? 'bg-[var(--color-error)]' : 'bg-[var(--color-brand)]'
                 }`}
@@ -499,7 +501,7 @@ export function ChatInput() {
                 <span className="material-symbols-outlined text-[14px]">
                   {isActive ? 'stop' : 'arrow_forward'}
                 </span>
-                {isActive ? 'Stop' : 'Run'}
+                {isActive ? t('common.stop') : t('common.run')}
               </button>
             </div>
           </div>

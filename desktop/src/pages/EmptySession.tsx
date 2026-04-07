@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from '../i18n'
 import { useSessionStore } from '../stores/sessionStore'
 import { useChatStore } from '../stores/chatStore'
 import { useUIStore } from '../stores/uiStore'
@@ -25,6 +26,7 @@ type Attachment = {
 }
 
 export function EmptySession() {
+  const t = useTranslation()
   const [input, setInput] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [workDir, setWorkDir] = useState('')
@@ -133,7 +135,7 @@ export function EmptySession() {
     } catch (error) {
       addToast({
         type: 'error',
-        message: error instanceof Error ? error.message : 'Failed to create session',
+        message: error instanceof Error ? error.message : t('empty.failedToCreate'),
       })
     } finally {
       setIsSubmitting(false)
@@ -332,12 +334,12 @@ export function EmptySession() {
     <div className="relative flex flex-1 flex-col overflow-hidden bg-[#FAF9F5]">
       <div className="flex flex-1 flex-col items-center justify-center p-8 pb-32">
         <div className="flex max-w-md flex-col items-center text-center">
-          <img src="/app-icon.jpg" alt="Claude Code Haha" className="mb-6 h-24 w-24 rounded-[18px]" />
+          <img src="/app-icon.jpg" alt="Claude Code Haha" className="mb-6 h-24 w-24 rounded-[22px] shadow-[0_2px_12px_rgba(0,0,0,0.06)]" />
           <h1 className="mb-2 text-3xl font-extrabold tracking-tight text-[#1B1C1A]" style={{ fontFamily: "'Manrope', sans-serif" }}>
-            New session
+            {t('empty.title')}
           </h1>
           <p className="mx-auto max-w-xs text-[#87736D]" style={{ fontFamily: "'Inter', sans-serif" }}>
-            Start a fresh coding session. Claude is ready to help you build, debug, and architect your project.
+            {t('empty.subtitle')}
           </p>
         </div>
       </div>
@@ -409,7 +411,7 @@ export function EmptySession() {
                 onPaste={handlePaste}
                 className="flex-1 resize-none border-none bg-transparent py-2 leading-relaxed text-[#1B1C1A] outline-none placeholder:text-[#87736D]/50"
                 style={{ fontFamily: "'Inter', sans-serif" }}
-                placeholder="Ask anything..."
+                placeholder={t('empty.placeholder')}
                 rows={2}
               />
             </div>
@@ -435,14 +437,14 @@ export function EmptySession() {
                         className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-[#1B1C1A] transition-colors hover:bg-[#F8F7F4]"
                       >
                         <span className="material-symbols-outlined text-[18px] text-[#87736D]">attach_file</span>
-                        Add files or photos
+                        {t('empty.addFiles')}
                       </button>
                       <button
                         onClick={insertSlashCommand}
                         className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-[#1B1C1A] transition-colors hover:bg-[#F8F7F4]"
                       >
                         <span className="w-5 text-center text-[18px] font-bold text-[#87736D]">/</span>
-                        Slash commands
+                        {t('empty.slashCommands')}
                       </button>
                     </div>
                   )}
@@ -458,7 +460,7 @@ export function EmptySession() {
                   disabled={(!input.trim() && attachments.length === 0) || isSubmitting}
                   className="flex w-[112px] items-center justify-center gap-1 rounded-lg bg-[var(--color-brand)] px-3 py-1.5 text-xs font-semibold text-white transition-all hover:opacity-90 disabled:opacity-30"
                 >
-                  Run
+                  {t('common.run')}
                   <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
                 </button>
               </div>

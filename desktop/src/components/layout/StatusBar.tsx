@@ -1,11 +1,13 @@
 import { useSettingsStore } from '../../stores/settingsStore'
 import { useChatStore } from '../../stores/chatStore'
 import { useSessionStore } from '../../stores/sessionStore'
+import { useTranslation } from '../../i18n'
 
 export function StatusBar() {
   const { currentModel } = useSettingsStore()
   const { connectionState } = useChatStore()
   const { sessions, activeSessionId } = useSessionStore()
+  const t = useTranslation()
 
   const activeSession = sessions.find((s) => s.id === activeSessionId)
 
@@ -18,12 +20,12 @@ export function StatusBar() {
 
   const statusText =
     connectionState === 'connected'
-      ? 'Connected'
+      ? t('status.connected')
       : connectionState === 'connecting'
-        ? 'Connecting...'
+        ? t('status.connecting')
         : connectionState === 'reconnecting'
-          ? 'Reconnecting...'
-          : 'Disconnected'
+          ? t('status.reconnecting')
+          : t('status.disconnected')
 
   const projectName = activeSession?.projectPath
     ? activeSession.projectPath.split('-').filter(Boolean).pop() || ''

@@ -2,6 +2,17 @@ import { create } from 'zustand'
 import { settingsApi } from '../api/settings'
 import { modelsApi } from '../api/models'
 import type { PermissionMode, EffortLevel, ModelInfo } from '../types/settings'
+import type { Locale } from '../i18n'
+
+const LOCALE_STORAGE_KEY = 'cc-haha-locale'
+
+function getStoredLocale(): Locale {
+  try {
+    const stored = localStorage.getItem(LOCALE_STORAGE_KEY)
+    if (stored === 'en' || stored === 'zh') return stored
+  } catch { /* localStorage unavailable */ }
+  return 'en'
+}
 
 type SettingsStore = {
   permissionMode: PermissionMode
@@ -9,6 +20,7 @@ type SettingsStore = {
   effortLevel: EffortLevel
   availableModels: ModelInfo[]
   activeProviderName: string | null
+  locale: Locale
   isLoading: boolean
   error: string | null
 
@@ -16,6 +28,7 @@ type SettingsStore = {
   setPermissionMode: (mode: PermissionMode) => Promise<void>
   setModel: (modelId: string) => Promise<void>
   setEffort: (level: EffortLevel) => Promise<void>
+  setLocale: (locale: Locale) => void
 }
 
 export const useSettingsStore = create<SettingsStore>((set) => ({
@@ -24,6 +37,7 @@ export const useSettingsStore = create<SettingsStore>((set) => ({
   effortLevel: 'high',
   availableModels: [],
   activeProviderName: null,
+  locale: getStoredLocale(),
   isLoading: false,
   error: null,
 
@@ -67,5 +81,10 @@ export const useSettingsStore = create<SettingsStore>((set) => ({
   setEffort: async (level) => {
     set({ effortLevel: level })
     await modelsApi.setEffort(level)
+  },
+
+  setLocale: (locale) => {
+    set({ locale })
+    try { localStorage.setItem(LOCALE_STORAGE_KEY, locale) } catch { /* noop */ }
   },
 }))

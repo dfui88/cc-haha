@@ -1,4 +1,5 @@
 import { useCLITaskStore } from '../../stores/cliTaskStore'
+import { useTranslation } from '../../i18n'
 import type { CLITask } from '../../types/cliTask'
 
 const statusConfig = {
@@ -21,14 +22,15 @@ const statusConfig = {
 
 export function SessionTaskBar() {
   const { tasks, expanded, toggleExpanded, completedAndDismissed } = useCLITaskStore()
+  const t = useTranslation()
 
   if (tasks.length === 0) return null
 
   // Don't show sticky bar if tasks were completed and the user already continued chatting
-  const allCompleted = tasks.every((t) => t.status === 'completed')
+  const allCompleted = tasks.every((tk) => tk.status === 'completed')
   if (allCompleted && completedAndDismissed) return null
 
-  const completedCount = tasks.filter((t) => t.status === 'completed').length
+  const completedCount = tasks.filter((tk) => tk.status === 'completed').length
   const totalCount = tasks.length
   const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0
 
@@ -49,7 +51,7 @@ export function SessionTaskBar() {
           </div>
 
           <span className="text-xs font-semibold text-[var(--color-text-primary)]">
-            Tasks
+            {t('tasks.title')}
           </span>
 
           {/* Progress bar */}

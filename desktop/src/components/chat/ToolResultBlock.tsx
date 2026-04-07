@@ -1,5 +1,6 @@
 import { CodeViewer } from './CodeViewer'
 import { useState } from 'react'
+import { useTranslation } from '../../i18n'
 
 type Props = {
   content: unknown
@@ -15,6 +16,7 @@ type Props = {
  */
 export function ToolResultBlock({ content, isError, toolName, standalone = true }: Props) {
   const [expanded, setExpanded] = useState(false)
+  const t = useTranslation()
 
   // Don't render standalone if this result is already rendered inline
   if (!standalone) return null
@@ -43,14 +45,14 @@ export function ToolResultBlock({ content, isError, toolName, standalone = true 
           <span className="material-symbols-outlined text-[12px]">
             {isError ? 'error' : 'check_circle'}
           </span>
-          {toolName ? `${toolName} result` : 'Tool result'}
+          {toolName ? t('tool.result', { toolName }) : t('tool.resultGeneric')}
         </span>
         <span className={`px-2 py-0.5 rounded-full text-[9px] ${
           isError
             ? 'bg-[var(--color-error)]/10'
             : 'bg-[#D4EAB4] text-[#3B4C24]'
         }`}>
-          {isError ? 'ERROR' : 'SUCCESS'}
+          {isError ? t('tool.error') : t('tool.success')}
         </span>
       </button>
 
@@ -79,7 +81,7 @@ export function ToolResultBlock({ content, isError, toolName, standalone = true 
           onClick={() => setExpanded((value) => !value)}
           className="w-full py-1 text-[10px] font-medium text-[var(--color-text-accent)] hover:underline bg-[var(--color-surface-container-low)] border-t border-[var(--color-outline-variant)]/10"
         >
-          {expanded ? 'Show less' : `Show ${text.length - 200} more characters`}
+          {expanded ? t('tool.showLess') : t('tool.showMore', { count: text.length - 200 })}
         </button>
       )}
     </div>

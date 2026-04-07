@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useSettingsStore } from '../../stores/settingsStore'
+import { useTranslation } from '../../i18n'
 import type { EffortLevel } from '../../types/settings'
 
 const MODEL_ICONS = {
@@ -7,13 +8,6 @@ const MODEL_ICONS = {
   sonnet: 'auto_awesome',
   haiku: 'bolt',
 } as const
-
-const EFFORT_OPTIONS: { value: EffortLevel; label: string }[] = [
-  { value: 'low', label: 'Low' },
-  { value: 'medium', label: 'Medium' },
-  { value: 'high', label: 'High' },
-  { value: 'max', label: 'Max' },
-]
 
 type Props = {
   /** Controlled mode: model ID override */
@@ -23,9 +17,17 @@ type Props = {
 }
 
 export function ModelSelector({ value, onChange }: Props = {}) {
+  const t = useTranslation()
   const { currentModel: storeModel, availableModels, effortLevel, setModel, setEffort } = useSettingsStore()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+
+  const EFFORT_OPTIONS: { value: EffortLevel; label: string }[] = [
+    { value: 'low', label: t('settings.general.effort.low') },
+    { value: 'medium', label: t('settings.general.effort.medium') },
+    { value: 'high', label: t('settings.general.effort.high') },
+    { value: 'max', label: t('settings.general.effort.max') },
+  ]
 
   const isControlled = value !== undefined
   const selectedModel = isControlled ? availableModels.find((m) => m.id === value) || null : storeModel
@@ -61,7 +63,7 @@ export function ModelSelector({ value, onChange }: Props = {}) {
         className="flex items-center gap-1.5 px-2.5 py-1.5 bg-[var(--color-surface-container-low)] hover:bg-[var(--color-surface-hover)] rounded-full text-xs font-medium text-[var(--color-text-secondary)] transition-colors"
       >
         <span className="material-symbols-outlined text-[14px] text-[var(--color-brand)]">auto_awesome</span>
-        <span>{selectedModel?.name ?? 'Select model'}</span>
+        <span>{selectedModel?.name ?? t('model.selectModel')}</span>
         <span className="material-symbols-outlined text-[12px]">expand_more</span>
       </button>
 
@@ -70,7 +72,7 @@ export function ModelSelector({ value, onChange }: Props = {}) {
           {/* Models */}
           <div className="p-3">
             <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-outline)] mb-2 px-1">
-              Model Configuration
+              {t('model.configuration')}
             </div>
             <div className="space-y-1">
               {availableModels.map((model) => {
@@ -124,7 +126,7 @@ export function ModelSelector({ value, onChange }: Props = {}) {
           {/* Effort — hidden in controlled mode (not relevant for task creation) */}
           {!isControlled && <div className="border-t border-[var(--color-border)] p-3">
             <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-outline)] mb-2 px-1">
-              Effort
+              {t('model.effort')}
             </div>
             <div className="grid grid-cols-4 gap-1.5">
               {EFFORT_OPTIONS.map((opt) => {

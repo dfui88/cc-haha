@@ -1,20 +1,22 @@
 import type { CronTask } from '../../types/task'
 import { TaskRow } from './TaskRow'
+import { useTranslation } from '../../i18n'
 
 type Props = {
   tasks: CronTask[]
 }
 
 export function TaskList({ tasks }: Props) {
-  const enabledCount = tasks.filter((t) => t.enabled).length
+  const t = useTranslation()
+  const enabledCount = tasks.filter((task) => task.enabled).length
 
   return (
     <div>
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
-        <StatCard label="Total Tasks" value={String(tasks.length)} />
-        <StatCard label="Active" value={String(enabledCount)} />
-        <StatCard label="Disabled" value={String(tasks.length - enabledCount)} />
+        <StatCard label={t('tasks.totalTasks')} value={String(tasks.length)} />
+        <StatCard label={t('tasks.active')} value={String(enabledCount)} />
+        <StatCard label={t('tasks.disabled')} value={String(tasks.length - enabledCount)} />
       </div>
 
       {/* Task rows */}

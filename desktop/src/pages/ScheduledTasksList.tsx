@@ -1,6 +1,8 @@
+import { useTranslation } from '../i18n'
 import { mockScheduledTasks, mockStatusBar } from '../mocks/data'
 
 export function ScheduledTasksList() {
+  const t = useTranslation()
   const { stats, tasks } = mockScheduledTasks
   const task0 = tasks[0]!
   const task1 = tasks[1]!
@@ -20,14 +22,14 @@ export function ScheduledTasksList() {
             </span>
           </div>
           <div>
-            <h2 className="font-[Manrope,sans-serif] text-sm font-bold text-[#1B1C1A] uppercase tracking-tighter">All projects</h2>
-            <p className="text-xs text-[#87736D] font-medium">Active Session</p>
+            <h2 className="font-[Manrope,sans-serif] text-sm font-bold text-[#1B1C1A] uppercase tracking-tighter">{t('sidebar.allProjects')}</h2>
+            <p className="text-xs text-[#87736D] font-medium">{t('scheduledPage.activeSession')}</p>
           </div>
         </div>
 
         <button className="flex items-center gap-3 px-3 py-2 w-full text-[#87736D] hover:bg-[#EBEBE6] transition-all rounded-lg font-medium text-sm duration-200 ease-in-out">
           <span className="material-symbols-outlined">add</span>
-          New session
+          {t('sidebar.newSession')}
         </button>
         <button className="flex items-center gap-3 px-3 py-2 w-full bg-[#FAF9F5] text-[#1B1C1A] rounded-lg relative before:content-[''] before:absolute before:left-[-8px] before:w-1 before:h-4 before:bg-[#8F482F] before:rounded-full font-medium text-sm duration-200 ease-in-out">
           <span
@@ -36,36 +38,36 @@ export function ScheduledTasksList() {
           >
             calendar_today
           </span>
-          Scheduled
+          {t('sidebar.scheduled')}
         </button>
         <button className="flex items-center gap-3 px-3 py-2 w-full text-[#87736D] hover:bg-[#EBEBE6] transition-all rounded-lg font-medium text-sm duration-200 ease-in-out">
           <span className="material-symbols-outlined">history</span>
-          Today
+          {t('sidebar.timeGroup.today')}
         </button>
         <button className="flex items-center gap-3 px-3 py-2 w-full text-[#87736D] hover:bg-[#EBEBE6] transition-all rounded-lg font-medium text-sm duration-200 ease-in-out">
           <span className="material-symbols-outlined">event_note</span>
-          Previous 7 Days
+          {t('sidebar.timeGroup.last7days')}
         </button>
         <button className="flex items-center gap-3 px-3 py-2 w-full text-[#87736D] hover:bg-[#EBEBE6] transition-all rounded-lg font-medium text-sm duration-200 ease-in-out">
           <span className="material-symbols-outlined">archive</span>
-          Older
+          {t('sidebar.timeGroup.older')}
         </button>
 
         <div className="mt-auto pt-4 flex flex-col gap-2">
           <div className="px-2 py-4">
             <button className="w-full bg-[#E9E8E4] text-[#1B1C1A] font-[Manrope,sans-serif] text-xs font-bold py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-[#E3E2DF] transition-colors">
               <span className="material-symbols-outlined text-[1rem]">search</span>
-              Search sessions
+              {t('sidebar.searchPlaceholder')}
             </button>
           </div>
           <div className="h-[1px] bg-[#DAC1BA]/20 mx-2 mb-2"></div>
           <button className="flex items-center gap-3 px-3 py-2 w-full text-[#87736D] hover:bg-[#EBEBE6] transition-all rounded-lg font-medium text-sm duration-200 ease-in-out">
             <span className="material-symbols-outlined">computer</span>
-            Local Mode
+            {t('scheduledPage.localMode')}
           </button>
           <button className="flex items-center gap-3 px-3 py-2 w-full text-[#87736D] hover:bg-[#EBEBE6] transition-all rounded-lg font-medium text-sm duration-200 ease-in-out">
             <span className="material-symbols-outlined">cloud</span>
-            Remote Mode
+            {t('scheduledPage.remoteMode')}
           </button>
         </div>
       </aside>
@@ -77,9 +79,9 @@ export function ScheduledTasksList() {
           <div className="flex items-center gap-8">
             <div className="font-[Manrope,sans-serif] font-bold text-[#1B1C1A] uppercase tracking-tighter text-sm">Claude Code Companion</div>
             <nav className="flex items-center gap-6 font-[Manrope,sans-serif] font-semibold tracking-wide text-sm">
-              <a className="text-[#87736D] hover:text-[#8F482F] transition-colors" href="#">Code</a>
-              <a className="text-[#87736D] hover:text-[#8F482F] transition-colors" href="#">Terminal</a>
-              <a className="text-[#1B1C1A] border-b-2 border-[#8F482F] pb-1" href="#">History</a>
+              <a className="text-[#87736D] hover:text-[#8F482F] transition-colors" href="#">{t('titlebar.code')}</a>
+              <a className="text-[#87736D] hover:text-[#8F482F] transition-colors" href="#">{t('titlebar.terminal')}</a>
+              <a className="text-[#1B1C1A] border-b-2 border-[#8F482F] pb-1" href="#">{t('titlebar.history')}</a>
             </nav>
           </div>
           <div className="flex items-center gap-4">
@@ -93,7 +95,7 @@ export function ScheduledTasksList() {
             </div>
             <button className="font-[Manrope,sans-serif] font-semibold tracking-wide text-sm text-[#87736D] hover:text-[#8F482F] transition-colors cursor-pointer active:opacity-70 flex items-center gap-1">
               <span className="material-symbols-outlined text-[1.1rem]">settings</span>
-              Settings
+              {t('sidebar.settings')}
             </button>
           </div>
         </header>
@@ -107,12 +109,12 @@ export function ScheduledTasksList() {
             {/* Page Header */}
             <div className="flex justify-between items-end mb-12">
               <div className="space-y-1">
-                <h1 className="font-[Manrope,sans-serif] text-3xl font-bold tracking-tight text-[#1B1C1A]">Scheduled Tasks</h1>
-                <p className="text-[#87736D] text-sm">Manage automated operational routines and background maintenance.</p>
+                <h1 className="font-[Manrope,sans-serif] text-3xl font-bold tracking-tight text-[#1B1C1A]">{t('scheduledPage.title')}</h1>
+                <p className="text-[#87736D] text-sm">{t('scheduledPage.subtitle')}</p>
               </div>
               <button className="bg-[#8F482F] hover:bg-[#AD5F45] text-white px-5 py-2.5 rounded-lg flex items-center gap-2 transition-all shadow-sm font-medium text-sm">
                 <span className="material-symbols-outlined text-[1.1rem]">add_task</span>
-                Create new task
+                {t('tasks.createNew')}
               </button>
             </div>
 
@@ -121,20 +123,20 @@ export function ScheduledTasksList() {
               {/* Total Tasks */}
               <div className="bg-[#F4F4F0] p-6 rounded-xl border border-[#DAC1BA]/10">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#87736D]">Total Tasks</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#87736D]">{t('tasks.totalTasks')}</span>
                   <span className="material-symbols-outlined text-[#8F482F]">analytics</span>
                 </div>
                 <div className="text-4xl font-[Manrope,sans-serif] font-extrabold text-[#1B1C1A]">{stats.totalTasks}</div>
                 <div className="mt-2 flex items-center gap-1 text-[10px] text-[#4F6237] font-bold bg-[#677B4E]/20 px-2 py-0.5 rounded-full w-fit">
                   <span className="material-symbols-outlined text-[10px]">trending_up</span>
-                  +2 this month
+                  {t('scheduledPage.thisMonth', { count: '+2' })}
                 </div>
               </div>
 
               {/* Next Run */}
               <div className="bg-[#F4F4F0] p-6 rounded-xl border border-[#DAC1BA]/10">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#87736D]">Next Run</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#87736D]">{t('scheduledPage.nextRun')}</span>
                   <span className="material-symbols-outlined text-[#2D628F]">schedule</span>
                 </div>
                 <div className="text-xl font-[Manrope,sans-serif] font-bold text-[#1B1C1A]">{stats.nextRun.name}</div>
@@ -144,7 +146,7 @@ export function ScheduledTasksList() {
               {/* System Health */}
               <div className="bg-[#F4F4F0] p-6 rounded-xl border border-[#DAC1BA]/10">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#87736D]">System Health</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#87736D]">{t('scheduledPage.systemHealth')}</span>
                   <span className="material-symbols-outlined text-[#4F6237]">check_circle</span>
                 </div>
                 <div className="text-4xl font-[Manrope,sans-serif] font-extrabold text-[#1B1C1A]">{stats.systemHealth}%</div>
@@ -157,11 +159,11 @@ export function ScheduledTasksList() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-[#F4F4F0]/50">
-                    <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#DAC1BA] border-b border-[#DAC1BA]/10">Task Name</th>
-                    <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#DAC1BA] border-b border-[#DAC1BA]/10">Frequency</th>
-                    <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#DAC1BA] border-b border-[#DAC1BA]/10">Last Result</th>
-                    <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#DAC1BA] border-b border-[#DAC1BA]/10">Next Execution</th>
-                    <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#DAC1BA] border-b border-[#DAC1BA]/10 text-right">Actions</th>
+                    <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#DAC1BA] border-b border-[#DAC1BA]/10">{t('scheduledPage.colTaskName')}</th>
+                    <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#DAC1BA] border-b border-[#DAC1BA]/10">{t('scheduledPage.colFrequency')}</th>
+                    <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#DAC1BA] border-b border-[#DAC1BA]/10">{t('scheduledPage.colLastResult')}</th>
+                    <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#DAC1BA] border-b border-[#DAC1BA]/10">{t('scheduledPage.colNextExecution')}</th>
+                    <th className="px-6 py-4 text-xs font-bold uppercase tracking-widest text-[#DAC1BA] border-b border-[#DAC1BA]/10 text-right">{t('scheduledPage.colActions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#DAC1BA]/5">
@@ -307,8 +309,8 @@ export function ScheduledTasksList() {
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#F4F4F0] mb-4">
                   <span className="material-symbols-outlined text-[#87736D]">history_toggle_off</span>
                 </div>
-                <h3 className="font-[Manrope,sans-serif] font-bold text-[#1B1C1A] text-base">End of scheduled list</h3>
-                <p className="text-sm text-[#87736D] max-w-xs mx-auto mt-1">9 other tasks are currently paused or disabled for maintenance.</p>
+                <h3 className="font-[Manrope,sans-serif] font-bold text-[#1B1C1A] text-base">{t('scheduledPage.endOfList')}</h3>
+                <p className="text-sm text-[#87736D] max-w-xs mx-auto mt-1">{t('scheduledPage.pausedTasks')}</p>
               </div>
             </div>
 
@@ -316,7 +318,7 @@ export function ScheduledTasksList() {
             <div className="mt-12 flex flex-col md:flex-row gap-8 items-start">
               {/* Recent Output Logs */}
               <div className="flex-1 space-y-6">
-                <h2 className="font-[Manrope,sans-serif] text-lg font-bold text-[#1B1C1A]">Recent Output Logs</h2>
+                <h2 className="font-[Manrope,sans-serif] text-lg font-bold text-[#1B1C1A]">{t('scheduledPage.recentLogs')}</h2>
                 <div className="bg-[#DBDAD6] rounded-xl p-6 font-[JetBrains_Mono,monospace] text-[13px] leading-relaxed text-[#54433E] overflow-x-auto shadow-inner">
                   <div className="flex gap-4 opacity-50 mb-1">
                     <span className="w-32 shrink-0">2023-11-10 23:01</span>
@@ -340,7 +342,7 @@ export function ScheduledTasksList() {
                   </div>
                   <div className="mt-4 pt-4 border-t border-[#DAC1BA]/20 flex items-center justify-between">
                     <span className="text-[11px] uppercase tracking-tighter opacity-50">Log stream: active</span>
-                    <button className="text-[#8F482F] font-bold text-xs hover:underline">View Full Artifacts</button>
+                    <button className="text-[#8F482F] font-bold text-xs hover:underline">{t('scheduledPage.viewArtifacts')}</button>
                   </div>
                 </div>
               </div>
@@ -348,11 +350,11 @@ export function ScheduledTasksList() {
               {/* Resource Allocation Panel */}
               <div className="w-full md:w-80 shrink-0">
                 <div className="bg-[#AD5F45]/10 p-6 rounded-xl border border-[#8F482F]/10">
-                  <h3 className="font-[Manrope,sans-serif] font-bold text-[#8F482F] text-sm mb-3">Resource Allocation</h3>
+                  <h3 className="font-[Manrope,sans-serif] font-bold text-[#8F482F] text-sm mb-3">{t('scheduledPage.resourceAllocation')}</h3>
                   <div className="space-y-4">
                     <div className="space-y-1">
                       <div className="flex justify-between text-[11px] font-bold text-[#87736D] uppercase tracking-wider">
-                        <span>CPU Capacity</span>
+                        <span>{t('scheduledPage.cpuCapacity')}</span>
                         <span>42%</span>
                       </div>
                       <div className="w-full h-1 bg-[#DAC1BA]/30 rounded-full overflow-hidden">
@@ -361,7 +363,7 @@ export function ScheduledTasksList() {
                     </div>
                     <div className="space-y-1">
                       <div className="flex justify-between text-[11px] font-bold text-[#87736D] uppercase tracking-wider">
-                        <span>Memory Load</span>
+                        <span>{t('scheduledPage.memoryLoad')}</span>
                         <span>68%</span>
                       </div>
                       <div className="w-full h-1 bg-[#DAC1BA]/30 rounded-full overflow-hidden">
@@ -390,7 +392,7 @@ export function ScheduledTasksList() {
               >
                 fiber_manual_record
               </span>
-              <span className="font-[Inter,sans-serif] text-xs tracking-tight text-[#1B1C1A]">Connected to local node</span>
+              <span className="font-[Inter,sans-serif] text-xs tracking-tight text-[#1B1C1A]">{t('scheduledPage.connectedLocal')}</span>
             </div>
           </div>
           <div className="flex items-center gap-6">

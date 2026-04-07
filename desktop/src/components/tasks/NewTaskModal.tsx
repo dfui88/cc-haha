@@ -5,6 +5,7 @@ import { Modal } from '../shared/Modal'
 import { Input } from '../shared/Input'
 import { Button } from '../shared/Button'
 import { PromptEditor } from './PromptEditor'
+import { useTranslation } from '../../i18n'
 import type { PermissionMode } from '../../types/settings'
 
 type Props = {
@@ -13,14 +14,6 @@ type Props = {
 }
 
 type FrequencyKey = 'hourly' | 'daily' | 'weekdays' | 'weekly' | 'monthly'
-
-const FREQUENCY_OPTIONS: Array<{ value: FrequencyKey; label: string; showTime: boolean }> = [
-  { value: 'hourly',   label: 'Hourly',   showTime: false },
-  { value: 'daily',    label: 'Daily',     showTime: true },
-  { value: 'weekdays', label: 'Weekdays',  showTime: true },
-  { value: 'weekly',   label: 'Weekly',    showTime: true },
-  { value: 'monthly',  label: 'Monthly',   showTime: true },
-]
 
 function buildCron(freq: FrequencyKey, time: string): string {
   const [hours, minutes] = time.split(':').map(Number)
@@ -34,11 +27,20 @@ function buildCron(freq: FrequencyKey, time: string): string {
 }
 
 export function NewTaskModal({ open, onClose }: Props) {
+  const t = useTranslation()
   const { createTask } = useTaskStore()
   const sessions = useSessionStore((s) => s.sessions)
   const activeSessionId = useSessionStore((s) => s.activeSessionId)
   const activeSession = sessions.find((s) => s.id === activeSessionId)
   const defaultWorkDir = activeSession?.workDir || ''
+
+  const FREQUENCY_OPTIONS: Array<{ value: FrequencyKey; label: string; showTime: boolean }> = [
+    { value: 'hourly',   label: t('newTask.hourly'),   showTime: false },
+    { value: 'daily',    label: t('newTask.daily'),     showTime: true },
+    { value: 'weekdays', label: t('newTask.weekdays'),  showTime: true },
+    { value: 'weekly',   label: t('newTask.weekly'),    showTime: true },
+    { value: 'monthly',  label: t('newTask.monthly'),   showTime: true },
+  ]
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -92,11 +94,11 @@ export function NewTaskModal({ open, onClose }: Props) {
     <Modal
       open={open}
       onClose={onClose}
-      title="New scheduled task"
+      title={t('newTask.title')}
       footer={
         <>
-          <Button variant="secondary" onClick={onClose}>Cancel</Button>
-          <Button onClick={handleSubmit} disabled={!canSubmit} loading={isSubmitting}>Create task</Button>
+          <Button variant="secondary" onClick={onClose}>{t('common.cancel')}</Button>
+          <Button onClick={handleSubmit} disabled={!canSubmit} loading={isSubmitting}>{t('newTask.create')}</Button>
         </>
       }
     >
@@ -104,25 +106,25 @@ export function NewTaskModal({ open, onClose }: Props) {
       <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-[var(--radius-md)] bg-[var(--color-surface-container)] mb-5">
         <span className="material-symbols-outlined text-[18px] text-[var(--color-text-secondary)]">info</span>
         <span className="text-xs text-[var(--color-text-secondary)]">
-          Local tasks only run while your computer is awake.
+          {t('newTask.localWarning')}
         </span>
       </div>
 
       <div className="flex flex-col gap-4">
         <Input
-          label="Name"
+          label={t('newTask.name')}
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="daily-code-review"
+          placeholder={t('newTask.namePlaceholder')}
         />
 
         <Input
-          label="Description"
+          label={t('newTask.description')}
           required
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Review yesterday's commits and flag anything concerning"
+          placeholder={t('newTask.descPlaceholder')}
         />
 
         {/* Prompt editor with embedded controls */}
@@ -142,7 +144,7 @@ export function NewTaskModal({ open, onClose }: Props) {
 
         {/* Frequency */}
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-[var(--color-text-primary)]">Frequency</label>
+          <label className="text-sm font-medium text-[var(--color-text-primary)]">{t('newTask.frequency')}</label>
           <div className="relative">
             <select
               value={frequency}
@@ -173,7 +175,7 @@ export function NewTaskModal({ open, onClose }: Props) {
         )}
 
         <p className="text-xs text-[var(--color-text-tertiary)]">
-          Scheduled tasks use a randomized delay of several minutes for server performance.
+          {t('newTask.delayNote')}
         </p>
       </div>
     </Modal>

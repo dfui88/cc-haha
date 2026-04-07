@@ -1,7 +1,9 @@
 import { useUIStore } from '../../stores/uiStore'
+import { useTranslation } from '../../i18n'
 
 export function TitleBar() {
   const { activeView, setActiveView } = useUIStore()
+  const t = useTranslation()
 
   return (
     <div
@@ -37,21 +39,21 @@ export function TitleBar() {
           onClick={() => setActiveView('code')}
           icon="code"
         >
-          Code
+          {t('titlebar.code')}
         </TabButton>
         <TabButton
           active={activeView === 'terminal'}
           onClick={() => setActiveView('terminal')}
           icon="terminal"
         >
-          Terminal
+          {t('titlebar.terminal')}
         </TabButton>
         <TabButton
           active={activeView === 'history'}
           onClick={() => setActiveView('history')}
           icon="history"
         >
-          History
+          {t('titlebar.history')}
         </TabButton>
       </div>
 

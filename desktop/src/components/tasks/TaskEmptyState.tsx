@@ -1,10 +1,12 @@
 import { Button } from '../shared/Button'
+import { useTranslation } from '../../i18n'
 
 type Props = {
   onCreateTask: () => void
 }
 
 export function TaskEmptyState({ onCreateTask }: Props) {
+  const t = useTranslation()
   return (
     <div className="flex flex-col items-center justify-center py-20">
       {/* Clock icon */}
@@ -16,13 +18,13 @@ export function TaskEmptyState({ onCreateTask }: Props) {
       </div>
 
       <h3 className="text-sm font-medium text-[var(--color-text-primary)] mb-1">
-        No scheduled tasks yet.
+        {t('tasks.emptyTitle')}
       </h3>
       <p className="text-sm text-[var(--color-text-tertiary)] mb-4 text-center max-w-sm">
-        Create a recurring task to automate your engineering workflows.
+        {t('tasks.emptyDesc')}
       </p>
 
-      <Button onClick={onCreateTask}>+ New task</Button>
+      <Button onClick={onCreateTask}>{t('tasks.newTask')}</Button>
     </div>
   )
 }
