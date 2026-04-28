@@ -914,6 +914,115 @@ describe('WebSocket Chat Integration', () => {
     }
   }, 20_000)
 
+  it('should restart a prewarm that began before runtime config arrived', async () => {
+    const providerService = new ProviderService()
+    const provider = await providerService.addProvider({
+      presetId: 'custom',
+      name: 'Provider Late Runtime',
+      apiKey: 'key-late-runtime',
+      baseUrl: 'http://127.0.0.1:1/anthropic',
+      apiFormat: 'anthropic',
+      models: {
+        main: 'late-main',
+        haiku: 'late-haiku',
+        sonnet: 'late-sonnet',
+        opus: 'late-opus',
+      },
+    })
+
+    const createRes = await fetch(`${baseUrl}/api/sessions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ workDir: process.cwd() }),
+    })
+    expect(createRes.status).toBe(201)
+    const { sessionId } = await createRes.json() as { sessionId: string }
+
+    const originalStartSession = conversationService.startSession.bind(conversationService)
+    const startCalls: Array<{
+      sessionId: string
+      options: { permissionMode?: string; model?: string; effort?: string; providerId?: string | null } | undefined
+    }> = []
+    let releaseFirstStart!: () => void
+    const firstStartGate = new Promise<void>((resolve) => {
+      releaseFirstStart = resolve
+    })
+    let markFirstStart!: () => void
+    const firstStartEntered = new Promise<void>((resolve) => {
+      markFirstStart = resolve
+    })
+
+    conversationService.startSession = (async function patchedStartSession(
+      sid: string,
+      workDir: string,
+      sdkUrl: string,
+      options?: { permissionMode?: string; model?: string; effort?: string; providerId?: string | null },
+    ) {
+      startCalls.push({ sessionId: sid, options })
+      if (startCalls.length === 1) {
+        markFirstStart()
+        await firstStartGate
+      }
+      return originalStartSession(sid, workDir, sdkUrl, options)
+    }) as typeof conversationService.startSession
+
+    const ws = new WebSocket(`${wsUrl}/ws/${sessionId}`)
+    const messages: any[] = []
+    try {
+      await new Promise<void>((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          reject(new Error(`Timed out waiting for late runtime prewarm connection for session ${sessionId}`))
+        }, 5000)
+        ws.onmessage = (event) => {
+          const msg = JSON.parse(event.data as string)
+          messages.push(msg)
+          if (msg.type === 'connected') {
+            clearTimeout(timeout)
+            resolve()
+          }
+          if (msg.type === 'error') {
+            clearTimeout(timeout)
+            reject(new Error(msg.message))
+          }
+        }
+        ws.onerror = () => {
+          clearTimeout(timeout)
+          reject(new Error(`WebSocket error for late runtime prewarm session ${sessionId}`))
+        }
+      })
+
+      ws.send(JSON.stringify({ type: 'prewarm_session' }))
+      await firstStartEntered
+
+      ws.send(JSON.stringify({
+        type: 'set_runtime_config',
+        providerId: provider.id,
+        modelId: 'late-sonnet',
+      }))
+      releaseFirstStart()
+
+      await waitUntil(async () => startCalls.length >= 2, `runtime restart for ${sessionId}`)
+      await waitUntil(
+        async () => messages.some((msg) => msg.type === 'status' && msg.state === 'idle'),
+        `runtime restart idle status for ${sessionId}`,
+      )
+
+      expect(startCalls[0]).toMatchObject({ sessionId })
+      expect(startCalls[0]?.options?.providerId).toBeUndefined()
+      expect(startCalls[1]).toMatchObject({
+        sessionId,
+        options: {
+          providerId: provider.id,
+          model: 'late-sonnet',
+        },
+      })
+    } finally {
+      ws.close()
+      conversationService.startSession = originalStartSession
+      conversationService.stopSession(sessionId)
+    }
+  }, 20_000)
+
   it('should resume streaming to a reconnected client during an active turn', async () => {
     await withMockStreamDelay(150, async () => {
       const sessionId = `chat-reconnect-${crypto.randomUUID()}`

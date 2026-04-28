@@ -460,6 +460,21 @@ async function handleSetRuntimeConfig(
   }
 
   if (!conversationService.hasSession(sessionId)) {
+    const pendingStartup = sessionStartupPromises.get(sessionId)
+    if (pendingStartup) {
+      await enqueueRuntimeTransition(sessionId, async () => {
+        await pendingStartup.catch(() => undefined)
+        const currentOverride = runtimeOverrides.get(sessionId)
+        if (
+          currentOverride?.providerId !== nextOverride.providerId ||
+          currentOverride.modelId !== nextOverride.modelId ||
+          !conversationService.hasSession(sessionId)
+        ) {
+          return
+        }
+        await restartSessionWithRuntimeConfig(ws, sessionId)
+      })
+    }
     return
   }
 

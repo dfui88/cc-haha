@@ -358,6 +358,39 @@ function openExternalUrl(url: string) {
     .catch(() => window.open(url, '_blank', 'noopener,noreferrer'))
 }
 
+const API_KEY_JSON_PLACEHOLDER = '••••••••'
+const API_KEY_JSON_KEYS = ['ANTHROPIC_API_KEY', 'ANTHROPIC_AUTH_TOKEN'] as const
+
+function maskSettingsJsonSecrets(raw: string, apiKey: string): string {
+  if (!apiKey.trim()) return raw
+  try {
+    const parsed = JSON.parse(raw) as { env?: Record<string, unknown> }
+    if (!parsed.env || typeof parsed.env !== 'object') return raw
+    let changed = false
+    for (const key of API_KEY_JSON_KEYS) {
+      if (parsed.env[key] === apiKey) {
+        parsed.env[key] = API_KEY_JSON_PLACEHOLDER
+        changed = true
+      }
+    }
+    return changed ? JSON.stringify(parsed, null, 2) : raw
+  } catch {
+    return raw
+  }
+}
+
+function restoreSettingsJsonSecrets<T>(settings: T, apiKey: string): T {
+  if (!apiKey.trim() || !settings || typeof settings !== 'object') return settings
+  const parsed = settings as { env?: Record<string, unknown> }
+  if (!parsed.env || typeof parsed.env !== 'object') return settings
+  for (const key of API_KEY_JSON_KEYS) {
+    if (parsed.env[key] === API_KEY_JSON_PLACEHOLDER) {
+      parsed.env[key] = apiKey
+    }
+  }
+  return settings
+}
+
 function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderFormProps) {
   const { createProvider, updateProvider, testConfig } = useProviderStore()
   const fetchSettings = useSettingsStore((s) => s.fetchAll)
@@ -446,6 +479,9 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
   const canSubmit = name.trim() && baseUrl.trim() && (mode === 'edit' || !requiresApiKey || apiKey.trim()) && models.main.trim() && !settingsJsonError
   const apiKeyUrl = selectedPreset.apiKeyUrl?.trim()
   const promoText = selectedPreset.promoText?.trim()
+  const displayedSettingsJson = showApiKey
+    ? settingsJson
+    : maskSettingsJsonSecrets(settingsJson, apiKey)
   const apiFormatItems = [
     {
       value: 'anthropic' as const,
@@ -486,7 +522,7 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
       // settings never conflict with the user's global ~/.claude/settings.json.
       if (settingsJson.trim()) {
         try {
-          const parsed = JSON.parse(settingsJson)
+          const parsed = restoreSettingsJsonSecrets(JSON.parse(settingsJson), apiKey)
           const { providersApi } = await import('../api/providers')
           await providersApi.updateSettings(parsed)
         } catch {
@@ -720,12 +756,12 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
         <div>
           <label className="text-sm font-medium text-[var(--color-text-primary)] mb-2 block">{t('settings.providers.settingsJson')}</label>
           <textarea
-            value={settingsJson}
+            value={displayedSettingsJson}
             onChange={(e) => {
               const raw = e.target.value
-              setSettingsJson(raw)
               try {
-                const parsed = JSON.parse(raw)
+                const parsed = restoreSettingsJsonSecrets(JSON.parse(raw), apiKey)
+                setSettingsJson(JSON.stringify(parsed, null, 2))
                 setSettingsJsonError(null)
                 // Auto-fill form fields from parsed JSON env
                 const env = parsed.env as Record<string, string> | undefined
@@ -744,7 +780,10 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
                       }
                     }
                   }
-                  if (env.ANTHROPIC_AUTH_TOKEN && env.ANTHROPIC_AUTH_TOKEN !== '(your API key)') setApiKey(env.ANTHROPIC_AUTH_TOKEN)
+                  const nextApiKey = env.ANTHROPIC_AUTH_TOKEN || env.ANTHROPIC_API_KEY
+                  if (nextApiKey && nextApiKey !== '(your API key)' && nextApiKey !== API_KEY_JSON_PLACEHOLDER) {
+                    setApiKey(nextApiKey)
+                  }
                   const newModels: Partial<ModelMapping> = {}
                   if (env.ANTHROPIC_MODEL) newModels.main = env.ANTHROPIC_MODEL
                   if (env.ANTHROPIC_DEFAULT_HAIKU_MODEL) newModels.haiku = env.ANTHROPIC_DEFAULT_HAIKU_MODEL
@@ -755,6 +794,7 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
                   }
                 }
               } catch (err) {
+                setSettingsJson(raw)
                 setSettingsJsonError(err instanceof Error ? err.message : 'Invalid JSON')
               }
             }}
