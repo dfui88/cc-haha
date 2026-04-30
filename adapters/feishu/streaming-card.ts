@@ -167,6 +167,14 @@ export class StreamingCard {
   /** 工具调用轨迹：按 startTool 调用顺序排列，completeTool 改其 status。 */
   private toolSteps: ToolStep[] = []
 
+  // ---- incremental render cache ----
+  /** 内容版本号，任何文本/toolStep 变更时递增。 */
+  private contentVersion = 0
+  /** 上一次 renderedText() 时的版本号。-1 表示从未渲染。 */
+  private renderedVersion = -1
+  /** 缓存的渲染结果，与 renderedVersion 配对。 */
+  private renderedCache: string | null = null
+
   // ---- flush ----
   private flushController: FlushController
 
@@ -252,6 +260,7 @@ export class StreamingCard {
     if (!delta) return
     if (this.phase === 'completed' || this.phase === 'aborted') return
     this.accumulatedText += delta
+    this.markContentChanged()
     void this.flushController.throttledUpdate(this.currentThrottle())
   }
 
@@ -260,6 +269,7 @@ export class StreamingCard {
     if (!delta) return
     if (this.phase === 'completed' || this.phase === 'aborted') return
     this.accumulatedReasoningText += delta
+    this.markContentChanged()
     void this.flushController.throttledUpdate(this.currentThrottle())
   }
 
@@ -270,6 +280,7 @@ export class StreamingCard {
     const id = toolUseId || `${toolName}#${this.toolSteps.length}`
     if (this.toolSteps.some((s) => s.id === id)) return
     this.toolSteps.push({ id, name: toolName, status: 'running' })
+    this.markContentChanged()
     void this.flushController.throttledUpdate(this.currentThrottle())
   }
 
@@ -292,6 +303,7 @@ export class StreamingCard {
     if (!step) return
     if (step.status === 'done') return
     step.status = 'done'
+    this.markContentChanged()
     void this.flushController.throttledUpdate(this.currentThrottle())
   }
 
@@ -302,6 +314,11 @@ export class StreamingCard {
       this.accumulatedReasoningText.length > 0 ||
       this.toolSteps.length > 0
     )
+  }
+
+  /** 标记内容已变更，使 renderedText() 缓存失效。 */
+  private markContentChanged(): void {
+    this.contentVersion++
   }
 
   /**
@@ -432,6 +449,12 @@ export class StreamingCard {
    *  曾导致飞书 CardKit 校验报错（"long wait → 一次性 dump" 退化的根因）。
    *  任意 section 为空则忽略；全部为空时返回等待提示。 */
   private renderedText(): string {
+    // 增量渲染缓存：内容未变更时直接返回上次结果，
+    // 避免每次 flush 都跑一遍 O(n) 的 map/join/sanitize 管道。
+    if (this.renderedVersion === this.contentVersion && this.renderedCache !== null) {
+      return this.renderedCache
+    }
+
     const sections: string[] = []
 
     if (this.toolSteps.length > 0) {
@@ -464,7 +487,10 @@ export class StreamingCard {
 
     // 表格数限制在 optimize 之前做 —— sanitize 对原始 markdown 最准
     const limited = sanitizeTextForCard(composed)
-    return optimizeMarkdownForFeishu(limited, 2)
+    const result = optimizeMarkdownForFeishu(limited, 2)
+    this.renderedCache = result
+    this.renderedVersion = this.contentVersion
+    return result
   }
 
   /** 终态文本: 只渲染最终答复正文，丢弃 reasoning 和 toolSteps。

@@ -486,7 +486,6 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
 
   const isCustom = selectedPreset.id === 'custom'
   const requiresApiKey = selectedPreset.needsApiKey !== false
-  const canSubmit = name.trim() && baseUrl.trim() && (mode === 'edit' || !requiresApiKey || apiKey.trim()) && models.main.trim() && !settingsJsonError
   const apiKeyUrl = selectedPreset.apiKeyUrl?.trim()
   const promoText = selectedPreset.promoText?.trim()
   const displayedSettingsJson = showApiKey
@@ -534,6 +533,8 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
   // Only run when baseUrl changes
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseUrl])
+
+  const canSubmit = name.trim() && baseUrl.trim() && (mode === 'edit' || apiKey.trim()) && models.main.trim() && !settingsJsonError
 
   const handleSubmit = async () => {
     if (!canSubmit) return

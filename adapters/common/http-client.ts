@@ -45,39 +45,26 @@ export class AdapterHttpClient {
   }
 
   async createSession(workDir: string): Promise<string> {
-    const { controller, timer } = this.createTimeoutController()
-    try {
-      const res = await fetch(`${this.httpBaseUrl}/api/sessions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ workDir }),
-        signal: controller.signal,
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ message: res.statusText }))
-        throw new Error(`Failed to create session: ${(err as any).message}`)
-      }
-      const data = (await res.json()) as { sessionId: string }
-      return data.sessionId
-    } finally {
-      clearTimeout(timer)
+    const res = await this.fetchWithTimeout(`${this.httpBaseUrl}/api/sessions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ workDir }),
+    })
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ message: res.statusText }))
+      throw new Error(`Failed to create session: ${(err as any).message}`)
     }
+    const data = (await res.json()) as { sessionId: string }
+    return data.sessionId
   }
 
   async listRecentProjects(): Promise<RecentProject[]> {
-    const { controller, timer } = this.createTimeoutController()
-    try {
-      const res = await fetch(`${this.httpBaseUrl}/api/sessions/recent-projects`, {
-        signal: controller.signal,
-      })
-      if (!res.ok) {
-        throw new Error(`Failed to list projects: ${res.statusText}`)
-      }
-      const data = (await res.json()) as { projects: RecentProject[] }
-      return data.projects
-    } finally {
-      clearTimeout(timer)
+    const res = await this.fetchWithTimeout(`${this.httpBaseUrl}/api/sessions/recent-projects`)
+    if (!res.ok) {
+      throw new Error(`Failed to list projects: ${res.statusText}`)
     }
+    const data = (await res.json()) as { projects: RecentProject[] }
+    return data.projects
   }
 
   /**
@@ -111,34 +98,34 @@ export class AdapterHttpClient {
   }
 
   async getGitInfo(sessionId: string): Promise<GitInfo> {
-    const { controller, timer } = this.createTimeoutController()
-    try {
-      const res = await fetch(`${this.httpBaseUrl}/api/sessions/${encodeURIComponent(sessionId)}/git-info`, {
-        signal: controller.signal,
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ message: res.statusText }))
-        throw new Error(`Failed to load git info: ${(err as any).message}`)
-      }
-      return (await res.json()) as GitInfo
-    } finally {
-      clearTimeout(timer)
+    const res = await this.fetchWithTimeout(`${this.httpBaseUrl}/api/sessions/${encodeURIComponent(sessionId)}/git-info`)
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ message: res.statusText }))
+      throw new Error(`Failed to load git info: ${(err as any).message}`)
     }
+    return (await res.json()) as GitInfo
   }
 
   async getTasksForSession(sessionId: string): Promise<SessionTask[]> {
-    const { controller, timer } = this.createTimeoutController()
+    const res = await this.fetchWithTimeout(`${this.httpBaseUrl}/api/tasks/lists/${encodeURIComponent(sessionId)}`)
+    if (!res.ok) {
+      if (res.status === 404) return []
+      const err = await res.json().catch(() => ({ message: res.statusText }))
+      throw new Error(`Failed to load tasks: ${(err as any).message}`)
+    }
+    const data = (await res.json()) as { tasks?: SessionTask[] }
+    return Array.isArray(data.tasks) ? data.tasks : []
+  }
+
+  /** Fetch with automatic timeout. Timer is cleaned up when the network request completes. */
+  private async fetchWithTimeout(
+    url: string,
+    options?: RequestInit,
+    timeoutMs = AdapterHttpClient.DEFAULT_TIMEOUT_MS,
+  ): Promise<Response> {
+    const { controller, timer } = this.createTimeoutController(timeoutMs)
     try {
-      const res = await fetch(`${this.httpBaseUrl}/api/tasks/lists/${encodeURIComponent(sessionId)}`, {
-        signal: controller.signal,
-      })
-      if (!res.ok) {
-        if (res.status === 404) return []
-        const err = await res.json().catch(() => ({ message: res.statusText }))
-        throw new Error(`Failed to load tasks: ${(err as any).message}`)
-      }
-      const data = (await res.json()) as { tasks?: SessionTask[] }
-      return Array.isArray(data.tasks) ? data.tasks : []
+      return await fetch(url, { ...options, signal: controller.signal })
     } finally {
       clearTimeout(timer)
     }

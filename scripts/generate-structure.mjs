@@ -35,9 +35,10 @@ const knownFlags = new Set(['--depth', '--no-gitignore', '--output']);
 let targetDir = ROOT;
 for (let i = 0; i < args.length; i++) {
   if (knownFlags.has(args[i])) {
-    if (args[i] === '--depth' || args[i] === '--output') i++;
+    if (args[i] === '--depth' || args[i] === '--output') i++; // 跳过值
     continue;
   }
+  // 不跳过 flags
   if (args[i].startsWith('--')) continue;
   targetDir = args[i];
   break;
@@ -95,12 +96,15 @@ const ALWAYS_IGNORE = [
   '.omx',
 ];
 
+// ── 判断是否应该忽略 ────────────────────────────────────
 function shouldIgnore(relativePath, isDir) {
   if (isDir) relativePath += '/';
 
+  // 先检查 always_ignore（精确匹配目录名或文件名）
   for (const pattern of ALWAYS_IGNORE) {
     const isGlob = pattern.includes('*');
     if (isGlob) {
+      // 简单 glob 匹配文件名
       const regex = new RegExp('^' + pattern.replace(/\*/g, '.*').replace(/\./g, '\\.') + '$');
       if (regex.test(path.basename(relativePath.replace(/\/$/, '')))) return true;
     } else if (path.basename(relativePath.replace(/\/$/, '')) === pattern) {
@@ -124,6 +128,7 @@ function collectTree(dir, depth = 0) {
     return null;
   }
 
+  // 排序：目录在前，文件在后，各自按字母排序
   items.sort((a, b) => {
     if (a.isDirectory() !== b.isDirectory()) {
       return a.isDirectory() ? -1 : 1;
@@ -137,6 +142,7 @@ function collectTree(dir, depth = 0) {
 
     if (shouldIgnore(relativePosix, item.isDirectory())) continue;
 
+    // 跳过包含 "fixtures" 的测试数据目录（减少噪音）
     if (item.isDirectory() && item.name === 'fixtures' && depth > 1) continue;
 
     if (item.isDirectory()) {
@@ -144,9 +150,11 @@ function collectTree(dir, depth = 0) {
       if (subTree) {
         entries.push({ name: item.name, type: 'dir', children: subTree });
       } else {
+        // 目录超过深度但本身不应忽略，标记为...
         entries.push({ name: item.name + '/', type: 'dir-short' });
       }
     } else {
+      // 只保留特定扩展名的文件来减少噪音
       const ext = path.extname(item.name).toLowerCase();
       const summaryExts = ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.json', '.css', '.html', '.rs', '.toml'];
       const isSummary = summaryExts.includes(ext) ||
@@ -181,16 +189,44 @@ function renderTree(entries, prefix = '') {
     } else if (entry.isSummary) {
       output += prefix + connector + entry.name + '\n';
     }
+    // 非摘要文件跳过
   }
 
   return output;
 }
 
-// ── 解析目标目录 ───────────────────────────────────────
+// ── 渲染摘要树（排除细节文件） ────────────────────────
+function renderSummary(entries, prefix = '', showFiles = false) {
+  let output = '';
+
+  for (let i = 0; i < entries.length; i++) {
+    const entry = entries[i];
+    const isLast = i === entries.length - 1;
+    const connector = isLast ? '└── ' : '├── ';
+    const childPrefix = isLast ? '    ' : '│   ';
+
+    if (entry.type === 'dir') {
+      output += prefix + connector + entry.name + '/' + '\n';
+      output += renderSummary(entry.children, prefix + childPrefix, showFiles);
+    } else if (entry.type === 'dir-short') {
+      output += prefix + connector + entry.name + '\n';
+    } else if (showFiles) {
+      output += prefix + connector + entry.name + '\n';
+    }
+  }
+
+  return output;
+}
+
+// ── 解析目标目录（支持相对路径） ───────────────────────
 function parseTarget(input) {
+  // 如果是针对根目录下的子路径
   const candidate = path.resolve(ROOT, input);
   if (fs.existsSync(candidate)) return candidate;
+
+  // 原始输入（可能是绝对路径）
   if (fs.existsSync(input)) return path.resolve(input);
+
   console.error(`目录不存在: ${input}`);
   process.exit(1);
 }
@@ -212,7 +248,7 @@ function main() {
 
   const isRoot = relPath === '.';
   const header = isRoot
-    ? '# 项目目录结构\n\n> 由 `scripts/generate-structure.mjs` 自动生成，运行 `npm run generate:structure` 更新\n'
+    ? '# 项目目录结构\n\n> 由 \`scripts/generate-structure.mjs\` 自动生成，运行 \`npm run generate:structure\` 更新\n'
     : `# ${relPath} 目录结构\n`;
 
   const treeText = header + '\n```\n' + relPath + '/\n' + renderTree(tree) + '```\n';

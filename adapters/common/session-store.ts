@@ -1,4 +1,5 @@
-import * as fs from 'node:fs'
+import * as fs from 'node:fs/promises'
+import * as fsSync from 'node:fs'
 import * as path from 'node:path'
 import * as os from 'node:os'
 
@@ -18,10 +19,12 @@ function getDefaultPath(): string {
 export class SessionStore {
   private data: StoreData
   private filePath: string
+  private dirty = false
+  private saveScheduled = false
 
   constructor(filePath?: string) {
     this.filePath = filePath ?? getDefaultPath()
-    this.data = this.load()
+    this.data = this.loadSync()
   }
 
   get(chatId: string): SessionEntry | null {
@@ -30,31 +33,58 @@ export class SessionStore {
 
   set(chatId: string, sessionId: string, workDir: string): void {
     this.data[chatId] = { sessionId, workDir, updatedAt: Date.now() }
-    this.save()
+    this.scheduleSave()
   }
 
   delete(chatId: string): void {
     delete this.data[chatId]
-    this.save()
+    this.scheduleSave()
   }
 
   listAll(): Array<{ chatId: string } & SessionEntry> {
     return Object.entries(this.data).map(([chatId, entry]) => ({ chatId, ...entry }))
   }
 
-  private load(): StoreData {
+  /** Force an immediate synchronous write to disk. Use only when a crash-safe
+   *  barrier is needed (e.g. before a long operation where loss is unacceptable). */
+  flushSync(): void {
+    if (!this.dirty) return
+    this.dirty = false
+    this.saveScheduled = false
+    const dir = path.dirname(this.filePath)
+    fsSync.mkdirSync(dir, { recursive: true })
+    const tmp = `${this.filePath}.tmp.${Date.now()}`
+    fsSync.writeFileSync(tmp, JSON.stringify(this.data) + '\n', 'utf-8')
+    fsSync.renameSync(tmp, this.filePath)
+  }
+
+  private loadSync(): StoreData {
     try {
-      return JSON.parse(fs.readFileSync(this.filePath, 'utf-8'))
+      return JSON.parse(fsSync.readFileSync(this.filePath, 'utf-8'))
     } catch {
       return {}
     }
   }
 
-  private save(): void {
-    const dir = path.dirname(this.filePath)
-    fs.mkdirSync(dir, { recursive: true })
-    const tmp = `${this.filePath}.tmp.${Date.now()}`
-    fs.writeFileSync(tmp, JSON.stringify(this.data, null, 2) + '\n')
-    fs.renameSync(tmp, this.filePath)
+  private scheduleSave(): void {
+    this.dirty = true
+    if (this.saveScheduled) return
+    this.saveScheduled = true
+    queueMicrotask(() => this.flushSave())
+  }
+
+  private async flushSave(): Promise<void> {
+    this.saveScheduled = false
+    if (!this.dirty) return
+    this.dirty = false
+    try {
+      const dir = path.dirname(this.filePath)
+      await fs.mkdir(dir, { recursive: true }).catch(() => {})
+      const tmp = `${this.filePath}.tmp.${Date.now()}`
+      await fs.writeFile(tmp, JSON.stringify(this.data) + '\n', 'utf-8')
+      await fs.rename(tmp, this.filePath)
+    } catch {
+      // Non-critical cache write; swallow errors silently.
+    }
   }
 }

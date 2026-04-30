@@ -27,6 +27,11 @@ import { checkAttachmentLimit } from '../common/attachment/attachment-limits.js'
 import type { AttachmentRef } from '../common/ws-bridge.js'
 import { ImageBlockWatcher } from '../common/attachment/image-block-watcher.js'
 import type { PendingUpload } from '../common/attachment/attachment-types.js'
+import {
+  ensureExistingSession as commonEnsureExistingSession,
+  buildStatusText as commonBuildStatusText,
+  type ChatRuntimeState,
+} from '../common/im-helpers.js'
 import * as fs from 'node:fs/promises'
 
 const TELEGRAM_TEXT_LIMIT = 4000 // leave margin below 4096
@@ -49,6 +54,9 @@ const media = new TelegramMediaService(bot, attachmentStore)
 attachmentStore.gc().catch((err) => {
   console.warn('[Telegram] AttachmentStore.gc failed:', err instanceof Error ? err.message : err)
 })
+
+// Dedup set for outbound image IDs (fingerprint → already sent this turn)
+const sentImageIds = new Map<string, Set<string>>()
 
 // Track placeholder messages for streaming updates
 const placeholders = new Map<string, { chatId: string; messageId: number }>()
@@ -109,71 +117,17 @@ function clearTransientChatState(chatId: string): void {
   runtime.verb = undefined
   runtime.pendingPermissionCount = 0
   tgImageWatchers.delete(chatId)
+  sentImageIds.delete(chatId)
 }
 
 async function ensureExistingSession(chatId: string): Promise<{ sessionId: string; workDir: string } | null> {
-  const stored = sessionStore.get(chatId)
-  if (!stored) return null
-
-  if (!bridge.hasSession(chatId)) {
-    bridge.connectSession(chatId, stored.sessionId)
-    bridge.onServerMessage(chatId, (msg) => handleServerMessage(chatId, msg))
-    const opened = await bridge.waitForOpen(chatId)
-    if (!opened) return null
-  }
-
-  return stored
+  return commonEnsureExistingSession(sessionStore, bridge, chatId, (msg) => handleServerMessage(chatId, msg))
 }
 
 async function buildStatusText(chatId: string): Promise<string> {
   const stored = await ensureExistingSession(chatId)
-  if (!stored) return formatImStatus(null)
-
   const runtime = getRuntimeState(chatId)
-  let projectName = path.basename(stored.workDir) || stored.workDir
-  let branch: string | null = null
-
-  try {
-    const gitInfo = await httpClient.getGitInfo(stored.sessionId)
-    projectName = gitInfo.repoName || path.basename(gitInfo.workDir) || projectName
-    branch = gitInfo.branch
-  } catch {
-    // Ignore git lookup failures and fall back to stored workDir
-  }
-
-  let taskCounts:
-    | {
-        total: number
-        pending: number
-        inProgress: number
-        completed: number
-      }
-    | undefined
-
-  try {
-    const tasks = await httpClient.getTasksForSession(stored.sessionId)
-    if (tasks.length > 0) {
-      taskCounts = {
-        total: tasks.length,
-        pending: tasks.filter((task) => task.status === 'pending').length,
-        inProgress: tasks.filter((task) => task.status === 'in_progress').length,
-        completed: tasks.filter((task) => task.status === 'completed').length,
-      }
-    }
-  } catch {
-    // Ignore task lookup failures in IM status summary
-  }
-
-  return formatImStatus({
-    sessionId: stored.sessionId,
-    projectName,
-    branch,
-    model: runtime.model,
-    state: runtime.state,
-    verb: runtime.verb,
-    pendingPermissionCount: runtime.pendingPermissionCount,
-    taskCounts,
-  })
+  return commonBuildStatusText(httpClient, stored, runtime)
 }
 
 async function flushToTelegram(chatId: string, newText: string, isComplete: boolean): Promise<void> {
@@ -287,6 +241,15 @@ async function showProjectPicker(chatId: string): Promise<void> {
  *  bot.api.sendPhoto as an independent message. Runs fire-and-forget
  *  from the stream handler so streaming text isn't blocked. */
 async function dispatchOutboundMedia(chatId: string, pending: PendingUpload): Promise<void> {
+  // Dedup: the same image reference may appear multiple times in streaming text
+  let sent = sentImageIds.get(chatId)
+  if (!sent) {
+    sent = new Set()
+    sentImageIds.set(chatId, sent)
+  }
+  if (sent.has(pending.id)) return
+  sent.add(pending.id)
+
   const numericChatId = Number(chatId)
   try {
     let buffer: Buffer
@@ -364,7 +327,11 @@ async function handleServerMessage(chatId: string, msg: ServerMessage): Promise<
           if (text?.trim()) {
             try {
               await bot.api.editMessageText(numericChatId, placeholders.get(chatId)!.messageId, text)
-            } catch { /* ignore */ }
+            } catch (err) {
+              if (!(err instanceof Error && err.message.includes('message is not modified'))) {
+                console.warn('[Telegram] editMessageText (tool_use) failed:', err instanceof Error ? err.message : err)
+              }
+            }
           }
           placeholders.delete(chatId)
           accumulatedText.delete(chatId)
@@ -391,7 +358,11 @@ async function handleServerMessage(chatId: string, msg: ServerMessage): Promise<
             placeholders.get(chatId)!.messageId,
             `💭 ${msg.text.slice(0, 200)}...`,
           )
-        } catch { /* ignore */ }
+        } catch (err) {
+          if (!(err instanceof Error && err.message.includes('message is not modified'))) {
+            console.warn('[Telegram] editMessageText (thinking) failed:', err instanceof Error ? err.message : err)
+          }
+        }
       }
       break
 
@@ -429,7 +400,11 @@ async function handleServerMessage(chatId: string, msg: ServerMessage): Promise<
             for (let i = 1; i < chunks.length; i++) {
               await bot.api.sendMessage(numericChatId, chunks[i]!)
             }
-          } catch { /* ignore */ }
+          } catch (err) {
+            if (!(err instanceof Error && err.message.includes('message is not modified'))) {
+              console.warn('[Telegram] editMessageText (message_complete) failed:', err instanceof Error ? err.message : err)
+            }
+          }
         }
         placeholders.delete(chatId)
         accumulatedText.delete(chatId)
@@ -667,27 +642,32 @@ async function collectAttachmentsFromCtx(
     }
   }
 
+  // 并行下载所有附件（照片、文档、视频、音频、语音）
+  const downloadTasks: Promise<void>[] = []
+
   // Photos: grammY exposes an array of sizes, largest last.
   if (msg.photo && msg.photo.length > 0) {
     const largest = msg.photo[msg.photo.length - 1]!
-    await runOne(largest.file_id, `photo-${largest.file_unique_id}.jpg`, 'image/jpeg')
+    downloadTasks.push(runOne(largest.file_id, `photo-${largest.file_unique_id}.jpg`, 'image/jpeg'))
   }
   if (msg.document) {
-    await runOne(msg.document.file_id, msg.document.file_name, msg.document.mime_type)
+    downloadTasks.push(runOne(msg.document.file_id, msg.document.file_name, msg.document.mime_type))
   }
   if (msg.video) {
-    await runOne(msg.video.file_id, msg.video.file_name, msg.video.mime_type)
+    downloadTasks.push(runOne(msg.video.file_id, msg.video.file_name, msg.video.mime_type))
   }
   if (msg.audio) {
-    await runOne(msg.audio.file_id, msg.audio.file_name, msg.audio.mime_type)
+    downloadTasks.push(runOne(msg.audio.file_id, msg.audio.file_name, msg.audio.mime_type))
   }
   if (msg.voice) {
-    await runOne(
+    downloadTasks.push(runOne(
       msg.voice.file_id,
       `voice-${msg.voice.file_unique_id}.ogg`,
       msg.voice.mime_type ?? 'audio/ogg',
-    )
+    ))
   }
+
+  await Promise.all(downloadTasks)
 
   return { attachments, rejections }
 }
@@ -729,7 +709,11 @@ bot.on('callback_query:data', async (ctx) => {
     await ctx.editMessageText(
       ctx.callbackQuery.message?.text + `\n\n${statusText}`,
     )
-  } catch { /* ignore */ }
+  } catch (err) {
+    if (!(err instanceof Error && err.message.includes('message is not modified'))) {
+      console.warn('[Telegram] editMessageText (callback) failed:', err instanceof Error ? err.message : err)
+    }
+  }
 
   await ctx.answerCallbackQuery(statusText)
 })

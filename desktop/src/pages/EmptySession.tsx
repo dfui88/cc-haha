@@ -236,6 +236,10 @@ export function EmptySession() {
       const sessionTabs = useTabStore.getState().tabs.filter((t) => t.type === 'session').length
       const sessionTitle = `会话${sessionTabs + 1}`
       const sessionId = await createSession(workDir || undefined, sessionTitle)
+      setActiveView('code')
+      useTabStore.getState().openTab(sessionId, sessionTitle)
+      connectToSession(sessionId)
+      sessionsApi.rename(sessionId, sessionTitle).catch(() => {})
       useSessionRuntimeStore.getState().setSelection(sessionId, draftSelection)
       useSessionRuntimeStore.getState().clearSelection(DRAFT_RUNTIME_SELECTION_KEY)
       setActiveView('code')

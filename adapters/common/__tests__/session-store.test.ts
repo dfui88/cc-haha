@@ -14,6 +14,7 @@ describe('SessionStore', () => {
   })
 
   afterEach(() => {
+    store.flushSync() // drain any pending async write before cleanup
     fs.rmSync(tmpDir, { recursive: true, force: true })
   })
 
@@ -43,6 +44,7 @@ describe('SessionStore', () => {
 
   it('persists to disk and reloads', () => {
     store.set('chat-1', 'uuid-aaa', '/path')
+    store.flushSync() // ensure async save completes before reload
 
     const store2 = new SessionStore(path.join(tmpDir, 'sessions.json'))
     expect(store2.get('chat-1')!.sessionId).toBe('uuid-aaa')

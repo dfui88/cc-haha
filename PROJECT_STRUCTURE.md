@@ -4,6 +4,7 @@
 >
 > 更新方式：
 > - `npm run generate:structure` — 重新生成根目录结构
+> - `npm run generate:structure` — 完整重新生成
 > - `node scripts/generate-structure.mjs src --depth 3` — 查看子目录详情
 > - `node scripts/generate-structure.mjs desktop --depth 2` — 查看桌面端
 >
@@ -69,6 +70,7 @@ src/
 ├── schemas/             # 数据模式
 ├── self-hosted-runner/  # 自托管运行器
 ├── server/              # HTTP/WS 服务端（详见下方）
+├── server/              # HTTP/WS 服务端
 ├── services/            # 业务服务层
 ├── skills/              # 技能系统
 ├── ssh/                 # SSH 模块
@@ -81,6 +83,8 @@ src/
 ├── vendor/              # 第三方代码
 ├── vim/                 # Vim 模式
 └── voice/               # 语音功能
+├── voice/               # 语音功能
+└── server/              # HTTP/WS 服务端（详见下方）
 ```
 
 ### 服务端 `src/server/`
@@ -89,11 +93,13 @@ src/
 src/server/
 ├── __tests__/           # 服务端测试（e2e、单元测试、夹具）
 ├── api/                 # API 路由（sessions, providers, skills...）
+├── api/                 # API 路由（sessions, providers, skills, etc.）
 ├── backends/            # 后端实现
 ├── config/              # 服务端配置（providerPresets）
 ├── middleware/           # 中间件（auth, CORS, 错误处理）
 ├── proxy/               # 代理模块（协议转换、流式代理）
 ├── services/            # 服务（session, provider, conversation...）
+├── services/            # 服务（session, provider, conversation, etc.）
 ├── types/               # 服务端类型
 ├── ws/                  # WebSocket 处理
 ├── router.ts            # 路由注册
@@ -178,3 +184,4 @@ docs/
 ---
 
 > 运行 `npm run generate:structure` 查看自动生成的完整目录树。
+> 运行 `npm run generate:structure` 重新生成本文件。

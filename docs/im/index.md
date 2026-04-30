@@ -162,5 +162,46 @@ Adapter 不是直接把消息丢给一个全局 Claude 进程，而是：
 
 `docs/channel/` 主要是 Claude Code 原生 Channel/MCP 体系的源码研究资料，不是这个仓库当前推荐的 IM 接入方式。
 
-如果你是要“把 bot 真跑起来”，看本目录。  
+如果你是要”把 bot 真跑起来”，看本目录。  
 如果你是要研究 Claude Code 原始 Channel 设计，再去看 `docs/channel/`。
+
+---
+
+## Adapter 公共层效率优化
+
+以下优化涉及 `adapters/common/` 层，同时影响 Telegram 和飞书两条链路。
+
+### 1. session-store 异步批量写入
+
+**文件：** `adapters/common/session-store.ts`
+
+| 变更 | 说明 |
+|------|------|
+| 同步 `readFileSync/writeFileSync` → `fs/promises` | 不阻塞事件循环 |
+| `dirty` 标志 + `queueMicrotask` 批量写入 | 连续 N 次 `set()` / `delete()` 只触发 1 次磁盘写入，减少 ~90% I/O |
+| 移除 `JSON.stringify(data, null, 2)` | 无缩进序列化，节省 ~30% 写入量 |
+| 新增 `flushSync()` | 需要时强制同步写入，保证崩溃安全 |
+
+### 2. ws-bridge handler 链自动清理
+
+**文件：** `adapters/common/ws-bridge.ts`
+
+每个 chatId 的消息处理通过 Promise 链串行化。此前处理完的链条目不会从 Map 中移除，长运行会话下 `handlerChains` Map 持续增长。
+
+**修复：** 在 `next.finally()` 中自动删除已完成的链条目，防止 Map 无限增长。
+
+### 3. pairing 速率限制 Map 防泄漏
+
+**文件：** `adapters/common/pairing.ts`
+
+| 变更 | 说明 |
+|------|------|
+| 添加定期 sweep 定时器（1 分钟间隔） | 自动清理过期的 `failedAttempts` 条目 |
+| 自停止 sweep | Map 为空时定时器自动停止 |
+| `RATE_LIMIT_MAX_ENTRIES = 10_000` | 超限时淘汰最旧条目，防止大量唯一 userId 导致内存泄漏 |
+
+### 4. HTTP 客户端 timeout 提取
+
+**文件：** `adapters/common/http-client.ts`
+
+将 5 个 HTTP 方法中重复的 `AbortController` + `try/finally/clearTimeout` 模板代码提取为 `fetchWithTimeout()` 私有方法，消除约 20 行重复样板代码。

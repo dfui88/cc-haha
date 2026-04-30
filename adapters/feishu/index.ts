@@ -30,6 +30,11 @@ import { AttachmentStore } from '../common/attachment/attachment-store.js'
 import { checkAttachmentLimit } from '../common/attachment/attachment-limits.js'
 import { ImageBlockWatcher } from '../common/attachment/image-block-watcher.js'
 import type { PendingUpload } from '../common/attachment/attachment-types.js'
+import {
+  ensureExistingSession as commonEnsureExistingSession,
+  buildStatusText as commonBuildStatusText,
+  type ChatRuntimeState,
+} from '../common/im-helpers.js'
 
 // ---------- init ----------
 
@@ -207,68 +212,13 @@ function clearTransientChatState(chatId: string): void {
 }
 
 async function ensureExistingSession(chatId: string): Promise<{ sessionId: string; workDir: string } | null> {
-  const stored = sessionStore.get(chatId)
-  if (!stored) return null
-
-  if (!bridge.hasSession(chatId)) {
-    bridge.connectSession(chatId, stored.sessionId)
-    bridge.onServerMessage(chatId, (msg) => handleServerMessage(chatId, msg))
-    const opened = await bridge.waitForOpen(chatId)
-    if (!opened) return null
-  }
-
-  return stored
+  return commonEnsureExistingSession(sessionStore, bridge, chatId, (msg) => handleServerMessage(chatId, msg))
 }
 
 async function buildStatusText(chatId: string): Promise<string> {
   const stored = await ensureExistingSession(chatId)
-  if (!stored) return formatImStatus(null)
-
   const runtime = getRuntimeState(chatId)
-  let projectName = path.basename(stored.workDir) || stored.workDir
-  let branch: string | null = null
-
-  try {
-    const gitInfo = await httpClient.getGitInfo(stored.sessionId)
-    projectName = gitInfo.repoName || path.basename(gitInfo.workDir) || projectName
-    branch = gitInfo.branch
-  } catch {
-    // Ignore git lookup failures and fall back to stored workDir
-  }
-
-  let taskCounts:
-    | {
-        total: number
-        pending: number
-        inProgress: number
-        completed: number
-      }
-    | undefined
-
-  try {
-    const tasks = await httpClient.getTasksForSession(stored.sessionId)
-    if (tasks.length > 0) {
-      taskCounts = {
-        total: tasks.length,
-        pending: tasks.filter((task) => task.status === 'pending').length,
-        inProgress: tasks.filter((task) => task.status === 'in_progress').length,
-        completed: tasks.filter((task) => task.status === 'completed').length,
-      }
-    }
-  } catch {
-    // Ignore task lookup failures in IM status summary
-  }
-
-  return formatImStatus({
-    sessionId: stored.sessionId,
-    projectName,
-    branch,
-    model: runtime.model,
-    state: runtime.state,
-    verb: runtime.verb,
-    pendingPermissionCount: runtime.pendingPermissionCount,
-    taskCounts,
-  })
+  return commonBuildStatusText(httpClient, stored, runtime)
 }
 
 /** Send a text message (post format). */

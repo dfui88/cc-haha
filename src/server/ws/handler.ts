@@ -8,7 +8,6 @@
 
 import type { ServerWebSocket } from 'bun'
 import type { ClientMessage, ServerMessage } from './events.js'
-import * as os from 'node:os'
 import {
   ConversationStartupError,
   conversationService,
@@ -733,24 +732,21 @@ function bindPrewarmMetadataCapture(sessionId: string) {
   })
 }
 
-async function resolveSessionWorkDir(sessionId: string, fallback = os.homedir()): Promise<string> {
-  let workDir = fallback
+async function resolveSessionWorkDir(sessionId: string): Promise<string> {
   try {
     const resolved = await sessionService.getSessionWorkDir(sessionId)
-    if (resolved) workDir = resolved
     console.log(
-      `[WS] resolveSessionWorkDir: sessionId=${sessionId}, resolved workDir=${JSON.stringify(
-        resolved,
-      )}, will spawn CLI with workDir=${workDir}`,
+      `[WS] resolveSessionWorkDir: sessionId=${sessionId}, resolved workDir=${JSON.stringify(resolved)}`,
     )
+    if (resolved) return resolved
   } catch (resolveErr) {
     console.warn(
-      `[WS] resolveSessionWorkDir: failed to resolve workDir for ${sessionId}, using fallback=${workDir}: ${
+      `[WS] resolveSessionWorkDir: failed to resolve workDir for ${sessionId}: ${
         resolveErr instanceof Error ? resolveErr.message : String(resolveErr)
       }`,
     )
   }
-  return workDir
+  return ''
 }
 
 async function ensureCliSessionStarted(

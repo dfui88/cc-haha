@@ -17,7 +17,25 @@ const SAFE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789' // 排除 0/O/1/I/L
 // 速率限制：每个 userId 在 RATE_LIMIT_WINDOW_MS 内最多 RATE_LIMIT_MAX_ATTEMPTS 次失败尝试
 const RATE_LIMIT_WINDOW_MS = 5 * 60 * 1000 // 5 minutes
 const RATE_LIMIT_MAX_ATTEMPTS = 5
+const RATE_LIMIT_MAX_ENTRIES = 10_000
+const RATE_LIMIT_SWEEP_MS = 60_000 // 1 minute
 const failedAttempts = new Map<string, { count: number; firstAttempt: number }>()
+
+// Periodic sweep to prevent unbounded Map growth
+let sweepTimer: ReturnType<typeof setTimeout> | null = null
+function ensureSweepTimer(): void {
+  if (sweepTimer) return
+  sweepTimer = setTimeout(() => {
+    sweepTimer = null
+    const now = Date.now()
+    for (const [key, record] of failedAttempts) {
+      if (now - record.firstAttempt > RATE_LIMIT_WINDOW_MS) {
+        failedAttempts.delete(key)
+      }
+    }
+    if (failedAttempts.size > 0) ensureSweepTimer()
+  }, RATE_LIMIT_SWEEP_MS)
+}
 
 function isRateLimited(userId: string | number): boolean {
   const key = String(userId)
@@ -34,10 +52,16 @@ function recordFailedAttempt(userId: string | number): void {
   const key = String(userId)
   const record = failedAttempts.get(key)
   if (!record || Date.now() - record.firstAttempt > RATE_LIMIT_WINDOW_MS) {
+    // Cap Map size to prevent unbounded growth from many unique userIds
+    if (!record && failedAttempts.size >= RATE_LIMIT_MAX_ENTRIES) {
+      const oldest = failedAttempts.keys().next().value
+      if (oldest !== undefined) failedAttempts.delete(oldest)
+    }
     failedAttempts.set(key, { count: 1, firstAttempt: Date.now() })
   } else {
     record.count++
   }
+  ensureSweepTimer()
 }
 const CODE_LENGTH = 6
 const CODE_TTL_MS = 60 * 60 * 1000 // 60 minutes

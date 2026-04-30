@@ -197,6 +197,12 @@ export class WsBridge {
           console.error(`[WsBridge] Handler error on ${chatId}:`, err)
         })
       this.handlerChains.set(chatId, next)
+      // Clean up completed chains to prevent Map growth
+      next.finally(() => {
+        if (this.handlerChains.get(chatId) === next) {
+          this.handlerChains.delete(chatId)
+        }
+      })
     })
 
     ws.on('close', (code, reason) => {
