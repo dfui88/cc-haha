@@ -474,16 +474,11 @@ async function getRecentProjects(url: URL): Promise<Response> {
   const { sessions } = await sessionService.listSessions({ limit: 200 })
   const validSessions = sessions.filter((session) => session.workDirExists && session.workDir)
 
-  // First pass: resolve realPath for each session and group by realPath to dedup
+  // First pass: group valid sessions by realPath to deduplicate.
+  // s.workDir is already resolved by listSessions() — no need to call getSessionWorkDir() again.
   const realPathMap = new Map<string, { projectPath: string; modifiedAt: string; sessionCount: number; sessionId: string }>()
   for (const s of validSessions) {
-    let realPath: string
-    try {
-      const workDir = await sessionService.getSessionWorkDir(s.id)
-      realPath = workDir || sessionService.desanitizePath(s.projectPath)
-    } catch {
-      realPath = sessionService.desanitizePath(s.projectPath)
-    }
+    const realPath = s.workDir || sessionService.desanitizePath(s.projectPath)
 
     const existing = realPathMap.get(realPath)
     if (!existing || s.modifiedAt > existing.modifiedAt) {

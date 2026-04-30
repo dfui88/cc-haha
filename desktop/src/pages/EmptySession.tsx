@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { skillsApi } from '../api/skills'
+import { sessionsApi } from '../api/sessions'
 import { useTranslation } from '../i18n'
 import { useSessionStore } from '../stores/sessionStore'
 import { useChatStore } from '../stores/chatStore'
@@ -231,12 +232,17 @@ export function EmptySession() {
           providerId: inferredProviderId,
           modelId: settings.currentModel?.id ?? OFFICIAL_DEFAULT_MODEL_ID,
         }
-      const sessionId = await createSession(workDir || undefined)
+      // Assign a unique numbered title so each tab is distinguishable
+      const sessionTabs = useTabStore.getState().tabs.filter((t) => t.type === 'session').length
+      const sessionTitle = `会话${sessionTabs + 1}`
+      const sessionId = await createSession(workDir || undefined, sessionTitle)
       useSessionRuntimeStore.getState().setSelection(sessionId, draftSelection)
       useSessionRuntimeStore.getState().clearSelection(DRAFT_RUNTIME_SELECTION_KEY)
       setActiveView('code')
-      useTabStore.getState().openTab(sessionId, 'New Session')
+      useTabStore.getState().openTab(sessionId, sessionTitle)
       connectToSession(sessionId)
+      sessionsApi.rename(sessionId, sessionTitle).catch(() => {})
+      useChatStore.getState().setSessionRuntime(sessionId, draftSelection)
       const attachmentPayload: AttachmentRef[] = attachments.map((attachment) => ({
         type: attachment.type,
         name: attachment.name,

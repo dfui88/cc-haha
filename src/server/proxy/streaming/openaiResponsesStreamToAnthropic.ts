@@ -4,6 +4,37 @@
  * Original work by Jason Young, MIT License
  */
 
+/**
+ * Stream inactivity timeout: if no data is received from the upstream for this
+ * duration, the stream is aborted with an error.
+ */
+const STREAM_READ_TIMEOUT_MS = 60_000
+
+/**
+ * Wrap ReadableStreamDefaultReader.read() with a timeout.
+ */
+function readWithTimeout(
+  reader: ReadableStreamDefaultReader<Uint8Array>,
+  timeoutMs: number,
+): Promise<ReadableStreamReadResult<Uint8Array>> {
+  return new Promise<ReadableStreamReadResult<Uint8Array>>((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error(`Proxy stream read timeout: no data received for ${timeoutMs / 1000} seconds`))
+    }, timeoutMs)
+
+    reader.read().then(
+      (result) => {
+        clearTimeout(timer)
+        resolve(result)
+      },
+      (err) => {
+        clearTimeout(timer)
+        reject(err)
+      },
+    )
+  })
+}
+
 type StreamState = {
   nextContentIndex: number
   indexByKey: Map<string, number>        // content part key → Anthropic index
@@ -44,7 +75,7 @@ export function openaiResponsesStreamToAnthropic(
 
       try {
         while (true) {
-          const { done, value } = await reader.read()
+          const { done, value } = await readWithTimeout(reader, STREAM_READ_TIMEOUT_MS)
           if (done) break
 
           buffer += decoder.decode(value, { stream: true })

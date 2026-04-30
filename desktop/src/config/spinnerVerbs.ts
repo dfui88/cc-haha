@@ -1,3 +1,5 @@
+import { useSettingsStore } from '../stores/settingsStore'
+
 const SPINNER_VERBS = [
   'Accomplishing',
   'Actioning',
@@ -188,6 +190,42 @@ const SPINNER_VERBS = [
   'Zigzagging',
 ]
 
+const SPINNER_VERBS_ZH = [
+  '思考中',
+  '计算中',
+  '处理中',
+  '生成中',
+  '分析中',
+  '整理中',
+  '推理中',
+  '规划中',
+  '编码中',
+  '搜索中',
+  '读取中',
+  '编译中',
+  '优化中',
+  '转换中',
+  '构建中',
+  '验证中',
+  '归纳中',
+  '推演中',
+  '酝酿中',
+  '编织中',
+  '融合中',
+  '提炼中',
+  '加工中',
+  '合成中',
+  '梳理中',
+  '调度中',
+  '拼装中',
+  '烘焙中',
+  '烹饪中',
+  '酿造中',
+  '雕琢中',
+]
+
 export function randomSpinnerVerb(): string {
-  return SPINNER_VERBS[Math.floor(Math.random() * SPINNER_VERBS.length)] ?? 'Thinking'
+  const locale = useSettingsStore.getState().locale
+  const list = locale === 'zh' ? SPINNER_VERBS_ZH : SPINNER_VERBS
+  return list[Math.floor(Math.random() * list.length)] ?? (locale === 'zh' ? '思考中' : 'Thinking')
 }

@@ -391,6 +391,15 @@ function restoreSettingsJsonSecrets<T>(settings: T, apiKey: string): T {
   return settings
 }
 
+/** Auto-detect API format from URL path. */
+function detectApiFormatFromUrl(url: string): ApiFormat | null {
+  const path = url.toLowerCase()
+  if (path.includes('/chat/completions')) return 'openai_chat'
+  if (path.includes('/v1/messages')) return 'anthropic'
+  if (path.includes('/responses')) return 'openai_responses'
+  return null
+}
+
 function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderFormProps) {
   const { createProvider, updateProvider, testConfig } = useProviderStore()
   const fetchSettings = useSettingsStore((s) => s.fetchAll)
@@ -448,9 +457,8 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
             ...cleanedEnv,
             ...(selectedPreset.defaultEnv ?? {}),
             ANTHROPIC_BASE_URL: needsProxy ? 'http://127.0.0.1:3456/proxy' : baseUrl,
-            ANTHROPIC_AUTH_TOKEN: needsProxy
-              ? 'proxy-managed'
-              : (apiKey || selectedPreset.defaultEnv?.ANTHROPIC_AUTH_TOKEN || (selectedPreset.needsApiKey ? '(your API key)' : '')),
+            ANTHROPIC_API_KEY: needsProxy ? 'proxy-managed' : (apiKey || '(your API key)'),
+            ANTHROPIC_AUTH_TOKEN: needsProxy ? 'proxy-managed' : (apiKey || '(your API key)'),
             ANTHROPIC_MODEL: models.main,
             ANTHROPIC_DEFAULT_HAIKU_MODEL: models.haiku,
             ANTHROPIC_DEFAULT_SONNET_MODEL: models.sonnet,
@@ -513,6 +521,17 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
       {preset.name}
     </button>
   )
+
+  // Auto-detect apiFormat from URL when user types in Custom preset
+  useEffect(() => {
+    if (!isCustom) return
+    const detected = detectApiFormatFromUrl(baseUrl)
+    if (detected && detected !== apiFormat) {
+      setApiFormat(detected)
+    }
+  // Only run when baseUrl changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [baseUrl])
 
   const handleSubmit = async () => {
     if (!canSubmit) return

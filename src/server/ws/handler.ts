@@ -8,7 +8,6 @@
 
 import type { ServerWebSocket } from 'bun'
 import type { ClientMessage, ServerMessage } from './events.js'
-import * as os from 'node:os'
 import {
   ConversationStartupError,
   conversationService,
@@ -451,6 +450,16 @@ async function handleSetRuntimeConfig(
   const prevOverride = runtimeOverrides.get(sessionId)
   runtimeOverrides.set(sessionId, nextOverride)
 
+  // Persist the runtime config to JSONL so it survives server restarts
+  // and isolates session-provider bindings across multiple instances.
+  try {
+    await sessionService.appendRuntimeConfig(sessionId, nextOverride)
+  } catch (err) {
+    console.warn(
+      `[WS] Failed to persist runtime config for ${sessionId}: ${err instanceof Error ? err.message : String(err)}`,
+    )
+  }
+
   if (
     prevOverride &&
     prevOverride.providerId === nextOverride.providerId &&
@@ -723,24 +732,21 @@ function bindPrewarmMetadataCapture(sessionId: string) {
   })
 }
 
-async function resolveSessionWorkDir(sessionId: string, fallback = os.homedir()): Promise<string> {
-  let workDir = fallback
+async function resolveSessionWorkDir(sessionId: string): Promise<string> {
   try {
     const resolved = await sessionService.getSessionWorkDir(sessionId)
-    if (resolved) workDir = resolved
     console.log(
-      `[WS] resolveSessionWorkDir: sessionId=${sessionId}, resolved workDir=${JSON.stringify(
-        resolved,
-      )}, will spawn CLI with workDir=${workDir}`,
+      `[WS] resolveSessionWorkDir: sessionId=${sessionId}, resolved workDir=${JSON.stringify(resolved)}`,
     )
+    if (resolved) return resolved
   } catch (resolveErr) {
     console.warn(
-      `[WS] resolveSessionWorkDir: failed to resolve workDir for ${sessionId}, using fallback=${workDir}: ${
+      `[WS] resolveSessionWorkDir: failed to resolve workDir for ${sessionId}: ${
         resolveErr instanceof Error ? resolveErr.message : String(resolveErr)
       }`,
     )
   }
-  return workDir
+  return ''
 }
 
 async function ensureCliSessionStarted(
@@ -1228,6 +1234,7 @@ async function getRuntimeSettings(sessionId?: string): Promise<{
   model?: string
   effort?: string
   providerId?: string | null
+  locale?: string
 }> {
   const runtimeOverride = sessionId ? runtimeOverrides.get(sessionId) : undefined
   if (runtimeOverride) {
@@ -1242,6 +1249,35 @@ async function getRuntimeSettings(sessionId?: string): Promise<{
       model: runtimeOverride.modelId,
       effort,
       providerId: runtimeOverride.providerId,
+      locale: typeof userSettings.locale === 'string' && (userSettings.locale === 'zh' || userSettings.locale === 'en') ? userSettings.locale : undefined,
+    }
+  }
+
+  // No in-memory override — try loading from JSONL persistence.
+  // This ensures the binding survives server restarts and multi-instance scenarios.
+  if (sessionId) {
+    try {
+      const persisted = await sessionService.getRuntimeConfig(sessionId)
+      if (persisted && persisted.modelId) {
+        // Populate in-memory cache to avoid repeated file reads
+        runtimeOverrides.set(sessionId, persisted)
+        const userSettings = await settingsService.getUserSettings()
+        const effort =
+          typeof userSettings.effort === 'string' && userSettings.effort.trim()
+            ? userSettings.effort
+            : undefined
+        return {
+          permissionMode: await settingsService.getPermissionMode().catch(() => undefined),
+          model: persisted.modelId,
+          effort,
+          providerId: persisted.providerId,
+          locale: typeof userSettings.locale === 'string' && (userSettings.locale === 'zh' || userSettings.locale === 'en') ? userSettings.locale : undefined,
+        }
+      }
+    } catch (err) {
+      console.warn(
+        `[WS] Failed to read persisted runtime config for ${sessionId}: ${err instanceof Error ? err.message : String(err)}`,
+      )
     }
   }
 
@@ -1287,6 +1323,7 @@ async function getRuntimeSettings(sessionId?: string): Promise<{
     model,
     effort,
     providerId: activeId,
+    locale: typeof userSettings.locale === 'string' && (userSettings.locale === 'zh' || userSettings.locale === 'en') ? userSettings.locale : undefined,
   }
 }
 

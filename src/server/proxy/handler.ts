@@ -103,6 +103,15 @@ export async function handleProxyRequest(req: Request, url: URL): Promise<Respon
   }
 }
 
+function buildUpstreamUrl(baseUrl: string, apiFormat: 'openai_chat' | 'openai_responses'): string {
+  const base = baseUrl.replace(/\/+$/, '')
+  if (apiFormat === 'openai_chat') {
+    // If user provided the full URL ending with /chat/completions, use it directly
+    return base.endsWith('/chat/completions') ? base : `${base}/v1/chat/completions`
+  }
+  return base.endsWith('/responses') ? base : `${base}/v1/responses`
+}
+
 async function handleOpenaiChat(
   body: AnthropicRequest,
   baseUrl: string,
@@ -110,7 +119,7 @@ async function handleOpenaiChat(
   isStream: boolean,
 ): Promise<Response> {
   const transformed = anthropicToOpenaiChat(body)
-  const url = `${baseUrl}/v1/chat/completions`
+  const url = buildUpstreamUrl(baseUrl, 'openai_chat')
 
   const upstream = await fetch(url, {
     method: 'POST',
@@ -167,7 +176,7 @@ async function handleOpenaiResponses(
   isStream: boolean,
 ): Promise<Response> {
   const transformed = anthropicToOpenaiResponses(body)
-  const url = `${baseUrl}/v1/responses`
+  const url = buildUpstreamUrl(baseUrl, 'openai_responses')
 
   const upstream = await fetch(url, {
     method: 'POST',

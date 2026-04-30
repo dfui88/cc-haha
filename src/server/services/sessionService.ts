@@ -681,6 +681,25 @@ export class SessionService {
       }
     }
 
+    // Also scan the projects root directory for session files stored without a
+    // project subdirectory (created before a workDir was selected).
+    for (const entry of projectDirs) {
+      if (!entry.endsWith('.jsonl')) continue
+      const entryPath = path.join(projectsDir, entry)
+      try {
+        const stat = await fs.stat(entryPath)
+        if (stat.isDirectory()) continue
+      } catch {
+        continue
+      }
+      const sessionId = entry.replace('.jsonl', '')
+      results.push({
+        filePath: entryPath,
+        projectDir: '',
+        sessionId,
+      })
+    }
+
     return results
   }
 
@@ -725,6 +744,16 @@ export class SessionService {
       } catch {
         continue
       }
+    }
+
+    // Also check the projects root directory for sessions without workDir
+    // (created before a project folder was selected).
+    const rootPath = path.join(projectsDir, `${sessionId}.jsonl`)
+    try {
+      await fs.access(rootPath)
+      return { filePath: rootPath, projectDir: '' }
+    } catch {
+      // not found in root either
     }
 
     return null
@@ -1106,32 +1135,33 @@ export class SessionService {
    * Create a new session file for the given working directory.
    */
   async createSession(workDir?: string): Promise<{ sessionId: string }> {
-    // Default to user home directory when no workDir specified
-    const resolvedWorkDir = workDir || os.homedir()
-
-    // Resolve to absolute path. NOTE: path.resolve() uses process.cwd() to
-    // expand relative paths — in bundled sidecar mode the server's cwd is
-    // typically '/'. Callers (IM adapters) already send absolute realPath,
-    // but we log here so cwd regressions are caught early.
-    const absWorkDir = path.resolve(resolvedWorkDir)
-    console.log(
-      `[SessionService] createSession: requested workDir=${JSON.stringify(
-        workDir,
-      )}, resolved=${absWorkDir} (process.cwd()=${process.cwd()})`,
-    )
-    let stat
-    try {
-      stat = await fs.stat(absWorkDir)
-    } catch {
-      throw ApiError.badRequest(`Working directory does not exist: ${absWorkDir}`)
-    }
-    if (!stat.isDirectory()) {
-      throw ApiError.badRequest(`Working directory is not a directory: ${absWorkDir}`)
+    // Only use workDir if explicitly provided and valid on disk.
+    // When no workDir is given (e.g. fresh install, no project selected),
+    // create the session without a workDir — the CLI won't start until
+    // the user explicitly picks a project folder from the UI.
+    let absWorkDir: string | null = null
+    let sanitized: string | null = null
+    if (workDir) {
+      absWorkDir = path.resolve(workDir)
+      console.log(
+        `[SessionService] createSession: requested workDir=${JSON.stringify(workDir)}, resolved=${absWorkDir}`,
+      )
+      let stat
+      try {
+        stat = await fs.stat(absWorkDir)
+      } catch {
+        throw ApiError.badRequest(`Working directory does not exist: ${absWorkDir}`)
+      }
+      if (!stat.isDirectory()) {
+        throw ApiError.badRequest(`Working directory is not a directory: ${absWorkDir}`)
+      }
+      sanitized = this.sanitizePath(absWorkDir)
     }
 
     const sessionId = crypto.randomUUID()
-    const sanitized = this.sanitizePath(absWorkDir)
-    const dirPath = path.join(this.getProjectsDir(), sanitized)
+    const dirPath = sanitized
+      ? path.join(this.getProjectsDir(), sanitized)
+      : this.getProjectsDir()
 
     // Ensure the project directory exists
     await fs.mkdir(dirPath, { recursive: true })
@@ -1210,6 +1240,49 @@ export class SessionService {
       aiTitle: title,
       timestamp: new Date().toISOString(),
     })
+  }
+
+  /**
+   * Persist runtime config (providerId + modelId) for a session.
+   * Written as a metadata entry so it survives server restarts and
+   * isolates session-provider bindings across multiple instances.
+   */
+  async appendRuntimeConfig(
+    sessionId: string,
+    config: { providerId: string | null; modelId: string },
+  ): Promise<void> {
+    const found = await this.findSessionFile(sessionId)
+    if (!found) return
+
+    await this.appendJsonlEntry(found.filePath, {
+      type: 'runtime-config',
+      runtimeConfig: config,
+      timestamp: new Date().toISOString(),
+    })
+  }
+
+  /**
+   * Read the last persisted runtime config for a session.
+   * Scans backwards through JSONL entries to find the most recent
+   * runtime-config entry. Returns null if none found.
+   */
+  async getRuntimeConfig(
+    sessionId: string,
+  ): Promise<{ providerId: string | null; modelId: string } | null> {
+    const found = await this.findSessionFile(sessionId)
+    if (!found) return null
+
+    const entries = await this.readJsonlFile(found.filePath)
+    for (let i = entries.length - 1; i >= 0; i--) {
+      const e = entries[i]!
+      if (e.type === 'runtime-config' && e.runtimeConfig) {
+        const rc = e.runtimeConfig as { providerId: string | null; modelId: string }
+        if (typeof rc.modelId === 'string' && rc.modelId.trim()) {
+          return rc
+        }
+      }
+    }
+    return null
   }
 
   /**

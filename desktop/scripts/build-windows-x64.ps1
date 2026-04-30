@@ -219,6 +219,19 @@ if ($null -ne $TauriArgs) {
   }
 }
 
+# Force sidecar timestamp to current build time so the packaged MSI
+# reflects the correct build date instead of the original compile time
+$sidecarPaths = @(
+  (Join-Path $tauriTargetDir "$targetTriple\release\claude-sidecar.exe"),
+  (Join-Path $desktopDir "src-tauri\binaries\claude-sidecar-$targetTriple.exe")
+)
+foreach ($p in $sidecarPaths) {
+  if (Test-Path $p) {
+    Write-Step "Updating timestamp: $p"
+    (Get-Item $p).LastWriteTime = Get-Date
+  }
+}
+
 Write-Step "Building Windows desktop app for $targetTriple"
 
 Push-Location $desktopDir
@@ -256,6 +269,8 @@ foreach ($root in $bundleRoots) {
       $destinationName = Get-StagedArtifactName -ArtifactName $artifact.Name
       $destination = Join-Path $activeOutputDir $destinationName
       Copy-Item -LiteralPath $artifact.FullName -Destination $destination -Force
+      # Update timestamp to current build time (Copy-Item preserves source timestamp)
+      (Get-Item $destination).LastWriteTime = Get-Date
       if (-not $copiedArtifacts.Contains($destination)) {
         $copiedArtifacts.Add($destination) | Out-Null
       }

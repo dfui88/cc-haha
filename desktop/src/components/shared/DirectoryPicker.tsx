@@ -123,7 +123,12 @@ export function DirectoryPicker({ value, onChange }: Props) {
           multiple: false,
           title: t('dirPicker.chooseProjectFolder'),
         })
-        if (selected) onChange(selected)
+        if (selected) {
+          onChange(selected)
+          // Reset mode and invalidate cache so the next open reflects the selection
+          setMode('recent')
+          cachedProjects = null
+        }
       } catch (err) {
         console.error('[DirectoryPicker] Failed to open folder dialog:', err)
       }

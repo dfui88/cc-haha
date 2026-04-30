@@ -56,6 +56,7 @@ export type PerSessionState = {
     attachments?: UIAttachment[]
     nonce: number
   } | null
+  responseTimeoutId: ReturnType<typeof setTimeout> | null
 }
 
 const DEFAULT_SESSION_STATE: PerSessionState = {
@@ -76,6 +77,7 @@ const DEFAULT_SESSION_STATE: PerSessionState = {
   agentTaskNotifications: {},
   elapsedTimer: null,
   composerPrefill: null,
+  responseTimeoutId: null,
 }
 
 function createDefaultSessionState(): PerSessionState {
@@ -126,6 +128,85 @@ const pendingTaskToolUseIds = new Set<string>()
 
 let msgCounter = 0
 const nextId = () => `msg-${++msgCounter}-${Date.now()}`
+
+// Response timeout: auto-stop generation if no server activity for this duration
+const RESPONSE_TIMEOUT_MS = 180_000 // 3 minutes
+
+/**
+ * Schedule a response timeout for a session. If the timeout fires, the generation
+ * is stopped and an error message is shown. Returns the timeout ID.
+ */
+function scheduleResponseTimeout(
+  sessionId: string,
+  get: () => ChatStore,
+  set: (partial: Partial<ChatStore> | ((state: ChatStore) => Partial<ChatStore>)) => void,
+): ReturnType<typeof setTimeout> {
+  return setTimeout(() => {
+    const store = get()
+    const session = store.sessions[sessionId]
+    // If session is already idle/done, do nothing
+    if (!session || session.chatState === 'idle') return
+
+    // Flush any pending streaming text before stopping
+    const pendingText = `${session.streamingText}${consumePendingDelta()}`
+    const newMsgs = pendingText.trim()
+      ? appendAssistantTextMessage(session.messages, pendingText, Date.now())
+      : session.messages
+
+    store.stopGeneration(sessionId)
+
+    set((s) => ({
+      sessions: updateSessionIn(s.sessions, sessionId, () => ({
+        messages: [
+          ...newMsgs,
+          {
+            id: nextId(),
+            type: 'error',
+            message:
+              '响应超时：长时间未收到数据。请检查提供商配置或网络连接，或尝试重新发送。',
+            code: 'RESPONSE_TIMEOUT',
+            timestamp: Date.now(),
+          },
+        ],
+        streamingText: '',
+        responseTimeoutId: null,
+      })),
+    }))
+  }, RESPONSE_TIMEOUT_MS)
+}
+
+/**
+ * Reset (clear + restart) the response timeout for a session.
+ * Call this whenever activity is received from the server during generation.
+ */
+function resetResponseTimeout(
+  sessionId: string,
+  get: () => ChatStore,
+  set: (partial: Partial<ChatStore> | ((state: ChatStore) => Partial<ChatStore>)) => void,
+): void {
+  const session = get().sessions[sessionId]
+  if (!session) return
+  if (session.responseTimeoutId) {
+    clearTimeout(session.responseTimeoutId)
+  }
+  const newTimeoutId = scheduleResponseTimeout(sessionId, get, set)
+  set((s) => ({
+    sessions: updateSessionIn(s.sessions, sessionId, () => ({
+      responseTimeoutId: newTimeoutId,
+    })),
+  }))
+}
+
+/**
+ * Clear the response timeout without restarting it. Used when generation
+ * completes normally or is stopped.
+ */
+function clearResponseTimeout(sessionId: string, get: () => ChatStore): void {
+  const session = get().sessions[sessionId]
+  if (session?.responseTimeoutId) {
+    clearTimeout(session.responseTimeoutId)
+  }
+}
 
 // Streaming throttle for content_delta
 let pendingDelta = ''
@@ -249,6 +330,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   disconnectSession: (sessionId) => {
     const session = get().sessions[sessionId]
     if (session?.elapsedTimer) clearInterval(session.elapsedTimer)
+    clearResponseTimeout(sessionId, get)
     if (flushTimer) { clearTimeout(flushTimer); flushTimer = null }
     if (pendingDelta) {
       const text = consumePendingDelta()
@@ -339,6 +421,17 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       }
     })
 
+    // Start response timeout for non-member (main) sessions
+    // Reset timeoutId in store state
+    if (!isMemberSession) {
+      const timeoutId = scheduleResponseTimeout(sessionId, get, set)
+      set((s) => ({
+        sessions: updateSessionIn(s.sessions, sessionId, () => ({
+          responseTimeoutId: timeoutId,
+        })),
+      }))
+    }
+
     if (isMemberSession) {
       void useTeamStore.getState().sendMessageToMember(sessionId, userFacingContent)
         .catch((err) => {
@@ -403,6 +496,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
   stopGeneration: (sessionId) => {
     wsManager.send(sessionId, { type: 'stop_generation' })
+    clearResponseTimeout(sessionId, get)
     if (flushTimer) { clearTimeout(flushTimer); flushTimer = null }
     if (pendingDelta) {
       const text = consumePendingDelta()
@@ -421,6 +515,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
             pendingPermission: null,
             pendingComputerUsePermission: null,
             elapsedTimer: null,
+            responseTimeoutId: null,
           },
         },
       }
@@ -466,6 +561,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         hasMessagesAfterTaskCompletion,
       } = await fetchAndMapSessionHistory(sessionId)
 
+      clearResponseTimeout(sessionId, get)
       set((state) => {
         const session = state.sessions[sessionId]
         if (!session) return state
@@ -483,6 +579,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
             pendingPermission: null,
             pendingComputerUsePermission: null,
             elapsedTimer: null,
+            responseTimeoutId: null,
             statusVerb: '',
           })),
         }
@@ -527,6 +624,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         break
 
       case 'status':
+        if (msg.state !== 'idle') resetResponseTimeout(sessionId, get, set)
         update((session) => {
           const pendingText = `${session.streamingText}${consumePendingDelta()}`
           const hasPendingStreamText =
@@ -560,6 +658,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         break
 
       case 'content_start': {
+        resetResponseTimeout(sessionId, get, set)
         const session = get().sessions[sessionId]
         if (!session) break
         const pendingText = `${session.streamingText}${consumePendingDelta()}`
@@ -588,6 +687,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       }
 
       case 'content_delta':
+        resetResponseTimeout(sessionId, get, set)
         if (msg.text !== undefined) {
           pendingDelta += msg.text
           if (!flushTimer) {
@@ -603,6 +703,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         break
 
       case 'thinking':
+        resetResponseTimeout(sessionId, get, set)
         update((s) => {
           const pendingText = `${s.streamingText}${consumePendingDelta()}`
           const base = pendingText.trim()
@@ -625,6 +726,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         break
 
       case 'tool_use_complete': {
+        resetResponseTimeout(sessionId, get, set)
         const session = get().sessions[sessionId]
         const toolName = msg.toolName || session?.activeToolName || 'unknown'
         update((s) => ({
@@ -645,6 +747,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       }
 
       case 'tool_result':
+        resetResponseTimeout(sessionId, get, set)
         update((s) => ({
           messages: [...s.messages, {
             id: nextId(), type: 'tool_result', toolUseId: msg.toolUseId,
@@ -659,6 +762,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         break
 
       case 'permission_request':
+        resetResponseTimeout(sessionId, get, set)
         update((s) => ({
           pendingPermission: {
             requestId: msg.requestId,
@@ -687,6 +791,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         break
 
       case 'computer_use_permission_request':
+        resetResponseTimeout(sessionId, get, set)
         update(() => ({
           pendingComputerUsePermission: {
             requestId: msg.requestId,
@@ -699,6 +804,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         break
 
       case 'message_complete': {
+        clearResponseTimeout(sessionId, get)
         const session = get().sessions[sessionId]
         if (!session) break
         const text = `${session.streamingText}${consumePendingDelta()}`
@@ -718,11 +824,13 @@ export const useChatStore = create<ChatStore>((set, get) => ({
           pendingPermission: null,
           pendingComputerUsePermission: null,
           elapsedTimer: null,
+          responseTimeoutId: null,
         }))
         break
       }
 
       case 'error':
+        clearResponseTimeout(sessionId, get)
         update((s) => {
           const pendingText = `${s.streamingText}${consumePendingDelta()}`
           let newMessages = s.messages
@@ -737,6 +845,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
             streamingText: '',
             pendingPermission: null,
             pendingComputerUsePermission: null,
+            responseTimeoutId: null,
           }
         })
         useTabStore.getState().updateTabStatus(sessionId, 'error')

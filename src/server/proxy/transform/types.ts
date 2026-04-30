@@ -17,6 +17,9 @@ export type OpenAIChatMessage = {
 export type OpenAIChatContentPart =
   | { type: 'text'; text: string }
   | { type: 'image_url'; image_url: { url: string; detail?: string } }
+  // thinking blocks — used by DeepSeek etc., must be preserved in assistant messages
+  | { type: 'thinking'; thinking: string }
+  | { type: 'redacted_thinking'; data: string }
 
 export type OpenAIToolCall = {
   id: string

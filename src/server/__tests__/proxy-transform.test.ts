@@ -161,6 +161,100 @@ describe('anthropicToOpenaiChat', () => {
     expect(msg.tool_calls![0].function.arguments).toBe('{"city":"NYC"}')
   })
 
+  test('assistant message with thinking block', () => {
+    const req: AnthropicRequest = {
+      model: 'deepseek-chat',
+      max_tokens: 100,
+      messages: [
+        { role: 'user', content: 'Hi' },
+        {
+          role: 'assistant',
+          content: [
+            { type: 'thinking', thinking: 'Let me reason about this...', signature: 'sig123' },
+            { type: 'text', text: 'Here is my answer' },
+          ],
+        },
+        { role: 'user', content: 'Tell me more' },
+      ],
+    }
+    const result = anthropicToOpenaiChat(req)
+    // Assistant message should have content as array with thinking block
+    const assistantMsg = result.messages[1]
+    expect(assistantMsg.role).toBe('assistant')
+    expect(Array.isArray(assistantMsg.content)).toBe(true)
+    const content = assistantMsg.content as Array<Record<string, unknown>>
+    expect(content[0].type).toBe('thinking')
+    expect(content[0].thinking).toBe('Let me reason about this...')
+    expect(content[1].type).toBe('redacted_thinking')
+    expect(content[1].data).toBe('sig123')
+    expect(content[2].type).toBe('text')
+    expect(content[2].text).toBe('Here is my answer')
+  })
+
+  test('assistant message with only thinking block (no text)', () => {
+    const req: AnthropicRequest = {
+      model: 'deepseek-chat',
+      max_tokens: 100,
+      messages: [
+        { role: 'user', content: 'Hi' },
+        {
+          role: 'assistant',
+          content: [
+            { type: 'thinking', thinking: 'Just thinking...' },
+          ],
+        },
+      ],
+    }
+    const result = anthropicToOpenaiChat(req)
+    const assistantMsg = result.messages[1]
+    expect(Array.isArray(assistantMsg.content)).toBe(true)
+    const content = assistantMsg.content as Array<Record<string, unknown>>
+    expect(content[0].type).toBe('thinking')
+  })
+
+  test('assistant message strips empty thinking block', () => {
+    const req: AnthropicRequest = {
+      model: 'deepseek-chat',
+      max_tokens: 100,
+      messages: [
+        { role: 'user', content: 'Hi' },
+        {
+          role: 'assistant',
+          content: [
+            { type: 'thinking', thinking: '' },
+            { type: 'text', text: 'My answer' },
+          ],
+        },
+      ],
+    }
+    const result = anthropicToOpenaiChat(req)
+    const assistantMsg = result.messages[1]
+    // Empty thinking block should be stripped, fall back to string content
+    expect(typeof assistantMsg.content).toBe('string')
+    expect(assistantMsg.content).toBe('My answer')
+  })
+
+  test('assistant message strips whitespace-only thinking block', () => {
+    const req: AnthropicRequest = {
+      model: 'deepseek-chat',
+      max_tokens: 100,
+      messages: [
+        { role: 'user', content: 'Hi' },
+        {
+          role: 'assistant',
+          content: [
+            { type: 'thinking', thinking: '   ' },
+            { type: 'text', text: 'Answer here' },
+          ],
+        },
+      ],
+    }
+    const result = anthropicToOpenaiChat(req)
+    const assistantMsg = result.messages[1]
+    expect(typeof assistantMsg.content).toBe('string')
+    expect(assistantMsg.content).toBe('Answer here')
+  })
+
   test('user message with tool_result', () => {
     const req: AnthropicRequest = {
       model: 'gpt-4',

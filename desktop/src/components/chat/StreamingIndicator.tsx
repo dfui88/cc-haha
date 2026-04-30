@@ -1,5 +1,15 @@
+import { useTranslation } from '../../i18n'
 import { useChatStore } from '../../stores/chatStore'
 import { useTabStore } from '../../stores/tabStore'
+
+/** Maps server status verbs to i18n keys for translation */
+const SERVER_VERB_KEYS: Record<string, string> = {
+  'Thinking': 'streaming.thinking',
+  'Restarting session with new permissions...': 'streaming.restarting_session',
+  'Switching provider and model...': 'streaming.switching_provider',
+  'Task started': 'streaming.task_started',
+  'Task in progress': 'streaming.task_in_progress',
+}
 
 function formatElapsed(seconds: number): string {
   if (seconds < 60) return `${seconds}s`
@@ -9,6 +19,7 @@ function formatElapsed(seconds: number): string {
 }
 
 export function StreamingIndicator() {
+  const t = useTranslation()
   const activeTabId = useTabStore((s) => s.activeTabId)
   const sessionState = useChatStore((s) => activeTabId ? s.sessions[activeTabId] : undefined)
   const chatState = sessionState?.chatState ?? 'idle'
@@ -17,9 +28,11 @@ export function StreamingIndicator() {
   const tokenUsage = sessionState?.tokenUsage ?? { input_tokens: 0, output_tokens: 0 }
   let verb: string
   if (statusVerb) {
-    verb = statusVerb
+    // Try to translate known server status verbs (e.g. "Task started" → "任务已启动")
+    const i18nKey = SERVER_VERB_KEYS[statusVerb]
+    verb = i18nKey ? t(i18nKey as any) : statusVerb
   } else {
-    verb = chatState === 'thinking' ? 'Thinking' : chatState === 'tool_executing' ? 'Running' : 'Working'
+    verb = chatState === 'thinking' ? t('streaming.thinking') : chatState === 'tool_executing' ? t('streaming.running') : t('streaming.working')
   }
 
   return (

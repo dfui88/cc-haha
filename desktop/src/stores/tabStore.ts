@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { sessionsApi } from '../api/sessions'
+import { useSessionStore } from './sessionStore'
 
 const TAB_STORAGE_KEY = 'cc-haha-open-tabs'
 
@@ -159,6 +160,20 @@ export const useTabStore = create<TabStore>((set, get) => ({
       const { sessions } = await sessionsApi.list({ limit: 200 })
       const existingIds = new Set(sessions.map((s) => s.id))
 
+      // Merge stored tab titles into session store titles so the sidebar
+      // shows "会话N" instead of "Untitled Session" on cold start
+      const sessionsWithMergedTitles = sessions.map((s) => {
+        const storedTab = data.openTabs.find((t) => t.sessionId === s.id)
+        if (storedTab && (s.title === 'Untitled Session' || s.title === 'New Session')) {
+          return { ...s, title: storedTab.title }
+        }
+        return s
+      })
+      // Populate session store with fetched data so ChatInput has
+      // session info (workDir etc.) available from the first render
+      const availableProjects = [...new Set(sessionsWithMergedTitles.map((s) => s.projectPath).filter(Boolean))].sort()
+      useSessionStore.setState({ sessions: sessionsWithMergedTitles, availableProjects, isLoading: false })
+
       const validTabs: Tab[] = data.openTabs
         .filter((t) => {
           // Special tabs are always valid
@@ -173,7 +188,12 @@ export const useTabStore = create<TabStore>((set, get) => ({
           }
           return {
             sessionId: t.sessionId,
-            title: sessions.find((s) => s.id === t.sessionId)?.title || t.title,
+            // Prefer stored title (e.g. '会话1') over the server default 'Untitled Session'
+            title: (() => {
+              const serverTitle = sessionsWithMergedTitles.find((s) => s.id === t.sessionId)?.title
+              if (serverTitle && serverTitle !== 'Untitled Session' && serverTitle !== 'New Session') return serverTitle
+              return t.title
+            })(),
             type: 'session' as const,
             status: 'idle' as const,
           }

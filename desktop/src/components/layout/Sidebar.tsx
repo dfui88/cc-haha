@@ -7,6 +7,7 @@ import { ConfirmDialog } from '../shared/ConfirmDialog'
 import type { SessionListItem } from '../../types/session'
 import { useTabStore, SETTINGS_TAB_ID, SCHEDULED_TAB_ID } from '../../stores/tabStore'
 import { useChatStore } from '../../stores/chatStore'
+import { sessionsApi } from '../../api/sessions'
 
 const isTauri = typeof window !== 'undefined' && ('__TAURI_INTERNALS__' in window || '__TAURI__' in window)
 const isWindows = typeof navigator !== 'undefined' && /Win/.test(navigator.platform)
@@ -77,10 +78,23 @@ export function Sidebar() {
 
   const confirmDelete = useCallback(async () => {
     if (!pendingDeleteSessionId) return
-    await deleteSession(pendingDeleteSessionId)
-    disconnectSession(pendingDeleteSessionId)
-    closeTab(pendingDeleteSessionId)
+    const id = pendingDeleteSessionId
+
+    // 乐观删除：先清理所有本地状态，让 UI 立即响应
+    disconnectSession(id)
+    closeTab(id)
+    useSessionStore.setState((s) => ({
+      sessions: s.sessions.filter((session) => session.id !== id),
+      activeSessionId: s.activeSessionId === id ? null : s.activeSessionId,
+    }))
     setPendingDeleteSessionId(null)
+
+    // 再异步同步服务器（失败不影响本地）
+    try {
+      await deleteSession(id)
+    } catch {
+      // 服务器同步失败，本地已清理
+    }
   }, [closeTab, deleteSession, disconnectSession, pendingDeleteSessionId])
 
   const handleStartRename = useCallback((id: string, currentTitle: string) => {
@@ -90,9 +104,26 @@ export function Sidebar() {
   }, [])
 
   const handleFinishRename = useCallback(async () => {
-    if (renamingId && renameValue.trim()) {
-      await renameSession(renamingId, renameValue.trim())
+    const id = renamingId
+    const title = renameValue.trim()
+    if (!id || !title) {
+      setRenamingId(null)
+      setRenameValue('')
+      return
     }
+
+    // 乐观更新：先更新本地 store，让 UI 立即响应
+    useSessionStore.getState().updateSessionTitle(id, title)
+    useTabStore.getState().updateTabTitle(id, title)
+
+    // 然后异步同步到服务器（失败也不影响本地显示）
+    try {
+      await renameSession(id, title)
+    } catch {
+      // 服务器同步失败，但本地已更新。
+      // 下次 fetchSessions 时会与服务器自动协调。
+    }
+
     setRenamingId(null)
     setRenameValue('')
   }, [renamingId, renameValue, renameSession])
@@ -179,10 +210,24 @@ export function Sidebar() {
               const currentSession = currentTabId
                 ? useSessionStore.getState().sessions.find((s) => s.id === currentTabId)
                 : null
-              const workDir = currentSession?.workDir || undefined
-              const sessionId = await useSessionStore.getState().createSession(workDir)
-              useTabStore.getState().openTab(sessionId, t('sidebar.newSession'))
+              // Inherit workDir from current session; if unavailable (e.g. first
+              // session where optimistic workDir is still null), fall back to any
+              // existing session's workDir so the new session always starts with one.
+              let workDir = currentSession?.workDir || undefined
+              if (!workDir) {
+                const sessionWithWorkDir = useSessionStore.getState().sessions.find((s) => s.workDir)
+                workDir = sessionWithWorkDir?.workDir || undefined
+              }
+              // Assign a unique numbered title so each tab is distinguishable
+              const sessionTabs = useTabStore.getState().tabs.filter((t) => t.type === 'session').length
+              const sessionTitle = `会话${sessionTabs + 1}`
+              // Pass title to createSession so optimistic session and initial
+              // fetchSessions merge see '会话N' instead of the server default
+              const sessionId = await useSessionStore.getState().createSession(workDir, sessionTitle)
+              useTabStore.getState().openTab(sessionId, sessionTitle)
               useChatStore.getState().connectToSession(sessionId)
+              // Persist unique title to server for cross-session consistency
+              sessionsApi.rename(sessionId, sessionTitle).catch(() => {})
             } catch (error) {
               addToast({
                 type: 'error',

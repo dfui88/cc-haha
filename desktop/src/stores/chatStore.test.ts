@@ -252,6 +252,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [{ name: 'old-command', description: 'Old command' }],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -391,6 +392,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -446,6 +448,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -477,6 +480,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -603,6 +607,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -648,6 +653,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -690,6 +696,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -752,6 +759,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -814,6 +822,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -886,6 +895,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -950,6 +960,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -991,6 +1002,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })

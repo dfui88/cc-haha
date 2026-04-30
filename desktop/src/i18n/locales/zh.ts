@@ -113,7 +113,7 @@ export const zh: Record<TranslationKey, string> = {
   'settings.providers.notes': '备注',
   'settings.providers.notesPlaceholder': '可选备注...',
   'settings.providers.baseUrl': '接口地址',
-  'settings.providers.baseUrlPlaceholder': 'https://api.example.com/anthropic',
+  'settings.providers.baseUrlPlaceholder': 'https://api.example.com/v1/chat/completions',
   'settings.providers.apiKey': 'API 密钥',
   'settings.providers.apiKeyKeep': 'API 密钥（留空保持不变）',
   'settings.providers.getApiKey': '获取 API Key',
@@ -613,6 +613,13 @@ export const zh: Record<TranslationKey, string> = {
   'streaming.thinking': '思考中',
   'streaming.running': '运行中',
   'streaming.working': '工作中',
+  'streaming.restarting_session': '以新权限重启会话...',
+  'streaming.switching_provider': '切换提供商和模型...',
+  'streaming.task_started': '任务已启动',
+  'streaming.task_in_progress': '任务进行中',
+
+  // ─── Thinking Block ──────────────────────────────────────────
+  'thinking.preview': '正在推理中...',
 
   // ─── Permission Dialog ──────────────────────────────────────
   'permission.allowEditFile': '允许 Claude {toolName} {fileName}？',
@@ -943,6 +950,7 @@ export const zh: Record<TranslationKey, string> = {
   'error.CLI_SPAWN_FAILED': 'CLI 子进程启动失败。',
   'error.CLI_ERROR': '处理过程中发生错误。',
   'error.WORKDIR_INVALID': '工作目录无效或不存在。',
+  'error.WORKDIR_MISSING': '请先为此会话选择一个项目文件夹。',
   'error.PARSE_ERROR': '消息格式无效。',
   'error.UNKNOWN_TYPE': '未知的消息类型。',
   'error.BAD_REQUEST': '请求无效。',

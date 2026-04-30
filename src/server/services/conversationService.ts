@@ -50,6 +50,7 @@ type SessionStartOptions = {
   model?: string
   effort?: string
   providerId?: string | null
+  locale?: string
 }
 
 export class ConversationStartupError extends Error {
@@ -57,6 +58,7 @@ export class ConversationStartupError extends Error {
     message: string,
     readonly code:
       | 'WORKDIR_INVALID'
+      | 'WORKDIR_MISSING'
       | 'CLI_AUTH_REQUIRED'
       | 'CLI_SESSION_CONFLICT'
       | 'CLI_START_FAILED'
@@ -114,6 +116,13 @@ export class ConversationService {
 
     if (shouldReplacePlaceholder) {
       await sessionService.deleteSessionFile(sessionId)
+    }
+
+    if (!workDir) {
+      throw new ConversationStartupError(
+        'No working directory set. Please select a project folder for this session.',
+        'WORKDIR_MISSING',
+      )
     }
 
     if (!fs.existsSync(workDir) || !fs.statSync(workDir).isDirectory()) {
@@ -587,6 +596,10 @@ export class ConversationService {
 
     if (options?.effort) {
       args.push('--effort', options.effort)
+    }
+
+    if (options?.locale === 'zh') {
+      args.push('--append-system-prompt', '请用中文回复。你是一位AI助手，请始终用中文回答用户的问题。')
     }
 
     return args

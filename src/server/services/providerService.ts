@@ -140,7 +140,26 @@ export class ProviderService {
 
   async updateManagedSettings(settings: Record<string, unknown>): Promise<void> {
     const current = await this.readSettings()
-    await this.writeSettings(Object.assign({}, current, settings))
+    const merged = Object.assign({}, current, settings)
+    // If the incoming settings have an env block, ensure provider-managed
+    // keys are consistent — never let stale ANTHROPIC_API_KEY leak through
+    // when the active provider uses proxy mode.
+    if (merged.env && typeof merged.env === 'object') {
+      const env = { ...(merged.env as Record<string, string>) }
+      const index = await this.readIndex()
+      if (index.activeId) {
+        const provider = index.providers.find(p => p.id === index.activeId)
+        if (provider) {
+          const needsProxy = provider.apiFormat != null && provider.apiFormat !== 'anthropic'
+          if (needsProxy) {
+            env.ANTHROPIC_API_KEY = 'proxy-managed'
+            env.ANTHROPIC_AUTH_TOKEN = 'proxy-managed'
+          }
+        }
+      }
+      merged.env = env
+    }
+    await this.writeSettings(merged)
   }
 
   // --- CRUD ---
@@ -493,10 +512,10 @@ export class ProviderService {
       let transformedBody: unknown
       if (format === 'openai_chat') {
         transformedBody = anthropicToOpenaiChat(anthropicReq)
-        upstreamUrl = `${base}/v1/chat/completions`
+        upstreamUrl = buildChatUrl(base, '/v1/chat/completions')
       } else {
         transformedBody = anthropicToOpenaiResponses(anthropicReq)
-        upstreamUrl = `${base}/v1/responses`
+        upstreamUrl = buildChatUrl(base, '/v1/responses')
       }
 
       // Call upstream with transformed request
@@ -551,14 +570,14 @@ function buildDirectTestRequest(
 
   if (format === 'openai_chat') {
     return {
-      url: `${base}/v1/chat/completions`,
+      url: buildChatUrl(base, '/v1/chat/completions'),
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
       body: { model: modelId, max_tokens: 16, messages: [{ role: 'user', content: prompt }] },
     }
   }
   if (format === 'openai_responses') {
     return {
-      url: `${base}/v1/responses`,
+      url: buildChatUrl(base, '/v1/responses'),
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
       body: { model: modelId, max_output_tokens: 16, input: [{ type: 'message', role: 'user', content: prompt }] },
     }
@@ -597,4 +616,20 @@ function validateResponseBody(
     return { ok: false, error: 'Not a valid Anthropic Messages endpoint' }
   }
   return { ok: true, model: (body.model as string) || undefined }
+}
+
+/**
+ * Build the upstream API URL for OpenAI-compatible endpoints.
+ * If the base URL already ends with the expected path (e.g. /chat/completions),
+ * use it directly — supports full-URL input like
+ * "https://api.deepseek.com/v1/chat/completions" or
+ * "https://open.bigmodel.cn/api/paas/v4/chat/completions".
+ */
+function buildChatUrl(base: string, defaultPath: '/v1/chat/completions' | '/v1/responses'): string {
+  const cleaned = base.replace(/\/+$/, '')
+  // If the base already contains the endpoint path (e.g. /chat/completions, /responses),
+  // use it directly regardless of the /v1 prefix — supports vendor-specific paths.
+  const endpoint = defaultPath === '/v1/chat/completions' ? '/chat/completions' : '/responses'
+  if (cleaned.endsWith(endpoint)) return cleaned
+  return `${cleaned}${defaultPath}`
 }

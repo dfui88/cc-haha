@@ -111,12 +111,13 @@ export function ChatInput({ variant = 'default' }: ChatInputProps) {
   }, [composerPrefill])
 
   useEffect(() => {
+    // Clear stale gitInfo immediately so switching sessions never
+    // shows the previous session's folder while the new one loads.
+    setGitInfo(null)
     if (!activeTabId) {
-      setGitInfo(null)
       return
     }
     if (isMemberSession) {
-      setGitInfo(null)
       return
     }
     sessionsApi.getGitInfo(activeTabId).then(setGitInfo).catch(() => setGitInfo(null))
@@ -726,12 +727,43 @@ export function ChatInput({ variant = 'default' }: ChatInputProps) {
                   const { deleteSession, createSession } = useSessionStore.getState()
                   const { replaceTabSession } = useTabStore.getState()
                   const { disconnectSession, connectToSession } = useChatStore.getState()
-                  const newId = await createSession(newWorkDir)
-                  useSessionRuntimeStore.getState().moveSelection(oldId, newId)
+                  const { clearSelection, setSelection } = useSessionRuntimeStore.getState()
+                  // Preserve current tab title so the new session shows "会话N"
+                  // instead of the default "New Session"
+                  const currentTab = useTabStore.getState().tabs.find((t) => t.sessionId === activeTabId)
+
+                  // Step 1: Save runtime selection before cleanup
+                  const oldSelection = useSessionRuntimeStore.getState().selections[oldId]
+
+                  // Step 2: Optimistically remove old session from store BEFORE creating
+                  // the new one, preventing a window where both exist simultaneously
+                  // which would cause a duplicate entry in the sidebar.
                   disconnectSession(oldId)
+                  clearSelection(oldId)
+                  useSessionStore.setState((s) => ({
+                    sessions: s.sessions.filter((session) => session.id !== oldId),
+                  }))
+
+                  // Step 3: Create new session with the selected workDir
+                  const newId = await createSession(newWorkDir, currentTab?.title)
+                  if (currentTab?.title) {
+                    sessionsApi.rename(newId, currentTab.title).catch(() => {})
+                  }
+
+                  // Step 4: Transfer runtime selection to new session
+                  if (oldSelection) {
+                    setSelection(newId, oldSelection)
+                  }
                   replaceTabSession(oldId, newId)
                   connectToSession(newId)
+
+                  // Step 5: Async server cleanup (oldId already removed from local store)
                   deleteSession(oldId).catch(() => {})
+
+                  // Step 6: Re-fetch to reconcile server state (the debounced fetch
+                  // from createSession may fire before delete completes, potentially
+                  // re-adding oldId from the server - this explicit fetch corrects it)
+                  useSessionStore.getState().fetchSessions()
                 }}
               />
             )}

@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from '../../i18n'
+import { useSettingsStore } from '../../stores/settingsStore'
 
 export function ThinkingBlock({ content, isActive = false }: { content: string; isActive?: boolean }) {
   const t = useTranslation()
+  const locale = useSettingsStore((s) => s.locale)
   const [expanded, setExpanded] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
 
@@ -12,10 +14,10 @@ export function ThinkingBlock({ content, isActive = false }: { content: string; 
     }
   }, [content, expanded, isActive])
 
-  // Preview: take first meaningful line, not first 140 chars
+  // Preview: show localized placeholder when zh, else show first meaningful line
   const lines = content.split('\n').filter((l) => l.trim())
   const firstLine = lines[0]?.replace(/\s+/g, ' ').trim() || ''
-  const preview = firstLine.length > 80 ? firstLine.slice(0, 80) + '...' : firstLine
+  const preview = locale === 'zh' ? t('thinking.preview') : (firstLine.length > 80 ? firstLine.slice(0, 80) + '...' : firstLine)
 
   return (
     <div className="mb-1">

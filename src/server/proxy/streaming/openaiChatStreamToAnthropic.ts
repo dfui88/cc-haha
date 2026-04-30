@@ -22,6 +22,39 @@
 
 import type { OpenAIChatStreamChunk } from '../transform/types.js'
 
+/**
+ * Stream inactivity timeout: if no data is received from the upstream for this
+ * duration, the stream is aborted with an error. This prevents silent hangs
+ * where the upstream connects but never sends data.
+ */
+const STREAM_READ_TIMEOUT_MS = 60_000
+
+/**
+ * Wrap ReadableStreamDefaultReader.read() with a timeout.
+ * If no data arrives within `timeoutMs`, the promise rejects with a clear error.
+ */
+function readWithTimeout(
+  reader: ReadableStreamDefaultReader<Uint8Array>,
+  timeoutMs: number,
+): Promise<ReadableStreamReadResult<Uint8Array>> {
+  return new Promise<ReadableStreamReadResult<Uint8Array>>((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error(`Proxy stream read timeout: no data received for ${timeoutMs / 1000} seconds`))
+    }, timeoutMs)
+
+    reader.read().then(
+      (result) => {
+        clearTimeout(timer)
+        resolve(result)
+      },
+      (err) => {
+        clearTimeout(timer)
+        reject(err)
+      },
+    )
+  })
+}
+
 // ─── Types ─────────────────────────────────────────────────
 
 type ContentBlockType = 'text' | 'thinking' | 'tool_use'
@@ -105,7 +138,7 @@ export function openaiChatStreamToAnthropic(
 
       try {
         while (true) {
-          const { done, value } = await reader.read()
+          const { done, value } = await readWithTimeout(reader, STREAM_READ_TIMEOUT_MS)
           if (done) break
 
           buffer += decoder.decode(value, { stream: true })

@@ -60,6 +60,8 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
       ])
       const theme = userSettings.theme === 'dark' ? 'dark' : 'light'
       useUIStore.getState().setTheme(theme)
+      const currentLocale = get().locale
+      try { await settingsApi.updateUser({ locale: currentLocale } as any) } catch { /* best effort */ }
       set({
         permissionMode: mode,
         availableModels: modelsRes.models,
@@ -105,9 +107,10 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     }
   },
 
-  setLocale: (locale) => {
+  setLocale: async (locale) => {
     set({ locale })
     try { localStorage.setItem(LOCALE_STORAGE_KEY, locale) } catch { /* noop */ }
+    try { await settingsApi.updateUser({ locale } as any) } catch { /* best effort */ }
   },
 
   setTheme: async (theme) => {

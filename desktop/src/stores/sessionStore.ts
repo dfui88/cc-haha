@@ -3,6 +3,12 @@ import { sessionsApi } from '../api/sessions'
 import { useSessionRuntimeStore } from './sessionRuntimeStore'
 import type { SessionListItem } from '../types/session'
 
+// Monotonic counter to invalidate stale fetchSessions responses.
+// Each call increments; only the latest (highest id) gets to set state.
+let _fetchRequestId = 0
+// Debounce timer coalescing rapid createSession → fetchSessions calls.
+let _fetchTimeout: ReturnType<typeof setTimeout> | undefined
+
 type SessionStore = {
   sessions: SessionListItem[]
   activeSessionId: string | null
@@ -12,7 +18,7 @@ type SessionStore = {
   availableProjects: string[]
 
   fetchSessions: (project?: string) => Promise<void>
-  createSession: (workDir?: string) => Promise<string>
+  createSession: (workDir?: string, title?: string) => Promise<string>
   deleteSession: (id: string) => Promise<void>
   renameSession: (id: string, title: string) => Promise<void>
   updateSessionTitle: (id: string, title: string) => void
@@ -29,9 +35,13 @@ export const useSessionStore = create<SessionStore>((set, get) => ({
   availableProjects: [],
 
   fetchSessions: async (project?: string) => {
+    const reqId = ++_fetchRequestId
     set({ isLoading: true, error: null })
     try {
       const { sessions: raw } = await sessionsApi.list({ project, limit: 100 })
+      // Stale response — a newer fetchSessions has already started
+      if (reqId !== _fetchRequestId) return
+
       // Deduplicate by session ID — keep the most recently modified entry
       const byId = new Map<string, SessionListItem>()
       for (const s of raw) {
@@ -40,20 +50,55 @@ export const useSessionStore = create<SessionStore>((set, get) => ({
           byId.set(s.id, s)
         }
       }
+
+      // Merge with local store to prevent data loss in race conditions:
+      // 1. Preserve local optimistic sessions not yet returned by server
+      // 2. When a session exists in both, prefer local workDir if server's
+      //    is null — this prevents losing workDir when earlier fetchSessions
+      //    completes after a later one has already set it correctly
+      // 3. Prefer local title if server still shows the default — this handles
+      //    the case where renameSession hasn't propagated to the server yet
+      const currentSessions = get().sessions
+      for (const s of currentSessions) {
+        if (byId.has(s.id)) {
+          const serverSession = byId.get(s.id)!
+          const merged = { ...serverSession }
+          let changed = false
+          if (!serverSession.workDir && s.workDir) {
+            merged.workDir = s.workDir
+            merged.workDirExists = s.workDirExists
+            changed = true
+          }
+          if ((serverSession.title === 'Untitled Session' || serverSession.title === 'New Session') && s.title && s.title !== 'Untitled Session' && s.title !== 'New Session') {
+            merged.title = s.title
+            changed = true
+          }
+          if (changed) {
+            byId.set(s.id, merged)
+          }
+        } else {
+          byId.set(s.id, s)
+        }
+      }
       const sessions = [...byId.values()]
       const availableProjects = [...new Set(sessions.map((s) => s.projectPath).filter(Boolean))].sort()
+
+      // Double-check freshness before applying state
+      if (reqId !== _fetchRequestId) return
       set({ sessions, availableProjects, isLoading: false })
     } catch (err) {
-      set({ error: (err as Error).message, isLoading: false })
+      if (reqId === _fetchRequestId) {
+        set({ error: (err as Error).message, isLoading: false })
+      }
     }
   },
 
-  createSession: async (workDir?: string) => {
+  createSession: async (workDir?: string, title?: string) => {
     const { sessionId: id } = await sessionsApi.create(workDir || undefined)
     const now = new Date().toISOString()
     const optimisticSession: SessionListItem = {
       id,
-      title: 'New Session',
+      title: title || 'New Session',
       createdAt: now,
       modifiedAt: now,
       messageCount: 0,
@@ -69,7 +114,9 @@ export const useSessionStore = create<SessionStore>((set, get) => ({
       activeSessionId: id,
     }))
 
-    void get().fetchSessions()
+    // Debounce: coalesce rapid createSession calls into a single fetch
+    clearTimeout(_fetchTimeout)
+    _fetchTimeout = setTimeout(() => get().fetchSessions(), 300)
     return id
   },
 

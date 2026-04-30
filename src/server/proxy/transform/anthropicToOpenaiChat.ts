@@ -150,10 +150,13 @@ function convertUserMessage(blocks: AnthropicContentBlock[], output: OpenAIChatM
 function convertAssistantMessage(blocks: AnthropicContentBlock[], output: OpenAIChatMessage[]): void {
   let textContent = ''
   const toolCalls: OpenAIToolCall[] = []
+  const contentParts: OpenAIChatContentPart[] = []
+  let useArrayContent = false
 
   for (const block of blocks) {
     if (block.type === 'text') {
       textContent += block.text
+      contentParts.push({ type: 'text', text: block.text })
     } else if (block.type === 'tool_use') {
       toolCalls.push({
         id: block.id,
@@ -163,13 +166,23 @@ function convertAssistantMessage(blocks: AnthropicContentBlock[], output: OpenAI
           arguments: typeof block.input === 'string' ? block.input : JSON.stringify(block.input),
         },
       })
+    } else if (block.type === 'thinking') {
+      // Strip thinking blocks — they are the model's internal reasoning
+      // and not part of the OpenAI Chat Completions content format.
+      // Sending them as content causes 400 errors from providers like
+      // DeepSeek that don't recognize the "thinking" variant.
+      continue
     }
-    // Skip thinking blocks — no OpenAI equivalent
   }
 
   const msg: OpenAIChatMessage = {
     role: 'assistant',
-    content: textContent || null,
+  }
+
+  if (useArrayContent) {
+    msg.content = contentParts
+  } else {
+    msg.content = textContent || null
   }
 
   if (toolCalls.length > 0) {

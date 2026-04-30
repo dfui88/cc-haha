@@ -156,7 +156,7 @@
     "id": "custom",
     "name": "Custom",
     "baseUrl": "",
-    "apiFormat": "anthropic",
+    "apiFormat": "openai_chat",
     "defaultModels": {
       "main": "",
       "haiku": "",

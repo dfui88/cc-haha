@@ -111,7 +111,7 @@ export const en = {
   'settings.providers.notes': 'Notes',
   'settings.providers.notesPlaceholder': 'Optional notes...',
   'settings.providers.baseUrl': 'Base URL',
-  'settings.providers.baseUrlPlaceholder': 'https://api.example.com/anthropic',
+  'settings.providers.baseUrlPlaceholder': 'https://api.example.com/v1/chat/completions',
   'settings.providers.apiKey': 'API Key',
   'settings.providers.apiKeyKeep': 'API Key (leave blank to keep current)',
   'settings.providers.getApiKey': 'Get API Key',
@@ -611,6 +611,13 @@ export const en = {
   'streaming.thinking': 'Thinking',
   'streaming.running': 'Running',
   'streaming.working': 'Working',
+  'streaming.restarting_session': 'Restarting session with new permissions...',
+  'streaming.switching_provider': 'Switching provider and model...',
+  'streaming.task_started': 'Task started',
+  'streaming.task_in_progress': 'Task in progress',
+
+  // ─── Thinking Block ──────────────────────────────────────────
+  'thinking.preview': 'Reasoning...',
 
   // ─── Permission Dialog ──────────────────────────────────────
   'permission.allowEditFile': 'Allow Claude to {toolName} {fileName}?',
@@ -941,6 +948,7 @@ export const en = {
   'error.CLI_SPAWN_FAILED': 'Failed to spawn CLI subprocess.',
   'error.CLI_ERROR': 'An error occurred during processing.',
   'error.WORKDIR_INVALID': 'Working directory is invalid or does not exist.',
+  'error.WORKDIR_MISSING': 'Please select a project folder for this session.',
   'error.PARSE_ERROR': 'Invalid message format.',
   'error.UNKNOWN_TYPE': 'Unknown message type.',
   'error.BAD_REQUEST': 'Bad request.',
