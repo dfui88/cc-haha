@@ -458,7 +458,9 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
             ...(selectedPreset.defaultEnv ?? {}),
             ANTHROPIC_BASE_URL: needsProxy ? 'http://127.0.0.1:3456/proxy' : baseUrl,
             ANTHROPIC_API_KEY: needsProxy ? 'proxy-managed' : (apiKey || '(your API key)'),
-            ANTHROPIC_AUTH_TOKEN: needsProxy ? 'proxy-managed' : (apiKey || '(your API key)'),
+            ANTHROPIC_AUTH_TOKEN: needsProxy
+              ? 'proxy-managed'
+              : (apiKey || selectedPreset.defaultEnv?.ANTHROPIC_AUTH_TOKEN || (selectedPreset.needsApiKey ? '(your API key)' : '')),
             ANTHROPIC_MODEL: models.main,
             ANTHROPIC_DEFAULT_HAIKU_MODEL: models.haiku,
             ANTHROPIC_DEFAULT_SONNET_MODEL: models.sonnet,

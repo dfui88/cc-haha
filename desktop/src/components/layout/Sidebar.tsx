@@ -92,8 +92,8 @@ export function Sidebar() {
     // 再异步同步服务器（失败不影响本地）
     try {
       await deleteSession(id)
-    } catch {
-      // 服务器同步失败，本地已清理
+    } catch (err) {
+      console.warn('[Sidebar] Failed to delete session on server:', err)
     }
   }, [closeTab, deleteSession, disconnectSession, pendingDeleteSessionId])
 

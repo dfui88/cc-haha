@@ -727,37 +727,31 @@ export function ChatInput({ variant = 'default' }: ChatInputProps) {
                   const { deleteSession, createSession } = useSessionStore.getState()
                   const { replaceTabSession } = useTabStore.getState()
                   const { disconnectSession, connectToSession } = useChatStore.getState()
-                  const { clearSelection, setSelection } = useSessionRuntimeStore.getState()
+                  const { moveSelection } = useSessionRuntimeStore.getState()
                   // Preserve current tab title so the new session shows "会话N"
                   // instead of the default "New Session"
                   const currentTab = useTabStore.getState().tabs.find((t) => t.sessionId === activeTabId)
 
-                  // Step 1: Save runtime selection before cleanup
-                  const oldSelection = useSessionRuntimeStore.getState().selections[oldId]
-
-                  // Step 2: Optimistically remove old session from store BEFORE creating
+                  // Step 1: Optimistically remove old session from store BEFORE creating
                   // the new one, preventing a window where both exist simultaneously
                   // which would cause a duplicate entry in the sidebar.
                   disconnectSession(oldId)
-                  clearSelection(oldId)
                   useSessionStore.setState((s) => ({
                     sessions: s.sessions.filter((session) => session.id !== oldId),
                   }))
 
-                  // Step 3: Create new session with the selected workDir
+                  // Step 2: Create new session with the selected workDir
                   const newId = await createSession(newWorkDir, currentTab?.title)
                   if (currentTab?.title) {
                     sessionsApi.rename(newId, currentTab.title).catch(() => {})
                   }
 
-                  // Step 4: Transfer runtime selection to new session
-                  if (oldSelection) {
-                    setSelection(newId, oldSelection)
-                  }
+                  // Step 3: Transfer runtime selection to new session
+                  moveSelection(oldId, newId)
                   replaceTabSession(oldId, newId)
                   connectToSession(newId)
 
-                  // Step 5: Async server cleanup (oldId already removed from local store)
+                  // Step 4: Async server cleanup (oldId already removed from local store)
                   deleteSession(oldId).catch(() => {})
 
                   // Step 6: Re-fetch to reconcile server state (the debounced fetch
