@@ -533,6 +533,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })
@@ -572,6 +573,7 @@ describe('chatStore history mapping', () => {
           slashCommands: [],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
     })

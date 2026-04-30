@@ -11,3 +11,6 @@ The leaked source could not run directly. This repository mainly fixes the follo
 | `--print` hangs | `ultraplan/prompt.txt` was missing | Added resource stub files |
 | **Enter key does nothing** | The `modifiers-napi` native package was missing, `isModifierPressed()` threw, `handleEnter` was interrupted, and `onSubmit` never ran | Added try/catch fault tolerance |
 | Setup was skipped | `preload.ts` automatically set `LOCAL_RECOVERY=1`, skipping all initialization | Removed the default setting |
+| **CLI startup failure (Desktop)** | `shouldStripInheritedProviderEnv(null)` treated `null` as a valid provider ID via `providerId !== undefined`, stripping all auth env vars | Changed to `typeof providerId === 'string'` (`conversationService.ts:727`) |
+| **settings.json corruption** | `updateManagedSettings()` used blind `Object.assign` merge; stale keys like `ACTIVE_PROVIDER` and top-level `ANTHROPIC_*` from the raw JSON editor were persisted | Added `STALE_SETTINGS_KEYS` blacklist + auto-strip top-level `ANTHROPIC_*` keys (`providerService.ts`) |
+| **Auto-update URL updated** | Desktop Tauri updater pointed to `NanmiCoder/cc-haha`, changelog fetcher pointed to `anthropics/claude-code` | All changed to `dfui88/cc-haha` (`tauri.conf.json`, `releaseNotes.ts`, `Settings.tsx`, `Sidebar.tsx`) |

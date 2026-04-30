@@ -722,7 +722,7 @@ export class ConversationService {
   }
 
   private shouldStripInheritedProviderEnv(providerId?: string | null): boolean {
-    if (providerId !== undefined) {
+    if (typeof providerId === 'string') {
       return true
     }
 

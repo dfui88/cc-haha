@@ -27,6 +27,14 @@ import type {
   ApiFormat,
 } from '../types/provider.js'
 
+/**
+ * Known settings.json keys whose values are managed by other subsystems
+ * (e.g. providers.json) and should never be written at settings.json top level.
+ */
+const STALE_SETTINGS_KEYS = new Set([
+  'ACTIVE_PROVIDER',
+])
+
 const MANAGED_ENV_KEYS = [
   'ANTHROPIC_BASE_URL',
   'ANTHROPIC_API_KEY',
@@ -141,6 +149,20 @@ export class ProviderService {
   async updateManagedSettings(settings: Record<string, unknown>): Promise<void> {
     const current = await this.readSettings()
     const merged = Object.assign({}, current, settings)
+
+    // Strip stale keys managed by other subsystems.
+    // Currently: ACTIVE_PROVIDER (stored in providers.json).
+    for (const key of STALE_SETTINGS_KEYS) {
+      delete merged[key]
+    }
+
+    // Strip top-level ANTHROPIC_* keys that duplicate the env block.
+    for (const key of Object.keys(merged)) {
+      if (key.startsWith('ANTHROPIC_')) {
+        delete merged[key]
+      }
+    }
+
     // If the incoming settings have an env block, ensure provider-managed
     // keys are consistent — never let stale ANTHROPIC_API_KEY leak through
     // when the active provider uses proxy mode.
@@ -290,6 +312,13 @@ export class ProviderService {
 
   private async syncToSettings(provider: SavedProvider): Promise<void> {
     const settings = await this.readSettings()
+    // Strip stale keys managed by other subsystems
+    for (const key of STALE_SETTINGS_KEYS) {
+      delete settings[key]
+    }
+    for (const key of Object.keys(settings)) {
+      if (key.startsWith('ANTHROPIC_')) delete settings[key]
+    }
     const existingEnv = (settings.env as Record<string, string>) || {}
     const cleanedEnv = { ...existingEnv }
 
@@ -307,6 +336,13 @@ export class ProviderService {
 
   private async clearProviderFromSettings(): Promise<void> {
     const settings = await this.readSettings()
+    // Strip stale keys managed by other subsystems
+    for (const key of STALE_SETTINGS_KEYS) {
+      delete settings[key]
+    }
+    for (const key of Object.keys(settings)) {
+      if (key.startsWith('ANTHROPIC_')) delete settings[key]
+    }
     const env = (settings.env as Record<string, string>) || {}
 
     for (const key of getManagedEnvKeys()) {

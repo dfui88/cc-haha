@@ -489,6 +489,7 @@ describe('Content-only pages render without errors', () => {
           ],
           agentTaskNotifications: {},
           elapsedTimer: null,
+          responseTimeoutId: null,
         },
       },
       sendMessage,
