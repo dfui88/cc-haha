@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/nicegui/nicegui/main/nicegui/static/tauri-schema-v2.json",
   "productName": "Claude Code Haha",
-  "version": "0.1.20",
+  "version": "0.1.22",
   "identifier": "com.claude-code-haha.desktop",
   "build": {
     "frontendDist": "../dist",
@@ -45,6 +45,10 @@
     "windows": {
       "nsis": {
         "installerHooks": "windows-installer-hooks.nsh"
+      },
+      "wix": {
+        "language": ["en-US", "zh-CN"],
+        "upgradeCode": "5239b781-4d78-504f-8bff-4b9d88752c74"
       }
     },
     "externalBin": [
