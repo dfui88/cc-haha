@@ -1,0 +1,917 @@
+{
+  "input": [
+    [
+      {
+        "type": "text",
+        "text": "limit test"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_QgT479OQgv6v1uIYA7AhuCfJ",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la",
+          "description": "List files in working directory"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_FQxLNw9G1pv2jqoxUlZVCNZc",
+        "name": "Bash",
+        "input": {
+          "command": "git log --oneline -10",
+          "description": "Check recent git history"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_QgT479OQgv6v1uIYA7AhuCfJ",
+        "type": "tool_result",
+        "content": "total 759\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:04 ..\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .claude\n-rw-r--r-- 1 jwwin 197121   2377 Apr 26 12:57 .env.example\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:37 .git\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 .github\n-rw-r--r-- 1 jwwin 197121   1167 Apr 30 11:09 .gitignore\n-rw-r--r-- 1 jwwin 197121   4106 Apr 30 18:27 AGENTS.md\n-rw-r--r-- 1 jwwin 197121  15782 Apr 30 18:27 ARCHITECTURE.md\n-rw-r--r-- 1 jwwin 197121   1854 Apr 26 12:57 LICENSE\n-rw-r--r-- 1 jwwin 197121   7348 Apr 30 18:27 PROJECT_STRUCTURE.md\n-rw-r--r-- 1 jwwin 197121  13753 Apr 30 18:27 README.en.md\n-rw-r--r-- 1 jwwin 197121  13058 Apr 30 18:27 README.md\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 adapters\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 bin\n-rw-r--r-- 1 jwwin 197121 208690 Apr 26 12:57 bun.lock\n-rw-r--r-- 1 jwwin 197121     28 Apr 26 12:57 bunfig.toml\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 19:23 desktop\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 docs\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 fixtures\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 21:25 node_modules\n-rw-r--r-- 1 jwwin 197121 322397 Apr 30 18:27 package-lock.json\n-rw-r--r-- 1 jwwin 197121   2621 Apr 30 18:28 package.json\n-rw-r--r-- 1 jwwin 197121    662 Apr 30 18:27 preload.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 release-notes\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 runtime\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 scripts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 src\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 stubs\n-rw-r--r-- 1 jwwin 197121    450 Apr 30 18:27 tsconfig.json",
+        "is_error": false
+      },
+      {
+        "tool_use_id": "call_01_FQxLNw9G1pv2jqoxUlZVCNZc",
+        "type": "tool_result",
+        "content": "8d8ad96 fix: add missing responseTimeoutId to test mocks\n12e194a docs: update v0.1.8 release notes with 5 code review optimizations\n2ba19b2 refactor: apply 5 code review optimizations from fork comparison\n8a0e393 merge: restore v0.1.8 modifications on top of upstream\n6ac0c31 docs: add architecture docs and auto-generate project structure\n777c596 docs: add README star history section\n48ae305 docs: make issue reports actionable for desktop triage\n670281b fix: keep desktop app running from tray after close\na68a244 Prepare 0.1.8 for remote desktop release\n0508277 fix: keep inspector context responsive",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_E7eyXIivNLVgB2aueT6ZVJFJ",
+        "name": "Bash",
+        "input": {
+          "command": "cat package.json | head -40",
+          "description": "Check package.json for project info and test commands"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_pmwHd40NVlMlAfbF5p3NqI77",
+        "name": "Grep",
+        "input": {
+          "pattern": "limit",
+          "glob": "**/*.test.*",
+          "output_mode": "content",
+          "-i": true
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_02_S80E1lpR6yQn7wTMf5Y5h4eR",
+        "name": "Grep",
+        "input": {
+          "pattern": "limit",
+          "glob": "**/*.spec.*",
+          "output_mode": "content",
+          "-i": true
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_pmwHd40NVlMlAfbF5p3NqI77"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_02_S80E1lpR6yQn7wTMf5Y5h4eR"
+      },
+      {
+        "tool_use_id": "call_00_E7eyXIivNLVgB2aueT6ZVJFJ",
+        "type": "tool_result",
+        "content": "{\n  \"name\": \"claude-code-local\",\n  \"version\": \"999.0.0-local\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"bin\": {\n    \"claude-haha\": \"./bin/claude-haha\"\n  },\n  \"scripts\": {\n    \"claude-haha\": \"bash ./bin/claude-haha\",\n    \"start\": \"bash ./bin/claude-haha\",\n    \"generate:structure\": \"node scripts/generate-structure.mjs --depth 2\",\n    \"docs:dev\": \"vitepress dev docs\",\n    \"docs:build\": \"vitepress build docs\",\n    \"docs:preview\": \"vitepress preview docs\"\n  },\n  \"dependencies\": {\n    \"@anthropic-ai/sandbox-runtime\": \"^0.0.44\",\n    \"@anthropic-ai/sdk\": \"^0.80.0\",\n    \"@aws-sdk/client-bedrock-runtime\": \"^3.1020.0\",\n    \"@commander-js/extra-typings\": \"^14.0.0\",\n    \"@growthbook/growthbook\": \"^1.6.5\",\n    \"@modelcontextprotocol/sdk\": \"^1.29.0\",\n    \"@opentelemetry/api-logs\": \"^0.214.0\",\n    \"@opentelemetry/core\": \"^2.6.1\",\n    \"@opentelemetry/resources\": \"^2.6.1\",\n    \"@opentelemetry/sdk-logs\": \"^0.214.0\",\n    \"@opentelemetry/sdk-metrics\": \"^2.6.1\",\n    \"@opentelemetry/sdk-trace-base\": \"^2.6.1\",\n    \"@opentelemetry/semantic-conventions\": \"^1.40.0\",\n    \"ajv\": \"^8.18.0\",\n    \"asciichart\": \"^1.5.25\",\n    \"auto-bind\": \"^5.0.1\",\n    \"axios\": \"^1.14.0\",\n    \"bidi-js\": \"^1.0.3\",\n    \"chalk\": \"^5.6.2\",\n    \"chokidar\": \"^5.0.0\",\n    \"cli-boxes\": \"^4.0.1\",\n    \"code-excerpt\": \"^4.0.0\",\n    \"diff\": \"^8.0.4\",",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_kPubVWJmYqpdijYZuCKs12M3",
+        "name": "Bash",
+        "input": {
+          "command": "find . -path ./node_modules -prune -o \\( -name \"*.test.*\" -o -name \"*.spec.*\" \\) -print 2>/dev/null | head -30",
+          "description": "Find test files in project"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_nvDizJ0g6PO8Erf8Aa9HZGH9",
+        "name": "Bash",
+        "input": {
+          "command": "find . -path ./node_modules -prune -o -name \"*.test.*\" -print -o -name \"*.spec.*\" -print 2>/dev/null | xargs grep -ril \"limit\" 2>/dev/null | head -20",
+          "description": "Search for limit in test files"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "This Bash command contains multiple operations. The following part requires approval: find . -path ./node_modules -prune -o (-name *.test.* -o -name *.spec.* \\) -print 2> /dev/null",
+        "is_error": true,
+        "tool_use_id": "call_00_kPubVWJmYqpdijYZuCKs12M3"
+      },
+      {
+        "type": "tool_result",
+        "content": "This Bash command contains multiple operations. The following parts require approval: find . -path ./node_modules -prune -o -name *.test.* -print -o -name *.spec.* -print 2> /dev/null, xargs grep -ril limit 2> /dev/null",
+        "is_error": true,
+        "tool_use_id": "call_01_nvDizJ0g6PO8Erf8Aa9HZGH9"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_pucSUHd9sL1qZlxlp6NMbstr",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/*.test.*"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_ikDLbpZodxNZsCmj4T8rZXVD",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/*.spec.*"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_00_pucSUHd9sL1qZlxlp6NMbstr"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_ikDLbpZodxNZsCmj4T8rZXVD"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_jFCIMlKMoXFkvks1OuyoWpsz",
+        "name": "Bash",
+        "input": {
+          "command": "find . -path ./node_modules -prune -o -name \"*.test.*\" -print -o -name \"*.spec.*\" -print 2>/dev/null | head -40",
+          "description": "Find test files"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "This Bash command contains multiple operations. The following part requires approval: find . -path ./node_modules -prune -o -name *.test.* -print -o -name *.spec.* -print 2> /dev/null\n\n<system-reminder>\nThe task tools haven't been used recently. If you're working on tasks that would benefit from tracking progress, consider using TaskCreate to add new tasks and TaskUpdate to update task status (set to in_progress when starting, completed when done). Also consider cleaning up the task list if it has become stale. Only use these if relevant to the current work. This is just a gentle reminder - ignore if not applicable. Make sure that you NEVER mention this reminder to the user\n\n</system-reminder>",
+        "is_error": true,
+        "tool_use_id": "call_00_jFCIMlKMoXFkvks1OuyoWpsz"
+      }
+    ]
+  ],
+  "output": [
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_start",
+        "message": {
+          "id": "0a626353-7792-4980-85f3-76fe2fdccf42",
+          "type": "message",
+          "role": "assistant",
+          "model": "deepseek-v4-flash",
+          "content": [],
+          "stop_reason": null,
+          "stop_sequence": null,
+          "usage": {
+            "input_tokens": 352,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 27008,
+            "output_tokens": 0,
+            "service_tier": "standard"
+          }
+        }
+      },
+      "ttftMs": 462
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 0,
+        "content_block": {
+          "type": "thinking",
+          "thinking": "",
+          "signature": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "The"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " find"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " requires"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " approval"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " try"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " using"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " ls"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " look"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " at"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " src"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " directory"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " structure"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " and"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " find"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " files"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " more"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " directly"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "signature_delta",
+          "signature": "0a626353-7792-4980-85f3-76fe2fdccf42"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-28",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T13:58:46.463Z",
+      "message": {
+        "id": "0a626353-7792-4980-85f3-76fe2fdccf42",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "The find command requires approval. Let me try using ls to look at the src directory structure and find test files more directly.",
+            "signature": "0a626353-7792-4980-85f3-76fe2fdccf42"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 352,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 27008,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 0
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 1,
+        "content_block": {
+          "type": "tool_use",
+          "id": "call_00_LZObfqCha4rltYKaOcEdiWaL",
+          "name": "Bash",
+          "input": {}
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "ls"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " src"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "2"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ">/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "dev"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/null"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ", "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "description"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "List"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " src"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " directory"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "}"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-57",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T13:58:47.167Z",
+      "message": {
+        "id": "0a626353-7792-4980-85f3-76fe2fdccf42",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "call_00_LZObfqCha4rltYKaOcEdiWaL",
+            "name": "Bash",
+            "input": {
+              "command": "ls src/ 2>/dev/null",
+              "description": "List src directory"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 352,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 27008,
+          "output_tokens": 94,
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "",
+          "iterations": [],
+          "speed": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 1
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_delta",
+        "delta": {
+          "stop_reason": "tool_use",
+          "stop_sequence": null
+        },
+        "usage": {
+          "input_tokens": 352,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 27008,
+          "output_tokens": 94,
+          "service_tier": "standard"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_stop"
+      }
+    }
+  ]
+}

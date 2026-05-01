@@ -1,0 +1,3087 @@
+{
+  "input": [
+    "Search the codebase at [CWD] for any references to \"multi run\", \"multirun\", \"multi_run\", \"multiRun\", or \"multi-run\". Also search for any CLI commands that involve running multiple things. Look at:\n\n1. The bin/ directory and CLI entry points\n2. src/ directory for any multi-agent related code\n3. The docs/agent/ directory for multi-agent documentation\n4. Any test fixtures or scripts related to \"multi run\"\n\nUse grep, find, and read commands (since ripgrep is not available). Report all findings including file paths and relevant content snippets.",
+    [
+      null,
+      {
+        "type": "text",
+        "text": "I'll search the codebase systematically for all the patterns and directories you mentioned."
+      },
+      {
+        "type": "tool_use",
+        "id": "call_00_kfK5GFiQnGhdaiwznylKRHyx",
+        "name": "Grep",
+        "input": {
+          "pattern": "multi.run|multirun|multi_run|multiRun|multi-run",
+          "path": "[CWD]",
+          "output_mode": "files_with_matches",
+          "-i": true
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_KbAdE8rdCY9CjWIQZPo7nhRx",
+        "name": "Glob",
+        "input": {
+          "pattern": "bin/**/*",
+          "path": "[CWD]"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_02_7T2ynTC0SyBe7LjksXb7F05Y",
+        "name": "Glob",
+        "input": {
+          "pattern": "docs/agent/**/*",
+          "path": "[CWD]"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_03_VEzDTftMgZbQ6icZ8KaEWRJx",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/test*/**/*multi*",
+          "path": "[CWD]"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_04_5EfjCnMXo1ISS4DX17fzXDLA",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/fixtures/**/*multi*",
+          "path": "[CWD]"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_00_kfK5GFiQnGhdaiwznylKRHyx"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_03_VEzDTftMgZbQ6icZ8KaEWRJx"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_04_5EfjCnMXo1ISS4DX17fzXDLA"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_02_7T2ynTC0SyBe7LjksXb7F05Y"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_KbAdE8rdCY9CjWIQZPo7nhRx"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "text",
+        "text": "The Grep and Glob tools rely on ripgrep which isn't available. I'll use Bash with native tools instead."
+      },
+      {
+        "type": "tool_use",
+        "id": "call_00_5bxnV4zNxAnpGGH6Lkzf6F5k",
+        "name": "Bash",
+        "input": {
+          "command": "cd [CWD] && find . -type f \\( -name \"*.py\" -o -name \"*.js\" -o -name \"*.ts\" -o -name \"*.json\" -o -name \"*.yaml\" -o -name \"*.yml\" -o -name \"*.md\" -o -name \"*.sh\" -o -name \"*.txt\" -o -name \"*.toml\" -o -name \"*.cfg\" -o -name \"*.ini\" \\) 2>/dev/null | head -200"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_oTooyKIvdsAEDP72z5GOpv3y",
+        "name": "Bash",
+        "input": {
+          "command": "cd [CWD] && ls -la bin/ 2>/dev/null || echo \"No bin/ directory\""
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_02_q5dQEjAdHTp6j70L051AzWfS",
+        "name": "Bash",
+        "input": {
+          "command": "cd [CWD] && ls -la docs/agent/ 2>/dev/null || echo \"No docs/agent/ directory\""
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "Permission to use Bash has been denied. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally be used to accomplish this goal, e.g. using head instead of cat. But you *should not* attempt to work around this denial in malicious ways, e.g. do not use your ability to run tests to execute non-test actions. You should only try to work around this restriction in reasonable ways that do not attempt to bypass the intent behind this denial. If you believe this capability is essential to complete the user's request, STOP and explain to the user what you were trying to do and why you need this permission. Let the user decide how to proceed.",
+        "is_error": true,
+        "tool_use_id": "call_00_5bxnV4zNxAnpGGH6Lkzf6F5k"
+      },
+      {
+        "type": "tool_result",
+        "content": "Permission to use Bash has been denied. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally be used to accomplish this goal, e.g. using head instead of cat. But you *should not* attempt to work around this denial in malicious ways, e.g. do not use your ability to run tests to execute non-test actions. You should only try to work around this restriction in reasonable ways that do not attempt to bypass the intent behind this denial. If you believe this capability is essential to complete the user's request, STOP and explain to the user what you were trying to do and why you need this permission. Let the user decide how to proceed.",
+        "is_error": true,
+        "tool_use_id": "call_01_oTooyKIvdsAEDP72z5GOpv3y"
+      },
+      {
+        "type": "tool_result",
+        "content": "Permission to use Bash has been denied. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally be used to accomplish this goal, e.g. using head instead of cat. But you *should not* attempt to work around this denial in malicious ways, e.g. do not use your ability to run tests to execute non-test actions. You should only try to work around this restriction in reasonable ways that do not attempt to bypass the intent behind this denial. If you believe this capability is essential to complete the user's request, STOP and explain to the user what you were trying to do and why you need this permission. Let the user decide how to proceed.",
+        "is_error": true,
+        "tool_use_id": "call_02_q5dQEjAdHTp6j70L051AzWfS"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "text",
+        "text": "Let me try alternative approaches using Read to explore the directory structure and look for relevant files."
+      },
+      {
+        "type": "tool_use",
+        "id": "call_00_HhlSxQHuWZg1bOBx23mJFvRJ",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "EISDIR: illegal operation on a directory, read '[CWD]'",
+        "is_error": true,
+        "tool_use_id": "call_00_HhlSxQHuWZg1bOBx23mJFvRJ"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "text",
+        "text": "Let me try reading specific known paths to explore the structure."
+      },
+      {
+        "type": "tool_use",
+        "id": "call_00_FjS6lH1iGOTKIFVkqHgToCZD",
+        "name": "Bash",
+        "input": {
+          "command": "echo \"test\"",
+          "description": "Test if bash is now available"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_FjS6lH1iGOTKIFVkqHgToCZD",
+        "type": "tool_result",
+        "content": "test",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "text",
+        "text": "Bash is available now. Let me run all the searches in parallel."
+      },
+      {
+        "type": "tool_use",
+        "id": "call_00_9sKm8p7rtBpRUUlnwJENdqkK",
+        "name": "Bash",
+        "input": {
+          "command": "cd \"[CWD]\" && ls -la bin/ 2>/dev/null || echo \"No bin/ directory\"",
+          "description": "List bin/ directory contents"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_bDQujKMJz71CZkKM1gHiqnJ2",
+        "name": "Bash",
+        "input": {
+          "command": "cd \"[CWD]\" && ls -la docs/agent/ 2>/dev/null || echo \"No docs/agent/ directory\"",
+          "description": "List docs/agent/ directory contents"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_02_LdNSTh0tcxbgeWxWjsBcGu9d",
+        "name": "Bash",
+        "input": {
+          "command": "cd \"[CWD]\" && find . -type f -name \"*.py\" -o -name \"*.js\" -o -name \"*.ts\" -o -name \"*.json\" -o -name \"*.yaml\" -o -name \"*.yml\" -o -name \"*.md\" -o -name \"*.sh\" -o -name \"*.toml\" -o -name \"*.cfg\" -o -name \"*.ini\" 2>/dev/null | head -500",
+          "description": "List all source files in the repo"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_03_rdyTB2txXy4FwIvGmIt7Z8H3",
+        "name": "Bash",
+        "input": {
+          "command": "cd \"[CWD]\" && grep -r -i -l \"multi.run\\|multirun\\|multi_run\\|multiRun\\|multi-run\" . --include=\"*.py\" --include=\"*.js\" --include=\"*.ts\" --include=\"*.json\" --include=\"*.yaml\" --include=\"*.yml\" --include=\"*.md\" --include=\"*.sh\" --include=\"*.toml\" --include=\"*.cfg\" --include=\"*.ini\" 2>/dev/null || echo \"No matches found\"",
+          "description": "Search for all multi-run pattern variants"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_04_hTwpc6GJboNihl8hMOPtKGyn",
+        "name": "Bash",
+        "input": {
+          "command": "cd \"[CWD]\" && find . -type d -name \"bin\" -o -type d -name \"fixtures\" -o -type d -name \"test*\" 2>/dev/null | head -50",
+          "description": "Find bin, fixtures, and test directories"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "Permission to use Bash has been denied. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally be used to accomplish this goal, e.g. using head instead of cat. But you *should not* attempt to work around this denial in malicious ways, e.g. do not use your ability to run tests to execute non-test actions. You should only try to work around this restriction in reasonable ways that do not attempt to bypass the intent behind this denial. If you believe this capability is essential to complete the user's request, STOP and explain to the user what you were trying to do and why you need this permission. Let the user decide how to proceed.",
+        "is_error": true,
+        "tool_use_id": "call_00_9sKm8p7rtBpRUUlnwJENdqkK"
+      },
+      {
+        "type": "tool_result",
+        "content": "Permission to use Bash has been denied. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally be used to accomplish this goal, e.g. using head instead of cat. But you *should not* attempt to work around this denial in malicious ways, e.g. do not use your ability to run tests to execute non-test actions. You should only try to work around this restriction in reasonable ways that do not attempt to bypass the intent behind this denial. If you believe this capability is essential to complete the user's request, STOP and explain to the user what you were trying to do and why you need this permission. Let the user decide how to proceed.",
+        "is_error": true,
+        "tool_use_id": "call_01_bDQujKMJz71CZkKM1gHiqnJ2"
+      },
+      {
+        "type": "tool_result",
+        "content": "Permission to use Bash has been denied. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally be used to accomplish this goal, e.g. using head instead of cat. But you *should not* attempt to work around this denial in malicious ways, e.g. do not use your ability to run tests to execute non-test actions. You should only try to work around this restriction in reasonable ways that do not attempt to bypass the intent behind this denial. If you believe this capability is essential to complete the user's request, STOP and explain to the user what you were trying to do and why you need this permission. Let the user decide how to proceed.",
+        "is_error": true,
+        "tool_use_id": "call_02_LdNSTh0tcxbgeWxWjsBcGu9d"
+      },
+      {
+        "type": "tool_result",
+        "content": "Permission to use Bash has been denied. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally be used to accomplish this goal, e.g. using head instead of cat. But you *should not* attempt to work around this denial in malicious ways, e.g. do not use your ability to run tests to execute non-test actions. You should only try to work around this restriction in reasonable ways that do not attempt to bypass the intent behind this denial. If you believe this capability is essential to complete the user's request, STOP and explain to the user what you were trying to do and why you need this permission. Let the user decide how to proceed.",
+        "is_error": true,
+        "tool_use_id": "call_03_rdyTB2txXy4FwIvGmIt7Z8H3"
+      },
+      {
+        "type": "tool_result",
+        "content": "Permission to use Bash has been denied. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally be used to accomplish this goal, e.g. using head instead of cat. But you *should not* attempt to work around this denial in malicious ways, e.g. do not use your ability to run tests to execute non-test actions. You should only try to work around this restriction in reasonable ways that do not attempt to bypass the intent behind this denial. If you believe this capability is essential to complete the user's request, STOP and explain to the user what you were trying to do and why you need this permission. Let the user decide how to proceed.",
+        "is_error": true,
+        "tool_use_id": "call_04_hTwpc6GJboNihl8hMOPtKGyn"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "text",
+        "text": "Let me try simpler individual bash commands to explore the structure."
+      },
+      {
+        "type": "tool_use",
+        "id": "call_00_F5FMU3HxvTYPMxxiI0MW9JEo",
+        "name": "Bash",
+        "input": {
+          "command": "ls \"[CWD]\"",
+          "description": "List top-level directory contents"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_F5FMU3HxvTYPMxxiI0MW9JEo",
+        "type": "tool_result",
+        "content": "AGENTS.md\nARCHITECTURE.md\nLICENSE\nPROJECT_STRUCTURE.md\nREADME.en.md\nREADME.md\nadapters\nbin\nbun.lock\nbunfig.toml\ndesktop\ndocs\nfixtures\nnode_modules\npackage-lock.json\npackage.json\npreload.ts\nrelease-notes\nruntime\nscripts\nsrc\nstubs\ntsconfig.json",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "text",
+        "text": "Good, I can see the top-level structure. Let me explore further."
+      },
+      {
+        "type": "tool_use",
+        "id": "call_00_zn2BOCgtyMengjhi8I0a6qiv",
+        "name": "Bash",
+        "input": {
+          "command": "find \"[CWD]/bin\" -type f 2>/dev/null; ls -laR \"[CWD]/bin\" 2>/dev/null",
+          "description": "List bin/ directory recursively"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_H0hZ1igreAchTqrHh6rJbert",
+        "name": "Bash",
+        "input": {
+          "command": "find \"[CWD]/docs/agent\" -type f 2>/dev/null; ls -laR \"[CWD]/docs/agent\" 2>/dev/null; echo \"---\"; ls \"[CWD]/docs\" 2>/dev/null",
+          "description": "List docs/agent/ directory recursively"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_02_O3RNjzN7WAVvpxwB3lKr9l3s",
+        "name": "Bash",
+        "input": {
+          "command": "cd \"[CWD]\" && grep -r -i -l \"multi.run\\|multirun\\|multi_run\\|multiRun\\|multi-run\" . --include=\"*.py\" --include=\"*.js\" --include=\"*.ts\" --include=\"*.json\" --include=\"*.yaml\" --include=\"*.yml\" --include=\"*.md\" --include=\"*.sh\" --include=\"*.toml\" --include=\"*.cfg\" --include=\"*.ini\" --include=\"*.txt\" 2>/dev/null; echo \"EXIT: $?\"",
+          "description": "Search for multi-run patterns in all files"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_03_APBMX1StzVA6NDnCi0CCmzHM",
+        "name": "Bash",
+        "input": {
+          "command": "ls \"[CWD]/src\" 2>/dev/null",
+          "description": "List src/ directory top level"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_zn2BOCgtyMengjhi8I0a6qiv",
+        "type": "tool_result",
+        "content": "[CWD]/bin/claude-haha\n[CWD]/bin:\ntotal 8\ndrwxr-xr-x 1 jwwin 197121    0 Apr 26 12:57 .\ndrwxr-xr-x 1 jwwin 197121    0 Apr 30 21:58 ..\n-rwxr-xr-x 1 jwwin 197121 1108 Apr 26 12:57 claude-haha",
+        "is_error": false
+      },
+      {
+        "tool_use_id": "call_01_H0hZ1igreAchTqrHh6rJbert",
+        "type": "tool_result",
+        "content": "[CWD]/docs/agent/01-usage-guide.md\n[CWD]/docs/agent/02-implementation.md\n[CWD]/docs/agent/03-agent-framework.md\n[CWD]/docs/agent/images/01-agent-overview.png\n[CWD]/docs/agent/images/02-agent-types.png\n[CWD]/docs/agent/images/03-spawn-flow.png\n[CWD]/docs/agent/images/04-agent-teams.png\n[CWD]/docs/agent/images/05-architecture.png\n[CWD]/docs/agent/images/06-context-passing.png\n[CWD]/docs/agent/images/07-tool-pool.png\n[CWD]/docs/agent/images/08-background-task.png\n[CWD]/docs/agent/images/09-teams-mailbox.png\n[CWD]/docs/agent/images/10-fork-cache.png\n[CWD]/docs/agent/images/11-agent-framework-overview.png\n[CWD]/docs/agent/images/12-agent-core-loop.png\n[CWD]/docs/agent/images/13-system-prompt-pipeline.png\n[CWD]/docs/agent/images/14-context-compression.png\n[CWD]/docs/agent/index.md\n[CWD]/docs/agent:\ntotal 92\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:27 .\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:27 ..\n-rw-r--r-- 1 jwwin 197121 12834 Apr 30 18:27 01-usage-guide.md\n-rw-r--r-- 1 jwwin 197121 28504 Apr 30 18:27 02-implementation.md\n-rw-r--r-- 1 jwwin 197121 30908 Apr 30 18:27 03-agent-framework.md\ndrwxr-xr-x 1 jwwin 197121     0 Apr 26 12:57 images\n-rw-r--r-- 1 jwwin 197121  5951 Apr 30 18:27 index.md\n\n[CWD]/docs/agent/images:\ntotal 12660\ndrwxr-xr-x 1 jwwin 197121       0 Apr 26 12:57 .\ndrwxr-xr-x 1 jwwin 197121       0 Apr 30 18:27 ..\n-rw-r--r-- 1 jwwin 197121 1850831 Apr 26 12:57 01-agent-overview.png\n-rw-r--r-- 1 jwwin 197121 1847708 Apr 26 12:57 02-agent-types.png\n-rw-r--r-- 1 jwwin 197121 2350702 Apr 26 12:57 03-spawn-flow.png\n-rw-r--r-- 1 jwwin 197121  105744 Apr 26 12:57 04-agent-teams.png\n-rw-r--r-- 1 jwwin 197121 2022765 Apr 26 12:57 05-architecture.png\n-rw-r--r-- 1 jwwin 197121  118908 Apr 26 12:57 06-context-passing.png\n-rw-r--r-- 1 jwwin 197121 1592815 Apr 26 12:57 07-tool-pool.png\n-rw-r--r-- 1 jwwin 197121   92903 Apr 26 12:57 08-background-task.png\n-rw-r--r-- 1 jwwin 197121   89477 Apr 26 12:57 09-teams-mailbox.png\n-rw-r--r-- 1 jwwin 197121   94661 Apr 26 12:57 10-fork-cache.png\n-rw-r--r-- 1 jwwin 197121  751511 Apr 26 12:57 11-agent-framework-overview.png\n-rw-r--r-- 1 jwwin 197121  715131 Apr 26 12:57 12-agent-core-loop.png\n-rw-r--r-- 1 jwwin 197121  608837 Apr 26 12:57 13-system-prompt-pipeline.png\n-rw-r--r-- 1 jwwin 197121  695589 Apr 26 12:57 14-context-compression.png\n---\nagent\nchannel\ndesktop\nen\nfeatures\nfork-comparison-analysis.md\nguide\nim\nimages\nindex.md\nmemory\npublic\nreference\nskills\nsuperpowers\nui-clone",
+        "is_error": false
+      },
+      {
+        "type": "tool_result",
+        "content": "Permission to use Bash has been denied. IMPORTANT: You *may* attempt to accomplish this action using other tools that might naturally be used to accomplish this goal, e.g. using head instead of cat. But you *should not* attempt to work around this denial in malicious ways, e.g. do not use your ability to run tests to execute non-test actions. You should only try to work around this restriction in reasonable ways that do not attempt to bypass the intent behind this denial. If you believe this capability is essential to complete the user's request, STOP and explain to the user what you were trying to do and why you need this permission. Let the user decide how to proceed.",
+        "is_error": true,
+        "tool_use_id": "call_02_O3RNjzN7WAVvpxwB3lKr9l3s"
+      },
+      {
+        "tool_use_id": "call_03_APBMX1StzVA6NDnCi0CCmzHM",
+        "type": "tool_result",
+        "content": "QueryEngine.ts\nTask.ts\nTool.ts\nassistant\nbootstrap\nbridge\nbuddy\ncli\ncommands\ncommands.ts\ncomponents\nconstants\ncontext\ncontext.ts\ncoordinator\ncost-tracker.ts\ncostHook.ts\ndaemon\ndialogLaunchers.tsx\nentrypoints\nenvironment-runner\nhistory.ts\nhooks\nink\nink.ts\ninteractiveHelpers.tsx\njobs\nkeybindings\nlocalRecoveryCli.ts\nmain.tsx\nmemdir\nmigrations\nmoreright\nnative-ts\noutputStyles\nplugins\nproactive\nprojectOnboardingState.ts\nquery\nquery.ts\nremote\nreplLauncher.tsx\nschemas\nscreens\nself-hosted-runner\nserver\nservices\nsetup.ts\nskills\nssh\nstate\ntasks\ntasks.ts\ntools\ntools.ts\ntypes\nupstreamproxy\nutils\nvendor\nvim\nvoice",
+        "is_error": false
+      }
+    ]
+  ],
+  "output": [
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_start",
+        "message": {
+          "id": "5af92c0b-7a46-41f4-b05d-975adc6a287e",
+          "type": "message",
+          "role": "assistant",
+          "model": "deepseek-v4-flash",
+          "content": [],
+          "stop_reason": null,
+          "stop_sequence": null,
+          "usage": {
+            "input_tokens": 2153,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 16128,
+            "output_tokens": 0,
+            "service_tier": "standard"
+          }
+        }
+      },
+      "ttftMs": 784
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 0,
+        "content_block": {
+          "type": "thinking",
+          "thinking": "",
+          "signature": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "The"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " grep"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " for"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " multi"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "-run"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " patterns"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " was"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " denied"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " try"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " simpler"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " grep"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " commands"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " I"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " can"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " see"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " that"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ":\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "-"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " The"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " bin"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " directory"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " has"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " one"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " file"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ":"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " `"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "cl"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "aude"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "`\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "-"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " The"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " docs"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "agent"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " directory"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " has"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " several"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " mark"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "down"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " files"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "-"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " The"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " src"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " directory"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " has"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " lot"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " of"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " sub"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "direct"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "ories"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " try"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " grep"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " differently"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " and"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " also"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " read"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " bin"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "/cl"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "aude"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " file"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " and"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " key"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " docs"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "signature_delta",
+          "signature": "5af92c0b-7a46-41f4-b05d-975adc6a287e"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-88",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:05:26.229Z",
+      "message": {
+        "id": "5af92c0b-7a46-41f4-b05d-975adc6a287e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "The grep command for multi-run patterns was denied. Let me try simpler grep commands. I can see that:\n- The bin/ directory has one file: `claude-haha`\n- The docs/agent/ directory has several markdown files\n- The src/ directory has a lot of subdirectories\n\nLet me try the grep command differently, and also read the bin/claude-haha file and key docs.",
+            "signature": "5af92c0b-7a46-41f4-b05d-975adc6a287e"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 2153,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 16128,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 0
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 1,
+        "content_block": {
+          "type": "text",
+          "text": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Good"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " I"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " can"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " see"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " structure"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " read"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " bin"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " entry"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " point"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " and"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " docs"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " and"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " try"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " more"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " targeted"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " searches"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "."
+        }
+      }
+    },
+    {
+      "uuid": "UUID-116",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:05:26.748Z",
+      "message": {
+        "id": "5af92c0b-7a46-41f4-b05d-975adc6a287e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "Good, I can see the structure. Let me read the bin entry point and the docs, and try more targeted searches.",
+            "citations": []
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 2153,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 16128,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 1
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 2,
+        "content_block": {
+          "type": "tool_use",
+          "id": "call_00_iJj4CSdFGiwkScna26numLPH",
+          "name": "Read",
+          "input": {}
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "file"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "_path"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "F"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ":\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "bud"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "dy"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cn"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cc"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "bin"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cl"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "aude"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "}"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-145",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:05:27.372Z",
+      "message": {
+        "id": "5af92c0b-7a46-41f4-b05d-975adc6a287e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "call_00_iJj4CSdFGiwkScna26numLPH",
+            "name": "Read",
+            "input": {
+              "file_path": "[CWD]/bin/claude-haha"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 2153,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 16128,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 2
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 3,
+        "content_block": {
+          "type": "tool_use",
+          "id": "call_01_mAVDG1hlaHezrJkHiq0ipnmE",
+          "name": "Read",
+          "input": {}
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "file"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "_path"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "F"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ":\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "bud"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "dy"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cn"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cc"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "docs"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "agent"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "index"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ".md"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 3,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "}"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-174",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:05:28.020Z",
+      "message": {
+        "id": "5af92c0b-7a46-41f4-b05d-975adc6a287e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "call_01_mAVDG1hlaHezrJkHiq0ipnmE",
+            "name": "Read",
+            "input": {
+              "file_path": "[CWD]/docs/agent/index.md"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 2153,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 16128,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 3
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 4,
+        "content_block": {
+          "type": "tool_use",
+          "id": "call_02_OgRsBL8v5H6PMQVP1dfBmVRR",
+          "name": "Read",
+          "input": {}
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "file"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "_path"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "F"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ":\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "bud"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "dy"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cn"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cc"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "docs"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "agent"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "01"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "usage"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-gu"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "ide"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ".md"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 4,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "}"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-207",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:05:28.671Z",
+      "message": {
+        "id": "5af92c0b-7a46-41f4-b05d-975adc6a287e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "call_02_OgRsBL8v5H6PMQVP1dfBmVRR",
+            "name": "Read",
+            "input": {
+              "file_path": "[CWD]/docs/agent/01-usage-guide.md"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 2153,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 16128,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 4
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 5,
+        "content_block": {
+          "type": "tool_use",
+          "id": "call_03_QxOfDMXLl80pbBXNZpONJx9O",
+          "name": "Read",
+          "input": {}
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "file"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "_path"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "F"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ":\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "bud"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "dy"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cn"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cc"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "package"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ".json"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 5,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "}"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-232",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:05:29.242Z",
+      "message": {
+        "id": "5af92c0b-7a46-41f4-b05d-975adc6a287e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "call_03_QxOfDMXLl80pbBXNZpONJx9O",
+            "name": "Read",
+            "input": {
+              "file_path": "[CWD]/package.json"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 2153,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 16128,
+          "output_tokens": 307,
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "",
+          "iterations": [],
+          "speed": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 5
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_delta",
+        "delta": {
+          "stop_reason": "tool_use",
+          "stop_sequence": null
+        },
+        "usage": {
+          "input_tokens": 2153,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 16128,
+          "output_tokens": 307,
+          "service_tier": "standard"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_stop"
+      }
+    }
+  ]
+}

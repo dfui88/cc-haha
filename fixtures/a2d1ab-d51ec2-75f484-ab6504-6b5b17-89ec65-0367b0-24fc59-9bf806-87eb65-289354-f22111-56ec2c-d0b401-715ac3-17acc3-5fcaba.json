@@ -1,0 +1,4348 @@
+{
+  "input": [
+    [
+      {
+        "type": "text",
+        "text": "trigger trim"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "text",
+        "text": "Let me explore the repository to understand what \"trigger trim\" might refer to in this codebase.",
+        "citations": []
+      },
+      {
+        "type": "tool_use",
+        "id": "call_00_C8Siz6jTNVWG8ZAT68KGmuGw",
+        "name": "Bash",
+        "input": {
+          "command": "ls [CWD]",
+          "description": "List top-level files in the repo"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_pGfezmJyh7lWO10zcDmuDXGL",
+        "name": "Grep",
+        "input": {
+          "pattern": "trigger.?trim|trim.?trigger",
+          "path": "[CWD]",
+          "-i": true,
+          "output_mode": "files_with_matches"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_pGfezmJyh7lWO10zcDmuDXGL"
+      },
+      {
+        "type": "tool_result",
+        "content": "Exit code 2\nls: cannot access 'F:codebuddycncc-haha': No such file or directory",
+        "is_error": true,
+        "tool_use_id": "call_00_C8Siz6jTNVWG8ZAT68KGmuGw"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_tBsXvC9tXacaDX9dLSltaRBR",
+        "name": "Glob",
+        "input": {
+          "pattern": "*",
+          "path": "[CWD]"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_3pT4o72LRA5euUUorL3wlOy7",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/*.md",
+          "path": "[CWD]"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_3pT4o72LRA5euUUorL3wlOy7"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_00_tBsXvC9tXacaDX9dLSltaRBR"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_2EXvBoHw45Yr2JwuOTobkP1N",
+        "name": "Bash",
+        "input": {
+          "command": "dir \"[CWD]\" /B",
+          "description": "List files in the repo using Windows dir"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "This command requires approval",
+        "is_error": true,
+        "tool_use_id": "call_00_2EXvBoHw45Yr2JwuOTobkP1N"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_0AoWCRjFhtztArH1sJzOw1tf",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la /f/codebuddycn/cc-haha/ 2>/dev/null || ls -la \"[CWD]\" 2>/dev/null || echo \"trying alternate path\" && pwd",
+          "description": "List files in the repo"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_0AoWCRjFhtztArH1sJzOw1tf",
+        "type": "tool_result",
+        "content": "total 907\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:04 ..\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .claude\n-rw-r--r-- 1 jwwin 197121   2377 Apr 26 12:57 .env.example\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:15 .git\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 .github\n-rw-r--r-- 1 jwwin 197121   1167 Apr 30 11:09 .gitignore\n-rw-r--r-- 1 jwwin 197121   4106 Apr 30 18:27 AGENTS.md\n-rw-r--r-- 1 jwwin 197121  15782 Apr 30 18:27 ARCHITECTURE.md\n-rw-r--r-- 1 jwwin 197121   1854 Apr 26 12:57 LICENSE\n-rw-r--r-- 1 jwwin 197121   7348 Apr 30 18:27 PROJECT_STRUCTURE.md\n-rw-r--r-- 1 jwwin 197121  13753 Apr 30 18:27 README.en.md\n-rw-r--r-- 1 jwwin 197121  13058 Apr 30 18:27 README.md\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 adapters\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 bin\n-rw-r--r-- 1 jwwin 197121 208690 Apr 26 12:57 bun.lock\n-rw-r--r-- 1 jwwin 197121     28 Apr 26 12:57 bunfig.toml\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:13 desktop\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 docs\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:15 fixtures\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 21:25 node_modules\n-rw-r--r-- 1 jwwin 197121 322397 Apr 30 18:27 package-lock.json\n-rw-r--r-- 1 jwwin 197121   2621 Apr 30 18:28 package.json\n-rw-r--r-- 1 jwwin 197121    662 Apr 30 18:27 preload.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 release-notes\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 runtime\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:08 scripts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:13 src\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 stubs\n-rw-r--r-- 1 jwwin 197121    450 Apr 30 18:27 tsconfig.json\n[CWD]",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_VHOPhb9R3mHankC2rWBtnOmX",
+        "name": "Bash",
+        "input": {
+          "command": "head -100 /f/codebuddycn/cc-haha/README.md",
+          "description": "Read README top"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_Ae1cye5PMQ5lg09MtsetMOLq",
+        "name": "Bash",
+        "input": {
+          "command": "head -100 /f/codebuddycn/cc-haha/AGENTS.md",
+          "description": "Read AGENTS.md"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_01_Ae1cye5PMQ5lg09MtsetMOLq",
+        "type": "tool_result",
+        "content": "# Repository Guidelines\n\n## Project Structure & Module Organization\nThe root package is the Bun-based CLI and local server. Main code lives in `src/`: `entrypoints/` for startup paths, `screens/` and `components/` for the Ink TUI, `commands/` for slash commands, `services/` for API/MCP/OAuth logic, and `tools/` for agent tool implementations. `bin/claude-haha` is the executable entrypoint. The desktop app is isolated in `desktop/` with React UI code in `desktop/src/` and Tauri glue in `desktop/src-tauri/`. Documentation is in `docs/` and builds with VitePress. Treat root screenshots and `docs/images/` as reference assets, not source code.\n\n## Build, Test, and Development Commands\nInstall root dependencies with `bun install`, then install desktop dependencies in `desktop/` if you are touching the app UI.\n\n- `./bin/claude-haha` or `bun run start`: run the CLI locally.\n- `SERVER_PORT=3456 bun run src/server/index.ts`: start the local API/WebSocket server used by `desktop/`.\n- `bun run docs:dev` / `bun run docs:build`: preview or build the VitePress docs.\n- `cd desktop && bun run dev`: run the desktop frontend in Vite.\n- `cd desktop && bun run build`: type-check and produce a production web build.\n- `cd desktop && bun run test`: run Vitest suites.\n- `cd desktop && bun run lint`: run TypeScript no-emit checks.\n\n## Desktop Release Workflow\n- Desktop releases are built remotely by GitHub Actions, not by uploading local build artifacts.\n- The release workflow is `.github/workflows/release-desktop.yml`; it triggers automatically on `push` of tags matching `v*.*.*`.\n- GitHub Release body is sourced from `release-notes/vX.Y.Z.md` in the tagged commit. Keep the filename aligned with the version/tag exactly.\n- Use `bun run scripts/release.ts <version>` to cut a desktop release. The script updates version files, refreshes `desktop/src-tauri/Cargo.lock`, requires the matching `release-notes/vX.Y.Z.md`, commits it, and creates the annotated tag.\n- The normal release push is `git push origin main --tags`. If the tag, app version, or release-notes filename do not match, the workflow is designed to fail fast instead of publishing the wrong release.\n- For local macOS test packaging, `desktop/scripts/build-macos-arm64.sh` is the canonical Apple Silicon build entrypoint, and outputs land under `desktop/build-artifacts/macos-arm64/`.\n\n## Docs Workflow Notes\n- The docs workflow is `.github/workflows/deploy-docs.yml` and uses `npm ci`, not Bun. When root `package.json` dependencies change, keep `package-lock.json` in the same commit or the docs build will fail.\n- The docs workflow currently runs on Node 22; avoid reintroducing older Node assumptions there without checking dependency engine requirements.\n\n## Coding Style & Naming Conventions\nUse TypeScript with 2-space indentation, ESM imports, and no semicolons to match the existing code. Prefer `PascalCase` for React components, `camelCase` for functions, hooks, and stores, and descriptive file names like `teamWatcher.ts` or `AgentTranscript.tsx`. Keep shared UI in `desktop/src/components/`, API clients in `desktop/src/api/`, and avoid adding new dependencies unless the existing utilities cannot cover the change.\n\n## Testing Guidelines\nDesktop tests use Vitest with Testing Library in a `jsdom` environment. Name tests `*.test.ts` or `*.test.tsx`; colocate focused tests near the file or place broader coverage in `desktop/src/__tests__/`. No coverage gate is configured, so add regression tests for any behavior you change and run the relevant suites before opening a PR.\n\n## Commit & Pull Request Guidelines\nRecent history follows Conventional Commit prefixes such as `feat:`, `fix:`, and `docs:`. Keep subjects imperative and scoped to one change. PRs should explain the user-visible impact, list verification steps, link related issues, and include screenshots for desktop or docs UI changes. Keep diffs reviewable and call out any follow-up work or known gaps.\nBranch names should use normal product prefixes such as `fix/xxx`, `feat/xxx`, or `docs/xxx`; do not create `codex/`-prefixed branches in this repository.",
+        "is_error": false
+      },
+      {
+        "tool_use_id": "call_00_VHOPhb9R3mHankC2rWBtnOmX",
+        "type": "tool_result",
+        "content": "# Claude Code Haha\n\n<p align=\"center\">\n  <img src=\"docs/images/app-icon.png\" alt=\"Claude Code Haha\" width=\"240\">\n</p>\n\n<div align=\"center\">\n\n[![GitHub Stars](https://img.shields.io/github/stars/NanmiCoder/cc-haha?style=social)](https://github.com/NanmiCoder/cc-haha/stargazers)\n[![GitHub Forks](https://img.shields.io/github/forks/NanmiCoder/cc-haha?style=social)](https://github.com/NanmiCoder/cc-haha/network/members)\n[![GitHub Issues](https://img.shields.io/github/issues/NanmiCoder/cc-haha)](https://github.com/NanmiCoder/cc-haha/issues)\n[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/NanmiCoder/cc-haha)](https://github.com/NanmiCoder/cc-haha/pulls)\n[![License](https://img.shields.io/github/license/NanmiCoder/cc-haha)](https://github.com/NanmiCoder/cc-haha/blob/main/LICENSE)\n[![中文](https://img.shields.io/badge/🇨🇳_中文-当前-blue)](README.md)\n[![English](https://img.shields.io/badge/🇺🇸_English-Available-green)](README.en.md)\n[![Docs](https://img.shields.io/badge/📖_文档站点-Visit-D97757)](https://claudecode-haha.relakkesyang.org)\n\n</div>\n\n基于 Claude Code 泄露源码修复的**本地可运行版本**，支持接入任意 Anthropic 兼容 API（MiniMax、OpenRouter 等）。在完整 TUI 之外，还补全了 Computer Use（macOS / Windows）、打造了图形化**桌面端**，并支持通过 Telegram / 飞书**完整远程驱动**。\n\n<p align=\"center\">\n  <a href=\"#功能\">功能</a> · <a href=\"#桌面端预览\">桌面端</a> · <a href=\"#架构概览\">架构概览</a> · <a href=\"#快速开始\">快速开始</a> · <a href=\"docs/guide/env-vars.md\">环境变量</a> · <a href=\"docs/guide/faq.md\">FAQ</a> · <a href=\"docs/guide/global-usage.md\">全局使用</a> · <a href=\"#更多文档\">更多文档</a>\n</p>\n\n---\n\n## 功能\n\n- 完整的 Ink TUI 交互界面（与官方 Claude Code 一致）\n- `--print` 无头模式（脚本/CI 场景）\n- 支持 MCP 服务器、插件、Skills\n- 支持自定义 API 端点和模型（[第三方模型使用指南](docs/guide/third-party-models.md)）\n- **记忆系统**（跨会话持久化记忆）— [使用指南](docs/memory/01-usage-guide.md)\n- **多 Agent 系统**（多代理编排、并行任务、Teams 协作）— [使用指南](docs/agent/01-usage-guide.md) | [实现原理](docs/agent/02-implementation.md)\n- **Skills 系统**（可扩展能力插件、自定义工作流）— [使用指南](docs/skills/01-usage-guide.md) | [实现原理](docs/skills/02-implementation.md)\n- **Channel 系统**（通过 Telegram/飞书/Discord 等 IM 远程控制 Agent）— [架构解析](docs/channel/01-channel-system.md)\n- **Computer Use 桌面控制** — [功能指南](docs/features/computer-use.md) | [架构解析](docs/features/computer-use-architecture.md)\n- **桌面端**（Tauri 2 + React 图形化客户端，多标签多会话）— [文档](docs/desktop/)\n- 降级 Recovery CLI 模式（`CLAUDE_CODE_FORCE_RECOVERY_CLI=1 ./bin/claude-haha`）\n\n---\n\n## 架构概览\n\n<table>\n  <tr>\n    <td align=\"center\" width=\"25%\"><img src=\"docs/images/01-overall-architecture.png\" alt=\"整体架构\"><br><b>整体架构</b></td>\n    <td align=\"center\" width=\"25%\"><img src=\"docs/images/02-request-lifecycle.png\" alt=\"请求生命周期\"><br><b>请求生命周期</b></td>\n    <td align=\"center\" width=\"25%\"><img src=\"docs/images/03-tool-system.png\" alt=\"工具系统\"><br><b>工具系统</b></td>\n    <td align=\"center\" width=\"25%\"><img src=\"docs/images/04-multi-agent.png\" alt=\"多 Agent 架构\"><br><b>多 Agent 架构</b></td>\n  </tr>\n  <tr>\n    <td align=\"center\" width=\"25%\"><img src=\"docs/images/05-terminal-ui.png\" alt=\"终端 UI\"><br><b>终端 UI</b></td>\n    <td align=\"center\" width=\"25%\"><img src=\"docs/images/06-permission-security.png\" alt=\"权限与安全\"><br><b>权限与安全</b></td>\n    <td align=\"center\" width=\"25%\"><img src=\"docs/images/07-services-layer.png\" alt=\"服务层\"><br><b>服务层</b></td>\n    <td align=\"center\" width=\"25%\"><img src=\"docs/images/08-state-data-flow.png\" alt=\"状态与数据流\"><br><b>状态与数据流</b></td>\n  </tr>\n</table>\n\n---\n\n## 桌面端预览\n\n<p align=\"center\">\n  <a href=\"https://github.com/NanmiCoder/cc-haha/releases\"><img src=\"https://img.shields.io/badge/⬇_下载桌面端-macOS_%7C_Windows-D97757?style=for-the-badge\" alt=\"下载桌面端\"></a>\n  &nbsp;\n  <a href=\"docs/desktop/04-installation.md\"><img src=\"https://img.shields.io/badge/📖_安装指南-Guide-gray?style=for-the-badge\" alt=\"安装指南\"></a>\n</p>\n\n<table>\n  <tr>\n    <td align=\"center\" width=\"33%\"><img src=\"docs/images/desktop_ui/01_full_ui.png\" alt=\"主界面\"><br><b>主界面</b></td>\n    <td align=\"center\" width=\"33%\"><img src=\"docs/images/desktop_ui/02_edit_code.png\" alt=\"代码编辑\"><br><b>代码编辑 & Diff 视图</b></td>\n    <td align=\"center\" width=\"33%\"><img src=\"docs/images/desktop_ui/03_ask_question_and_permission.png\" alt=\"权限控制\"><br><b>权限控制 & AI 提问</b></td>\n  </tr>\n  <tr>\n    <td align=\"center\" width=\"33%\"><img src=\"docs/images/desktop_ui/05_settings.png\" alt=\"提供商设置\"><br><b>多提供商管理</b></td>\n    <td align=\"center\" width=\"33%\"><img src=\"docs/images/desktop_ui/08_scheduled_task.png\" alt=\"定时任务\"><br><b>定时任务</b></td>\n    <td align=\"center\" width=\"33%\"><img src=\"docs/images/desktop_ui/07_im.png\" alt=\"IM 适配器\"><br><b>IM 适配器（Telegram / 飞书）</b></td>\n  </tr>\n</table>\n\n---\n\n## 快速开始\n\n### 1. 安装 Bun\n\n```bash\n# macOS / Linux\ncurl -fsSL https://bun.sh/install | bash\n\n# macOS (Homebrew)\nbrew install bun\n\n# Windows (PowerShell)\npowershell -c \"irm bun.sh/install.ps1 | iex\"\n```",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_loiMPfQCqIMHjGlzwo0FhIMp",
+        "name": "Bash",
+        "input": {
+          "command": "find /f/codebuddycn/cc-haha/src -type f -name \"*.ts\" | head -50",
+          "description": "Find TypeScript source files"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_ScilebU3iAvTgo5fFcM9Nump",
+        "name": "Grep",
+        "input": {
+          "pattern": "trim",
+          "path": "[CWD]/src",
+          "-i": true,
+          "output_mode": "files_with_matches"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_ScilebU3iAvTgo5fFcM9Nump"
+      },
+      {
+        "tool_use_id": "call_00_loiMPfQCqIMHjGlzwo0FhIMp",
+        "type": "tool_result",
+        "content": "/f/codebuddycn/cc-haha/src/assistant/AssistantSessionChooser.ts\n/f/codebuddycn/cc-haha/src/assistant/gate.ts\n/f/codebuddycn/cc-haha/src/assistant/index.ts\n/f/codebuddycn/cc-haha/src/assistant/sessionDiscovery.ts\n/f/codebuddycn/cc-haha/src/assistant/sessionHistory.ts\n/f/codebuddycn/cc-haha/src/bootstrap/state.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgeApi.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgeConfig.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgeDebug.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgeEnabled.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgeMain.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgeMessaging.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgePermissionCallbacks.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgePointer.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgeStatusUtil.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgeUI.ts\n/f/codebuddycn/cc-haha/src/bridge/capacityWake.ts\n/f/codebuddycn/cc-haha/src/bridge/codeSessionApi.ts\n/f/codebuddycn/cc-haha/src/bridge/createSession.ts\n/f/codebuddycn/cc-haha/src/bridge/debugUtils.ts\n/f/codebuddycn/cc-haha/src/bridge/envLessBridgeConfig.ts\n/f/codebuddycn/cc-haha/src/bridge/flushGate.ts\n/f/codebuddycn/cc-haha/src/bridge/inboundAttachments.ts\n/f/codebuddycn/cc-haha/src/bridge/inboundMessages.ts\n/f/codebuddycn/cc-haha/src/bridge/initReplBridge.ts\n/f/codebuddycn/cc-haha/src/bridge/jwtUtils.ts\n/f/codebuddycn/cc-haha/src/bridge/peerSessions.ts\n/f/codebuddycn/cc-haha/src/bridge/pollConfig.ts\n/f/codebuddycn/cc-haha/src/bridge/pollConfigDefaults.ts\n/f/codebuddycn/cc-haha/src/bridge/remoteBridgeCore.ts\n/f/codebuddycn/cc-haha/src/bridge/replBridge.ts\n/f/codebuddycn/cc-haha/src/bridge/replBridgeHandle.ts\n/f/codebuddycn/cc-haha/src/bridge/replBridgeTransport.ts\n/f/codebuddycn/cc-haha/src/bridge/sessionIdCompat.ts\n/f/codebuddycn/cc-haha/src/bridge/sessionRunner.ts\n/f/codebuddycn/cc-haha/src/bridge/trustedDevice.ts\n/f/codebuddycn/cc-haha/src/bridge/types.ts\n/f/codebuddycn/cc-haha/src/bridge/webhookSanitizer.ts\n/f/codebuddycn/cc-haha/src/bridge/workSecret.ts\n/f/codebuddycn/cc-haha/src/buddy/companion.ts\n/f/codebuddycn/cc-haha/src/buddy/observer.ts\n/f/codebuddycn/cc-haha/src/buddy/prompt.ts\n/f/codebuddycn/cc-haha/src/buddy/sprites.ts\n/f/codebuddycn/cc-haha/src/buddy/types.ts\n/f/codebuddycn/cc-haha/src/cli/bg.ts\n/f/codebuddycn/cc-haha/src/cli/exit.ts\n/f/codebuddycn/cc-haha/src/cli/handlers/agents.ts\n/f/codebuddycn/cc-haha/src/cli/handlers/ant.ts\n/f/codebuddycn/cc-haha/src/cli/handlers/auth.ts\n/f/codebuddycn/cc-haha/src/cli/handlers/autoMode.ts\n\n<system-reminder>\nThe task tools haven't been used recently. If you're working on tasks that would benefit from tracking progress, consider using TaskCreate to add new tasks and TaskUpdate to update task status (set to in_progress when starting, completed when done). Also consider cleaning up the task list if it has become stale. Only use these if relevant to the current work. This is just a gentle reminder - ignore if not applicable. Make sure that you NEVER mention this reminder to the user\n\n</system-reminder>",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_t8dBqbCQKQLIWMiyUbp6KkfC",
+        "name": "Bash",
+        "input": {
+          "command": "grep -r -l \"trim\" /f/codebuddycn/cc-haha/src --include=\"*.ts\" 2>/dev/null",
+          "description": "Search for \"trim\" in source files"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_fhdrBmH6OqaELgzXRqqyluZO",
+        "name": "Bash",
+        "input": {
+          "command": "grep -r -l \"trigger\" /f/codebuddycn/cc-haha/src --include=\"*.ts\" 2>/dev/null",
+          "description": "Search for \"trigger\" in source files"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_01_fhdrBmH6OqaELgzXRqqyluZO",
+        "type": "tool_result",
+        "content": "/f/codebuddycn/cc-haha/src/bootstrap/state.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgeMain.ts\n/f/codebuddycn/cc-haha/src/bridge/bridgeMessaging.ts\n/f/codebuddycn/cc-haha/src/bridge/replBridge.ts\n/f/codebuddycn/cc-haha/src/bridge/trustedDevice.ts\n/f/codebuddycn/cc-haha/src/cli/print.ts\n/f/codebuddycn/cc-haha/src/cli/remoteIO.ts\n/f/codebuddycn/cc-haha/src/commands/bridge-kick.ts\n/f/codebuddycn/cc-haha/src/commands/clear/caches.ts\n/f/codebuddycn/cc-haha/src/commands/clear/conversation.ts\n/f/codebuddycn/cc-haha/src/commands/compact/compact.ts\n/f/codebuddycn/cc-haha/src/commands/context/context-noninteractive.ts\n/f/codebuddycn/cc-haha/src/commands/init.ts\n/f/codebuddycn/cc-haha/src/commands/review.ts\n/f/codebuddycn/cc-haha/src/commands/security-review.ts\n/f/codebuddycn/cc-haha/src/components/agents/generateAgent.ts\n/f/codebuddycn/cc-haha/src/components/FeedbackSurvey/submitTranscriptShare.ts\n/f/codebuddycn/cc-haha/src/components/ManagedSettingsSecurityDialog/utils.ts\n/f/codebuddycn/cc-haha/src/components/permissions/useShellPermissionFeedback.ts\n/f/codebuddycn/cc-haha/src/constants/figures.ts\n/f/codebuddycn/cc-haha/src/constants/github-app.ts\n/f/codebuddycn/cc-haha/src/constants/outputStyles.ts\n/f/codebuddycn/cc-haha/src/entrypoints/sdk/coreSchemas.ts\n/f/codebuddycn/cc-haha/src/hooks/fileSuggestions.ts\n/f/codebuddycn/cc-haha/src/hooks/toolPermission/handlers/interactiveHandler.ts\n/f/codebuddycn/cc-haha/src/hooks/useClipboardImageHint.ts\n/f/codebuddycn/cc-haha/src/hooks/useCopyOnSelect.ts\n/f/codebuddycn/cc-haha/src/hooks/useElapsedTime.ts\n/f/codebuddycn/cc-haha/src/hooks/useExitOnCtrlCD.ts\n/f/codebuddycn/cc-haha/src/hooks/useHistorySearch.ts\n/f/codebuddycn/cc-haha/src/hooks/useQueueProcessor.ts\n/f/codebuddycn/cc-haha/src/hooks/useSkillsChange.ts\n/f/codebuddycn/cc-haha/src/hooks/useTaskListWatcher.ts\n/f/codebuddycn/cc-haha/src/hooks/useTextInput.ts\n/f/codebuddycn/cc-haha/src/hooks/useVirtualScroll.ts\n/f/codebuddycn/cc-haha/src/hooks/useVoice.ts\n/f/codebuddycn/cc-haha/src/ink/dom.ts\n/f/codebuddycn/cc-haha/src/ink/events/input-event.ts\n/f/codebuddycn/cc-haha/src/ink/frame.ts\n/f/codebuddycn/cc-haha/src/ink/hooks/use-terminal-viewport.ts\n/f/codebuddycn/cc-haha/src/ink/log-update.ts\n/f/codebuddycn/cc-haha/src/ink/render-node-to-output.ts\n/f/codebuddycn/cc-haha/src/ink/renderer.ts\n/f/codebuddycn/cc-haha/src/ink/termio/osc.ts\n/f/codebuddycn/cc-haha/src/ink/useTerminalNotification.ts\n/f/codebuddycn/cc-haha/src/keybindings/schema.ts\n/f/codebuddycn/cc-haha/src/memdir/memoryAge.ts\n/f/codebuddycn/cc-haha/src/memdir/memoryTypes.ts\n/f/codebuddycn/cc-haha/src/query.ts\n/f/codebuddycn/cc-haha/src/QueryEngine.ts\n/f/codebuddycn/cc-haha/src/server/api/computer-use.ts\n/f/codebuddycn/cc-haha/src/server/api/filesystem.ts\n/f/codebuddycn/cc-haha/src/server/ws/handler.ts\n/f/codebuddycn/cc-haha/src/server/__tests__/conversations.test.ts\n/f/codebuddycn/cc-haha/src/server/__tests__/cron-scheduler.test.ts\n/f/codebuddycn/cc-haha/src/services/analytics/datadog.ts\n/f/codebuddycn/cc-haha/src/services/analytics/firstPartyEventLoggingExporter.ts\n/f/codebuddycn/cc-haha/src/services/analytics/growthbook.ts\n/f/codebuddycn/cc-haha/src/services/api/claude.ts\n/f/codebuddycn/cc-haha/src/services/api/errors.ts\n/f/codebuddycn/cc-haha/src/services/api/grove.ts\n/f/codebuddycn/cc-haha/src/services/api/overageCreditGrant.ts\n/f/codebuddycn/cc-haha/src/services/api/promptCacheBreakDetection.ts\n/f/codebuddycn/cc-haha/src/services/api/referral.ts\n/f/codebuddycn/cc-haha/src/services/api/withRetry.ts\n/f/codebuddycn/cc-haha/src/services/autoDream/consolidationLock.ts\n/f/codebuddycn/cc-haha/src/services/claudeAiLimits.ts\n/f/codebuddycn/cc-haha/src/services/compact/apiMicrocompact.ts\n/f/codebuddycn/cc-haha/src/services/compact/compact.ts\n/f/codebuddycn/cc-haha/src/services/compact/microCompact.ts\n/f/codebuddycn/cc-haha/src/services/compact/sessionMemoryCompact.ts\n/f/codebuddycn/cc-haha/src/services/lsp/LSPServerManager.ts\n/f/codebuddycn/cc-haha/src/services/mcp/auth.ts\n/f/codebuddycn/cc-haha/src/services/mcp/client.ts\n/f/codebuddycn/cc-haha/src/services/mockRateLimits.ts\n/f/codebuddycn/cc-haha/src/services/remoteManagedSettings/index.ts\n/f/codebuddycn/cc-haha/src/services/SessionMemory/sessionMemory.ts\n/f/codebuddycn/cc-haha/src/services/teamMemorySync/index.ts\n/f/codebuddycn/cc-haha/src/services/teamMemorySync/watcher.ts\n/f/codebuddycn/cc-haha/src/services/tokenEstimation.ts\n/f/codebuddycn/cc-haha/src/services/voice.ts\n/f/codebuddycn/cc-haha/src/services/voiceStreamSTT.ts\n/f/codebuddycn/cc-haha/src/skills/bundled/scheduleRemoteAgents.ts\n/f/codebuddycn/cc-haha/src/skills/bundled/skillify.ts\n/f/codebuddycn/cc-haha/src/skills/bundled/updateConfig.ts\n/f/codebuddycn/cc-haha/src/state/AppStateStore.ts\n/f/codebuddycn/cc-haha/src/state/teammateViewHelpers.ts\n/f/codebuddycn/cc-haha/src/Tool.ts\n/f/codebuddycn/cc-haha/src/tools/AgentTool/forkSubagent.ts\n/f/codebuddycn/cc-haha/src/tools/AgentTool/runAgent.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/bashCommandHelpers.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/bashPermissions.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/bashSecurity.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/modeValidation.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/readOnlyValidation.ts\n/f/codebuddycn/cc-haha/src/tools/FileEditTool/FileEditTool.ts\n/f/codebuddycn/cc-haha/src/tools/FileWriteTool/FileWriteTool.ts\n/f/codebuddycn/cc-haha/src/tools/McpAuthTool/McpAuthTool.ts\n/f/codebuddycn/cc-haha/src/tools/PowerShellTool/clmTypes.ts\n/f/codebuddycn/cc-haha/src/tools/PowerShellTool/pathValidation.ts\n/f/codebuddycn/cc-haha/src/tools/PowerShellTool/powershellPermissions.ts\n/f/codebuddycn/cc-haha/src/tools/PowerShellTool/powershellSecurity.ts\n/f/codebuddycn/cc-haha/src/tools/PowerShellTool/readOnlyValidation.ts\n/f/codebuddycn/cc-haha/src/tools/RemoteTriggerTool/prompt.ts\n/f/codebuddycn/cc-haha/src/tools/RemoteTriggerTool/RemoteTriggerTool.ts\n/f/codebuddycn/cc-haha/src/tools/shared/spawnMultiAgent.ts\n/f/codebuddycn/cc-haha/src/tools/SkillTool/SkillTool.ts\n/f/codebuddycn/cc-haha/src/tools/TaskUpdateTool/TaskUpdateTool.ts\n/f/codebuddycn/cc-haha/src/tools/WebFetchTool/utils.ts\n/f/codebuddycn/cc-haha/src/types/generated/events_mono/claude_code/v1/claude_code_internal_event.ts\n/f/codebuddycn/cc-haha/src/types/logs.ts\n/f/codebuddycn/cc-haha/src/types/permissions.ts\n/f/codebuddycn/cc-haha/src/types/textInputTypes.ts\n/f/codebuddycn/cc-haha/src/utils/attachments.ts\n/f/codebuddycn/cc-haha/src/utils/auth.ts\n/f/codebuddycn/cc-haha/src/utils/bash/ast.ts\n/f/codebuddycn/cc-haha/src/utils/bash/parser.ts\n/f/codebuddycn/cc-haha/src/utils/claudeInChrome/prompt.ts\n/f/codebuddycn/cc-haha/src/utils/collapseReadSearch.ts\n/f/codebuddycn/cc-haha/src/utils/computerUse/setup.ts\n/f/codebuddycn/cc-haha/src/utils/contextSuggestions.ts\n/f/codebuddycn/cc-haha/src/utils/conversationRecovery.ts\n/f/codebuddycn/cc-haha/src/utils/cron.ts\n/f/codebuddycn/cc-haha/src/utils/cronJitterConfig.ts\n/f/codebuddycn/cc-haha/src/utils/cronScheduler.ts\n/f/codebuddycn/cc-haha/src/utils/cronTasks.ts\n/f/codebuddycn/cc-haha/src/utils/Cursor.ts\n/f/codebuddycn/cc-haha/src/utils/effort.ts\n/f/codebuddycn/cc-haha/src/utils/errors.ts\n/f/codebuddycn/cc-haha/src/utils/fastMode.ts\n/f/codebuddycn/cc-haha/src/utils/file.ts\n/f/codebuddycn/cc-haha/src/utils/fileHistory.ts\n/f/codebuddycn/cc-haha/src/utils/filePersistence/filePersistence.ts\n/f/codebuddycn/cc-haha/src/utils/fullscreen.ts\n/f/codebuddycn/cc-haha/src/utils/gracefulShutdown.ts\n/f/codebuddycn/cc-haha/src/utils/handlePromptSubmit.ts\n/f/codebuddycn/cc-haha/src/utils/heapDumpService.ts\n/f/codebuddycn/cc-haha/src/utils/hooks/execAgentHook.ts\n/f/codebuddycn/cc-haha/src/utils/hooks/execPromptHook.ts\n/f/codebuddycn/cc-haha/src/utils/hooks/hooksConfigManager.ts\n/f/codebuddycn/cc-haha/src/utils/hooks/registerFrontmatterHooks.ts\n/f/codebuddycn/cc-haha/src/utils/hooks.ts\n/f/codebuddycn/cc-haha/src/utils/ide.ts\n/f/codebuddycn/cc-haha/src/utils/listSessionsImpl.ts\n/f/codebuddycn/cc-haha/src/utils/managedEnvConstants.ts\n/f/codebuddycn/cc-haha/src/utils/messages/mappers.ts\n/f/codebuddycn/cc-haha/src/utils/messages.ts\n/f/codebuddycn/cc-haha/src/utils/nativeInstaller/installer.ts\n/f/codebuddycn/cc-haha/src/utils/permissions/pathValidation.ts\n/f/codebuddycn/cc-haha/src/utils/plans.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/hintRecommendation.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/installedPluginsManager.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/marketplaceManager.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/pluginInstallationHelpers.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/pluginOptionsStorage.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/pluginStartupCheck.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/refresh.ts\n/f/codebuddycn/cc-haha/src/utils/powershell/parser.ts\n/f/codebuddycn/cc-haha/src/utils/processUserInput/processUserInput.ts\n/f/codebuddycn/cc-haha/src/utils/queueProcessor.ts\n/f/codebuddycn/cc-haha/src/utils/releaseNotes.ts\n/f/codebuddycn/cc-haha/src/utils/ripgrep.ts\n/f/codebuddycn/cc-haha/src/utils/sdkEventQueue.ts\n/f/codebuddycn/cc-haha/src/utils/secureStorage/macOsKeychainHelpers.ts\n/f/codebuddycn/cc-haha/src/utils/sessionStart.ts\n/f/codebuddycn/cc-haha/src/utils/sessionStoragePortable.ts\n/f/codebuddycn/cc-haha/src/utils/settings/changeDetector.ts\n/f/codebuddycn/cc-haha/src/utils/settings/settingsCache.ts\n/f/codebuddycn/cc-haha/src/utils/shell/powershellProvider.ts\n/f/codebuddycn/cc-haha/src/utils/shell/readOnlyCommandValidation.ts\n/f/codebuddycn/cc-haha/src/utils/sideQuestion.ts\n/f/codebuddycn/cc-haha/src/utils/skills/skillChangeDetector.ts\n/f/codebuddycn/cc-haha/src/utils/swarm/inProcessRunner.ts\n/f/codebuddycn/cc-haha/src/utils/task/TaskOutput.ts\n/f/codebuddycn/cc-haha/src/utils/teammateMailbox.ts\n/f/codebuddycn/cc-haha/src/utils/telemetry/bigqueryExporter.ts\n/f/codebuddycn/cc-haha/src/utils/telemetry/perfettoTracing.ts\n/f/codebuddycn/cc-haha/src/utils/telemetry/pluginTelemetry.ts\n/f/codebuddycn/cc-haha/src/utils/telemetry/sessionTracing.ts\n/f/codebuddycn/cc-haha/src/utils/ultraplan/keyword.ts\n/f/codebuddycn/cc-haha/src/vendor/computer-use-mcp/toolCalls.ts\n/f/codebuddycn/cc-haha/src/vendor/computer-use-mcp/tools.ts\n/f/codebuddycn/cc-haha/src/vendor/computer-use-mcp/types.ts",
+        "is_error": false
+      },
+      {
+        "tool_use_id": "call_00_t8dBqbCQKQLIWMiyUbp6KkfC",
+        "type": "tool_result",
+        "content": "/f/codebuddycn/cc-haha/src/bridge/bridgeMain.ts\n/f/codebuddycn/cc-haha/src/bridge/inboundAttachments.ts\n/f/codebuddycn/cc-haha/src/bridge/initReplBridge.ts\n/f/codebuddycn/cc-haha/src/bridge/sessionRunner.ts\n/f/codebuddycn/cc-haha/src/buddy/sprites.ts\n/f/codebuddycn/cc-haha/src/cli/handlers/agents.ts\n/f/codebuddycn/cc-haha/src/cli/print.ts\n/f/codebuddycn/cc-haha/src/cli/transports/SSETransport.ts\n/f/codebuddycn/cc-haha/src/commands/advisor.ts\n/f/codebuddycn/cc-haha/src/commands/branch/branch.ts\n/f/codebuddycn/cc-haha/src/commands/bridge-kick.ts\n/f/codebuddycn/cc-haha/src/commands/color/color.ts\n/f/codebuddycn/cc-haha/src/commands/commit-push-pr.ts\n/f/codebuddycn/cc-haha/src/commands/compact/compact.ts\n/f/codebuddycn/cc-haha/src/commands/insights.ts\n/f/codebuddycn/cc-haha/src/commands/install-github-app/setupGitHubActions.ts\n/f/codebuddycn/cc-haha/src/commands/plugin/parseArgs.ts\n/f/codebuddycn/cc-haha/src/commands/rename/rename.ts\n/f/codebuddycn/cc-haha/src/commands/review/reviewRemote.ts\n/f/codebuddycn/cc-haha/src/components/agents/generateAgent.ts\n/f/codebuddycn/cc-haha/src/components/CustomSelect/use-select-input.ts\n/f/codebuddycn/cc-haha/src/components/FeedbackSurvey/useDebouncedDigitInput.ts\n/f/codebuddycn/cc-haha/src/components/permissions/FilePermissionDialog/useFilePermissionDialog.ts\n/f/codebuddycn/cc-haha/src/components/permissions/useShellPermissionFeedback.ts\n/f/codebuddycn/cc-haha/src/context.ts\n/f/codebuddycn/cc-haha/src/entrypoints/mcp.ts\n/f/codebuddycn/cc-haha/src/hooks/fileSuggestions.ts\n/f/codebuddycn/cc-haha/src/hooks/toolPermission/PermissionContext.ts\n/f/codebuddycn/cc-haha/src/hooks/useCopyOnSelect.ts\n/f/codebuddycn/cc-haha/src/hooks/usePasteHandler.ts\n/f/codebuddycn/cc-haha/src/hooks/useSSHSession.ts\n/f/codebuddycn/cc-haha/src/hooks/useTextInput.ts\n/f/codebuddycn/cc-haha/src/hooks/useVirtualScroll.ts\n/f/codebuddycn/cc-haha/src/hooks/useVoice.ts\n/f/codebuddycn/cc-haha/src/ink/log-update.ts\n/f/codebuddycn/cc-haha/src/ink/reconciler.ts\n/f/codebuddycn/cc-haha/src/ink/render-node-to-output.ts\n/f/codebuddycn/cc-haha/src/ink/screen.ts\n/f/codebuddycn/cc-haha/src/ink/selection.ts\n/f/codebuddycn/cc-haha/src/ink/styles.ts\n/f/codebuddycn/cc-haha/src/ink/wrap-text.ts\n/f/codebuddycn/cc-haha/src/ink/wrapAnsi.ts\n/f/codebuddycn/cc-haha/src/keybindings/parser.ts\n/f/codebuddycn/cc-haha/src/keybindings/reservedShortcuts.ts\n/f/codebuddycn/cc-haha/src/keybindings/validate.ts\n/f/codebuddycn/cc-haha/src/localRecoveryCli.ts\n/f/codebuddycn/cc-haha/src/memdir/memdir.ts\n/f/codebuddycn/cc-haha/src/native-ts/color-diff/index.ts\n/f/codebuddycn/cc-haha/src/outputStyles/loadOutputStylesDir.ts\n/f/codebuddycn/cc-haha/src/query/stopHooks.ts\n/f/codebuddycn/cc-haha/src/server/api/computer-use-python.ts\n/f/codebuddycn/cc-haha/src/server/api/computer-use.ts\n/f/codebuddycn/cc-haha/src/server/api/mcp.ts\n/f/codebuddycn/cc-haha/src/server/api/sessions.ts\n/f/codebuddycn/cc-haha/src/server/api/skills.ts\n/f/codebuddycn/cc-haha/src/server/directConnectManager.ts\n/f/codebuddycn/cc-haha/src/server/proxy/streaming/openaiChatStreamToAnthropic.ts\n/f/codebuddycn/cc-haha/src/server/proxy/streaming/openaiResponsesStreamToAnthropic.ts\n/f/codebuddycn/cc-haha/src/server/services/agentService.ts\n/f/codebuddycn/cc-haha/src/server/services/conversationService.ts\n/f/codebuddycn/cc-haha/src/server/services/cronScheduler.ts\n/f/codebuddycn/cc-haha/src/server/services/desktopCliLauncherService.ts\n/f/codebuddycn/cc-haha/src/server/services/mcpHostPreflight.ts\n/f/codebuddycn/cc-haha/src/server/services/notificationService.ts\n/f/codebuddycn/cc-haha/src/server/services/pluginService.ts\n/f/codebuddycn/cc-haha/src/server/services/sessionRewindService.ts\n/f/codebuddycn/cc-haha/src/server/services/sessionService.ts\n/f/codebuddycn/cc-haha/src/server/services/teamService.ts\n/f/codebuddycn/cc-haha/src/server/services/teamWatcher.ts\n/f/codebuddycn/cc-haha/src/server/services/titleService.ts\n/f/codebuddycn/cc-haha/src/server/ws/handler.ts\n/f/codebuddycn/cc-haha/src/server/__tests__/computer-use-python.test.ts\n/f/codebuddycn/cc-haha/src/server/__tests__/computer-use-requirements.test.ts\n/f/codebuddycn/cc-haha/src/server/__tests__/conversations.test.ts\n/f/codebuddycn/cc-haha/src/server/__tests__/cron-scheduler.test.ts\n/f/codebuddycn/cc-haha/src/server/__tests__/e2e/business-flow.test.ts\n/f/codebuddycn/cc-haha/src/server/__tests__/fixtures/mock-sdk-cli.ts\n/f/codebuddycn/cc-haha/src/server/__tests__/sessions.test.ts\n/f/codebuddycn/cc-haha/src/services/AgentSummary/agentSummary.ts\n/f/codebuddycn/cc-haha/src/services/analytics/metadata.ts\n/f/codebuddycn/cc-haha/src/services/api/client.ts\n/f/codebuddycn/cc-haha/src/services/api/errorUtils.ts\n/f/codebuddycn/cc-haha/src/services/autoDream/autoDream.ts\n/f/codebuddycn/cc-haha/src/services/autoDream/consolidationLock.ts\n/f/codebuddycn/cc-haha/src/services/compact/prompt.ts\n/f/codebuddycn/cc-haha/src/services/internalLogging.ts\n/f/codebuddycn/cc-haha/src/services/lsp/LSPClient.ts\n/f/codebuddycn/cc-haha/src/services/MagicDocs/magicDocs.ts\n/f/codebuddycn/cc-haha/src/services/mcp/client.ts\n/f/codebuddycn/cc-haha/src/services/mcp/headersHelper.ts\n/f/codebuddycn/cc-haha/src/services/mcp/mcpStringUtils.ts\n/f/codebuddycn/cc-haha/src/services/mcp/utils.ts\n/f/codebuddycn/cc-haha/src/services/notifier.ts\n/f/codebuddycn/cc-haha/src/services/PromptSuggestion/promptSuggestion.ts\n/f/codebuddycn/cc-haha/src/services/PromptSuggestion/speculation.ts\n/f/codebuddycn/cc-haha/src/services/SessionMemory/prompts.ts\n/f/codebuddycn/cc-haha/src/services/settingsSync/index.ts\n/f/codebuddycn/cc-haha/src/services/teamMemorySync/index.ts\n/f/codebuddycn/cc-haha/src/services/tools/toolExecution.ts\n/f/codebuddycn/cc-haha/src/services/toolUseSummary/toolUseSummaryGenerator.ts\n/f/codebuddycn/cc-haha/src/services/voice.ts\n/f/codebuddycn/cc-haha/src/services/voiceKeyterms.ts\n/f/codebuddycn/cc-haha/src/services/voiceStreamSTT.ts\n/f/codebuddycn/cc-haha/src/setup.ts\n/f/codebuddycn/cc-haha/src/skills/bundled/batch.ts\n/f/codebuddycn/cc-haha/src/skills/bundled/claudeApi.ts\n/f/codebuddycn/cc-haha/src/skills/bundled/loop.ts\n/f/codebuddycn/cc-haha/src/skills/bundled/loremIpsum.ts\n/f/codebuddycn/cc-haha/src/skills/bundled/skillify.ts\n/f/codebuddycn/cc-haha/src/skills/bundled/updateConfig.ts\n/f/codebuddycn/cc-haha/src/skills/bundled/verify.ts\n/f/codebuddycn/cc-haha/src/tools/AgentTool/agentMemory.ts\n/f/codebuddycn/cc-haha/src/tools/AgentTool/agentToolUtils.ts\n/f/codebuddycn/cc-haha/src/tools/AgentTool/loadAgentsDir.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/bashCommandHelpers.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/bashPermissions.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/bashSecurity.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/commandSemantics.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/commentLabel.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/modeValidation.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/readOnlyValidation.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/sedEditParser.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/sedValidation.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/shouldUseSandbox.ts\n/f/codebuddycn/cc-haha/src/tools/BashTool/utils.ts\n/f/codebuddycn/cc-haha/src/tools/ConfigTool/ConfigTool.ts\n/f/codebuddycn/cc-haha/src/tools/ExitPlanModeTool/ExitPlanModeV2Tool.ts\n/f/codebuddycn/cc-haha/src/tools/ExitWorktreeTool/ExitWorktreeTool.ts\n/f/codebuddycn/cc-haha/src/tools/FileEditTool/FileEditTool.ts\n/f/codebuddycn/cc-haha/src/tools/FileReadTool/FileReadTool.ts\n/f/codebuddycn/cc-haha/src/tools/LSPTool/LSPTool.ts\n/f/codebuddycn/cc-haha/src/tools/PowerShellTool/clmTypes.ts\n/f/codebuddycn/cc-haha/src/tools/PowerShellTool/commandSemantics.ts\n/f/codebuddycn/cc-haha/src/tools/PowerShellTool/powershellPermissions.ts\n/f/codebuddycn/cc-haha/src/tools/PowerShellTool/readOnlyValidation.ts\n/f/codebuddycn/cc-haha/src/tools/SendMessageTool/prompt.ts\n/f/codebuddycn/cc-haha/src/tools/SendMessageTool/SendMessageTool.ts\n/f/codebuddycn/cc-haha/src/tools/shared/gitOperationTracking.ts\n/f/codebuddycn/cc-haha/src/tools/shared/spawnMultiAgent.ts\n/f/codebuddycn/cc-haha/src/tools/SkillTool/prompt.ts\n/f/codebuddycn/cc-haha/src/tools/SkillTool/SkillTool.ts\n/f/codebuddycn/cc-haha/src/tools/TeamCreateTool/prompt.ts\n/f/codebuddycn/cc-haha/src/tools/TeamCreateTool/TeamCreateTool.ts\n/f/codebuddycn/cc-haha/src/tools/TeamDeleteTool/prompt.ts\n/f/codebuddycn/cc-haha/src/tools/ToolSearchTool/ToolSearchTool.ts\n/f/codebuddycn/cc-haha/src/tools/WebSearchTool/WebSearchTool.ts\n/f/codebuddycn/cc-haha/src/upstreamproxy/upstreamproxy.ts\n/f/codebuddycn/cc-haha/src/utils/agenticSessionSearch.ts\n/f/codebuddycn/cc-haha/src/utils/analyzeContext.ts\n/f/codebuddycn/cc-haha/src/utils/ansiToPng.ts\n/f/codebuddycn/cc-haha/src/utils/ansiToSvg.ts\n/f/codebuddycn/cc-haha/src/utils/api.ts\n/f/codebuddycn/cc-haha/src/utils/argumentSubstitution.ts\n/f/codebuddycn/cc-haha/src/utils/attachments.ts\n/f/codebuddycn/cc-haha/src/utils/attribution.ts\n/f/codebuddycn/cc-haha/src/utils/auth.ts\n/f/codebuddycn/cc-haha/src/utils/authFileDescriptor.ts\n/f/codebuddycn/cc-haha/src/utils/autoUpdater.ts\n/f/codebuddycn/cc-haha/src/utils/bash/ast.ts\n/f/codebuddycn/cc-haha/src/utils/bash/commands.ts\n/f/codebuddycn/cc-haha/src/utils/bash/ParsedCommand.ts\n/f/codebuddycn/cc-haha/src/utils/bash/prefix.ts\n/f/codebuddycn/cc-haha/src/utils/bash/shellCompletion.ts\n/f/codebuddycn/cc-haha/src/utils/betas.ts\n/f/codebuddycn/cc-haha/src/utils/binaryCheck.ts\n/f/codebuddycn/cc-haha/src/utils/claudeCodeHints.ts\n/f/codebuddycn/cc-haha/src/utils/claudemd.ts\n/f/codebuddycn/cc-haha/src/utils/codeIndexing.ts\n/f/codebuddycn/cc-haha/src/utils/collapseReadSearch.ts\n/f/codebuddycn/cc-haha/src/utils/commitAttribution.ts\n/f/codebuddycn/cc-haha/src/utils/computerUse/appNames.ts\n/f/codebuddycn/cc-haha/src/utils/computerUse/pythonBridge.ts\n/f/codebuddycn/cc-haha/src/utils/cron.ts\n/f/codebuddycn/cc-haha/src/utils/cronFrequency.ts\n/f/codebuddycn/cc-haha/src/utils/Cursor.ts\n/f/codebuddycn/cc-haha/src/utils/debug.ts\n/f/codebuddycn/cc-haha/src/utils/debugFilter.ts\n/f/codebuddycn/cc-haha/src/utils/deepLink/parseDeepLink.ts\n/f/codebuddycn/cc-haha/src/utils/deepLink/terminalLauncher.ts\n/f/codebuddycn/cc-haha/src/utils/desktopDeepLink.ts\n/f/codebuddycn/cc-haha/src/utils/detectRepository.ts\n/f/codebuddycn/cc-haha/src/utils/directMemberMessage.ts\n/f/codebuddycn/cc-haha/src/utils/displayTags.ts\n/f/codebuddycn/cc-haha/src/utils/doctorDiagnostic.ts\n/f/codebuddycn/cc-haha/src/utils/earlyInput.ts\n/f/codebuddycn/cc-haha/src/utils/editor.ts\n/f/codebuddycn/cc-haha/src/utils/env.ts\n/f/codebuddycn/cc-haha/src/utils/envUtils.ts\n/f/codebuddycn/cc-haha/src/utils/errors.ts\n/f/codebuddycn/cc-haha/src/utils/exampleCommands.ts\n/f/codebuddycn/cc-haha/src/utils/execFileNoThrowPortable.ts\n/f/codebuddycn/cc-haha/src/utils/extraUsage.ts\n/f/codebuddycn/cc-haha/src/utils/frontmatterParser.ts\n/f/codebuddycn/cc-haha/src/utils/fullscreen.ts\n/f/codebuddycn/cc-haha/src/utils/genericProcessUtils.ts\n/f/codebuddycn/cc-haha/src/utils/ghPrStatus.ts\n/f/codebuddycn/cc-haha/src/utils/git/gitConfigParser.ts\n/f/codebuddycn/cc-haha/src/utils/git/gitFilesystem.ts\n/f/codebuddycn/cc-haha/src/utils/git.ts\n/f/codebuddycn/cc-haha/src/utils/gitDiff.ts\n/f/codebuddycn/cc-haha/src/utils/handlePromptSubmit.ts\n/f/codebuddycn/cc-haha/src/utils/hooks/apiQueryHookHelper.ts\n/f/codebuddycn/cc-haha/src/utils/hooks/AsyncHookRegistry.ts\n/f/codebuddycn/cc-haha/src/utils/hooks/execPromptHook.ts\n/f/codebuddycn/cc-haha/src/utils/hooks/fileChangedWatcher.ts\n/f/codebuddycn/cc-haha/src/utils/hooks/skillImprovement.ts\n/f/codebuddycn/cc-haha/src/utils/hooks.ts\n/f/codebuddycn/cc-haha/src/utils/ide.ts\n/f/codebuddycn/cc-haha/src/utils/idePathConversion.ts\n/f/codebuddycn/cc-haha/src/utils/imagePaste.ts\n/f/codebuddycn/cc-haha/src/utils/json.ts\n/f/codebuddycn/cc-haha/src/utils/log.ts\n/f/codebuddycn/cc-haha/src/utils/logoV2Utils.ts\n/f/codebuddycn/cc-haha/src/utils/markdown.ts\n/f/codebuddycn/cc-haha/src/utils/markdownConfigLoader.ts\n/f/codebuddycn/cc-haha/src/utils/mcp/dateTimeParser.ts\n/f/codebuddycn/cc-haha/src/utils/mcpOutputStorage.ts\n/f/codebuddycn/cc-haha/src/utils/messageQueueManager.ts\n/f/codebuddycn/cc-haha/src/utils/messages/mappers.ts\n/f/codebuddycn/cc-haha/src/utils/messages.ts\n/f/codebuddycn/cc-haha/src/utils/model/model.ts\n/f/codebuddycn/cc-haha/src/utils/model/modelAllowlist.ts\n/f/codebuddycn/cc-haha/src/utils/model/modelSupportOverrides.ts\n/f/codebuddycn/cc-haha/src/utils/model/validateModel.ts\n/f/codebuddycn/cc-haha/src/utils/nativeInstaller/download.ts\n/f/codebuddycn/cc-haha/src/utils/nativeInstaller/installer.ts\n/f/codebuddycn/cc-haha/src/utils/nativeInstaller/packageManagers.ts\n/f/codebuddycn/cc-haha/src/utils/nativeInstaller/pidLock.ts\n/f/codebuddycn/cc-haha/src/utils/path.ts\n/f/codebuddycn/cc-haha/src/utils/pdfUtils.ts\n/f/codebuddycn/cc-haha/src/utils/permissions/bashClassifier.ts\n/f/codebuddycn/cc-haha/src/utils/permissions/permissionSetup.ts\n/f/codebuddycn/cc-haha/src/utils/permissions/permissionsLoader.ts\n/f/codebuddycn/cc-haha/src/utils/permissions/shellRuleMatching.ts\n/f/codebuddycn/cc-haha/src/utils/permissions/yoloClassifier.ts\n/f/codebuddycn/cc-haha/src/utils/planModeV2.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/loadPluginAgents.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/loadPluginOutputStyles.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/marketplaceManager.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/officialMarketplaceGcs.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/parseMarketplaceInput.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/pluginLoader.ts\n/f/codebuddycn/cc-haha/src/utils/plugins/validatePlugin.ts\n/f/codebuddycn/cc-haha/src/utils/powershell/parser.ts\n/f/codebuddycn/cc-haha/src/utils/processUserInput/processTextPrompt.ts\n/f/codebuddycn/cc-haha/src/utils/processUserInput/processUserInput.ts\n/f/codebuddycn/cc-haha/src/utils/promptShellExecution.ts\n/f/codebuddycn/cc-haha/src/utils/proxy.ts\n/f/codebuddycn/cc-haha/src/utils/queryHelpers.ts\n/f/codebuddycn/cc-haha/src/utils/queueProcessor.ts\n/f/codebuddycn/cc-haha/src/utils/releaseNotes.ts\n/f/codebuddycn/cc-haha/src/utils/ripgrep.ts\n/f/codebuddycn/cc-haha/src/utils/sandbox/sandbox-adapter.ts\n/f/codebuddycn/cc-haha/src/utils/secureStorage/keychainPrefetch.ts\n/f/codebuddycn/cc-haha/src/utils/secureStorage/macOsKeychainStorage.ts\n/f/codebuddycn/cc-haha/src/utils/sessionEnvironment.ts\n/f/codebuddycn/cc-haha/src/utils/sessionIngressAuth.ts\n/f/codebuddycn/cc-haha/src/utils/sessionStorage.ts\n/f/codebuddycn/cc-haha/src/utils/sessionStoragePortable.ts\n/f/codebuddycn/cc-haha/src/utils/sessionTitle.ts\n/f/codebuddycn/cc-haha/src/utils/settings/constants.ts\n/f/codebuddycn/cc-haha/src/utils/settings/mdm/settings.ts\n/f/codebuddycn/cc-haha/src/utils/settings/permissionValidation.ts\n/f/codebuddycn/cc-haha/src/utils/settings/settings.ts\n/f/codebuddycn/cc-haha/src/utils/Shell.ts\n/f/codebuddycn/cc-haha/src/utils/shellConfig.ts\n/f/codebuddycn/cc-haha/src/utils/sideQuestion.ts\n/f/codebuddycn/cc-haha/src/utils/slashCommandParsing.ts\n/f/codebuddycn/cc-haha/src/utils/streamlinedTransform.ts\n/f/codebuddycn/cc-haha/src/utils/suggestions/commandSuggestions.ts\n/f/codebuddycn/cc-haha/src/utils/suggestions/shellHistoryCompletion.ts\n/f/codebuddycn/cc-haha/src/utils/suggestions/slackChannelSuggestions.ts\n/f/codebuddycn/cc-haha/src/utils/swarm/backends/ITermBackend.ts\n/f/codebuddycn/cc-haha/src/utils/swarm/backends/TmuxBackend.ts\n/f/codebuddycn/cc-haha/src/utils/swarm/inProcessRunner.ts\n/f/codebuddycn/cc-haha/src/utils/swarm/teamHelpers.ts\n/f/codebuddycn/cc-haha/src/utils/task/TaskOutput.ts\n/f/codebuddycn/cc-haha/src/utils/tasks.ts\n/f/codebuddycn/cc-haha/src/utils/telemetry/betaSessionTracing.ts\n/f/codebuddycn/cc-haha/src/utils/telemetry/instrumentation.ts\n/f/codebuddycn/cc-haha/src/utils/teleport/gitBundle.ts\n/f/codebuddycn/cc-haha/src/utils/terminal.ts\n/f/codebuddycn/cc-haha/src/utils/tmuxSocket.ts\n/f/codebuddycn/cc-haha/src/utils/tokenBudget.ts\n/f/codebuddycn/cc-haha/src/utils/toolErrors.ts\n/f/codebuddycn/cc-haha/src/utils/toolResultStorage.ts\n/f/codebuddycn/cc-haha/src/utils/treeify.ts\n/f/codebuddycn/cc-haha/src/utils/ultraplan/ccrSession.ts\n/f/codebuddycn/cc-haha/src/utils/ultraplan/keyword.ts\n/f/codebuddycn/cc-haha/src/utils/user.ts\n/f/codebuddycn/cc-haha/src/utils/userPromptKeywords.ts\n/f/codebuddycn/cc-haha/src/utils/which.ts\n/f/codebuddycn/cc-haha/src/utils/windowsPaths.ts\n/f/codebuddycn/cc-haha/src/utils/worktree.ts\n/f/codebuddycn/cc-haha/src/vendor/computer-use-mcp/keyBlocklist.ts\n/f/codebuddycn/cc-haha/src/vendor/computer-use-mcp/toolCalls.ts\n/f/codebuddycn/cc-haha/src/vim/operators.ts",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_TSdJTkqQqL55YOZiOsQRIMOR",
+        "name": "Bash",
+        "input": {
+          "command": "grep -rn \"trim\" /f/codebuddycn/cc-haha/src --include=\"*.ts\" | grep -v \"node_modules\" | grep -v \".test.\" | head -60",
+          "description": "Search for \"trim\" usage in source"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_RKZQFMxUFww43oZTh7ll6CZP",
+        "name": "Bash",
+        "input": {
+          "command": "grep -rn \"trigger.*trim\\|trim.*trigger\" /f/codebuddycn/cc-haha/src --include=\"*.ts\" 2>/dev/null | head -20",
+          "description": "Search for \"trigger trim\" together"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "This Bash command contains multiple operations. The following part requires approval: grep -rn \"trigger.*trim\\|trim.*trigger\" /f/codebuddycn/cc-haha/src --include=*.ts 2> /dev/null",
+        "is_error": true,
+        "tool_use_id": "call_01_RKZQFMxUFww43oZTh7ll6CZP"
+      },
+      {
+        "tool_use_id": "call_00_TSdJTkqQqL55YOZiOsQRIMOR",
+        "type": "tool_result",
+        "content": "/f/codebuddycn/cc-haha/src/bridge/bridgeMain.ts:1958:  const flat = text.replace(/\\s+/g, ' ').trim()\n/f/codebuddycn/cc-haha/src/bridge/bridgeMain.ts:2266:      answer.trim() === '2' ? 'worktree' : 'same-dir'\n/f/codebuddycn/cc-haha/src/bridge/inboundAttachments.ts:160:  return [...content, { type: 'text', text: prefix.trimEnd() }]\n/f/codebuddycn/cc-haha/src/bridge/initReplBridge.ts:564:  const flat = firstSentence.replace(/\\s+/g, ' ').trim()\n/f/codebuddycn/cc-haha/src/bridge/sessionRunner.ts:204: * trimmed text if this looks like a real human-authored message, otherwise\n/f/codebuddycn/cc-haha/src/bridge/sessionRunner.ts:232:  text = text?.trim()\n/f/codebuddycn/cc-haha/src/buddy/sprites.ts:461:  if (bones.hat !== 'none' && !lines[0]!.trim()) {\n/f/codebuddycn/cc-haha/src/buddy/sprites.ts:467:  if (!lines[0]!.trim() && frames.every(f => !f[0]!.trim())) lines.shift()\n/f/codebuddycn/cc-haha/src/cli/handlers/agents.ts:68:    console.log(lines.join('\\n').trimEnd())\n/f/codebuddycn/cc-haha/src/cli/print.ts:5212:    if (inputPrompt.trim() !== '') {\n/f/codebuddycn/cc-haha/src/cli/transports/SSETransport.ts:72:    if (!rawFrame.trim()) continue\n/f/codebuddycn/cc-haha/src/commands/advisor.ts:17:  const arg = args.trim().toLowerCase()\n/f/codebuddycn/cc-haha/src/commands/branch/branch.ts:52:    raw.replace(/\\s+/g, ' ').trim().slice(0, 100) || 'Branched conversation'\n/f/codebuddycn/cc-haha/src/commands/branch/branch.ts:227:  const customTitle = args?.trim() || undefined\n/f/codebuddycn/cc-haha/src/commands/bridge-kick.ts:61:  const [sub, a, b] = args.trim().split(/\\s+/)\n/f/codebuddycn/cc-haha/src/commands/color/color.ts:34:  if (!args || args.trim() === '') {\n/f/codebuddycn/cc-haha/src/commands/color/color.ts:42:  const colorArg = args.trim().toLowerCase()\n/f/codebuddycn/cc-haha/src/commands/commit-push-pr.ts:128:    const trimmedArgs = args?.trim()\n/f/codebuddycn/cc-haha/src/commands/commit-push-pr.ts:129:    if (trimmedArgs) {\n/f/codebuddycn/cc-haha/src/commands/commit-push-pr.ts:130:      promptContent += `\\n\\n## Additional instructions from user\\n\\n${trimmedArgs}`\n/f/codebuddycn/cc-haha/src/commands/compact/compact.ts:52:  const customInstructions = args.trim()\n/f/codebuddycn/cc-haha/src/commands/insights.ts:95:        return parseInt(stdout.trim(), 10) || 0\n/f/codebuddycn/cc-haha/src/commands/insights.ts:600:      if (typeof content === 'string' && content.trim()) {\n/f/codebuddycn/cc-haha/src/commands/insights.ts:754:      if (typeof content === 'string' && content.trim()) {\n/f/codebuddycn/cc-haha/src/commands/install-github-app/setupGitHubActions.ts:40:    fileSha = checkFileResult.stdout.trim()\n/f/codebuddycn/cc-haha/src/commands/install-github-app/setupGitHubActions.ts:174:    const defaultBranch = defaultBranchResult.stdout.trim()\n/f/codebuddycn/cc-haha/src/commands/install-github-app/setupGitHubActions.ts:192:    const sha = shaResult.stdout.trim()\n/f/codebuddycn/cc-haha/src/commands/plugin/parseArgs.ts:22:  const parts = args.trim().split(/\\s+/)\n/f/codebuddycn/cc-haha/src/commands/plugin/parseArgs.ts:74:      const target = parts.slice(1).join(' ').trim()\n/f/codebuddycn/cc-haha/src/commands/rename/rename.ts:36:  if (!args || args.trim() === '') {\n/f/codebuddycn/cc-haha/src/commands/rename/rename.ts:50:    newName = args.trim()\n/f/codebuddycn/cc-haha/src/commands/review/reviewRemote.ts:162:  const prNumber = args.trim()\n/f/codebuddycn/cc-haha/src/commands/review/reviewRemote.ts:242:    const mergeBaseSha = mbOut.trim()\n/f/codebuddycn/cc-haha/src/commands/review/reviewRemote.ts:260:    if (diffCode === 0 && !diffStat.trim()) {\n/f/codebuddycn/cc-haha/src/components/agents/generateAgent.ts:174:    parsed = jsonParse(responseText.trim())\n/f/codebuddycn/cc-haha/src/components/CustomSelect/use-select-input.ts:267:              if (currentValue.trim()) {\n/f/codebuddycn/cc-haha/src/components/FeedbackSurvey/useDebouncedDigitInput.ts:13: * trims the digit from the input, and fires a callback.\n/f/codebuddycn/cc-haha/src/components/FeedbackSurvey/useDebouncedDigitInput.ts:57:        const trimmed = inputValue.slice(0, -1)\n/f/codebuddycn/cc-haha/src/components/FeedbackSurvey/useDebouncedDigitInput.ts:59:          (debounceRef, hasTriggeredRef, callbacksRef, trimmed, lastChar) => {\n/f/codebuddycn/cc-haha/src/components/FeedbackSurvey/useDebouncedDigitInput.ts:62:            callbacksRef.current.setInputValue(trimmed)\n/f/codebuddycn/cc-haha/src/components/FeedbackSurvey/useDebouncedDigitInput.ts:69:          trimmed,\n/f/codebuddycn/cc-haha/src/components/permissions/FilePermissionDialog/useFilePermissionDialog.ts:157:      if (value !== 'yes' && yesInputMode && !acceptFeedback.trim()) {\n/f/codebuddycn/cc-haha/src/components/permissions/FilePermissionDialog/useFilePermissionDialog.ts:160:      if (value !== 'no' && noInputMode && !rejectFeedback.trim()) {\n/f/codebuddycn/cc-haha/src/components/permissions/useShellPermissionFeedback.ts:83:    const trimmedFeedback = feedback?.trim()\n/f/codebuddycn/cc-haha/src/components/permissions/useShellPermissionFeedback.ts:84:    const hasFeedback = !!trimmedFeedback\n/f/codebuddycn/cc-haha/src/components/permissions/useShellPermissionFeedback.ts:108:    if (trimmedFeedback) {\n/f/codebuddycn/cc-haha/src/components/permissions/useShellPermissionFeedback.ts:109:      toolUseConfirm.onReject(trimmedFeedback)\n/f/codebuddycn/cc-haha/src/components/permissions/useShellPermissionFeedback.ts:125:    if (value !== 'yes' && yesInputMode && !acceptFeedback.trim()) {\n/f/codebuddycn/cc-haha/src/components/permissions/useShellPermissionFeedback.ts:128:    if (value !== 'no' && noInputMode && !rejectFeedback.trim()) {\n/f/codebuddycn/cc-haha/src/context.ts:66:      }).then(({ stdout }) => stdout.trim()),\n/f/codebuddycn/cc-haha/src/context.ts:73:      ).then(({ stdout }) => stdout.trim()),\n/f/codebuddycn/cc-haha/src/context.ts:76:      }).then(({ stdout }) => stdout.trim()),\n/f/codebuddycn/cc-haha/src/entrypoints/mcp.ts:175:        const errorText = parts.filter(Boolean).join('\\n').trim() || 'Error'\n/f/codebuddycn/cc-haha/src/hooks/fileSuggestions.ts:284:    const trackedFiles = trackedResult.stdout.trim().split('\\n').filter(Boolean)\n/f/codebuddycn/cc-haha/src/hooks/fileSuggestions.ts:337:              .trim()\n/f/codebuddycn/cc-haha/src/hooks/toolPermission/PermissionContext.ts:311:      const trimmedFeedback = feedback?.trim()\n/f/codebuddycn/cc-haha/src/hooks/toolPermission/PermissionContext.ts:315:        acceptFeedback: trimmedFeedback || undefined,\n/f/codebuddycn/cc-haha/src/hooks/useCopyOnSelect.ts:74:      if (!text || !text.trim()) {\n/f/codebuddycn/cc-haha/src/hooks/usePasteHandler.ts:129:              .filter(line => line.trim())\n/f/codebuddycn/cc-haha/src/hooks/usePasteHandler.ts:239:      .some(line => isImageFilePath(line.trim()))",
+        "is_error": false
+      }
+    ]
+  ],
+  "output": [
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_start",
+        "message": {
+          "id": "93848db4-c3be-442c-ae52-053441cea904",
+          "type": "message",
+          "role": "assistant",
+          "model": "deepseek-v4-flash",
+          "content": [],
+          "stop_reason": null,
+          "stop_sequence": null,
+          "usage": {
+            "input_tokens": 2199,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 39936,
+            "output_tokens": 0,
+            "service_tier": "standard"
+          }
+        }
+      },
+      "ttftMs": 549
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 0,
+        "content_block": {
+          "type": "thinking",
+          "thinking": "",
+          "signature": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "The"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " search"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " results"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " show"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " that"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "trim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " is"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " used"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " extensively"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " throughout"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "base"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " as"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " standard"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " string"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " operation"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " and"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " not"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " as"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " specific"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " feature"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " concept"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " The"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " user"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " said"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " trim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " which"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " is"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " still"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " ambiguous"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " check"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " if"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " there"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'s"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " something"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " specific"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " trim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " in"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Remote"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Tool"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " or"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " compact"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " feature"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ".\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Actually"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " reconsider"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " maybe"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " user"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " is"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " asking"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " implement"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " trim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " feature"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " in"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " context"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " of"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " agent"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " system"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " look"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " at"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Remote"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Tool"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " understand"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " what"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " means"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " in"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " this"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " context"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " and"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " also"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " look"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " at"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " compact"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " feature"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ".\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Actually"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " wait"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " user"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " just"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " said"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " two"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " words"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " trim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\"."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " This"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " is"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " very"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " brief"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " ask"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " for"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " clarification"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " rather"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " than"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " guessing"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " But"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " first"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " do"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " quick"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " search"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " see"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " if"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " there"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'s"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " trim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " concept"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " or"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " if"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " they"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " might"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " be"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " asking"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " about"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " specific"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " feature"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "signature_delta",
+          "signature": "93848db4-c3be-442c-ae52-053441cea904"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-181",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:15:57.661Z",
+      "message": {
+        "id": "93848db4-c3be-442c-ae52-053441cea904",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "The search results show that \"trim\" is used extensively throughout the codebase as a standard string operation and not as a specific feature concept. The user said \"trigger trim\" which is still ambiguous. Let me check if there's something specific to \"trigger trim\" in the RemoteTriggerTool or compact feature.\n\nActually, let me reconsider - maybe the user is asking me to implement a \"trigger trim\" feature in the context of the agent/trigger system. Let me look at the RemoteTriggerTool to understand what \"trigger\" means in this context, and also look at the compact feature.\n\nActually, wait - the user just said two words \"trigger trim\". This is very brief. Let me ask for clarification rather than guessing. But first, let me do a quick search to see if there's a \"trigger trim\" concept or if they might be asking about a specific feature.",
+            "signature": "93848db4-c3be-442c-ae52-053441cea904"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 2199,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 39936,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 0
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 1,
+        "content_block": {
+          "type": "text",
+          "text": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "I"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " searched"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "base"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " for"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " trim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " combinations"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " but"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " didn"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "'t"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " find"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " any"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " existing"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " feature"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " with"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " that"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " name"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " I"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " see"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " that"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": ":\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "1"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " **"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "trim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "**"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " appears"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " as"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " standard"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " string"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " `."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "trim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "()`"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " calls"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " throughout"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "base"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "2"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " **"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "**"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " is"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " used"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " in"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " several"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " contexts"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " there"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "'s"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " `"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Remote"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Tool"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "`,"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " cron"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " triggers"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " event"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " triggers"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " etc"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": ".\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Could"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " you"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " clarify"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " what"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " you"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " mean"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " by"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " trim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "\"?"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " A"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " few"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " possibilities"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " come"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " mind"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": ":\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "-"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " **"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Convers"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "ation"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " trimming"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "**"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " trimming"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "comp"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "acting"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " conversation"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " history"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "?"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " There"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "'s"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " already"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " `/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "compact"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "`"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " for"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " this"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": ".\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "-"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " **"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " message"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " trimming"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "**"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " trimming"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " whites"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "pace"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " from"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "event"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " messages"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "?\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "-"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " **"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Remote"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " trimming"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "**"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " something"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " related"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " `"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Remote"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Tool"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "`"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "?\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "-"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " **"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "A"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " new"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " feature"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " request"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "**"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " something"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " you"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "'d"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " like"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " implement"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "?\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "What"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "'s"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " context"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " or"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " what"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " are"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " you"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " trying"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " achieve"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "?"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-362",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:16:00.253Z",
+      "message": {
+        "id": "93848db4-c3be-442c-ae52-053441cea904",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "I searched the codebase for \"trigger trim\" combinations but didn't find any existing feature with that name. I see that:\n\n1. **\"trim\"** appears as standard string `.trim()` calls throughout the codebase\n2. **\"trigger\"** is used in several contexts - there's a `RemoteTriggerTool`, cron triggers, event triggers, etc.\n\nCould you clarify what you mean by \"trigger trim\"? A few possibilities come to mind:\n\n- **Conversation trimming** - trimming/compacting conversation history? There's already a `/compact` command for this.\n- **Trigger message trimming** - trimming whitespace from trigger/event messages?\n- **Remote trigger trimming** - something related to `RemoteTriggerTool`?\n- **A new feature request** - something you'd like me to implement?\n\nWhat's the context or what are you trying to achieve?",
+            "citations": []
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 2199,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 39936,
+          "output_tokens": 357,
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "",
+          "iterations": [],
+          "speed": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 1
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_delta",
+        "delta": {
+          "stop_reason": "end_turn",
+          "stop_sequence": null
+        },
+        "usage": {
+          "input_tokens": 2199,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 39936,
+          "output_tokens": 357,
+          "service_tier": "standard"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_stop"
+      }
+    }
+  ]
+}

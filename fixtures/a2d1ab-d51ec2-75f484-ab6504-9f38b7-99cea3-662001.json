@@ -1,0 +1,1593 @@
+{
+  "input": [
+    [
+      {
+        "type": "text",
+        "text": "trigger trim"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "text",
+        "text": "Let me explore the repository to understand what \"trigger trim\" might refer to in this codebase.",
+        "citations": []
+      },
+      {
+        "type": "tool_use",
+        "id": "call_00_C8Siz6jTNVWG8ZAT68KGmuGw",
+        "name": "Bash",
+        "input": {
+          "command": "ls [CWD]",
+          "description": "List top-level files in the repo"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_pGfezmJyh7lWO10zcDmuDXGL",
+        "name": "Grep",
+        "input": {
+          "pattern": "trigger.?trim|trim.?trigger",
+          "path": "[CWD]",
+          "-i": true,
+          "output_mode": "files_with_matches"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_pGfezmJyh7lWO10zcDmuDXGL"
+      },
+      {
+        "type": "tool_result",
+        "content": "Exit code 2\nls: cannot access 'F:codebuddycncc-haha': No such file or directory",
+        "is_error": true,
+        "tool_use_id": "call_00_C8Siz6jTNVWG8ZAT68KGmuGw"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_tBsXvC9tXacaDX9dLSltaRBR",
+        "name": "Glob",
+        "input": {
+          "pattern": "*",
+          "path": "[CWD]"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_3pT4o72LRA5euUUorL3wlOy7",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/*.md",
+          "path": "[CWD]"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_00_tBsXvC9tXacaDX9dLSltaRBR"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_3pT4o72LRA5euUUorL3wlOy7"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_39tWiHtXKOeUNG6inQnXutpZ",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la \"[CWD]/\"",
+          "description": "List repo contents with bash"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_39tWiHtXKOeUNG6inQnXutpZ",
+        "type": "tool_result",
+        "content": "total 907\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:04 ..\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .claude\n-rw-r--r-- 1 jwwin 197121   2377 Apr 26 12:57 .env.example\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:13 .git\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 .github\n-rw-r--r-- 1 jwwin 197121   1167 Apr 30 11:09 .gitignore\n-rw-r--r-- 1 jwwin 197121   4106 Apr 30 18:27 AGENTS.md\n-rw-r--r-- 1 jwwin 197121  15782 Apr 30 18:27 ARCHITECTURE.md\n-rw-r--r-- 1 jwwin 197121   1854 Apr 26 12:57 LICENSE\n-rw-r--r-- 1 jwwin 197121   7348 Apr 30 18:27 PROJECT_STRUCTURE.md\n-rw-r--r-- 1 jwwin 197121  13753 Apr 30 18:27 README.en.md\n-rw-r--r-- 1 jwwin 197121  13058 Apr 30 18:27 README.md\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 adapters\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 bin\n-rw-r--r-- 1 jwwin 197121 208690 Apr 26 12:57 bun.lock\n-rw-r--r-- 1 jwwin 197121     28 Apr 26 12:57 bunfig.toml\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 19:23 desktop\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 docs\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:13 fixtures\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 21:25 node_modules\n-rw-r--r-- 1 jwwin 197121 322397 Apr 30 18:27 package-lock.json\n-rw-r--r-- 1 jwwin 197121   2621 Apr 30 18:28 package.json\n-rw-r--r-- 1 jwwin 197121    662 Apr 30 18:27 preload.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 release-notes\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 runtime\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:08 scripts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 src\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 stubs\n-rw-r--r-- 1 jwwin 197121    450 Apr 30 18:27 tsconfig.json",
+        "is_error": false
+      }
+    ]
+  ],
+  "output": [
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_start",
+        "message": {
+          "id": "63f5595c-64c0-47a9-b134-03e68fbf1f48",
+          "type": "message",
+          "role": "assistant",
+          "model": "deepseek-v4-flash",
+          "content": [],
+          "stop_reason": null,
+          "stop_sequence": null,
+          "usage": {
+            "input_tokens": 972,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 24704,
+            "output_tokens": 0,
+            "service_tier": "standard"
+          }
+        }
+      },
+      "ttftMs": 614
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 0,
+        "content_block": {
+          "type": "thinking",
+          "thinking": "",
+          "signature": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "This"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " is"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Type"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Script"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " project"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " ("
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "likely"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "cc"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " project"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ")."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " look"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " at"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " source"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " structure"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " understand"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " what"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " project"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " is"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " about"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " and"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " search"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " for"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " any"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "trigger"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " or"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "trim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " related"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "signature_delta",
+          "signature": "63f5595c-64c0-47a9-b134-03e68fbf1f48"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-48",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:13:22.981Z",
+      "message": {
+        "id": "63f5595c-64c0-47a9-b134-03e68fbf1f48",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "This is a TypeScript project (likely the \"cc-haha\" project). Let me look at the source code structure to understand what the project is about and search for any \"trigger\" or \"trim\" related code.",
+            "signature": "63f5595c-64c0-47a9-b134-03e68fbf1f48"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 972,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 24704,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 0
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 1,
+        "content_block": {
+          "type": "tool_use",
+          "id": "call_00_bkuSUgvlYCJfD0WMs29KW7F1",
+          "name": "Bash",
+          "input": {}
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "ls"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "la"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " \\\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "F"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ":\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "bud"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "dy"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cn"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cc"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/src"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/\\\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ", "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "description"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "List"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " src"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " directory"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "}"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-85",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:13:23.778Z",
+      "message": {
+        "id": "63f5595c-64c0-47a9-b134-03e68fbf1f48",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "call_00_bkuSUgvlYCJfD0WMs29KW7F1",
+            "name": "Bash",
+            "input": {
+              "command": "ls -la \"[CWD]/src/\"",
+              "description": "List src directory"
+            }
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 972,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 24704,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 1
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 2,
+        "content_block": {
+          "type": "tool_use",
+          "id": "call_01_nubS2Y7K74mUjsyIWkQnsYSz",
+          "name": "Bash",
+          "input": {}
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "head"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "30"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " \\\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "F"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ":\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "bud"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "dy"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cn"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\\"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cc"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "package"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ".json"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\\\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ", "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "description"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "Read"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " package"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ".json"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "}"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-124",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:13:24.607Z",
+      "message": {
+        "id": "63f5595c-64c0-47a9-b134-03e68fbf1f48",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "call_01_nubS2Y7K74mUjsyIWkQnsYSz",
+            "name": "Bash",
+            "input": {
+              "command": "head -30 \"[CWD]/package.json\"",
+              "description": "Read package.json"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 972,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 24704,
+          "output_tokens": 187,
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "",
+          "iterations": [],
+          "speed": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 2
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_delta",
+        "delta": {
+          "stop_reason": "tool_use",
+          "stop_sequence": null
+        },
+        "usage": {
+          "input_tokens": 972,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 24704,
+          "output_tokens": 187,
+          "service_tier": "standard"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_stop"
+      }
+    }
+  ]
+}

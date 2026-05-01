@@ -1,0 +1,2521 @@
+{
+  "input": [
+    [
+      {
+        "type": "text",
+        "text": "one-shot task"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_wPE7aOaJ4iJ2ZtPvNqk1ccE6",
+        "name": "Bash",
+        "input": {
+          "command": "cd \"[CWD]\" && git log --oneline -5 2>/dev/null && echo \"---\" && ls -la",
+          "description": "Check recent git log and project structure"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_lApEn3Mk5VhejO9TLhWz3oH1",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/*.md",
+          "path": "[CWD]"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "Compound commands with cd and git require approval to prevent bare repository attacks",
+        "is_error": true,
+        "tool_use_id": "call_00_wPE7aOaJ4iJ2ZtPvNqk1ccE6"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_lApEn3Mk5VhejO9TLhWz3oH1"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_RqX1ftnw3PvDwkQaQZF1HXz3",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la \"[CWD]\"",
+          "description": "List project root directory"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_rj7PkLzGKuwpKz5gYKD1nOvO",
+        "name": "Bash",
+        "input": {
+          "command": "git -C \"[CWD]\" log --oneline -5",
+          "description": "Show recent git commits"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_RqX1ftnw3PvDwkQaQZF1HXz3",
+        "type": "tool_result",
+        "content": "total 747\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:28 .\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:04 ..\n-rw-r--r-- 1 jwwin 197121   2377 Apr 26 12:57 .env.example\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:37 .git\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 .github\n-rw-r--r-- 1 jwwin 197121   1167 Apr 30 11:09 .gitignore\n-rw-r--r-- 1 jwwin 197121   4106 Apr 30 18:27 AGENTS.md\n-rw-r--r-- 1 jwwin 197121  15782 Apr 30 18:27 ARCHITECTURE.md\n-rw-r--r-- 1 jwwin 197121   1854 Apr 26 12:57 LICENSE\n-rw-r--r-- 1 jwwin 197121   7348 Apr 30 18:27 PROJECT_STRUCTURE.md\n-rw-r--r-- 1 jwwin 197121  13753 Apr 30 18:27 README.en.md\n-rw-r--r-- 1 jwwin 197121  13058 Apr 30 18:27 README.md\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 adapters\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 bin\n-rw-r--r-- 1 jwwin 197121 208690 Apr 26 12:57 bun.lock\n-rw-r--r-- 1 jwwin 197121     28 Apr 26 12:57 bunfig.toml\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 19:23 desktop\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 docs\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:57 fixtures\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 21:25 node_modules\n-rw-r--r-- 1 jwwin 197121 322397 Apr 30 18:27 package-lock.json\n-rw-r--r-- 1 jwwin 197121   2621 Apr 30 18:28 package.json\n-rw-r--r-- 1 jwwin 197121    662 Apr 30 18:27 preload.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 release-notes\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 runtime\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 scripts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 src\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 stubs\n-rw-r--r-- 1 jwwin 197121    450 Apr 30 18:27 tsconfig.json",
+        "is_error": false
+      },
+      {
+        "type": "tool_result",
+        "content": "This command requires approval",
+        "is_error": true,
+        "tool_use_id": "call_01_rj7PkLzGKuwpKz5gYKD1nOvO"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_De95DhoBN8iYcbhmBvdc7mA1",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]/package.json"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_iU5mpiBlUCZBBzHLtRNRVWc9",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]/AGENTS.md"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_01_iU5mpiBlUCZBBzHLtRNRVWc9",
+        "type": "tool_result",
+        "content": "1\t# Repository Guidelines\n2\t\n3\t## Project Structure & Module Organization\n4\tThe root package is the Bun-based CLI and local server. Main code lives in `src/`: `entrypoints/` for startup paths, `screens/` and `components/` for the Ink TUI, `commands/` for slash commands, `services/` for API/MCP/OAuth logic, and `tools/` for agent tool implementations. `bin/claude-haha` is the executable entrypoint. The desktop app is isolated in `desktop/` with React UI code in `desktop/src/` and Tauri glue in `desktop/src-tauri/`. Documentation is in `docs/` and builds with VitePress. Treat root screenshots and `docs/images/` as reference assets, not source code.\n5\t\n6\t## Build, Test, and Development Commands\n7\tInstall root dependencies with `bun install`, then install desktop dependencies in `desktop/` if you are touching the app UI.\n8\t\n9\t- `./bin/claude-haha` or `bun run start`: run the CLI locally.\n10\t- `SERVER_PORT=3456 bun run src/server/index.ts`: start the local API/WebSocket server used by `desktop/`.\n11\t- `bun run docs:dev` / `bun run docs:build`: preview or build the VitePress docs.\n12\t- `cd desktop && bun run dev`: run the desktop frontend in Vite.\n13\t- `cd desktop && bun run build`: type-check and produce a production web build.\n14\t- `cd desktop && bun run test`: run Vitest suites.\n15\t- `cd desktop && bun run lint`: run TypeScript no-emit checks.\n16\t\n17\t## Desktop Release Workflow\n18\t- Desktop releases are built remotely by GitHub Actions, not by uploading local build artifacts.\n19\t- The release workflow is `.github/workflows/release-desktop.yml`; it triggers automatically on `push` of tags matching `v*.*.*`.\n20\t- GitHub Release body is sourced from `release-notes/vX.Y.Z.md` in the tagged commit. Keep the filename aligned with the version/tag exactly.\n21\t- Use `bun run scripts/release.ts <version>` to cut a desktop release. The script updates version files, refreshes `desktop/src-tauri/Cargo.lock`, requires the matching `release-notes/vX.Y.Z.md`, commits it, and creates the annotated tag.\n22\t- The normal release push is `git push origin main --tags`. If the tag, app version, or release-notes filename do not match, the workflow is designed to fail fast instead of publishing the wrong release.\n23\t- For local macOS test packaging, `desktop/scripts/build-macos-arm64.sh` is the canonical Apple Silicon build entrypoint, and outputs land under `desktop/build-artifacts/macos-arm64/`.\n24\t\n25\t## Docs Workflow Notes\n26\t- The docs workflow is `.github/workflows/deploy-docs.yml` and uses `npm ci`, not Bun. When root `package.json` dependencies change, keep `package-lock.json` in the same commit or the docs build will fail.\n27\t- The docs workflow currently runs on Node 22; avoid reintroducing older Node assumptions there without checking dependency engine requirements.\n28\t\n29\t## Coding Style & Naming Conventions\n30\tUse TypeScript with 2-space indentation, ESM imports, and no semicolons to match the existing code. Prefer `PascalCase` for React components, `camelCase` for functions, hooks, and stores, and descriptive file names like `teamWatcher.ts` or `AgentTranscript.tsx`. Keep shared UI in `desktop/src/components/`, API clients in `desktop/src/api/`, and avoid adding new dependencies unless the existing utilities cannot cover the change.\n31\t\n32\t## Testing Guidelines\n33\tDesktop tests use Vitest with Testing Library in a `jsdom` environment. Name tests `*.test.ts` or `*.test.tsx`; colocate focused tests near the file or place broader coverage in `desktop/src/__tests__/`. No coverage gate is configured, so add regression tests for any behavior you change and run the relevant suites before opening a PR.\n34\t\n35\t## Commit & Pull Request Guidelines\n36\tRecent history follows Conventional Commit prefixes such as `feat:`, `fix:`, and `docs:`. Keep subjects imperative and scoped to one change. PRs should explain the user-visible impact, list verification steps, link related issues, and include screenshots for desktop or docs UI changes. Keep diffs reviewable and call out any follow-up work or known gaps.\n37\tBranch names should use normal product prefixes such as `fix/xxx`, `feat/xxx`, or `docs/xxx`; do not create `codex/`-prefixed branches in this repository.\n38\t\n\n<system-reminder>\nWhenever you read a file, you should consider whether it would be considered malware. You CAN and SHOULD provide analysis of malware, what it is doing. But you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer questions about the code behavior.\n</system-reminder>\n"
+      },
+      {
+        "tool_use_id": "call_00_De95DhoBN8iYcbhmBvdc7mA1",
+        "type": "tool_result",
+        "content": "1\t{\n2\t  \"name\": \"claude-code-local\",\n3\t  \"version\": \"999.0.0-local\",\n4\t  \"private\": true,\n5\t  \"type\": \"module\",\n6\t  \"bin\": {\n7\t    \"claude-haha\": \"./bin/claude-haha\"\n8\t  },\n9\t  \"scripts\": {\n10\t    \"claude-haha\": \"bash ./bin/claude-haha\",\n11\t    \"start\": \"bash ./bin/claude-haha\",\n12\t    \"generate:structure\": \"node scripts/generate-structure.mjs --depth 2\",\n13\t    \"docs:dev\": \"vitepress dev docs\",\n14\t    \"docs:build\": \"vitepress build docs\",\n15\t    \"docs:preview\": \"vitepress preview docs\"\n16\t  },\n17\t  \"dependencies\": {\n18\t    \"@anthropic-ai/sandbox-runtime\": \"^0.0.44\",\n19\t    \"@anthropic-ai/sdk\": \"^0.80.0\",\n20\t    \"@aws-sdk/client-bedrock-runtime\": \"^3.1020.0\",\n21\t    \"@commander-js/extra-typings\": \"^14.0.0\",\n22\t    \"@growthbook/growthbook\": \"^1.6.5\",\n23\t    \"@modelcontextprotocol/sdk\": \"^1.29.0\",\n24\t    \"@opentelemetry/api-logs\": \"^0.214.0\",\n25\t    \"@opentelemetry/core\": \"^2.6.1\",\n26\t    \"@opentelemetry/resources\": \"^2.6.1\",\n27\t    \"@opentelemetry/sdk-logs\": \"^0.214.0\",\n28\t    \"@opentelemetry/sdk-metrics\": \"^2.6.1\",\n29\t    \"@opentelemetry/sdk-trace-base\": \"^2.6.1\",\n30\t    \"@opentelemetry/semantic-conventions\": \"^1.40.0\",\n31\t    \"ajv\": \"^8.18.0\",\n32\t    \"asciichart\": \"^1.5.25\",\n33\t    \"auto-bind\": \"^5.0.1\",\n34\t    \"axios\": \"^1.14.0\",\n35\t    \"bidi-js\": \"^1.0.3\",\n36\t    \"chalk\": \"^5.6.2\",\n37\t    \"chokidar\": \"^5.0.0\",\n38\t    \"cli-boxes\": \"^4.0.1\",\n39\t    \"code-excerpt\": \"^4.0.0\",\n40\t    \"diff\": \"^8.0.4\",\n41\t    \"emoji-regex\": \"^10.6.0\",\n42\t    \"env-paths\": \"^4.0.0\",\n43\t    \"execa\": \"^9.6.1\",\n44\t    \"figures\": \"^6.1.0\",\n45\t    \"fuse.js\": \"^7.1.0\",\n46\t    \"get-east-asian-width\": \"^1.5.0\",\n47\t    \"google-auth-library\": \"^10.6.2\",\n48\t    \"highlight.js\": \"^11.11.1\",\n49\t    \"https-proxy-agent\": \"^8.0.0\",\n50\t    \"ignore\": \"^7.0.5\",\n51\t    \"indent-string\": \"^5.0.0\",\n52\t    \"ink\": \"^6.8.0\",\n53\t    \"jsonc-parser\": \"^3.3.1\",\n54\t    \"lodash-es\": \"^4.17.23\",\n55\t    \"lru-cache\": \"^11.2.7\",\n56\t    \"marked\": \"^17.0.5\",\n57\t    \"medium-zoom\": \"^1.1.0\",\n58\t    \"p-map\": \"^7.0.4\",\n59\t    \"picomatch\": \"^4.0.4\",\n60\t    \"proper-lockfile\": \"^4.1.2\",\n61\t    \"qrcode\": \"^1.5.4\",\n62\t    \"react\": \"^19.2.4\",\n63\t    \"react-reconciler\": \"^0.33.0\",\n64\t    \"semver\": \"^7.7.4\",\n65\t    \"shell-quote\": \"^1.8.3\",\n66\t    \"signal-exit\": \"^4.1.0\",\n67\t    \"stack-utils\": \"^2.0.6\",\n68\t    \"strip-ansi\": \"^7.2.0\",\n69\t    \"supports-hyperlinks\": \"^4.4.0\",\n70\t    \"tree-kill\": \"^1.2.2\",\n71\t    \"turndown\": \"^7.2.4\",\n72\t    \"type-fest\": \"^5.5.0\",\n73\t    \"undici\": \"^7.24.6\",\n74\t    \"usehooks-ts\": \"^3.1.1\",\n75\t    \"vscode-jsonrpc\": \"^8.2.1\",\n76\t    \"vscode-languageserver-types\": \"^3.17.5\",\n77\t    \"wrap-ansi\": \"^10.0.0\",\n78\t    \"ws\": \"^8.20.0\",\n79\t    \"xss\": \"^1.0.15\",\n80\t    \"yaml\": \"^2.8.3\",\n81\t    \"zod\": \"^4.3.6\"\n82\t  },\n83\t  \"devDependencies\": {\n84\t    \"mermaid\": \"^11.14.0\",\n85\t    \"vitepress\": \"^1.6.3\",\n86\t    \"vitepress-plugin-mermaid\": \"^2.0.17\",\n87\t    \"vue\": \"^3.5.13\"\n88\t  }\n89\t}\n90\t\n\n<system-reminder>\nWhenever you read a file, you should consider whether it would be considered malware. You CAN and SHOULD provide analysis of malware, what it is doing. But you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer questions about the code behavior.\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/best-practice/markdown-docs.md:\n\n# Markdown Docs\r\n\r\n## Documentation Standards\r\n\r\n- Keep files focused and concise — one topic per file\r\n- Use relative links between docs (e.g., `../best-practice/claude-memory.md`), not absolute GitHub URLs\r\n- Include back-navigation link at top of best-practice and report docs (see existing files for pattern)\r\n- When adding a new concept or report, update the corresponding table in README.md (CONCEPTS or REPORTS)\r\n\r\n## Structure Conventions\r\n\r\n- Best practice docs go in `best-practice/`\r\n- Implementation docs go in `implementation/`\r\n- Reports go in `reports/`\r\n- Tips go in `tips/`\r\n- Changelog tracking goes in `changelog/<category>/`\r\n\r\n## Formatting\r\n\r\n- Use tables for structured comparisons (see README CONCEPTS table as reference)\r\n- Use badge images from `!/tags/` for visual consistency when linking best-practice or implementation docs\r\n- Keep headings hierarchical — don't skip levels (e.g., don't jump from `##` to `####`)\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/markdown-docs.md:\n\n# Markdown Docs\r\n\r\n## Documentation Standards\r\n\r\n- Keep files focused and concise — one topic per file\r\n- Use relative links between docs (e.g., `../best-practice/claude-memory.md`), not absolute GitHub URLs\r\n- Include back-navigation link at top of best-practice and report docs (see existing files for pattern)\r\n- When adding a new concept or report, update the corresponding table in README.md (CONCEPTS or REPORTS)\r\n\r\n## Structure Conventions\r\n\r\n- Best practice docs go in `best-practice/`\r\n- Implementation docs go in `implementation/`\r\n- Reports go in `reports/`\r\n- Tips go in `tips/`\r\n- Changelog tracking goes in `changelog/<category>/`\r\n\r\n## Formatting\r\n\r\n- Use tables for structured comparisons (see README CONCEPTS table as reference)\r\n- Use badge images from `!/tags/` for visual consistency when linking best-practice or implementation docs\r\n- Keep headings hierarchical — don't skip levels (e.g., don't jump from `##` to `####`)\r\n\n</system-reminder>"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_eslaK6ZsuvFmyNoDiZzVgQZ8",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la \"[CWD]/fixtures/\"",
+          "description": "List fixtures directory"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_ljGl7hBEpBr2vn4dUMvC0s69",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la \"[CWD]/bin/\"",
+          "description": "List bin directory"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_eslaK6ZsuvFmyNoDiZzVgQZ8",
+        "type": "tool_result",
+        "content": "total 364\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 21:58 .\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:28 ..\n-rw-r--r-- 1 jwwin 197121 47785 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba.json\n-rw-r--r-- 1 jwwin 197121 21832 Apr 30 21:57 0fdc67-a0d4fd-912b5e.json\n-rw-r--r-- 1 jwwin 197121 39591 Apr 30 21:57 0fdc67.json\n-rw-r--r-- 1 jwwin 197121 63642 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56.json\n-rw-r--r-- 1 jwwin 197121 31929 Apr 30 21:57 67d56f-471d71-d0e5ab-9b4cf4-fd5975.json\n-rw-r--r-- 1 jwwin 197121 25941 Apr 30 21:57 67d56f-471d71-d0e5ab.json\n-rw-r--r-- 1 jwwin 197121 59022 Apr 30 21:57 67d56f.json\n-rw-r--r-- 1 jwwin 197121  6777 Apr 30 21:57 b3d8b8-9eded5-cca257.json\n-rw-r--r-- 1 jwwin 197121 11325 Apr 30 21:57 b3d8b8.json\n-rw-r--r-- 1 jwwin 197121 31940 Apr 30 21:57 c6324c.json\n-rw-r--r-- 1 jwwin 197121  6946 Apr 30 18:27 e8c7b0.json",
+        "is_error": false
+      },
+      {
+        "tool_use_id": "call_01_ljGl7hBEpBr2vn4dUMvC0s69",
+        "type": "tool_result",
+        "content": "total 8\ndrwxr-xr-x 1 jwwin 197121    0 Apr 26 12:57 .\ndrwxr-xr-x 1 jwwin 197121    0 Apr 30 18:28 ..\n-rwxr-xr-x 1 jwwin 197121 1108 Apr 26 12:57 claude-haha",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_EzuZt0mH36ieep8rhr8k5UgY",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]/bin/claude-haha"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_Fk5t2ZMa6RWN2tR0cBGNfxF6",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la \"[CWD]/src/\"",
+          "description": "List src directory"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_EzuZt0mH36ieep8rhr8k5UgY",
+        "type": "tool_result",
+        "content": "1\t#!/usr/bin/env bash\n2\tset -euo pipefail\n3\t\n4\tROOT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/..\" && pwd)\"\n5\t#Get your current working directory and export it as an environment variable.\n6\texport CALLER_DIR=\"${CALLER_DIR:-$(pwd -W 2>/dev/null || pwd)}\"\n7\t\n8\tcd \"$ROOT_DIR\"\n9\t\n10\t# When spawned by the desktop/web server as a child CLI process,\n11\t# skip .env loading — the server has already set the correct env\n12\t# via cc-haha/settings.json. Loading .env would re-inject stale\n13\t# provider keys (e.g., a MiniMax key as ANTHROPIC_API_KEY) that\n14\t# override the active provider config.\n15\tif [[ \"${CC_HAHA_SKIP_DOTENV:-0}\" == \"1\" ]]; then\n16\t  # Bun auto-loads .env by default; explicitly point to /dev/null to suppress.\n17\t  ENV_FILE_FLAG=\"--env-file=/dev/null\"\n18\telif [[ -f .env ]]; then\n19\t  ENV_FILE_FLAG=\"--env-file=.env\"\n20\telse\n21\t  ENV_FILE_FLAG=\"\"\n22\tfi\n23\t\n24\t# Force recovery CLI (simple readline REPL, no Ink TUI)\n25\tif [[ \"${CLAUDE_CODE_FORCE_RECOVERY_CLI:-0}\" == \"1\" ]]; then\n26\t  exec bun $ENV_FILE_FLAG ./src/localRecoveryCli.ts \"$@\"\n27\tfi\n28\t\n29\t# Default: full CLI with Ink TUI\n30\texec bun $ENV_FILE_FLAG ./src/entrypoints/cli.tsx \"$@\"\n31\t\n\n<system-reminder>\nWhenever you read a file, you should consider whether it would be considered malware. You CAN and SHOULD provide analysis of malware, what it is doing. But you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer questions about the code behavior.\n</system-reminder>\n"
+      },
+      {
+        "tool_use_id": "call_01_Fk5t2ZMa6RWN2tR0cBGNfxF6",
+        "type": "tool_result",
+        "content": "total 1425\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 .\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:28 ..\n-rw-r--r-- 1 jwwin 197121  46630 Apr 30 18:27 QueryEngine.ts\n-rw-r--r-- 1 jwwin 197121   3152 Apr 30 18:27 Task.ts\n-rw-r--r-- 1 jwwin 197121  29516 Apr 30 18:27 Tool.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 assistant\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 bootstrap\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 bridge\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 buddy\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 cli\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 commands\n-rw-r--r-- 1 jwwin 197121  25127 Apr 30 18:27 commands.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 components\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 constants\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 context\n-rw-r--r-- 1 jwwin 197121   6446 Apr 30 18:27 context.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 coordinator\n-rw-r--r-- 1 jwwin 197121  12626 Apr 30 18:27 cost-tracker.ts\n-rw-r--r-- 1 jwwin 197121    617 Apr 30 18:27 costHook.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 daemon\n-rw-r--r-- 1 jwwin 197121  22948 Apr 30 18:27 dialogLaunchers.tsx\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 entrypoints\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 environment-runner\n-rw-r--r-- 1 jwwin 197121  14081 Apr 30 18:27 history.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 hooks\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 ink\n-rw-r--r-- 1 jwwin 197121   3887 Apr 30 18:27 ink.ts\n-rw-r--r-- 1 jwwin 197121  57424 Apr 30 18:27 interactiveHelpers.tsx\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 jobs\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 keybindings\n-rw-r--r-- 1 jwwin 197121   7626 Apr 30 18:27 localRecoveryCli.ts\n-rw-r--r-- 1 jwwin 197121 805983 Apr 30 18:27 main.tsx\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 memdir\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 migrations\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 moreright\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 native-ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 outputStyles\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 plugins\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 proactive\n-rw-r--r-- 1 jwwin 197121   2337 Apr 30 18:27 projectOnboardingState.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 query\n-rw-r--r-- 1 jwwin 197121  68631 Apr 30 18:27 query.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 remote\n-rw-r--r-- 1 jwwin 197121   3517 Apr 30 18:27 replLauncher.tsx\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 schemas\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 screens\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 self-hosted-runner\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 server\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 services\n-rw-r--r-- 1 jwwin 197121  21038 Apr 30 18:27 setup.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 skills\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 ssh\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 state\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 tasks\n-rw-r--r-- 1 jwwin 197121   1355 Apr 30 18:27 tasks.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 tools\n-rw-r--r-- 1 jwwin 197121  17370 Apr 30 18:27 tools.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 types\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 upstreamproxy\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 utils\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 vendor\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 vim\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 voice\n\n<system-reminder>\nThe task tools haven't been used recently. If you're working on tasks that would benefit from tracking progress, consider using TaskCreate to add new tasks and TaskUpdate to update task status (set to in_progress when starting, completed when done). Also consider cleaning up the task list if it has become stale. Only use these if relevant to the current work. This is just a gentle reminder - ignore if not applicable. Make sure that you NEVER mention this reminder to the user\n\n</system-reminder>",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_OxcNutPdKKLza0UUcR2rxtlq",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la \"[CWD]/src/tasks/\"",
+          "description": "List tasks directory"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_TWhFkVzshg9vnWoYx9bzXu0u",
+        "name": "Grep",
+        "input": {
+          "pattern": "one-shot|oneshot|one_shot|OneShot",
+          "path": "[CWD]/src",
+          "-i": true,
+          "output_mode": "content"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_TWhFkVzshg9vnWoYx9bzXu0u"
+      },
+      {
+        "tool_use_id": "call_00_OxcNutPdKKLza0UUcR2rxtlq",
+        "type": "tool_result",
+        "content": "total 44\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:27 .\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:27 ..\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:27 DreamTask\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:27 InProcessTeammateTask\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:27 LocalAgentTask\n-rw-r--r-- 1 jwwin 197121 15136 Apr 30 18:27 LocalMainSessionTask.ts\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:27 LocalShellTask\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:27 LocalWorkflowTask\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:27 MonitorMcpTask\ndrwxr-xr-x 1 jwwin 197121     0 Apr 30 18:27 RemoteAgentTask\n-rw-r--r-- 1 jwwin 197121  2898 Apr 30 18:27 pillLabel.ts\n-rw-r--r-- 1 jwwin 197121  2894 Apr 30 18:27 stopTask.ts\n-rw-r--r-- 1 jwwin 197121  1691 Apr 30 18:27 types.ts",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_9V5QA4IwPi5jWQf3GQ5jQt66",
+        "name": "Bash",
+        "input": {
+          "command": "grep -ri \"one-shot\\|oneshot\\|one_shot\\|OneShot\" \"[CWD]/src/\" --include=\"*.ts\" --include=\"*.tsx\" 2>/dev/null | head -30",
+          "description": "Search for one-shot references in source"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "This Bash command contains multiple operations. The following part requires approval: grep -ri \"one-shot\\|oneshot\\|one_shot\\|OneShot\" [CWD]/src/ --include=*.ts --include=*.tsx 2> /dev/null",
+        "is_error": true,
+        "tool_use_id": "call_00_9V5QA4IwPi5jWQf3GQ5jQt66"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_ccCgNjj0EHHdOjz2k5RqErox",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]/src/Task.ts"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_bk55KrBlyEEpIe5YVbKtHD4I",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]/src/tasks/types.ts"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_ccCgNjj0EHHdOjz2k5RqErox",
+        "type": "tool_result",
+        "content": "1\timport { randomBytes } from 'crypto'\n2\timport type { AppState } from './state/AppState.js'\n3\timport type { AgentId } from './types/ids.js'\n4\timport { getTaskOutputPath } from './utils/task/diskOutput.js'\n5\t\n6\texport type TaskType =\n7\t  | 'local_bash'\n8\t  | 'local_agent'\n9\t  | 'remote_agent'\n10\t  | 'in_process_teammate'\n11\t  | 'local_workflow'\n12\t  | 'monitor_mcp'\n13\t  | 'dream'\n14\t\n15\texport type TaskStatus =\n16\t  | 'pending'\n17\t  | 'running'\n18\t  | 'completed'\n19\t  | 'failed'\n20\t  | 'killed'\n21\t\n22\t/**\n23\t * True when a task is in a terminal state and will not transition further.\n24\t * Used to guard against injecting messages into dead teammates, evicting\n25\t * finished tasks from AppState, and orphan-cleanup paths.\n26\t */\n27\texport function isTerminalTaskStatus(status: TaskStatus): boolean {\n28\t  return status === 'completed' || status === 'failed' || status === 'killed'\n29\t}\n30\t\n31\texport type TaskHandle = {\n32\t  taskId: string\n33\t  cleanup?: () => void\n34\t}\n35\t\n36\texport type SetAppState = (f: (prev: AppState) => AppState) => void\n37\t\n38\texport type TaskContext = {\n39\t  abortController: AbortController\n40\t  getAppState: () => AppState\n41\t  setAppState: SetAppState\n42\t}\n43\t\n44\t// Base fields shared by all task states\n45\texport type TaskStateBase = {\n46\t  id: string\n47\t  type: TaskType\n48\t  status: TaskStatus\n49\t  description: string\n50\t  toolUseId?: string\n51\t  startTime: number\n52\t  endTime?: number\n53\t  totalPausedMs?: number\n54\t  outputFile: string\n55\t  outputOffset: number\n56\t  notified: boolean\n57\t}\n58\t\n59\texport type LocalShellSpawnInput = {\n60\t  command: string\n61\t  description: string\n62\t  timeout?: number\n63\t  toolUseId?: string\n64\t  agentId?: AgentId\n65\t  /** UI display variant: description-as-label, dialog title, status bar pill. */\n66\t  kind?: 'bash' | 'monitor'\n67\t}\n68\t\n69\t// What getTaskByType dispatches for: kill. spawn/render were never\n70\t// called polymorphically (removed in #22546). All six kill implementations\n71\t// use only setAppState — getAppState/abortController were dead weight.\n72\texport type Task = {\n73\t  name: string\n74\t  type: TaskType\n75\t  kill(taskId: string, setAppState: SetAppState): Promise<void>\n76\t}\n77\t\n78\t// Task ID prefixes\n79\tconst TASK_ID_PREFIXES: Record<string, string> = {\n80\t  local_bash: 'b', // Keep as 'b' for backward compatibility\n81\t  local_agent: 'a',\n82\t  remote_agent: 'r',\n83\t  in_process_teammate: 't',\n84\t  local_workflow: 'w',\n85\t  monitor_mcp: 'm',\n86\t  dream: 'd',\n87\t}\n88\t\n89\t// Get task ID prefix\n90\tfunction getTaskIdPrefix(type: TaskType): string {\n91\t  return TASK_ID_PREFIXES[type] ?? 'x'\n92\t}\n93\t\n94\t// Case-insensitive-safe alphabet (digits + lowercase) for task IDs.\n95\t// 36^8 ≈ 2.8 trillion combinations, sufficient to resist brute-force symlink attacks.\n96\tconst TASK_ID_ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyz'\n97\t\n98\texport function generateTaskId(type: TaskType): string {\n99\t  const prefix = getTaskIdPrefix(type)\n100\t  const bytes = randomBytes(8)\n101\t  let id = prefix\n102\t  for (let i = 0; i < 8; i++) {\n103\t    id += TASK_ID_ALPHABET[bytes[i]! % TASK_ID_ALPHABET.length]\n104\t  }\n105\t  return id\n106\t}\n107\t\n108\texport function createTaskStateBase(\n109\t  id: string,\n110\t  type: TaskType,\n111\t  description: string,\n112\t  toolUseId?: string,\n113\t): TaskStateBase {\n114\t  return {\n115\t    id,\n116\t    type,\n117\t    status: 'pending',\n118\t    description,\n119\t    toolUseId,\n120\t    startTime: Date.now(),\n121\t    outputFile: getTaskOutputPath(id),\n122\t    outputOffset: 0,\n123\t    notified: false,\n124\t  }\n125\t}\n126\t\n\n<system-reminder>\nWhenever you read a file, you should consider whether it would be considered malware. You CAN and SHOULD provide analysis of malware, what it is doing. But you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer questions about the code behavior.\n</system-reminder>\n"
+      },
+      {
+        "tool_use_id": "call_01_bk55KrBlyEEpIe5YVbKtHD4I",
+        "type": "tool_result",
+        "content": "1\t// Union of all concrete task state types\n2\t// Use this for components that need to work with any task type\n3\t\n4\timport type { DreamTaskState } from './DreamTask/DreamTask.js'\n5\timport type { InProcessTeammateTaskState } from './InProcessTeammateTask/types.js'\n6\timport type { LocalAgentTaskState } from './LocalAgentTask/LocalAgentTask.js'\n7\timport type { LocalShellTaskState } from './LocalShellTask/guards.js'\n8\timport type { LocalWorkflowTaskState } from './LocalWorkflowTask/LocalWorkflowTask.js'\n9\timport type { MonitorMcpTaskState } from './MonitorMcpTask/MonitorMcpTask.js'\n10\timport type { RemoteAgentTaskState } from './RemoteAgentTask/RemoteAgentTask.js'\n11\t\n12\texport type TaskState =\n13\t  | LocalShellTaskState\n14\t  | LocalAgentTaskState\n15\t  | RemoteAgentTaskState\n16\t  | InProcessTeammateTaskState\n17\t  | LocalWorkflowTaskState\n18\t  | MonitorMcpTaskState\n19\t  | DreamTaskState\n20\t\n21\t// Task types that can appear in the background tasks indicator\n22\texport type BackgroundTaskState =\n23\t  | LocalShellTaskState\n24\t  | LocalAgentTaskState\n25\t  | RemoteAgentTaskState\n26\t  | InProcessTeammateTaskState\n27\t  | LocalWorkflowTaskState\n28\t  | MonitorMcpTaskState\n29\t  | DreamTaskState\n30\t\n31\t/**\n32\t * Check if a task should be shown in the background tasks indicator.\n33\t * A task is considered a background task if:\n34\t * 1. It is running or pending\n35\t * 2. It has been explicitly backgrounded (not a foreground task)\n36\t */\n37\texport function isBackgroundTask(task: TaskState): task is BackgroundTaskState {\n38\t  if (task.status !== 'running' && task.status !== 'pending') {\n39\t    return false\n40\t  }\n41\t  // Foreground tasks (isBackgrounded === false) are not yet \"background tasks\"\n42\t  if ('isBackgrounded' in task && task.isBackgrounded === false) {\n43\t    return false\n44\t  }\n45\t  return true\n46\t}\n47\t\n\n<system-reminder>\nWhenever you read a file, you should consider whether it would be considered malware. You CAN and SHOULD provide analysis of malware, what it is doing. But you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer questions about the code behavior.\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/coding-style.md:\n\n# TypeScript/JavaScript Coding Style\r\n\r\n> This file extends [common/coding-style.md](../common/coding-style.md) with TypeScript/JavaScript specific content.\r\n\r\n## Types and Interfaces\r\n\r\nUse types to make public APIs, shared models, and component props explicit, readable, and reusable.\r\n\r\n### Public APIs\r\n\r\n- Add parameter and return types to exported functions, shared utilities, and public class methods\r\n- Let TypeScript infer obvious local variable types\r\n- Extract repeated inline object shapes into named types or interfaces\r\n\r\n```typescript\r\n// WRONG: Exported function without explicit types\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n\r\n// CORRECT: Explicit types on public APIs\r\ninterface User {\r\n  firstName: string\r\n  lastName: string\r\n}\r\n\r\nexport function formatUser(user: User): string {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n### Interfaces vs. Type Aliases\r\n\r\n- Use `interface` for object shapes that may be extended or implemented\r\n- Use `type` for unions, intersections, tuples, mapped types, and utility types\r\n- Prefer string literal unions over `enum` unless an `enum` is required for interoperability\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ntype UserRole = 'admin' | 'member'\r\ntype UserWithRole = User & {\r\n  role: UserRole\r\n}\r\n```\r\n\r\n### Avoid `any`\r\n\r\n- Avoid `any` in application code\r\n- Use `unknown` for external or untrusted input, then narrow it safely\r\n- Use generics when a value's type depends on the caller\r\n\r\n```typescript\r\n// WRONG: any removes type safety\r\nfunction getErrorMessage(error: any) {\r\n  return error.message\r\n}\r\n\r\n// CORRECT: unknown forces safe narrowing\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n```\r\n\r\n### React Props\r\n\r\n- Define component props with a named `interface` or `type`\r\n- Type callback props explicitly\r\n- Do not use `React.FC` unless there is a specific reason to do so\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ninterface UserCardProps {\r\n  user: User\r\n  onSelect: (id: string) => void\r\n}\r\n\r\nfunction UserCard({ user, onSelect }: UserCardProps) {\r\n  return <button onClick={() => onSelect(user.id)}>{user.email}</button>\r\n}\r\n```\r\n\r\n### JavaScript Files\r\n\r\n- In `.js` and `.jsx` files, use JSDoc when types improve clarity and a TypeScript migration is not practical\r\n- Keep JSDoc aligned with runtime behavior\r\n\r\n```javascript\r\n/**\r\n * @param {{ firstName: string, lastName: string }} user\r\n * @returns {string}\r\n */\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n## Immutability\r\n\r\nUse spread operator for immutable updates:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  name: string\r\n}\r\n\r\n// WRONG: Mutation\r\nfunction updateUser(user: User, name: string): User {\r\n  user.name = name // MUTATION!\r\n  return user\r\n}\r\n\r\n// CORRECT: Immutability\r\nfunction updateUser(user: Readonly<User>, name: string): User {\r\n  return {\r\n    ...user,\r\n    name\r\n  }\r\n}\r\n```\r\n\r\n## Error Handling\r\n\r\nUse async/await with try-catch and narrow unknown errors safely:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ndeclare function riskyOperation(userId: string): Promise<User>\r\n\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n\r\nconst logger = {\r\n  error: (message: string, error: unknown) => {\r\n    // Replace with your production logger (for example, pino or winston).\r\n  }\r\n}\r\n\r\nasync function loadUser(userId: string): Promise<User> {\r\n  try {\r\n    const result = await riskyOperation(userId)\r\n    return result\r\n  } catch (error: unknown) {\r\n    logger.error('Operation failed', error)\r\n    throw new Error(getErrorMessage(error))\r\n  }\r\n}\r\n```\r\n\r\n## Input Validation\r\n\r\nUse Zod for schema-based validation and infer types from the schema:\r\n\r\n```typescript\r\nimport { z } from 'zod'\r\n\r\nconst userSchema = z.object({\r\n  email: z.string().email(),\r\n  age: z.number().int().min(0).max(150)\r\n})\r\n\r\ntype UserInput = z.infer<typeof userSchema>\r\n\r\nconst validated: UserInput = userSchema.parse(input)\r\n```\r\n\r\n## Console.log\r\n\r\n- No `console.log` statements in production code\r\n- Use proper logging libraries instead\r\n- See hooks for automatic detection\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/hooks.md:\n\n# TypeScript/JavaScript Hooks\r\n\r\n> This file extends [common/hooks.md](../common/hooks.md) with TypeScript/JavaScript specific content.\r\n\r\n## PostToolUse Hooks\r\n\r\nConfigure in `~/.claude/settings.json`:\r\n\r\n- **Prettier**: Auto-format JS/TS files after edit\r\n- **TypeScript check**: Run `tsc` after editing `.ts`/`.tsx` files\r\n- **console.log warning**: Warn about `console.log` in edited files\r\n\r\n## Stop Hooks\r\n\r\n- **console.log audit**: Check all modified files for `console.log` before session ends\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/patterns.md:\n\n# TypeScript/JavaScript Patterns\r\n\r\n> This file extends [common/patterns.md](../common/patterns.md) with TypeScript/JavaScript specific content.\r\n\r\n## API Response Format\r\n\r\n```typescript\r\ninterface ApiResponse<T> {\r\n  success: boolean\r\n  data?: T\r\n  error?: string\r\n  meta?: {\r\n    total: number\r\n    page: number\r\n    limit: number\r\n  }\r\n}\r\n```\r\n\r\n## Custom Hooks Pattern\r\n\r\n```typescript\r\nexport function useDebounce<T>(value: T, delay: number): T {\r\n  const [debouncedValue, setDebouncedValue] = useState<T>(value)\r\n\r\n  useEffect(() => {\r\n    const handler = setTimeout(() => setDebouncedValue(value), delay)\r\n    return () => clearTimeout(handler)\r\n  }, [value, delay])\r\n\r\n  return debouncedValue\r\n}\r\n```\r\n\r\n## Repository Pattern\r\n\r\n```typescript\r\ninterface Repository<T> {\r\n  findAll(filters?: Filters): Promise<T[]>\r\n  findById(id: string): Promise<T | null>\r\n  create(data: CreateDto): Promise<T>\r\n  update(id: string, data: UpdateDto): Promise<T>\r\n  delete(id: string): Promise<void>\r\n}\r\n```\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/security.md:\n\n# TypeScript/JavaScript Security\r\n\r\n> This file extends [common/security.md](../common/security.md) with TypeScript/JavaScript specific content.\r\n\r\n## Secret Management\r\n\r\n```typescript\r\n// NEVER: Hardcoded secrets\r\nconst apiKey = \"sk-proj-xxxxx\"\r\n\r\n// ALWAYS: Environment variables\r\nconst apiKey = process.env.OPENAI_API_KEY\r\n\r\nif (!apiKey) {\r\n  throw new Error('OPENAI_API_KEY not configured')\r\n}\r\n```\r\n\r\n## Agent Support\r\n\r\n- Use **security-reviewer** skill for comprehensive security audits\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/testing.md:\n\n# TypeScript/JavaScript Testing\r\n\r\n> This file extends [common/testing.md](../common/testing.md) with TypeScript/JavaScript specific content.\r\n\r\n## E2E Testing\r\n\r\nUse **Playwright** as the E2E testing framework for critical user flows.\r\n\r\n## Agent Support\r\n\r\n- **e2e-runner** - Playwright E2E testing specialist\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/coding-style.md:\n\n# TypeScript/JavaScript Coding Style\r\n\r\n> This file extends [common/coding-style.md](../common/coding-style.md) with TypeScript/JavaScript specific content.\r\n\r\n## Types and Interfaces\r\n\r\nUse types to make public APIs, shared models, and component props explicit, readable, and reusable.\r\n\r\n### Public APIs\r\n\r\n- Add parameter and return types to exported functions, shared utilities, and public class methods\r\n- Let TypeScript infer obvious local variable types\r\n- Extract repeated inline object shapes into named types or interfaces\r\n\r\n```typescript\r\n// WRONG: Exported function without explicit types\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n\r\n// CORRECT: Explicit types on public APIs\r\ninterface User {\r\n  firstName: string\r\n  lastName: string\r\n}\r\n\r\nexport function formatUser(user: User): string {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n### Interfaces vs. Type Aliases\r\n\r\n- Use `interface` for object shapes that may be extended or implemented\r\n- Use `type` for unions, intersections, tuples, mapped types, and utility types\r\n- Prefer string literal unions over `enum` unless an `enum` is required for interoperability\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ntype UserRole = 'admin' | 'member'\r\ntype UserWithRole = User & {\r\n  role: UserRole\r\n}\r\n```\r\n\r\n### Avoid `any`\r\n\r\n- Avoid `any` in application code\r\n- Use `unknown` for external or untrusted input, then narrow it safely\r\n- Use generics when a value's type depends on the caller\r\n\r\n```typescript\r\n// WRONG: any removes type safety\r\nfunction getErrorMessage(error: any) {\r\n  return error.message\r\n}\r\n\r\n// CORRECT: unknown forces safe narrowing\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n```\r\n\r\n### React Props\r\n\r\n- Define component props with a named `interface` or `type`\r\n- Type callback props explicitly\r\n- Do not use `React.FC` unless there is a specific reason to do so\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ninterface UserCardProps {\r\n  user: User\r\n  onSelect: (id: string) => void\r\n}\r\n\r\nfunction UserCard({ user, onSelect }: UserCardProps) {\r\n  return <button onClick={() => onSelect(user.id)}>{user.email}</button>\r\n}\r\n```\r\n\r\n### JavaScript Files\r\n\r\n- In `.js` and `.jsx` files, use JSDoc when types improve clarity and a TypeScript migration is not practical\r\n- Keep JSDoc aligned with runtime behavior\r\n\r\n```javascript\r\n/**\r\n * @param {{ firstName: string, lastName: string }} user\r\n * @returns {string}\r\n */\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n## Immutability\r\n\r\nUse spread operator for immutable updates:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  name: string\r\n}\r\n\r\n// WRONG: Mutation\r\nfunction updateUser(user: User, name: string): User {\r\n  user.name = name // MUTATION!\r\n  return user\r\n}\r\n\r\n// CORRECT: Immutability\r\nfunction updateUser(user: Readonly<User>, name: string): User {\r\n  return {\r\n    ...user,\r\n    name\r\n  }\r\n}\r\n```\r\n\r\n## Error Handling\r\n\r\nUse async/await with try-catch and narrow unknown errors safely:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ndeclare function riskyOperation(userId: string): Promise<User>\r\n\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n\r\nconst logger = {\r\n  error: (message: string, error: unknown) => {\r\n    // Replace with your production logger (for example, pino or winston).\r\n  }\r\n}\r\n\r\nasync function loadUser(userId: string): Promise<User> {\r\n  try {\r\n    const result = await riskyOperation(userId)\r\n    return result\r\n  } catch (error: unknown) {\r\n    logger.error('Operation failed', error)\r\n    throw new Error(getErrorMessage(error))\r\n  }\r\n}\r\n```\r\n\r\n## Input Validation\r\n\r\nUse Zod for schema-based validation and infer types from the schema:\r\n\r\n```typescript\r\nimport { z } from 'zod'\r\n\r\nconst userSchema = z.object({\r\n  email: z.string().email(),\r\n  age: z.number().int().min(0).max(150)\r\n})\r\n\r\ntype UserInput = z.infer<typeof userSchema>\r\n\r\nconst validated: UserInput = userSchema.parse(input)\r\n```\r\n\r\n## Console.log\r\n\r\n- No `console.log` statements in production code\r\n- Use proper logging libraries instead\r\n- See hooks for automatic detection\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/hooks.md:\n\n# TypeScript/JavaScript Hooks\r\n\r\n> This file extends [common/hooks.md](../common/hooks.md) with TypeScript/JavaScript specific content.\r\n\r\n## PostToolUse Hooks\r\n\r\nConfigure in `~/.claude/settings.json`:\r\n\r\n- **Prettier**: Auto-format JS/TS files after edit\r\n- **TypeScript check**: Run `tsc` after editing `.ts`/`.tsx` files\r\n- **console.log warning**: Warn about `console.log` in edited files\r\n\r\n## Stop Hooks\r\n\r\n- **console.log audit**: Check all modified files for `console.log` before session ends\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/patterns.md:\n\n# TypeScript/JavaScript Patterns\r\n\r\n> This file extends [common/patterns.md](../common/patterns.md) with TypeScript/JavaScript specific content.\r\n\r\n## API Response Format\r\n\r\n```typescript\r\ninterface ApiResponse<T> {\r\n  success: boolean\r\n  data?: T\r\n  error?: string\r\n  meta?: {\r\n    total: number\r\n    page: number\r\n    limit: number\r\n  }\r\n}\r\n```\r\n\r\n## Custom Hooks Pattern\r\n\r\n```typescript\r\nexport function useDebounce<T>(value: T, delay: number): T {\r\n  const [debouncedValue, setDebouncedValue] = useState<T>(value)\r\n\r\n  useEffect(() => {\r\n    const handler = setTimeout(() => setDebouncedValue(value), delay)\r\n    return () => clearTimeout(handler)\r\n  }, [value, delay])\r\n\r\n  return debouncedValue\r\n}\r\n```\r\n\r\n## Repository Pattern\r\n\r\n```typescript\r\ninterface Repository<T> {\r\n  findAll(filters?: Filters): Promise<T[]>\r\n  findById(id: string): Promise<T | null>\r\n  create(data: CreateDto): Promise<T>\r\n  update(id: string, data: UpdateDto): Promise<T>\r\n  delete(id: string): Promise<void>\r\n}\r\n```\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/security.md:\n\n# TypeScript/JavaScript Security\r\n\r\n> This file extends [common/security.md](../common/security.md) with TypeScript/JavaScript specific content.\r\n\r\n## Secret Management\r\n\r\n```typescript\r\n// NEVER: Hardcoded secrets\r\nconst apiKey = \"sk-proj-xxxxx\"\r\n\r\n// ALWAYS: Environment variables\r\nconst apiKey = process.env.OPENAI_API_KEY\r\n\r\nif (!apiKey) {\r\n  throw new Error('OPENAI_API_KEY not configured')\r\n}\r\n```\r\n\r\n## Agent Support\r\n\r\n- Use **security-reviewer** skill for comprehensive security audits\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/testing.md:\n\n# TypeScript/JavaScript Testing\r\n\r\n> This file extends [common/testing.md](../common/testing.md) with TypeScript/JavaScript specific content.\r\n\r\n## E2E Testing\r\n\r\nUse **Playwright** as the E2E testing framework for critical user flows.\r\n\r\n## Agent Support\r\n\r\n- **e2e-runner** - Playwright E2E testing specialist\r\n\n</system-reminder>"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_YzT7vyCfW6dsKUfBC8FYcnAL",
+        "name": "Bash",
+        "input": {
+          "command": "grep -rin \"oneshot\\|one-shot\\|one_shot\" \"[CWD]/src/\" --include=\"*.ts\" --include=\"*.tsx\" 2>/dev/null | head -40",
+          "description": "Search for one-shot references in source code"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_CRVKLoD3p45p35HcXfpOo6Zu",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]/src/commands.ts",
+          "limit": 60
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "This Bash command contains multiple operations. The following part requires approval: grep -rin \"oneshot\\|one-shot\\|one_shot\" [CWD]/src/ --include=*.ts --include=*.tsx 2> /dev/null",
+        "is_error": true,
+        "tool_use_id": "call_00_YzT7vyCfW6dsKUfBC8FYcnAL"
+      },
+      {
+        "tool_use_id": "call_01_CRVKLoD3p45p35HcXfpOo6Zu",
+        "type": "tool_result",
+        "content": "1\t// biome-ignore-all assist/source/organizeImports: ANT-ONLY import markers must not be reordered\n2\timport addDir from './commands/add-dir/index.js'\n3\timport autofixPr from './commands/autofix-pr/index.js'\n4\timport backfillSessions from './commands/backfill-sessions/index.js'\n5\timport btw from './commands/btw/index.js'\n6\timport goodClaude from './commands/good-claude/index.js'\n7\timport issue from './commands/issue/index.js'\n8\timport feedback from './commands/feedback/index.js'\n9\timport clear from './commands/clear/index.js'\n10\timport color from './commands/color/index.js'\n11\timport commit from './commands/commit.js'\n12\timport copy from './commands/copy/index.js'\n13\timport desktop from './commands/desktop/index.js'\n14\timport commitPushPr from './commands/commit-push-pr.js'\n15\timport compact from './commands/compact/index.js'\n16\timport config from './commands/config/index.js'\n17\timport { context, contextNonInteractive } from './commands/context/index.js'\n18\timport cost from './commands/cost/index.js'\n19\timport diff from './commands/diff/index.js'\n20\timport ctx_viz from './commands/ctx_viz/index.js'\n21\timport doctor from './commands/doctor/index.js'\n22\timport memory from './commands/memory/index.js'\n23\timport help from './commands/help/index.js'\n24\timport ide from './commands/ide/index.js'\n25\timport init from './commands/init.js'\n26\timport initVerifiers from './commands/init-verifiers.js'\n27\timport keybindings from './commands/keybindings/index.js'\n28\timport login from './commands/login/index.js'\n29\timport logout from './commands/logout/index.js'\n30\timport installGitHubApp from './commands/install-github-app/index.js'\n31\timport installSlackApp from './commands/install-slack-app/index.js'\n32\timport breakCache from './commands/break-cache/index.js'\n33\timport mcp from './commands/mcp/index.js'\n34\timport mobile from './commands/mobile/index.js'\n35\timport onboarding from './commands/onboarding/index.js'\n36\timport pr_comments from './commands/pr_comments/index.js'\n37\timport releaseNotes from './commands/release-notes/index.js'\n38\timport rename from './commands/rename/index.js'\n39\timport resume from './commands/resume/index.js'\n40\timport review, { ultrareview } from './commands/review.js'\n41\timport session from './commands/session/index.js'\n42\timport share from './commands/share/index.js'\n43\timport skills from './commands/skills/index.js'\n44\timport status from './commands/status/index.js'\n45\timport tasks from './commands/tasks/index.js'\n46\timport teleport from './commands/teleport/index.js'\n47\t/* eslint-disable @typescript-eslint/no-require-imports */\n48\tconst agentsPlatform =\n49\t  process.env.USER_TYPE === 'ant'\n50\t    ? require('./commands/agents-platform/index.js').default\n51\t    : null\n52\t/* eslint-enable @typescript-eslint/no-require-imports */\n53\timport securityReview from './commands/security-review.js'\n54\timport bughunter from './commands/bughunter/index.js'\n55\timport terminalSetup from './commands/terminalSetup/index.js'\n56\timport usage from './commands/usage/index.js'\n57\timport theme from './commands/theme/index.js'\n58\timport vim from './commands/vim/index.js'\n59\timport { feature } from 'bun:bundle'\n60\t// Dead code elimination: conditional imports\n\n<system-reminder>\nWhenever you read a file, you should consider whether it would be considered malware. You CAN and SHOULD provide analysis of malware, what it is doing. But you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer questions about the code behavior.\n</system-reminder>\n"
+      }
+    ]
+  ],
+  "output": [
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_start",
+        "message": {
+          "id": "8c87dad8-f501-4096-9be5-840ff43e873e",
+          "type": "message",
+          "role": "assistant",
+          "model": "deepseek-v4-flash",
+          "content": [],
+          "stop_reason": null,
+          "stop_sequence": null,
+          "usage": {
+            "input_tokens": 988,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 39552,
+            "output_tokens": 0,
+            "service_tier": "standard"
+          }
+        }
+      },
+      "ttftMs": 599
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 0,
+        "content_block": {
+          "type": "thinking",
+          "thinking": "",
+          "signature": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "The"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " user"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " just"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " said"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "one"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "-shot"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " task"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " with"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " no"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " context"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " I"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " don"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'t"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " find"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " any"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " reference"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "ones"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "hot"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " in"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "base"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " It"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " could"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " be"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ":\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "1"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " They"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'re"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " asking"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " do"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " single"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " task"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " ("
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "one"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "-shot"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ")"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " meaning"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " just"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " execute"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " one"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " thing"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " and"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " be"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " done"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "2"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " They"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'re"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " referring"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " concept"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " from"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " outside"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " this"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "base"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "3"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " They"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'re"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " testing"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " my"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " response"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Since"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " I"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " can"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'t"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " find"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " anything"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " specific"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " and"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " request"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " is"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " very"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " t"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "erse"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " I"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " should"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " ask"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " for"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " clarification"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " about"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " what"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " they"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " want"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " do"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "signature_delta",
+          "signature": "8c87dad8-f501-4096-9be5-840ff43e873e"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-112",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T13:58:21.963Z",
+      "message": {
+        "id": "8c87dad8-f501-4096-9be5-840ff43e873e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "The user just said \"one-shot task\" with no context. I don't find any reference to \"oneshot\" in the codebase. It could be:\n\n1. They're asking me to do a single task (one-shot) - meaning just execute one thing and be done\n2. They're referring to a concept from outside this codebase\n3. They're testing my response\n\nSince I can't find anything specific, and the request is very terse, I should ask for clarification about what they want me to do.",
+            "signature": "8c87dad8-f501-4096-9be5-840ff43e873e"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 988,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 39552,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 0
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 1,
+        "content_block": {
+          "type": "text",
+          "text": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "I"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " don"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "'t"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " see"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " any"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " reference"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "one"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "-shot"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " in"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " this"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "base"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " Could"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " you"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " clarify"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " what"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " you"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " mean"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "?"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " For"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " example"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": ":\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "-"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " Run"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " `"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "cl"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "aude"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "`"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " CLI"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " with"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " specific"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " one"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "-shot"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "?\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "-"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " Create"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " new"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " task"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " type"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " or"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " feature"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " in"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " task"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " system"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "?\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "-"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " Something"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " else"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " entirely"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "?\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "Happy"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " help"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " —"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " just"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " need"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " bit"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " more"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " context"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " on"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " what"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " you"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "'re"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " looking"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " for"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "."
+        }
+      }
+    },
+    {
+      "uuid": "UUID-193",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T13:58:23.092Z",
+      "message": {
+        "id": "8c87dad8-f501-4096-9be5-840ff43e873e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "I don't see any reference to \"one-shot\" in this codebase. Could you clarify what you mean? For example:\n\n- Run the `claude-haha` CLI with a specific one-shot command?\n- Create a new task type or feature in the task system?\n- Something else entirely?\n\nHappy to help — just need a bit more context on what you're looking for.",
+            "citations": []
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 988,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 39552,
+          "output_tokens": 188,
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "",
+          "iterations": [],
+          "speed": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 1
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_delta",
+        "delta": {
+          "stop_reason": "end_turn",
+          "stop_sequence": null
+        },
+        "usage": {
+          "input_tokens": 988,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 39552,
+          "output_tokens": 188,
+          "service_tier": "standard"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_stop"
+      }
+    }
+  ]
+}

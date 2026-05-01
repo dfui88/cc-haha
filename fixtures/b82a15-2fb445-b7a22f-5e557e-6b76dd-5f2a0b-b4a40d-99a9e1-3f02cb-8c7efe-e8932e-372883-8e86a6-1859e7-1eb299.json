@@ -1,0 +1,1153 @@
+{
+  "input": [
+    [
+      {
+        "type": "text",
+        "text": "limit test"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_QgT479OQgv6v1uIYA7AhuCfJ",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la",
+          "description": "List files in working directory"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_FQxLNw9G1pv2jqoxUlZVCNZc",
+        "name": "Bash",
+        "input": {
+          "command": "git log --oneline -10",
+          "description": "Check recent git history"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_01_FQxLNw9G1pv2jqoxUlZVCNZc",
+        "type": "tool_result",
+        "content": "8e5c1cd refactor: extract shared IM helpers and optimize adapter efficiency\n8d8ad96 fix: add missing responseTimeoutId to test mocks\n12e194a docs: update v0.1.8 release notes with 5 code review optimizations\n2ba19b2 refactor: apply 5 code review optimizations from fork comparison\n8a0e393 merge: restore v0.1.8 modifications on top of upstream\n6ac0c31 docs: add architecture docs and auto-generate project structure\n777c596 docs: add README star history section\n48ae305 docs: make issue reports actionable for desktop triage\n670281b fix: keep desktop app running from tray after close\na68a244 Prepare 0.1.8 for remote desktop release",
+        "is_error": false
+      },
+      {
+        "tool_use_id": "call_00_QgT479OQgv6v1uIYA7AhuCfJ",
+        "type": "tool_result",
+        "content": "total 907\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:04 ..\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .claude\n-rw-r--r-- 1 jwwin 197121   2377 Apr 26 12:57 .env.example\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:13 .git\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 .github\n-rw-r--r-- 1 jwwin 197121   1167 Apr 30 11:09 .gitignore\n-rw-r--r-- 1 jwwin 197121   4106 Apr 30 18:27 AGENTS.md\n-rw-r--r-- 1 jwwin 197121  15782 Apr 30 18:27 ARCHITECTURE.md\n-rw-r--r-- 1 jwwin 197121   1854 Apr 26 12:57 LICENSE\n-rw-r--r-- 1 jwwin 197121   7348 Apr 30 18:27 PROJECT_STRUCTURE.md\n-rw-r--r-- 1 jwwin 197121  13753 Apr 30 18:27 README.en.md\n-rw-r--r-- 1 jwwin 197121  13058 Apr 30 18:27 README.md\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 adapters\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 bin\n-rw-r--r-- 1 jwwin 197121 208690 Apr 26 12:57 bun.lock\n-rw-r--r-- 1 jwwin 197121     28 Apr 26 12:57 bunfig.toml\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:13 desktop\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 docs\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:13 fixtures\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 21:25 node_modules\n-rw-r--r-- 1 jwwin 197121 322397 Apr 30 18:27 package-lock.json\n-rw-r--r-- 1 jwwin 197121   2621 Apr 30 18:28 package.json\n-rw-r--r-- 1 jwwin 197121    662 Apr 30 18:27 preload.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 release-notes\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 runtime\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:08 scripts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 src\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 stubs\n-rw-r--r-- 1 jwwin 197121    450 Apr 30 18:27 tsconfig.json",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_YeHHJmY0gCbbarEsNjjI8ozZ",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]/package.json"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_YeHHJmY0gCbbarEsNjjI8ozZ",
+        "type": "tool_result",
+        "content": "1\t{\n2\t  \"name\": \"claude-code-local\",\n3\t  \"version\": \"999.0.0-local\",\n4\t  \"private\": true,\n5\t  \"type\": \"module\",\n6\t  \"bin\": {\n7\t    \"claude-haha\": \"./bin/claude-haha\"\n8\t  },\n9\t  \"scripts\": {\n10\t    \"claude-haha\": \"bash ./bin/claude-haha\",\n11\t    \"start\": \"bash ./bin/claude-haha\",\n12\t    \"generate:structure\": \"node scripts/generate-structure.mjs --depth 2\",\n13\t    \"docs:dev\": \"vitepress dev docs\",\n14\t    \"docs:build\": \"vitepress build docs\",\n15\t    \"docs:preview\": \"vitepress preview docs\"\n16\t  },\n17\t  \"dependencies\": {\n18\t    \"@anthropic-ai/sandbox-runtime\": \"^0.0.44\",\n19\t    \"@anthropic-ai/sdk\": \"^0.80.0\",\n20\t    \"@aws-sdk/client-bedrock-runtime\": \"^3.1020.0\",\n21\t    \"@commander-js/extra-typings\": \"^14.0.0\",\n22\t    \"@growthbook/growthbook\": \"^1.6.5\",\n23\t    \"@modelcontextprotocol/sdk\": \"^1.29.0\",\n24\t    \"@opentelemetry/api-logs\": \"^0.214.0\",\n25\t    \"@opentelemetry/core\": \"^2.6.1\",\n26\t    \"@opentelemetry/resources\": \"^2.6.1\",\n27\t    \"@opentelemetry/sdk-logs\": \"^0.214.0\",\n28\t    \"@opentelemetry/sdk-metrics\": \"^2.6.1\",\n29\t    \"@opentelemetry/sdk-trace-base\": \"^2.6.1\",\n30\t    \"@opentelemetry/semantic-conventions\": \"^1.40.0\",\n31\t    \"ajv\": \"^8.18.0\",\n32\t    \"asciichart\": \"^1.5.25\",\n33\t    \"auto-bind\": \"^5.0.1\",\n34\t    \"axios\": \"^1.14.0\",\n35\t    \"bidi-js\": \"^1.0.3\",\n36\t    \"chalk\": \"^5.6.2\",\n37\t    \"chokidar\": \"^5.0.0\",\n38\t    \"cli-boxes\": \"^4.0.1\",\n39\t    \"code-excerpt\": \"^4.0.0\",\n40\t    \"diff\": \"^8.0.4\",\n41\t    \"emoji-regex\": \"^10.6.0\",\n42\t    \"env-paths\": \"^4.0.0\",\n43\t    \"execa\": \"^9.6.1\",\n44\t    \"figures\": \"^6.1.0\",\n45\t    \"fuse.js\": \"^7.1.0\",\n46\t    \"get-east-asian-width\": \"^1.5.0\",\n47\t    \"google-auth-library\": \"^10.6.2\",\n48\t    \"highlight.js\": \"^11.11.1\",\n49\t    \"https-proxy-agent\": \"^8.0.0\",\n50\t    \"ignore\": \"^7.0.5\",\n51\t    \"indent-string\": \"^5.0.0\",\n52\t    \"ink\": \"^6.8.0\",\n53\t    \"jsonc-parser\": \"^3.3.1\",\n54\t    \"lodash-es\": \"^4.17.23\",\n55\t    \"lru-cache\": \"^11.2.7\",\n56\t    \"marked\": \"^17.0.5\",\n57\t    \"medium-zoom\": \"^1.1.0\",\n58\t    \"p-map\": \"^7.0.4\",\n59\t    \"picomatch\": \"^4.0.4\",\n60\t    \"proper-lockfile\": \"^4.1.2\",\n61\t    \"qrcode\": \"^1.5.4\",\n62\t    \"react\": \"^19.2.4\",\n63\t    \"react-reconciler\": \"^0.33.0\",\n64\t    \"semver\": \"^7.7.4\",\n65\t    \"shell-quote\": \"^1.8.3\",\n66\t    \"signal-exit\": \"^4.1.0\",\n67\t    \"stack-utils\": \"^2.0.6\",\n68\t    \"strip-ansi\": \"^7.2.0\",\n69\t    \"supports-hyperlinks\": \"^4.4.0\",\n70\t    \"tree-kill\": \"^1.2.2\",\n71\t    \"turndown\": \"^7.2.4\",\n72\t    \"type-fest\": \"^5.5.0\",\n73\t    \"undici\": \"^7.24.6\",\n74\t    \"usehooks-ts\": \"^3.1.1\",\n75\t    \"vscode-jsonrpc\": \"^8.2.1\",\n76\t    \"vscode-languageserver-types\": \"^3.17.5\",\n77\t    \"wrap-ansi\": \"^10.0.0\",\n78\t    \"ws\": \"^8.20.0\",\n79\t    \"xss\": \"^1.0.15\",\n80\t    \"yaml\": \"^2.8.3\",\n81\t    \"zod\": \"^4.3.6\"\n82\t  },\n83\t  \"devDependencies\": {\n84\t    \"mermaid\": \"^11.14.0\",\n85\t    \"vitepress\": \"^1.6.3\",\n86\t    \"vitepress-plugin-mermaid\": \"^2.0.17\",\n87\t    \"vue\": \"^3.5.13\"\n88\t  }\n89\t}\n90\t\n\n<system-reminder>\nWhenever you read a file, you should consider whether it would be considered malware. You CAN and SHOULD provide analysis of malware, what it is doing. But you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer questions about the code behavior.\n</system-reminder>\n"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_AqZCOfwvcT1gAGwQHXAVEmLH",
+        "name": "Grep",
+        "input": {
+          "pattern": "limit.?test",
+          "-i": true,
+          "output_mode": "content"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_INm3wOuoXvGm5AZLVyJTdplB",
+        "name": "Grep",
+        "input": {
+          "pattern": "limit",
+          "path": "[CWD]/src",
+          "output_mode": "files_with_matches",
+          "-i": true,
+          "head_limit": 30
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_00_AqZCOfwvcT1gAGwQHXAVEmLH"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_INm3wOuoXvGm5AZLVyJTdplB"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_r3yHwUJfXTzkIZqLf3oFjxsK",
+        "name": "Bash",
+        "input": {
+          "command": "grep -ri \"limit\" --include=\"*.ts\" --include=\"*.tsx\" -l src/ 2>/dev/null | head -30",
+          "description": "Search for \"limit\" in source files"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_EF6Q5Ydu3RfxlaKqBaduVdZV",
+        "name": "Bash",
+        "input": {
+          "command": "grep -ri \"limit.*test\\|test.*limit\" --include=\"*.ts\" -l src/ 2>/dev/null",
+          "description": "Search for limit test patterns"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "This Bash command contains multiple operations. The following part requires approval: grep -ri limit --include=*.ts --include=*.tsx -l src/ 2> /dev/null",
+        "is_error": true,
+        "tool_use_id": "call_00_r3yHwUJfXTzkIZqLf3oFjxsK"
+      },
+      {
+        "tool_use_id": "call_01_EF6Q5Ydu3RfxlaKqBaduVdZV",
+        "type": "tool_result",
+        "content": "src/assistant/sessionHistory.ts\nsrc/server/__tests__/cron-scheduler.test.ts\nsrc/services/api/withRetry.ts\nsrc/services/claudeAiLimits.ts\nsrc/services/mockRateLimits.ts\nsrc/services/policyLimits/index.ts\nsrc/tools/AgentTool/built-in/verificationAgent.ts\nsrc/tools/FileReadTool/limits.ts\nsrc/utils/bash/heredoc.ts\nsrc/utils/billing.ts",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_9sBa64PpM5EmM3kGOt5ZYMLt",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]/src/services/mockRateLimits.ts"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_t75G1ZjRBYWSvLeuZt1FdBz7",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]/src/services/claudeAiLimits.ts"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_01_t75G1ZjRBYWSvLeuZt1FdBz7",
+        "type": "tool_result",
+        "content": "1\timport { APIError } from '@anthropic-ai/sdk'\n2\timport type { MessageParam } from '@anthropic-ai/sdk/resources/index.mjs'\n3\timport isEqual from 'lodash-es/isEqual.js'\n4\timport { getIsNonInteractiveSession } from '../bootstrap/state.js'\n5\timport { isClaudeAISubscriber } from '../utils/auth.js'\n6\timport { getModelBetas } from '../utils/betas.js'\n7\timport { getGlobalConfig, saveGlobalConfig } from '../utils/config.js'\n8\timport { logError } from '../utils/log.js'\n9\timport { getSmallFastModel } from '../utils/model/model.js'\n10\timport { isEssentialTrafficOnly } from '../utils/privacyLevel.js'\n11\timport type { AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS } from './analytics/index.js'\n12\timport { logEvent } from './analytics/index.js'\n13\timport { getAPIMetadata } from './api/claude.js'\n14\timport { getAnthropicClient } from './api/client.js'\n15\timport {\n16\t  processRateLimitHeaders,\n17\t  shouldProcessRateLimits,\n18\t} from './rateLimitMocking.js'\n19\t\n20\t// Re-export message functions from centralized location\n21\texport {\n22\t  getRateLimitErrorMessage,\n23\t  getRateLimitWarning,\n24\t  getUsingOverageText,\n25\t} from './rateLimitMessages.js'\n26\t\n27\ttype QuotaStatus = 'allowed' | 'allowed_warning' | 'rejected'\n28\t\n29\ttype RateLimitType =\n30\t  | 'five_hour'\n31\t  | 'seven_day'\n32\t  | 'seven_day_opus'\n33\t  | 'seven_day_sonnet'\n34\t  | 'overage'\n35\t\n36\texport type { RateLimitType }\n37\t\n38\ttype EarlyWarningThreshold = {\n39\t  utilization: number // 0-1 scale: trigger warning when usage >= this\n40\t  timePct: number // 0-1 scale: trigger warning when time elapsed <= this\n41\t}\n42\t\n43\ttype EarlyWarningConfig = {\n44\t  rateLimitType: RateLimitType\n45\t  claimAbbrev: '5h' | '7d'\n46\t  windowSeconds: number\n47\t  thresholds: EarlyWarningThreshold[]\n48\t}\n49\t\n50\t// Early warning configurations in priority order (checked first to last)\n51\t// Used as fallback when server doesn't send surpassed-threshold header\n52\t// Warns users when they're consuming quota faster than the time window allows\n53\tconst EARLY_WARNING_CONFIGS: EarlyWarningConfig[] = [\n54\t  {\n55\t    rateLimitType: 'five_hour',\n56\t    claimAbbrev: '5h',\n57\t    windowSeconds: 5 * 60 * 60,\n58\t    thresholds: [{ utilization: 0.9, timePct: 0.72 }],\n59\t  },\n60\t  {\n61\t    rateLimitType: 'seven_day',\n62\t    claimAbbrev: '7d',\n63\t    windowSeconds: 7 * 24 * 60 * 60,\n64\t    thresholds: [\n65\t      { utilization: 0.75, timePct: 0.6 },\n66\t      { utilization: 0.5, timePct: 0.35 },\n67\t      { utilization: 0.25, timePct: 0.15 },\n68\t    ],\n69\t  },\n70\t]\n71\t\n72\t// Maps claim abbreviations to rate limit types for header-based detection\n73\tconst EARLY_WARNING_CLAIM_MAP: Record<string, RateLimitType> = {\n74\t  '5h': 'five_hour',\n75\t  '7d': 'seven_day',\n76\t  overage: 'overage',\n77\t}\n78\t\n79\tconst RATE_LIMIT_DISPLAY_NAMES: Record<RateLimitType, string> = {\n80\t  five_hour: 'session limit',\n81\t  seven_day: 'weekly limit',\n82\t  seven_day_opus: 'Opus limit',\n83\t  seven_day_sonnet: 'Sonnet limit',\n84\t  overage: 'extra usage limit',\n85\t}\n86\t\n87\texport function getRateLimitDisplayName(type: RateLimitType): string {\n88\t  return RATE_LIMIT_DISPLAY_NAMES[type] || type\n89\t}\n90\t\n91\t/**\n92\t * Calculate what fraction of a time window has elapsed.\n93\t * Used for time-relative early warning fallback.\n94\t * @param resetsAt - Unix epoch timestamp in seconds when the limit resets\n95\t * @param windowSeconds - Duration of the window in seconds\n96\t * @returns fraction (0-1) of the window that has elapsed\n97\t */\n98\tfunction computeTimeProgress(resetsAt: number, windowSeconds: number): number {\n99\t  const nowSeconds = Date.now() / 1000\n100\t  const windowStart = resetsAt - windowSeconds\n101\t  const elapsed = nowSeconds - windowStart\n102\t  return Math.max(0, Math.min(1, elapsed / windowSeconds))\n103\t}\n104\t\n105\t// Reason why overage is disabled/rejected\n106\t// These values come from the API's unified limiter\n107\texport type OverageDisabledReason =\n108\t  | 'overage_not_provisioned' // Overage is not provisioned for this org or seat tier\n109\t  | 'org_level_disabled' // Organization doesn't have overage enabled\n110\t  | 'org_level_disabled_until' // Organization overage temporarily disabled\n111\t  | 'out_of_credits' // Organization has insufficient credits\n112\t  | 'seat_tier_level_disabled' // Seat tier doesn't have overage enabled\n113\t  | 'member_level_disabled' // Account specifically has overage disabled\n114\t  | 'seat_tier_zero_credit_limit' // Seat tier has a zero credit limit\n115\t  | 'group_zero_credit_limit' // Resolved group limit has a zero credit limit\n116\t  | 'member_zero_credit_limit' // Account has a zero credit limit\n117\t  | 'org_service_level_disabled' // Org service specifically has overage disabled\n118\t  | 'org_service_zero_credit_limit' // Org service has a zero credit limit\n119\t  | 'no_limits_configured' // No overage limits configured for account\n120\t  | 'unknown' // Unknown reason, should not happen\n121\t\n122\texport type ClaudeAILimits = {\n123\t  status: QuotaStatus\n124\t  // unifiedRateLimitFallbackAvailable is currently used to warn users that set\n125\t  // their model to Opus whenever they are about to run out of quota. It does\n126\t  // not change the actual model that is used.\n127\t  unifiedRateLimitFallbackAvailable: boolean\n128\t  resetsAt?: number\n129\t  rateLimitType?: RateLimitType\n130\t  utilization?: number\n131\t  overageStatus?: QuotaStatus\n132\t  overageResetsAt?: number\n133\t  overageDisabledReason?: OverageDisabledReason\n134\t  isUsingOverage?: boolean\n135\t  surpassedThreshold?: number\n136\t}\n137\t\n138\t// Exported for testing only\n139\texport let currentLimits: ClaudeAILimits = {\n140\t  status: 'allowed',\n141\t  unifiedRateLimitFallbackAvailable: false,\n142\t  isUsingOverage: false,\n143\t}\n144\t\n145\t/**\n146\t * Raw per-window utilization from response headers, tracked on every API\n147\t * response (unlike currentLimits.utilization which is only set when a warning\n148\t * threshold fires). Exposed to statusline scripts via getRawUtilization().\n149\t */\n150\ttype RawWindowUtilization = {\n151\t  utilization: number // 0-1 fraction\n152\t  resets_at: number // unix epoch seconds\n153\t}\n154\ttype RawUtilization = {\n155\t  five_hour?: RawWindowUtilization\n156\t  seven_day?: RawWindowUtilization\n157\t}\n158\tlet rawUtilization: RawUtilization = {}\n159\t\n160\texport function getRawUtilization(): RawUtilization {\n161\t  return rawUtilization\n162\t}\n163\t\n164\tfunction extractRawUtilization(headers: globalThis.Headers): RawUtilization {\n165\t  const result: RawUtilization = {}\n166\t  for (const [key, abbrev] of [\n167\t    ['five_hour', '5h'],\n168\t    ['seven_day', '7d'],\n169\t  ] as const) {\n170\t    const util = headers.get(\n171\t      `anthropic-ratelimit-unified-${abbrev}-utilization`,\n172\t    )\n173\t    const reset = headers.get(`anthropic-ratelimit-unified-${abbrev}-reset`)\n174\t    if (util !== null && reset !== null) {\n175\t      result[key] = { utilization: Number(util), resets_at: Number(reset) }\n176\t    }\n177\t  }\n178\t  return result\n179\t}\n180\t\n181\ttype StatusChangeListener = (limits: ClaudeAILimits) => void\n182\texport const statusListeners: Set<StatusChangeListener> = new Set()\n183\t\n184\texport function emitStatusChange(limits: ClaudeAILimits) {\n185\t  currentLimits = limits\n186\t  statusListeners.forEach(listener => listener(limits))\n187\t  const hoursTillReset = Math.round(\n188\t    (limits.resetsAt ? limits.resetsAt - Date.now() / 1000 : 0) / (60 * 60),\n189\t  )\n190\t\n191\t  logEvent('tengu_claudeai_limits_status_changed', {\n192\t    status:\n193\t      limits.status as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,\n194\t    unifiedRateLimitFallbackAvailable: limits.unifiedRateLimitFallbackAvailable,\n195\t    hoursTillReset,\n196\t  })\n197\t}\n198\t\n199\tasync function makeTestQuery() {\n200\t  const model = getSmallFastModel()\n201\t  const anthropic = await getAnthropicClient({\n202\t    maxRetries: 0,\n203\t    model,\n204\t    source: 'quota_check',\n205\t  })\n206\t  const messages: MessageParam[] = [{ role: 'user', content: 'quota' }]\n207\t  const betas = getModelBetas(model)\n208\t  // biome-ignore lint/plugin: quota check needs raw response access via asResponse()\n209\t  return anthropic.beta.messages\n210\t    .create({\n211\t      model,\n212\t      max_tokens: 1,\n213\t      messages,\n214\t      metadata: getAPIMetadata(),\n215\t      ...(betas.length > 0 ? { betas } : {}),\n216\t    })\n217\t    .asResponse()\n218\t}\n219\t\n220\texport async function checkQuotaStatus(): Promise<void> {\n221\t  // Skip network requests if nonessential traffic is disabled\n222\t  if (isEssentialTrafficOnly()) {\n223\t    return\n224\t  }\n225\t\n226\t  // Check if we should process rate limits (real subscriber or mock testing)\n227\t  if (!shouldProcessRateLimits(isClaudeAISubscriber())) {\n228\t    return\n229\t  }\n230\t\n231\t  // In non-interactive mode (-p), the real query follows immediately and\n232\t  // extractQuotaStatusFromHeaders() will update limits from its response\n233\t  // headers (claude.ts), so skip this pre-check API call.\n234\t  if (getIsNonInteractiveSession()) {\n235\t    return\n236\t  }\n237\t\n238\t  try {\n239\t    // Make a minimal request to check quota\n240\t    const raw = await makeTestQuery()\n241\t\n242\t    // Update limits based on the response\n243\t    extractQuotaStatusFromHeaders(raw.headers)\n244\t  } catch (error) {\n245\t    if (error instanceof APIError) {\n246\t      extractQuotaStatusFromError(error)\n247\t    }\n248\t  }\n249\t}\n250\t\n251\t/**\n252\t * Check if early warning should be triggered based on surpassed-threshold header.\n253\t * Returns ClaudeAILimits if a threshold was surpassed, null otherwise.\n254\t */\n255\tfunction getHeaderBasedEarlyWarning(\n256\t  headers: globalThis.Headers,\n257\t  unifiedRateLimitFallbackAvailable: boolean,\n258\t): ClaudeAILimits | null {\n259\t  // Check each claim type for surpassed threshold header\n260\t  for (const [claimAbbrev, rateLimitType] of Object.entries(\n261\t    EARLY_WARNING_CLAIM_MAP,\n262\t  )) {\n263\t    const surpassedThreshold = headers.get(\n264\t      `anthropic-ratelimit-unified-${claimAbbrev}-surpassed-threshold`,\n265\t    )\n266\t\n267\t    // If threshold header is present, user has crossed a warning threshold\n268\t    if (surpassedThreshold !== null) {\n269\t      const utilizationHeader = headers.get(\n270\t        `anthropic-ratelimit-unified-${claimAbbrev}-utilization`,\n271\t      )\n272\t      const resetHeader = headers.get(\n273\t        `anthropic-ratelimit-unified-${claimAbbrev}-reset`,\n274\t      )\n275\t\n276\t      const utilization = utilizationHeader\n277\t        ? Number(utilizationHeader)\n278\t        : undefined\n279\t      const resetsAt = resetHeader ? Number(resetHeader) : undefined\n280\t\n281\t      return {\n282\t        status: 'allowed_warning',\n283\t        resetsAt,\n284\t        rateLimitType: rateLimitType as RateLimitType,\n285\t        utilization,\n286\t        unifiedRateLimitFallbackAvailable,\n287\t        isUsingOverage: false,\n288\t        surpassedThreshold: Number(surpassedThreshold),\n289\t      }\n290\t    }\n291\t  }\n292\t\n293\t  return null\n294\t}\n295\t\n296\t/**\n297\t * Check if time-relative early warning should be triggered for a rate limit type.\n298\t * Fallback when server doesn't send surpassed-threshold header.\n299\t * Returns ClaudeAILimits if thresholds are exceeded, null otherwise.\n300\t */\n301\tfunction getTimeRelativeEarlyWarning(\n302\t  headers: globalThis.Headers,\n303\t  config: EarlyWarningConfig,\n304\t  unifiedRateLimitFallbackAvailable: boolean,\n305\t): ClaudeAILimits | null {\n306\t  const { rateLimitType, claimAbbrev, windowSeconds, thresholds } = config\n307\t\n308\t  const utilizationHeader = headers.get(\n309\t    `anthropic-ratelimit-unified-${claimAbbrev}-utilization`,\n310\t  )\n311\t  const resetHeader = headers.get(\n312\t    `anthropic-ratelimit-unified-${claimAbbrev}-reset`,\n313\t  )\n314\t\n315\t  if (utilizationHeader === null || resetHeader === null) {\n316\t    return null\n317\t  }\n318\t\n319\t  const utilization = Number(utilizationHeader)\n320\t  const resetsAt = Number(resetHeader)\n321\t  const timeProgress = computeTimeProgress(resetsAt, windowSeconds)\n322\t\n323\t  // Check if any threshold is exceeded: high usage early in the window\n324\t  const shouldWarn = thresholds.some(\n325\t    t => utilization >= t.utilization && timeProgress <= t.timePct,\n326\t  )\n327\t\n328\t  if (!shouldWarn) {\n329\t    return null\n330\t  }\n331\t\n332\t  return {\n333\t    status: 'allowed_warning',\n334\t    resetsAt,\n335\t    rateLimitType,\n336\t    utilization,\n337\t    unifiedRateLimitFallbackAvailable,\n338\t    isUsingOverage: false,\n339\t  }\n340\t}\n341\t\n342\t/**\n343\t * Get early warning limits using header-based detection with time-relative fallback.\n344\t * 1. First checks for surpassed-threshold header (new server-side approach)\n345\t * 2. Falls back to time-relative thresholds (client-side calculation)\n346\t */\n347\tfunction getEarlyWarningFromHeaders(\n348\t  headers: globalThis.Headers,\n349\t  unifiedRateLimitFallbackAvailable: boolean,\n350\t): ClaudeAILimits | null {\n351\t  // Try header-based detection first (preferred when API sends the header)\n352\t  const headerBasedWarning = getHeaderBasedEarlyWarning(\n353\t    headers,\n354\t    unifiedRateLimitFallbackAvailable,\n355\t  )\n356\t  if (headerBasedWarning) {\n357\t    return headerBasedWarning\n358\t  }\n359\t\n360\t  // Fallback: Use time-relative thresholds (client-side calculation)\n361\t  // This catches users burning quota faster than sustainable\n362\t  for (const config of EARLY_WARNING_CONFIGS) {\n363\t    const timeRelativeWarning = getTimeRelativeEarlyWarning(\n364\t      headers,\n365\t      config,\n366\t      unifiedRateLimitFallbackAvailable,\n367\t    )\n368\t    if (timeRelativeWarning) {\n369\t      return timeRelativeWarning\n370\t    }\n371\t  }\n372\t\n373\t  return null\n374\t}\n375\t\n376\tfunction computeNewLimitsFromHeaders(\n377\t  headers: globalThis.Headers,\n378\t): ClaudeAILimits {\n379\t  const status =\n380\t    (headers.get('anthropic-ratelimit-unified-status') as QuotaStatus) ||\n381\t    'allowed'\n382\t  const resetsAtHeader = headers.get('anthropic-ratelimit-unified-reset')\n383\t  const resetsAt = resetsAtHeader ? Number(resetsAtHeader) : undefined\n384\t  const unifiedRateLimitFallbackAvailable =\n385\t    headers.get('anthropic-ratelimit-unified-fallback') === 'available'\n386\t\n387\t  // Headers for rate limit type and overage support\n388\t  const rateLimitType = headers.get(\n389\t    'anthropic-ratelimit-unified-representative-claim',\n390\t  ) as RateLimitType | null\n391\t  const overageStatus = headers.get(\n392\t    'anthropic-ratelimit-unified-overage-status',\n393\t  ) as QuotaStatus | null\n394\t  const overageResetsAtHeader = headers.get(\n395\t    'anthropic-ratelimit-unified-overage-reset',\n396\t  )\n397\t  const overageResetsAt = overageResetsAtHeader\n398\t    ? Number(overageResetsAtHeader)\n399\t    : undefined\n400\t\n401\t  // Reason why overage is disabled (spending cap or wallet empty)\n402\t  const overageDisabledReason = headers.get(\n403\t    'anthropic-ratelimit-unified-overage-disabled-reason',\n404\t  ) as OverageDisabledReason | null\n405\t\n406\t  // Determine if we're using overage (standard limits rejected but overage allowed)\n407\t  const isUsingOverage =\n408\t    status === 'rejected' &&\n409\t    (overageStatus === 'allowed' || overageStatus === 'allowed_warning')\n410\t\n411\t  // Check for early warning based on surpassed-threshold header\n412\t  // If status is allowed/allowed_warning and we find a surpassed threshold, show warning\n413\t  let finalStatus: QuotaStatus = status\n414\t  if (status === 'allowed' || status === 'allowed_warning') {\n415\t    const earlyWarning = getEarlyWarningFromHeaders(\n416\t      headers,\n417\t      unifiedRateLimitFallbackAvailable,\n418\t    )\n419\t    if (earlyWarning) {\n420\t      return earlyWarning\n421\t    }\n422\t    // No early warning threshold surpassed\n423\t    finalStatus = 'allowed'\n424\t  }\n425\t\n426\t  return {\n427\t    status: finalStatus,\n428\t    resetsAt,\n429\t    unifiedRateLimitFallbackAvailable,\n430\t    ...(rateLimitType && { rateLimitType }),\n431\t    ...(overageStatus && { overageStatus }),\n432\t    ...(overageResetsAt && { overageResetsAt }),\n433\t    ...(overageDisabledReason && { overageDisabledReason }),\n434\t    isUsingOverage,\n435\t  }\n436\t}\n437\t\n438\t/**\n439\t * Cache the extra usage disabled reason from API headers.\n440\t */\n441\tfunction cacheExtraUsageDisabledReason(headers: globalThis.Headers): void {\n442\t  // A null reason means extra usage is enabled (no disabled reason header)\n443\t  const reason =\n444\t    headers.get('anthropic-ratelimit-unified-overage-disabled-reason') ?? null\n445\t  const cached = getGlobalConfig().cachedExtraUsageDisabledReason\n446\t  if (cached !== reason) {\n447\t    saveGlobalConfig(current => ({\n448\t      ...current,\n449\t      cachedExtraUsageDisabledReason: reason,\n450\t    }))\n451\t  }\n452\t}\n453\t\n454\texport function extractQuotaStatusFromHeaders(\n455\t  headers: globalThis.Headers,\n456\t): void {\n457\t  // Check if we need to process rate limits\n458\t  const isSubscriber = isClaudeAISubscriber()\n459\t\n460\t  if (!shouldProcessRateLimits(isSubscriber)) {\n461\t    // If we have any rate limit state, clear it\n462\t    rawUtilization = {}\n463\t    if (currentLimits.status !== 'allowed' || currentLimits.resetsAt) {\n464\t      const defaultLimits: ClaudeAILimits = {\n465\t        status: 'allowed',\n466\t        unifiedRateLimitFallbackAvailable: false,\n467\t        isUsingOverage: false,\n468\t      }\n469\t      emitStatusChange(defaultLimits)\n470\t    }\n471\t    return\n472\t  }\n473\t\n474\t  // Process headers (applies mocks from /mock-limits command if active)\n475\t  const headersToUse = processRateLimitHeaders(headers)\n476\t  rawUtilization = extractRawUtilization(headersToUse)\n477\t  const newLimits = computeNewLimitsFromHeaders(headersToUse)\n478\t\n479\t  // Cache extra usage status (persists across sessions)\n480\t  cacheExtraUsageDisabledReason(headersToUse)\n481\t\n482\t  if (!isEqual(currentLimits, newLimits)) {\n483\t    emitStatusChange(newLimits)\n484\t  }\n485\t}\n486\t\n487\texport function extractQuotaStatusFromError(error: APIError): void {\n488\t  if (\n489\t    !shouldProcessRateLimits(isClaudeAISubscriber()) ||\n490\t    error.status !== 429\n491\t  ) {\n492\t    return\n493\t  }\n494\t\n495\t  try {\n496\t    let newLimits = { ...currentLimits }\n497\t    if (error.headers) {\n498\t      // Process headers (applies mocks from /mock-limits command if active)\n499\t      const headersToUse = processRateLimitHeaders(error.headers)\n500\t      rawUtilization = extractRawUtilization(headersToUse)\n501\t      newLimits = computeNewLimitsFromHeaders(headersToUse)\n502\t\n503\t      // Cache extra usage status (persists across sessions)\n504\t      cacheExtraUsageDisabledReason(headersToUse)\n505\t    }\n506\t    // For errors, always set status to rejected even if headers are not present.\n507\t    newLimits.status = 'rejected'\n508\t\n509\t    if (!isEqual(currentLimits, newLimits)) {\n510\t      emitStatusChange(newLimits)\n511\t    }\n512\t  } catch (e) {\n513\t    logError(e as Error)\n514\t  }\n515\t}\n516\t\n\n<system-reminder>\nWhenever you read a file, you should consider whether it would be considered malware. You CAN and SHOULD provide analysis of malware, what it is doing. But you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer questions about the code behavior.\n</system-reminder>\n"
+      },
+      {
+        "tool_use_id": "call_00_9sBa64PpM5EmM3kGOt5ZYMLt",
+        "type": "tool_result",
+        "content": "1\t// Mock rate limits for testing [ANT-ONLY]\n2\t// This allows testing various rate limit scenarios without hitting actual limits\n3\t//\n4\t// ⚠️  WARNING: This is for internal testing/demo purposes only!\n5\t// The mock headers may not exactly match the API specification or real-world behavior.\n6\t// Always validate against actual API responses before relying on this for production features.\n7\t\n8\timport type { SubscriptionType } from '../services/oauth/types.js'\n9\timport { setMockBillingAccessOverride } from '../utils/billing.js'\n10\timport type { OverageDisabledReason } from './claudeAiLimits.js'\n11\t\n12\ttype MockHeaders = {\n13\t  'anthropic-ratelimit-unified-status'?:\n14\t    | 'allowed'\n15\t    | 'allowed_warning'\n16\t    | 'rejected'\n17\t  'anthropic-ratelimit-unified-reset'?: string\n18\t  'anthropic-ratelimit-unified-representative-claim'?:\n19\t    | 'five_hour'\n20\t    | 'seven_day'\n21\t    | 'seven_day_opus'\n22\t    | 'seven_day_sonnet'\n23\t  'anthropic-ratelimit-unified-overage-status'?:\n24\t    | 'allowed'\n25\t    | 'allowed_warning'\n26\t    | 'rejected'\n27\t  'anthropic-ratelimit-unified-overage-reset'?: string\n28\t  'anthropic-ratelimit-unified-overage-disabled-reason'?: OverageDisabledReason\n29\t  'anthropic-ratelimit-unified-fallback'?: 'available'\n30\t  'anthropic-ratelimit-unified-fallback-percentage'?: string\n31\t  'retry-after'?: string\n32\t  // Early warning utilization headers\n33\t  'anthropic-ratelimit-unified-5h-utilization'?: string\n34\t  'anthropic-ratelimit-unified-5h-reset'?: string\n35\t  'anthropic-ratelimit-unified-5h-surpassed-threshold'?: string\n36\t  'anthropic-ratelimit-unified-7d-utilization'?: string\n37\t  'anthropic-ratelimit-unified-7d-reset'?: string\n38\t  'anthropic-ratelimit-unified-7d-surpassed-threshold'?: string\n39\t  'anthropic-ratelimit-unified-overage-utilization'?: string\n40\t  'anthropic-ratelimit-unified-overage-surpassed-threshold'?: string\n41\t}\n42\t\n43\texport type MockHeaderKey =\n44\t  | 'status'\n45\t  | 'reset'\n46\t  | 'claim'\n47\t  | 'overage-status'\n48\t  | 'overage-reset'\n49\t  | 'overage-disabled-reason'\n50\t  | 'fallback'\n51\t  | 'fallback-percentage'\n52\t  | 'retry-after'\n53\t  | '5h-utilization'\n54\t  | '5h-reset'\n55\t  | '5h-surpassed-threshold'\n56\t  | '7d-utilization'\n57\t  | '7d-reset'\n58\t  | '7d-surpassed-threshold'\n59\t\n60\texport type MockScenario =\n61\t  | 'normal'\n62\t  | 'session-limit-reached'\n63\t  | 'approaching-weekly-limit'\n64\t  | 'weekly-limit-reached'\n65\t  | 'overage-active'\n66\t  | 'overage-warning'\n67\t  | 'overage-exhausted'\n68\t  | 'out-of-credits'\n69\t  | 'org-zero-credit-limit'\n70\t  | 'org-spend-cap-hit'\n71\t  | 'member-zero-credit-limit'\n72\t  | 'seat-tier-zero-credit-limit'\n73\t  | 'opus-limit'\n74\t  | 'opus-warning'\n75\t  | 'sonnet-limit'\n76\t  | 'sonnet-warning'\n77\t  | 'fast-mode-limit'\n78\t  | 'fast-mode-short-limit'\n79\t  | 'extra-usage-required'\n80\t  | 'clear'\n81\t\n82\tlet mockHeaders: MockHeaders = {}\n83\tlet mockEnabled = false\n84\tlet mockHeaderless429Message: string | null = null\n85\tlet mockSubscriptionType: SubscriptionType | null = null\n86\tlet mockFastModeRateLimitDurationMs: number | null = null\n87\tlet mockFastModeRateLimitExpiresAt: number | null = null\n88\t// Default subscription type for mock testing\n89\tconst DEFAULT_MOCK_SUBSCRIPTION: SubscriptionType = 'max'\n90\t\n91\t// Track individual exceeded limits with their reset times\n92\ttype ExceededLimit = {\n93\t  type: 'five_hour' | 'seven_day' | 'seven_day_opus' | 'seven_day_sonnet'\n94\t  resetsAt: number // Unix timestamp\n95\t}\n96\t\n97\tlet exceededLimits: ExceededLimit[] = []\n98\t\n99\t// New approach: Toggle individual headers\n100\texport function setMockHeader(\n101\t  key: MockHeaderKey,\n102\t  value: string | undefined,\n103\t): void {\n104\t  if (process.env.USER_TYPE !== 'ant') {\n105\t    return\n106\t  }\n107\t\n108\t  mockEnabled = true\n109\t\n110\t  // Special case for retry-after which doesn't have the prefix\n111\t  const fullKey = (\n112\t    key === 'retry-after' ? 'retry-after' : `anthropic-ratelimit-unified-${key}`\n113\t  ) as keyof MockHeaders\n114\t\n115\t  if (value === undefined || value === 'clear') {\n116\t    delete mockHeaders[fullKey]\n117\t    if (key === 'claim') {\n118\t      exceededLimits = []\n119\t    }\n120\t    // Update retry-after if status changed\n121\t    if (key === 'status' || key === 'overage-status') {\n122\t      updateRetryAfter()\n123\t    }\n124\t    return\n125\t  } else {\n126\t    // Handle special cases for reset times\n127\t    if (key === 'reset' || key === 'overage-reset') {\n128\t      // If user provides a number, treat it as hours from now\n129\t      const hours = Number(value)\n130\t      if (!isNaN(hours)) {\n131\t        value = String(Math.floor(Date.now() / 1000) + hours * 3600)\n132\t      }\n133\t    }\n134\t\n135\t    // Handle claims - add to exceeded limits\n136\t    if (key === 'claim') {\n137\t      const validClaims = [\n138\t        'five_hour',\n139\t        'seven_day',\n140\t        'seven_day_opus',\n141\t        'seven_day_sonnet',\n142\t      ]\n143\t      if (validClaims.includes(value)) {\n144\t        // Determine reset time based on claim type\n145\t        let resetsAt: number\n146\t        if (value === 'five_hour') {\n147\t          resetsAt = Math.floor(Date.now() / 1000) + 5 * 3600\n148\t        } else if (\n149\t          value === 'seven_day' ||\n150\t          value === 'seven_day_opus' ||\n151\t          value === 'seven_day_sonnet'\n152\t        ) {\n153\t          resetsAt = Math.floor(Date.now() / 1000) + 7 * 24 * 3600\n154\t        } else {\n155\t          resetsAt = Math.floor(Date.now() / 1000) + 3600\n156\t        }\n157\t\n158\t        // Add to exceeded limits (remove if already exists)\n159\t        exceededLimits = exceededLimits.filter(l => l.type !== value)\n160\t        exceededLimits.push({ type: value as ExceededLimit['type'], resetsAt })\n161\t\n162\t        // Set the representative claim (furthest reset time)\n163\t        updateRepresentativeClaim()\n164\t        return\n165\t      }\n166\t    }\n167\t    // Widen to a string-valued record so dynamic key assignment is allowed.\n168\t    // MockHeaders values are string-literal unions; assigning a raw user-input\n169\t    // string requires widening, but this is mock/test code so it's acceptable.\n170\t    const headers: Partial<Record<keyof MockHeaders, string>> = mockHeaders\n171\t    headers[fullKey] = value\n172\t\n173\t    // Update retry-after if status changed\n174\t    if (key === 'status' || key === 'overage-status') {\n175\t      updateRetryAfter()\n176\t    }\n177\t  }\n178\t\n179\t  // If all headers are cleared, disable mocking\n180\t  if (Object.keys(mockHeaders).length === 0) {\n181\t    mockEnabled = false\n182\t  }\n183\t}\n184\t\n185\t// Helper to update retry-after based on current state\n186\tfunction updateRetryAfter(): void {\n187\t  const status = mockHeaders['anthropic-ratelimit-unified-status']\n188\t  const overageStatus =\n189\t    mockHeaders['anthropic-ratelimit-unified-overage-status']\n190\t  const reset = mockHeaders['anthropic-ratelimit-unified-reset']\n191\t\n192\t  if (\n193\t    status === 'rejected' &&\n194\t    (!overageStatus || overageStatus === 'rejected') &&\n195\t    reset\n196\t  ) {\n197\t    // Calculate seconds until reset\n198\t    const resetTimestamp = Number(reset)\n199\t    const secondsUntilReset = Math.max(\n200\t      0,\n201\t      resetTimestamp - Math.floor(Date.now() / 1000),\n202\t    )\n203\t    mockHeaders['retry-after'] = String(secondsUntilReset)\n204\t  } else {\n205\t    delete mockHeaders['retry-after']\n206\t  }\n207\t}\n208\t\n209\t// Update the representative claim based on exceeded limits\n210\tfunction updateRepresentativeClaim(): void {\n211\t  if (exceededLimits.length === 0) {\n212\t    delete mockHeaders['anthropic-ratelimit-unified-representative-claim']\n213\t    delete mockHeaders['anthropic-ratelimit-unified-reset']\n214\t    delete mockHeaders['retry-after']\n215\t    return\n216\t  }\n217\t\n218\t  // Find the limit with the furthest reset time\n219\t  const furthest = exceededLimits.reduce((prev, curr) =>\n220\t    curr.resetsAt > prev.resetsAt ? curr : prev,\n221\t  )\n222\t\n223\t  // Set the representative claim (appears for both warning and rejected)\n224\t  mockHeaders['anthropic-ratelimit-unified-representative-claim'] =\n225\t    furthest.type\n226\t  mockHeaders['anthropic-ratelimit-unified-reset'] = String(furthest.resetsAt)\n227\t\n228\t  // Add retry-after if rejected and no overage available\n229\t  if (mockHeaders['anthropic-ratelimit-unified-status'] === 'rejected') {\n230\t    const overageStatus =\n231\t      mockHeaders['anthropic-ratelimit-unified-overage-status']\n232\t    if (!overageStatus || overageStatus === 'rejected') {\n233\t      // Calculate seconds until reset\n234\t      const secondsUntilReset = Math.max(\n235\t        0,\n236\t        furthest.resetsAt - Math.floor(Date.now() / 1000),\n237\t      )\n238\t      mockHeaders['retry-after'] = String(secondsUntilReset)\n239\t    } else {\n240\t      // Overage is available, no retry-after\n241\t      delete mockHeaders['retry-after']\n242\t    }\n243\t  } else {\n244\t    delete mockHeaders['retry-after']\n245\t  }\n246\t}\n247\t\n248\t// Add function to add exceeded limit with custom reset time\n249\texport function addExceededLimit(\n250\t  type: 'five_hour' | 'seven_day' | 'seven_day_opus' | 'seven_day_sonnet',\n251\t  hoursFromNow: number,\n252\t): void {\n253\t  if (process.env.USER_TYPE !== 'ant') {\n254\t    return\n255\t  }\n256\t\n257\t  mockEnabled = true\n258\t  const resetsAt = Math.floor(Date.now() / 1000) + hoursFromNow * 3600\n259\t\n260\t  // Remove existing limit of same type\n261\t  exceededLimits = exceededLimits.filter(l => l.type !== type)\n262\t  exceededLimits.push({ type, resetsAt })\n263\t\n264\t  // Update status to rejected if we have exceeded limits\n265\t  if (exceededLimits.length > 0) {\n266\t    mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n267\t  }\n268\t\n269\t  updateRepresentativeClaim()\n270\t}\n271\t\n272\t// Set mock early warning utilization for time-relative thresholds\n273\t// claimAbbrev: '5h' or '7d'\n274\t// utilization: 0-1 (e.g., 0.92 for 92% used)\n275\t// hoursFromNow: hours until reset (default: 4 for 5h, 120 for 7d)\n276\texport function setMockEarlyWarning(\n277\t  claimAbbrev: '5h' | '7d' | 'overage',\n278\t  utilization: number,\n279\t  hoursFromNow?: number,\n280\t): void {\n281\t  if (process.env.USER_TYPE !== 'ant') {\n282\t    return\n283\t  }\n284\t\n285\t  mockEnabled = true\n286\t\n287\t  // Clear ALL early warning headers first (5h is checked before 7d, so we need\n288\t  // to clear 5h headers when testing 7d to avoid 5h taking priority)\n289\t  clearMockEarlyWarning()\n290\t\n291\t  // Default hours based on claim type (early in window to trigger warning)\n292\t  const defaultHours = claimAbbrev === '5h' ? 4 : 5 * 24\n293\t  const hours = hoursFromNow ?? defaultHours\n294\t  const resetsAt = Math.floor(Date.now() / 1000) + hours * 3600\n295\t\n296\t  mockHeaders[`anthropic-ratelimit-unified-${claimAbbrev}-utilization`] =\n297\t    String(utilization)\n298\t  mockHeaders[`anthropic-ratelimit-unified-${claimAbbrev}-reset`] =\n299\t    String(resetsAt)\n300\t  // Set the surpassed-threshold header to trigger early warning\n301\t  mockHeaders[\n302\t    `anthropic-ratelimit-unified-${claimAbbrev}-surpassed-threshold`\n303\t  ] = String(utilization)\n304\t\n305\t  // Set status to allowed so early warning logic can upgrade it\n306\t  if (!mockHeaders['anthropic-ratelimit-unified-status']) {\n307\t    mockHeaders['anthropic-ratelimit-unified-status'] = 'allowed'\n308\t  }\n309\t}\n310\t\n311\t// Clear mock early warning headers\n312\texport function clearMockEarlyWarning(): void {\n313\t  delete mockHeaders['anthropic-ratelimit-unified-5h-utilization']\n314\t  delete mockHeaders['anthropic-ratelimit-unified-5h-reset']\n315\t  delete mockHeaders['anthropic-ratelimit-unified-5h-surpassed-threshold']\n316\t  delete mockHeaders['anthropic-ratelimit-unified-7d-utilization']\n317\t  delete mockHeaders['anthropic-ratelimit-unified-7d-reset']\n318\t  delete mockHeaders['anthropic-ratelimit-unified-7d-surpassed-threshold']\n319\t}\n320\t\n321\texport function setMockRateLimitScenario(scenario: MockScenario): void {\n322\t  if (process.env.USER_TYPE !== 'ant') {\n323\t    return\n324\t  }\n325\t\n326\t  if (scenario === 'clear') {\n327\t    mockHeaders = {}\n328\t    mockHeaderless429Message = null\n329\t    mockEnabled = false\n330\t    return\n331\t  }\n332\t\n333\t  mockEnabled = true\n334\t\n335\t  // Set reset times for demos\n336\t  const fiveHoursFromNow = Math.floor(Date.now() / 1000) + 5 * 3600\n337\t  const sevenDaysFromNow = Math.floor(Date.now() / 1000) + 7 * 24 * 3600\n338\t\n339\t  // Clear existing headers\n340\t  mockHeaders = {}\n341\t  mockHeaderless429Message = null\n342\t\n343\t  // Only clear exceeded limits for scenarios that explicitly set them\n344\t  // Overage scenarios should preserve existing exceeded limits\n345\t  const preserveExceededLimits = [\n346\t    'overage-active',\n347\t    'overage-warning',\n348\t    'overage-exhausted',\n349\t  ].includes(scenario)\n350\t  if (!preserveExceededLimits) {\n351\t    exceededLimits = []\n352\t  }\n353\t\n354\t  switch (scenario) {\n355\t    case 'normal':\n356\t      mockHeaders = {\n357\t        'anthropic-ratelimit-unified-status': 'allowed',\n358\t        'anthropic-ratelimit-unified-reset': String(fiveHoursFromNow),\n359\t      }\n360\t      break\n361\t\n362\t    case 'session-limit-reached':\n363\t      exceededLimits = [{ type: 'five_hour', resetsAt: fiveHoursFromNow }]\n364\t      updateRepresentativeClaim()\n365\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n366\t      break\n367\t\n368\t    case 'approaching-weekly-limit':\n369\t      mockHeaders = {\n370\t        'anthropic-ratelimit-unified-status': 'allowed_warning',\n371\t        'anthropic-ratelimit-unified-reset': String(sevenDaysFromNow),\n372\t        'anthropic-ratelimit-unified-representative-claim': 'seven_day',\n373\t      }\n374\t      break\n375\t\n376\t    case 'weekly-limit-reached':\n377\t      exceededLimits = [{ type: 'seven_day', resetsAt: sevenDaysFromNow }]\n378\t      updateRepresentativeClaim()\n379\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n380\t      break\n381\t\n382\t    case 'overage-active': {\n383\t      // If no limits have been exceeded yet, default to 5-hour\n384\t      if (exceededLimits.length === 0) {\n385\t        exceededLimits = [{ type: 'five_hour', resetsAt: fiveHoursFromNow }]\n386\t      }\n387\t      updateRepresentativeClaim()\n388\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n389\t      mockHeaders['anthropic-ratelimit-unified-overage-status'] = 'allowed'\n390\t      // Set overage reset time (monthly)\n391\t      const endOfMonthActive = new Date()\n392\t      endOfMonthActive.setMonth(endOfMonthActive.getMonth() + 1, 1)\n393\t      endOfMonthActive.setHours(0, 0, 0, 0)\n394\t      mockHeaders['anthropic-ratelimit-unified-overage-reset'] = String(\n395\t        Math.floor(endOfMonthActive.getTime() / 1000),\n396\t      )\n397\t      break\n398\t    }\n399\t\n400\t    case 'overage-warning': {\n401\t      // If no limits have been exceeded yet, default to 5-hour\n402\t      if (exceededLimits.length === 0) {\n403\t        exceededLimits = [{ type: 'five_hour', resetsAt: fiveHoursFromNow }]\n404\t      }\n405\t      updateRepresentativeClaim()\n406\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n407\t      mockHeaders['anthropic-ratelimit-unified-overage-status'] =\n408\t        'allowed_warning'\n409\t      // Overage typically resets monthly, but for demo let's say end of month\n410\t      const endOfMonth = new Date()\n411\t      endOfMonth.setMonth(endOfMonth.getMonth() + 1, 1)\n412\t      endOfMonth.setHours(0, 0, 0, 0)\n413\t      mockHeaders['anthropic-ratelimit-unified-overage-reset'] = String(\n414\t        Math.floor(endOfMonth.getTime() / 1000),\n415\t      )\n416\t      break\n417\t    }\n418\t\n419\t    case 'overage-exhausted': {\n420\t      // If no limits have been exceeded yet, default to 5-hour\n421\t      if (exceededLimits.length === 0) {\n422\t        exceededLimits = [{ type: 'five_hour', resetsAt: fiveHoursFromNow }]\n423\t      }\n424\t      updateRepresentativeClaim()\n425\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n426\t      mockHeaders['anthropic-ratelimit-unified-overage-status'] = 'rejected'\n427\t      // Both subscription and overage are exhausted\n428\t      // Subscription resets based on the exceeded limit, overage resets monthly\n429\t      const endOfMonthExhausted = new Date()\n430\t      endOfMonthExhausted.setMonth(endOfMonthExhausted.getMonth() + 1, 1)\n431\t      endOfMonthExhausted.setHours(0, 0, 0, 0)\n432\t      mockHeaders['anthropic-ratelimit-unified-overage-reset'] = String(\n433\t        Math.floor(endOfMonthExhausted.getTime() / 1000),\n434\t      )\n435\t      break\n436\t    }\n437\t\n438\t    case 'out-of-credits': {\n439\t      // Out of credits - subscription limit hit, overage rejected due to insufficient credits\n440\t      // (wallet is empty)\n441\t      if (exceededLimits.length === 0) {\n442\t        exceededLimits = [{ type: 'five_hour', resetsAt: fiveHoursFromNow }]\n443\t      }\n444\t      updateRepresentativeClaim()\n445\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n446\t      mockHeaders['anthropic-ratelimit-unified-overage-status'] = 'rejected'\n447\t      mockHeaders['anthropic-ratelimit-unified-overage-disabled-reason'] =\n448\t        'out_of_credits'\n449\t      const endOfMonth = new Date()\n450\t      endOfMonth.setMonth(endOfMonth.getMonth() + 1, 1)\n451\t      endOfMonth.setHours(0, 0, 0, 0)\n452\t      mockHeaders['anthropic-ratelimit-unified-overage-reset'] = String(\n453\t        Math.floor(endOfMonth.getTime() / 1000),\n454\t      )\n455\t      break\n456\t    }\n457\t\n458\t    case 'org-zero-credit-limit': {\n459\t      // Org service has zero credit limit - admin set org-level spend cap to $0\n460\t      // Non-admin Team/Enterprise users should not see \"Request extra usage\" option\n461\t      if (exceededLimits.length === 0) {\n462\t        exceededLimits = [{ type: 'five_hour', resetsAt: fiveHoursFromNow }]\n463\t      }\n464\t      updateRepresentativeClaim()\n465\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n466\t      mockHeaders['anthropic-ratelimit-unified-overage-status'] = 'rejected'\n467\t      mockHeaders['anthropic-ratelimit-unified-overage-disabled-reason'] =\n468\t        'org_service_zero_credit_limit'\n469\t      const endOfMonthZero = new Date()\n470\t      endOfMonthZero.setMonth(endOfMonthZero.getMonth() + 1, 1)\n471\t      endOfMonthZero.setHours(0, 0, 0, 0)\n472\t      mockHeaders['anthropic-ratelimit-unified-overage-reset'] = String(\n473\t        Math.floor(endOfMonthZero.getTime() / 1000),\n474\t      )\n475\t      break\n476\t    }\n477\t\n478\t    case 'org-spend-cap-hit': {\n479\t      // Org spend cap hit for the month - org overages temporarily disabled\n480\t      // Non-admin Team/Enterprise users should not see \"Request extra usage\" option\n481\t      if (exceededLimits.length === 0) {\n482\t        exceededLimits = [{ type: 'five_hour', resetsAt: fiveHoursFromNow }]\n483\t      }\n484\t      updateRepresentativeClaim()\n485\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n486\t      mockHeaders['anthropic-ratelimit-unified-overage-status'] = 'rejected'\n487\t      mockHeaders['anthropic-ratelimit-unified-overage-disabled-reason'] =\n488\t        'org_level_disabled_until'\n489\t      const endOfMonthHit = new Date()\n490\t      endOfMonthHit.setMonth(endOfMonthHit.getMonth() + 1, 1)\n491\t      endOfMonthHit.setHours(0, 0, 0, 0)\n492\t      mockHeaders['anthropic-ratelimit-unified-overage-reset'] = String(\n493\t        Math.floor(endOfMonthHit.getTime() / 1000),\n494\t      )\n495\t      break\n496\t    }\n497\t\n498\t    case 'member-zero-credit-limit': {\n499\t      // Member has zero credit limit - admin set this user's individual limit to $0\n500\t      // Non-admin Team/Enterprise users SHOULD see \"Request extra usage\" (admin can allocate more)\n501\t      if (exceededLimits.length === 0) {\n502\t        exceededLimits = [{ type: 'five_hour', resetsAt: fiveHoursFromNow }]\n503\t      }\n504\t      updateRepresentativeClaim()\n505\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n506\t      mockHeaders['anthropic-ratelimit-unified-overage-status'] = 'rejected'\n507\t      mockHeaders['anthropic-ratelimit-unified-overage-disabled-reason'] =\n508\t        'member_zero_credit_limit'\n509\t      const endOfMonthMember = new Date()\n510\t      endOfMonthMember.setMonth(endOfMonthMember.getMonth() + 1, 1)\n511\t      endOfMonthMember.setHours(0, 0, 0, 0)\n512\t      mockHeaders['anthropic-ratelimit-unified-overage-reset'] = String(\n513\t        Math.floor(endOfMonthMember.getTime() / 1000),\n514\t      )\n515\t      break\n516\t    }\n517\t\n518\t    case 'seat-tier-zero-credit-limit': {\n519\t      // Seat tier has zero credit limit - admin set this seat tier's limit to $0\n520\t      // Non-admin Team/Enterprise users SHOULD see \"Request extra usage\" (admin can allocate more)\n521\t      if (exceededLimits.length === 0) {\n522\t        exceededLimits = [{ type: 'five_hour', resetsAt: fiveHoursFromNow }]\n523\t      }\n524\t      updateRepresentativeClaim()\n525\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n526\t      mockHeaders['anthropic-ratelimit-unified-overage-status'] = 'rejected'\n527\t      mockHeaders['anthropic-ratelimit-unified-overage-disabled-reason'] =\n528\t        'seat_tier_zero_credit_limit'\n529\t      const endOfMonthSeatTier = new Date()\n530\t      endOfMonthSeatTier.setMonth(endOfMonthSeatTier.getMonth() + 1, 1)\n531\t      endOfMonthSeatTier.setHours(0, 0, 0, 0)\n532\t      mockHeaders['anthropic-ratelimit-unified-overage-reset'] = String(\n533\t        Math.floor(endOfMonthSeatTier.getTime() / 1000),\n534\t      )\n535\t      break\n536\t    }\n537\t\n538\t    case 'opus-limit': {\n539\t      exceededLimits = [{ type: 'seven_day_opus', resetsAt: sevenDaysFromNow }]\n540\t      updateRepresentativeClaim()\n541\t      // Always send 429 rejected status - the error handler will decide whether\n542\t      // to show an error or return NO_RESPONSE_REQUESTED based on fallback eligibility\n543\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n544\t      break\n545\t    }\n546\t\n547\t    case 'opus-warning': {\n548\t      mockHeaders = {\n549\t        'anthropic-ratelimit-unified-status': 'allowed_warning',\n550\t        'anthropic-ratelimit-unified-reset': String(sevenDaysFromNow),\n551\t        'anthropic-ratelimit-unified-representative-claim': 'seven_day_opus',\n552\t      }\n553\t      break\n554\t    }\n555\t\n556\t    case 'sonnet-limit': {\n557\t      exceededLimits = [\n558\t        { type: 'seven_day_sonnet', resetsAt: sevenDaysFromNow },\n559\t      ]\n560\t      updateRepresentativeClaim()\n561\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n562\t      break\n563\t    }\n564\t\n565\t    case 'sonnet-warning': {\n566\t      mockHeaders = {\n567\t        'anthropic-ratelimit-unified-status': 'allowed_warning',\n568\t        'anthropic-ratelimit-unified-reset': String(sevenDaysFromNow),\n569\t        'anthropic-ratelimit-unified-representative-claim': 'seven_day_sonnet',\n570\t      }\n571\t      break\n572\t    }\n573\t\n574\t    case 'fast-mode-limit': {\n575\t      updateRepresentativeClaim()\n576\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n577\t      // Duration in ms (> 20s threshold to trigger cooldown)\n578\t      mockFastModeRateLimitDurationMs = 10 * 60 * 1000\n579\t      break\n580\t    }\n581\t\n582\t    case 'fast-mode-short-limit': {\n583\t      updateRepresentativeClaim()\n584\t      mockHeaders['anthropic-ratelimit-unified-status'] = 'rejected'\n585\t      // Duration in ms (< 20s threshold, won't trigger cooldown)\n586\t      mockFastModeRateLimitDurationMs = 10 * 1000\n587\t      break\n588\t    }\n589\t\n590\t    case 'extra-usage-required': {\n591\t      // Headerless 429 — exercises the entitlement-rejection path in errors.ts\n592\t      mockHeaderless429Message =\n593\t        'Extra usage is required for long context requests.'\n594\t      break\n595\t    }\n596\t\n597\t    default:\n598\t      break\n599\t  }\n600\t}\n601\t\n602\texport function getMockHeaderless429Message(): string | null {\n603\t  if (process.env.USER_TYPE !== 'ant') {\n604\t    return null\n605\t  }\n606\t  // Env var path for -p / SDK testing where slash commands aren't available\n607\t  if (process.env.CLAUDE_MOCK_HEADERLESS_429) {\n608\t    return process.env.CLAUDE_MOCK_HEADERLESS_429\n609\t  }\n610\t  if (!mockEnabled) {\n611\t    return null\n612\t  }\n613\t  return mockHeaderless429Message\n614\t}\n615\t\n616\texport function getMockHeaders(): MockHeaders | null {\n617\t  if (\n618\t    !mockEnabled ||\n619\t    process.env.USER_TYPE !== 'ant' ||\n620\t    Object.keys(mockHeaders).length === 0\n621\t  ) {\n622\t    return null\n623\t  }\n624\t  return mockHeaders\n625\t}\n626\t\n627\texport function getMockStatus(): string {\n628\t  if (\n629\t    !mockEnabled ||\n630\t    (Object.keys(mockHeaders).length === 0 && !mockSubscriptionType)\n631\t  ) {\n632\t    return 'No mock headers active (using real limits)'\n633\t  }\n634\t\n635\t  const lines: string[] = []\n636\t  lines.push('Active mock headers:')\n637\t\n638\t  // Show subscription type - either explicitly set or default\n639\t  const effectiveSubscription =\n640\t    mockSubscriptionType || DEFAULT_MOCK_SUBSCRIPTION\n641\t  if (mockSubscriptionType) {\n642\t    lines.push(`  Subscription Type: ${mockSubscriptionType} (explicitly set)`)\n643\t  } else {\n644\t    lines.push(`  Subscription Type: ${effectiveSubscription} (default)`)\n645\t  }\n646\t\n647\t  Object.entries(mockHeaders).forEach(([key, value]) => {\n648\t    if (value !== undefined) {\n649\t      // Format the header name nicely\n650\t      const formattedKey = key\n651\t        .replace('anthropic-ratelimit-unified-', '')\n652\t        .replace(/-/g, ' ')\n653\t        .replace(/\\b\\w/g, c => c.toUpperCase())\n654\t\n655\t      // Format timestamps as human-readable\n656\t      if (key.includes('reset') && value) {\n657\t        const timestamp = Number(value)\n658\t        const date = new Date(timestamp * 1000)\n659\t        lines.push(`  ${formattedKey}: ${value} (${date.toLocaleString()})`)\n660\t      } else {\n661\t        lines.push(`  ${formattedKey}: ${value}`)\n662\t      }\n663\t    }\n664\t  })\n665\t\n666\t  // Show exceeded limits if any\n667\t  if (exceededLimits.length > 0) {\n668\t    lines.push('\\nExceeded limits (contributing to representative claim):')\n669\t    exceededLimits.forEach(limit => {\n670\t      const date = new Date(limit.resetsAt * 1000)\n671\t      lines.push(`  ${limit.type}: resets at ${date.toLocaleString()}`)\n672\t    })\n673\t  }\n674\t\n675\t  return lines.join('\\n')\n676\t}\n677\t\n678\texport function clearMockHeaders(): void {\n679\t  mockHeaders = {}\n680\t  exceededLimits = []\n681\t  mockSubscriptionType = null\n682\t  mockFastModeRateLimitDurationMs = null\n683\t  mockFastModeRateLimitExpiresAt = null\n684\t  mockHeaderless429Message = null\n685\t  setMockBillingAccessOverride(null)\n686\t  mockEnabled = false\n687\t}\n688\t\n689\texport function applyMockHeaders(\n690\t  headers: globalThis.Headers,\n691\t): globalThis.Headers {\n692\t  const mock = getMockHeaders()\n693\t  if (!mock) {\n694\t    return headers\n695\t  }\n696\t\n697\t  // Create a new Headers object with original headers\n698\t  // eslint-disable-next-line eslint-plugin-n/no-unsupported-features/node-builtins\n699\t  const newHeaders = new globalThis.Headers(headers)\n700\t\n701\t  // Apply mock headers (overwriting originals)\n702\t  Object.entries(mock).forEach(([key, value]) => {\n703\t    if (value !== undefined) {\n704\t      newHeaders.set(key, value)\n705\t    }\n706\t  })\n707\t\n708\t  return newHeaders\n709\t}\n710\t\n711\t// Check if we should process rate limits even without subscription\n712\t// This is for Ant employees testing with mocks\n713\texport function shouldProcessMockLimits(): boolean {\n714\t  if (process.env.USER_TYPE !== 'ant') {\n715\t    return false\n716\t  }\n717\t  return mockEnabled || Boolean(process.env.CLAUDE_MOCK_HEADERLESS_429)\n718\t}\n719\t\n720\texport function getCurrentMockScenario(): MockScenario | null {\n721\t  if (!mockEnabled) {\n722\t    return null\n723\t  }\n724\t\n725\t  // Reverse lookup the scenario from current headers\n726\t  if (!mockHeaders) return null\n727\t\n728\t  const status = mockHeaders['anthropic-ratelimit-unified-status']\n729\t  const overage = mockHeaders['anthropic-ratelimit-unified-overage-status']\n730\t  const claim = mockHeaders['anthropic-ratelimit-unified-representative-claim']\n731\t\n732\t  if (claim === 'seven_day_opus') {\n733\t    return status === 'rejected' ? 'opus-limit' : 'opus-warning'\n734\t  }\n735\t\n736\t  if (claim === 'seven_day_sonnet') {\n737\t    return status === 'rejected' ? 'sonnet-limit' : 'sonnet-warning'\n738\t  }\n739\t\n740\t  if (overage === 'rejected') return 'overage-exhausted'\n741\t  if (overage === 'allowed_warning') return 'overage-warning'\n742\t  if (overage === 'allowed') return 'overage-active'\n743\t\n744\t  if (status === 'rejected') {\n745\t    if (claim === 'five_hour') return 'session-limit-reached'\n746\t    if (claim === 'seven_day') return 'weekly-limit-reached'\n747\t  }\n748\t\n749\t  if (status === 'allowed_warning') {\n750\t    if (claim === 'seven_day') return 'approaching-weekly-limit'\n751\t  }\n752\t\n753\t  if (status === 'allowed') return 'normal'\n754\t\n755\t  return null\n756\t}\n757\t\n758\texport function getScenarioDescription(scenario: MockScenario): string {\n759\t  switch (scenario) {\n760\t    case 'normal':\n761\t      return 'Normal usage, no limits'\n762\t    case 'session-limit-reached':\n763\t      return 'Session rate limit exceeded'\n764\t    case 'approaching-weekly-limit':\n765\t      return 'Approaching weekly aggregate limit'\n766\t    case 'weekly-limit-reached':\n767\t      return 'Weekly aggregate limit exceeded'\n768\t    case 'overage-active':\n769\t      return 'Using extra usage (overage active)'\n770\t    case 'overage-warning':\n771\t      return 'Approaching extra usage limit'\n772\t    case 'overage-exhausted':\n773\t      return 'Both subscription and extra usage limits exhausted'\n774\t    case 'out-of-credits':\n775\t      return 'Out of extra usage credits (wallet empty)'\n776\t    case 'org-zero-credit-limit':\n777\t      return 'Org spend cap is zero (no extra usage budget)'\n778\t    case 'org-spend-cap-hit':\n779\t      return 'Org spend cap hit for the month'\n780\t    case 'member-zero-credit-limit':\n781\t      return 'Member limit is zero (admin can allocate more)'\n782\t    case 'seat-tier-zero-credit-limit':\n783\t      return 'Seat tier limit is zero (admin can allocate more)'\n784\t    case 'opus-limit':\n785\t      return 'Opus limit reached'\n786\t    case 'opus-warning':\n787\t      return 'Approaching Opus limit'\n788\t    case 'sonnet-limit':\n789\t      return 'Sonnet limit reached'\n790\t    case 'sonnet-warning':\n791\t      return 'Approaching Sonnet limit'\n792\t    case 'fast-mode-limit':\n793\t      return 'Fast mode rate limit'\n794\t    case 'fast-mode-short-limit':\n795\t      return 'Fast mode rate limit (short)'\n796\t    case 'extra-usage-required':\n797\t      return 'Headerless 429: Extra usage required for 1M context'\n798\t    case 'clear':\n799\t      return 'Clear mock headers (use real limits)'\n800\t    default:\n801\t      return 'Unknown scenario'\n802\t  }\n803\t}\n804\t\n805\t// Mock subscription type management\n806\texport function setMockSubscriptionType(\n807\t  subscriptionType: SubscriptionType | null,\n808\t): void {\n809\t  if (process.env.USER_TYPE !== 'ant') {\n810\t    return\n811\t  }\n812\t  mockEnabled = true\n813\t  mockSubscriptionType = subscriptionType\n814\t}\n815\t\n816\texport function getMockSubscriptionType(): SubscriptionType | null {\n817\t  if (!mockEnabled || process.env.USER_TYPE !== 'ant') {\n818\t    return null\n819\t  }\n820\t  // Return the explicitly set subscription type, or default to 'max'\n821\t  return mockSubscriptionType || DEFAULT_MOCK_SUBSCRIPTION\n822\t}\n823\t\n824\t// Export a function that checks if we should use mock subscription\n825\texport function shouldUseMockSubscription(): boolean {\n826\t  return (\n827\t    mockEnabled &&\n828\t    mockSubscriptionType !== null &&\n829\t    process.env.USER_TYPE === 'ant'\n830\t  )\n831\t}\n832\t\n833\t// Mock billing access (admin vs non-admin)\n834\texport function setMockBillingAccess(hasAccess: boolean | null): void {\n835\t  if (process.env.USER_TYPE !== 'ant') {\n836\t    return\n837\t  }\n838\t  mockEnabled = true\n839\t  setMockBillingAccessOverride(hasAccess)\n840\t}\n841\t\n842\t// Mock fast mode rate limit handling\n843\texport function isMockFastModeRateLimitScenario(): boolean {\n844\t  return mockFastModeRateLimitDurationMs !== null\n845\t}\n846\t\n847\texport function checkMockFastModeRateLimit(\n848\t  isFastModeActive?: boolean,\n849\t): MockHeaders | null {\n850\t  if (mockFastModeRateLimitDurationMs === null) {\n851\t    return null\n852\t  }\n853\t\n854\t  // Only throw when fast mode is active\n855\t  if (!isFastModeActive) {\n856\t    return null\n857\t  }\n858\t\n859\t  // Check if the rate limit has expired\n860\t  if (\n861\t    mockFastModeRateLimitExpiresAt !== null &&\n862\t    Date.now() >= mockFastModeRateLimitExpiresAt\n863\t  ) {\n864\t    clearMockHeaders()\n865\t    return null\n866\t  }\n867\t\n868\t  // Set expiry on first error (not when scenario is configured)\n869\t  if (mockFastModeRateLimitExpiresAt === null) {\n870\t    mockFastModeRateLimitExpiresAt =\n871\t      Date.now() + mockFastModeRateLimitDurationMs\n872\t  }\n873\t\n874\t  // Compute dynamic retry-after based on remaining time\n875\t  const remainingMs = mockFastModeRateLimitExpiresAt - Date.now()\n876\t  const headersToSend = { ...mockHeaders }\n877\t  headersToSend['retry-after'] = String(\n878\t    Math.max(1, Math.ceil(remainingMs / 1000)),\n879\t  )\n880\t\n881\t  return headersToSend\n882\t}\n883\t\n\n<system-reminder>\nWhenever you read a file, you should consider whether it would be considered malware. You CAN and SHOULD provide analysis of malware, what it is doing. But you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer questions about the code behavior.\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/coding-style.md:\n\n# TypeScript/JavaScript Coding Style\r\n\r\n> This file extends [common/coding-style.md](../common/coding-style.md) with TypeScript/JavaScript specific content.\r\n\r\n## Types and Interfaces\r\n\r\nUse types to make public APIs, shared models, and component props explicit, readable, and reusable.\r\n\r\n### Public APIs\r\n\r\n- Add parameter and return types to exported functions, shared utilities, and public class methods\r\n- Let TypeScript infer obvious local variable types\r\n- Extract repeated inline object shapes into named types or interfaces\r\n\r\n```typescript\r\n// WRONG: Exported function without explicit types\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n\r\n// CORRECT: Explicit types on public APIs\r\ninterface User {\r\n  firstName: string\r\n  lastName: string\r\n}\r\n\r\nexport function formatUser(user: User): string {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n### Interfaces vs. Type Aliases\r\n\r\n- Use `interface` for object shapes that may be extended or implemented\r\n- Use `type` for unions, intersections, tuples, mapped types, and utility types\r\n- Prefer string literal unions over `enum` unless an `enum` is required for interoperability\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ntype UserRole = 'admin' | 'member'\r\ntype UserWithRole = User & {\r\n  role: UserRole\r\n}\r\n```\r\n\r\n### Avoid `any`\r\n\r\n- Avoid `any` in application code\r\n- Use `unknown` for external or untrusted input, then narrow it safely\r\n- Use generics when a value's type depends on the caller\r\n\r\n```typescript\r\n// WRONG: any removes type safety\r\nfunction getErrorMessage(error: any) {\r\n  return error.message\r\n}\r\n\r\n// CORRECT: unknown forces safe narrowing\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n```\r\n\r\n### React Props\r\n\r\n- Define component props with a named `interface` or `type`\r\n- Type callback props explicitly\r\n- Do not use `React.FC` unless there is a specific reason to do so\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ninterface UserCardProps {\r\n  user: User\r\n  onSelect: (id: string) => void\r\n}\r\n\r\nfunction UserCard({ user, onSelect }: UserCardProps) {\r\n  return <button onClick={() => onSelect(user.id)}>{user.email}</button>\r\n}\r\n```\r\n\r\n### JavaScript Files\r\n\r\n- In `.js` and `.jsx` files, use JSDoc when types improve clarity and a TypeScript migration is not practical\r\n- Keep JSDoc aligned with runtime behavior\r\n\r\n```javascript\r\n/**\r\n * @param {{ firstName: string, lastName: string }} user\r\n * @returns {string}\r\n */\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n## Immutability\r\n\r\nUse spread operator for immutable updates:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  name: string\r\n}\r\n\r\n// WRONG: Mutation\r\nfunction updateUser(user: User, name: string): User {\r\n  user.name = name // MUTATION!\r\n  return user\r\n}\r\n\r\n// CORRECT: Immutability\r\nfunction updateUser(user: Readonly<User>, name: string): User {\r\n  return {\r\n    ...user,\r\n    name\r\n  }\r\n}\r\n```\r\n\r\n## Error Handling\r\n\r\nUse async/await with try-catch and narrow unknown errors safely:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ndeclare function riskyOperation(userId: string): Promise<User>\r\n\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n\r\nconst logger = {\r\n  error: (message: string, error: unknown) => {\r\n    // Replace with your production logger (for example, pino or winston).\r\n  }\r\n}\r\n\r\nasync function loadUser(userId: string): Promise<User> {\r\n  try {\r\n    const result = await riskyOperation(userId)\r\n    return result\r\n  } catch (error: unknown) {\r\n    logger.error('Operation failed', error)\r\n    throw new Error(getErrorMessage(error))\r\n  }\r\n}\r\n```\r\n\r\n## Input Validation\r\n\r\nUse Zod for schema-based validation and infer types from the schema:\r\n\r\n```typescript\r\nimport { z } from 'zod'\r\n\r\nconst userSchema = z.object({\r\n  email: z.string().email(),\r\n  age: z.number().int().min(0).max(150)\r\n})\r\n\r\ntype UserInput = z.infer<typeof userSchema>\r\n\r\nconst validated: UserInput = userSchema.parse(input)\r\n```\r\n\r\n## Console.log\r\n\r\n- No `console.log` statements in production code\r\n- Use proper logging libraries instead\r\n- See hooks for automatic detection\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/hooks.md:\n\n# TypeScript/JavaScript Hooks\r\n\r\n> This file extends [common/hooks.md](../common/hooks.md) with TypeScript/JavaScript specific content.\r\n\r\n## PostToolUse Hooks\r\n\r\nConfigure in `~/.claude/settings.json`:\r\n\r\n- **Prettier**: Auto-format JS/TS files after edit\r\n- **TypeScript check**: Run `tsc` after editing `.ts`/`.tsx` files\r\n- **console.log warning**: Warn about `console.log` in edited files\r\n\r\n## Stop Hooks\r\n\r\n- **console.log audit**: Check all modified files for `console.log` before session ends\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/patterns.md:\n\n# TypeScript/JavaScript Patterns\r\n\r\n> This file extends [common/patterns.md](../common/patterns.md) with TypeScript/JavaScript specific content.\r\n\r\n## API Response Format\r\n\r\n```typescript\r\ninterface ApiResponse<T> {\r\n  success: boolean\r\n  data?: T\r\n  error?: string\r\n  meta?: {\r\n    total: number\r\n    page: number\r\n    limit: number\r\n  }\r\n}\r\n```\r\n\r\n## Custom Hooks Pattern\r\n\r\n```typescript\r\nexport function useDebounce<T>(value: T, delay: number): T {\r\n  const [debouncedValue, setDebouncedValue] = useState<T>(value)\r\n\r\n  useEffect(() => {\r\n    const handler = setTimeout(() => setDebouncedValue(value), delay)\r\n    return () => clearTimeout(handler)\r\n  }, [value, delay])\r\n\r\n  return debouncedValue\r\n}\r\n```\r\n\r\n## Repository Pattern\r\n\r\n```typescript\r\ninterface Repository<T> {\r\n  findAll(filters?: Filters): Promise<T[]>\r\n  findById(id: string): Promise<T | null>\r\n  create(data: CreateDto): Promise<T>\r\n  update(id: string, data: UpdateDto): Promise<T>\r\n  delete(id: string): Promise<void>\r\n}\r\n```\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/security.md:\n\n# TypeScript/JavaScript Security\r\n\r\n> This file extends [common/security.md](../common/security.md) with TypeScript/JavaScript specific content.\r\n\r\n## Secret Management\r\n\r\n```typescript\r\n// NEVER: Hardcoded secrets\r\nconst apiKey = \"sk-proj-xxxxx\"\r\n\r\n// ALWAYS: Environment variables\r\nconst apiKey = process.env.OPENAI_API_KEY\r\n\r\nif (!apiKey) {\r\n  throw new Error('OPENAI_API_KEY not configured')\r\n}\r\n```\r\n\r\n## Agent Support\r\n\r\n- Use **security-reviewer** skill for comprehensive security audits\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/testing.md:\n\n# TypeScript/JavaScript Testing\r\n\r\n> This file extends [common/testing.md](../common/testing.md) with TypeScript/JavaScript specific content.\r\n\r\n## E2E Testing\r\n\r\nUse **Playwright** as the E2E testing framework for critical user flows.\r\n\r\n## Agent Support\r\n\r\n- **e2e-runner** - Playwright E2E testing specialist\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/coding-style.md:\n\n# TypeScript/JavaScript Coding Style\r\n\r\n> This file extends [common/coding-style.md](../common/coding-style.md) with TypeScript/JavaScript specific content.\r\n\r\n## Types and Interfaces\r\n\r\nUse types to make public APIs, shared models, and component props explicit, readable, and reusable.\r\n\r\n### Public APIs\r\n\r\n- Add parameter and return types to exported functions, shared utilities, and public class methods\r\n- Let TypeScript infer obvious local variable types\r\n- Extract repeated inline object shapes into named types or interfaces\r\n\r\n```typescript\r\n// WRONG: Exported function without explicit types\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n\r\n// CORRECT: Explicit types on public APIs\r\ninterface User {\r\n  firstName: string\r\n  lastName: string\r\n}\r\n\r\nexport function formatUser(user: User): string {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n### Interfaces vs. Type Aliases\r\n\r\n- Use `interface` for object shapes that may be extended or implemented\r\n- Use `type` for unions, intersections, tuples, mapped types, and utility types\r\n- Prefer string literal unions over `enum` unless an `enum` is required for interoperability\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ntype UserRole = 'admin' | 'member'\r\ntype UserWithRole = User & {\r\n  role: UserRole\r\n}\r\n```\r\n\r\n### Avoid `any`\r\n\r\n- Avoid `any` in application code\r\n- Use `unknown` for external or untrusted input, then narrow it safely\r\n- Use generics when a value's type depends on the caller\r\n\r\n```typescript\r\n// WRONG: any removes type safety\r\nfunction getErrorMessage(error: any) {\r\n  return error.message\r\n}\r\n\r\n// CORRECT: unknown forces safe narrowing\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n```\r\n\r\n### React Props\r\n\r\n- Define component props with a named `interface` or `type`\r\n- Type callback props explicitly\r\n- Do not use `React.FC` unless there is a specific reason to do so\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ninterface UserCardProps {\r\n  user: User\r\n  onSelect: (id: string) => void\r\n}\r\n\r\nfunction UserCard({ user, onSelect }: UserCardProps) {\r\n  return <button onClick={() => onSelect(user.id)}>{user.email}</button>\r\n}\r\n```\r\n\r\n### JavaScript Files\r\n\r\n- In `.js` and `.jsx` files, use JSDoc when types improve clarity and a TypeScript migration is not practical\r\n- Keep JSDoc aligned with runtime behavior\r\n\r\n```javascript\r\n/**\r\n * @param {{ firstName: string, lastName: string }} user\r\n * @returns {string}\r\n */\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n## Immutability\r\n\r\nUse spread operator for immutable updates:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  name: string\r\n}\r\n\r\n// WRONG: Mutation\r\nfunction updateUser(user: User, name: string): User {\r\n  user.name = name // MUTATION!\r\n  return user\r\n}\r\n\r\n// CORRECT: Immutability\r\nfunction updateUser(user: Readonly<User>, name: string): User {\r\n  return {\r\n    ...user,\r\n    name\r\n  }\r\n}\r\n```\r\n\r\n## Error Handling\r\n\r\nUse async/await with try-catch and narrow unknown errors safely:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ndeclare function riskyOperation(userId: string): Promise<User>\r\n\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n\r\nconst logger = {\r\n  error: (message: string, error: unknown) => {\r\n    // Replace with your production logger (for example, pino or winston).\r\n  }\r\n}\r\n\r\nasync function loadUser(userId: string): Promise<User> {\r\n  try {\r\n    const result = await riskyOperation(userId)\r\n    return result\r\n  } catch (error: unknown) {\r\n    logger.error('Operation failed', error)\r\n    throw new Error(getErrorMessage(error))\r\n  }\r\n}\r\n```\r\n\r\n## Input Validation\r\n\r\nUse Zod for schema-based validation and infer types from the schema:\r\n\r\n```typescript\r\nimport { z } from 'zod'\r\n\r\nconst userSchema = z.object({\r\n  email: z.string().email(),\r\n  age: z.number().int().min(0).max(150)\r\n})\r\n\r\ntype UserInput = z.infer<typeof userSchema>\r\n\r\nconst validated: UserInput = userSchema.parse(input)\r\n```\r\n\r\n## Console.log\r\n\r\n- No `console.log` statements in production code\r\n- Use proper logging libraries instead\r\n- See hooks for automatic detection\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/hooks.md:\n\n# TypeScript/JavaScript Hooks\r\n\r\n> This file extends [common/hooks.md](../common/hooks.md) with TypeScript/JavaScript specific content.\r\n\r\n## PostToolUse Hooks\r\n\r\nConfigure in `~/.claude/settings.json`:\r\n\r\n- **Prettier**: Auto-format JS/TS files after edit\r\n- **TypeScript check**: Run `tsc` after editing `.ts`/`.tsx` files\r\n- **console.log warning**: Warn about `console.log` in edited files\r\n\r\n## Stop Hooks\r\n\r\n- **console.log audit**: Check all modified files for `console.log` before session ends\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/patterns.md:\n\n# TypeScript/JavaScript Patterns\r\n\r\n> This file extends [common/patterns.md](../common/patterns.md) with TypeScript/JavaScript specific content.\r\n\r\n## API Response Format\r\n\r\n```typescript\r\ninterface ApiResponse<T> {\r\n  success: boolean\r\n  data?: T\r\n  error?: string\r\n  meta?: {\r\n    total: number\r\n    page: number\r\n    limit: number\r\n  }\r\n}\r\n```\r\n\r\n## Custom Hooks Pattern\r\n\r\n```typescript\r\nexport function useDebounce<T>(value: T, delay: number): T {\r\n  const [debouncedValue, setDebouncedValue] = useState<T>(value)\r\n\r\n  useEffect(() => {\r\n    const handler = setTimeout(() => setDebouncedValue(value), delay)\r\n    return () => clearTimeout(handler)\r\n  }, [value, delay])\r\n\r\n  return debouncedValue\r\n}\r\n```\r\n\r\n## Repository Pattern\r\n\r\n```typescript\r\ninterface Repository<T> {\r\n  findAll(filters?: Filters): Promise<T[]>\r\n  findById(id: string): Promise<T | null>\r\n  create(data: CreateDto): Promise<T>\r\n  update(id: string, data: UpdateDto): Promise<T>\r\n  delete(id: string): Promise<void>\r\n}\r\n```\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/security.md:\n\n# TypeScript/JavaScript Security\r\n\r\n> This file extends [common/security.md](../common/security.md) with TypeScript/JavaScript specific content.\r\n\r\n## Secret Management\r\n\r\n```typescript\r\n// NEVER: Hardcoded secrets\r\nconst apiKey = \"sk-proj-xxxxx\"\r\n\r\n// ALWAYS: Environment variables\r\nconst apiKey = process.env.OPENAI_API_KEY\r\n\r\nif (!apiKey) {\r\n  throw new Error('OPENAI_API_KEY not configured')\r\n}\r\n```\r\n\r\n## Agent Support\r\n\r\n- Use **security-reviewer** skill for comprehensive security audits\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/testing.md:\n\n# TypeScript/JavaScript Testing\r\n\r\n> This file extends [common/testing.md](../common/testing.md) with TypeScript/JavaScript specific content.\r\n\r\n## E2E Testing\r\n\r\nUse **Playwright** as the E2E testing framework for critical user flows.\r\n\r\n## Agent Support\r\n\r\n- **e2e-runner** - Playwright E2E testing specialist\r\n\n</system-reminder>"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_PLlkeoXbf4Skv2chhNQiqqaw",
+        "name": "Bash",
+        "input": {
+          "command": "find src -name \"*.test.*\" -path \"*limit*\" -o -name \"*.test.*\" -path \"*rate*\" 2>/dev/null | head -20",
+          "description": "Find limit-related test files"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_HrWxhseTEr8GlzYkNyluTOQz",
+        "name": "Bash",
+        "input": {
+          "command": "find src -name \"*.test.*\" 2>/dev/null | head -30",
+          "description": "Find all test files"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "This Bash command contains multiple operations. The following part requires approval: find src -name *.test.* -path *limit* -o -name *.test.* -path *rate* 2> /dev/null",
+        "is_error": true,
+        "tool_use_id": "call_00_PLlkeoXbf4Skv2chhNQiqqaw"
+      },
+      {
+        "type": "tool_result",
+        "content": "This Bash command contains multiple operations. The following part requires approval: find src -name *.test.* 2> /dev/null\n\n<system-reminder>\nThe task tools haven't been used recently. If you're working on tasks that would benefit from tracking progress, consider using TaskCreate to add new tasks and TaskUpdate to update task status (set to in_progress when starting, completed when done). Also consider cleaning up the task list if it has become stale. Only use these if relevant to the current work. This is just a gentle reminder - ignore if not applicable. Make sure that you NEVER mention this reminder to the user\n\n</system-reminder>",
+        "is_error": true,
+        "tool_use_id": "call_01_HrWxhseTEr8GlzYkNyluTOQz"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_faQElWwhwWKrWO0eaLYot4Fv",
+        "name": "Glob",
+        "input": {
+          "pattern": "src/**/*.test.ts"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_EEMka3VWEOoM75ksfwduvBSI",
+        "name": "Glob",
+        "input": {
+          "pattern": "src/**/__tests__/**"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_00_faQElWwhwWKrWO0eaLYot4Fv"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_EEMka3VWEOoM75ksfwduvBSI"
+      }
+    ]
+  ],
+  "output": [
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_start",
+        "message": {
+          "id": "b540a3b2-446b-4818-8264-10b1899a131e",
+          "type": "message",
+          "role": "assistant",
+          "model": "deepseek-v4-flash",
+          "content": [],
+          "stop_reason": null,
+          "stop_sequence": null,
+          "usage": {
+            "input_tokens": 136,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 46976,
+            "output_tokens": 0,
+            "service_tier": "standard"
+          }
+        }
+      },
+      "ttftMs": 477
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 0,
+        "content_block": {
+          "type": "thinking",
+          "thinking": "",
+          "signature": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Gl"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "ob"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " isn"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'t"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " working"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " because"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " rip"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "g"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "rep"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " isn"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'t"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " available"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " use"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " bash"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " directly"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "signature_delta",
+          "signature": "b540a3b2-446b-4818-8264-10b1899a131e"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-22",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:13:52.116Z",
+      "message": {
+        "id": "b540a3b2-446b-4818-8264-10b1899a131e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "Glob isn't working because ripgrep isn't available. Let me use bash directly.",
+            "signature": "b540a3b2-446b-4818-8264-10b1899a131e"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 136,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 46976,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 0
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 1,
+        "content_block": {
+          "type": "tool_use",
+          "id": "call_00_dhRiM6BWbom5mXEXhjML70Zy",
+          "name": "Bash",
+          "input": {}
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "ls"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " src"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/**"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/*"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ".ts"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "2"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ">/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "dev"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/null"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ";"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " ls"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " src"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/**"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "__"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "tests"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "__"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/*"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "ts"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "2"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ">/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "dev"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/null"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ", "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "description"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "List"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " files"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " in"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " project"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "}"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-74",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:13:53.084Z",
+      "message": {
+        "id": "b540a3b2-446b-4818-8264-10b1899a131e",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "call_00_dhRiM6BWbom5mXEXhjML70Zy",
+            "name": "Bash",
+            "input": {
+              "command": "ls src/**/*.test.ts 2>/dev/null; ls src/**/__tests__/*.ts 2>/dev/null",
+              "description": "List test files in the project"
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 136,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 46976,
+          "output_tokens": 111,
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "",
+          "iterations": [],
+          "speed": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 1
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_delta",
+        "delta": {
+          "stop_reason": "tool_use",
+          "stop_sequence": null
+        },
+        "usage": {
+          "input_tokens": 136,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 46976,
+          "output_tokens": 111,
+          "service_tier": "standard"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_stop"
+      }
+    }
+  ]
+}

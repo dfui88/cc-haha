@@ -1,0 +1,2032 @@
+{
+  "input": [
+    [
+      {
+        "type": "text",
+        "text": "limit test"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_QgT479OQgv6v1uIYA7AhuCfJ",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la",
+          "description": "List files in working directory"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_FQxLNw9G1pv2jqoxUlZVCNZc",
+        "name": "Bash",
+        "input": {
+          "command": "git log --oneline -10",
+          "description": "Check recent git history"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_QgT479OQgv6v1uIYA7AhuCfJ",
+        "type": "tool_result",
+        "content": "total 843\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:04 ..\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .claude\n-rw-r--r-- 1 jwwin 197121   2377 Apr 26 12:57 .env.example\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:00 .git\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 .github\n-rw-r--r-- 1 jwwin 197121   1167 Apr 30 11:09 .gitignore\n-rw-r--r-- 1 jwwin 197121   4106 Apr 30 18:27 AGENTS.md\n-rw-r--r-- 1 jwwin 197121  15782 Apr 30 18:27 ARCHITECTURE.md\n-rw-r--r-- 1 jwwin 197121   1854 Apr 26 12:57 LICENSE\n-rw-r--r-- 1 jwwin 197121   7348 Apr 30 18:27 PROJECT_STRUCTURE.md\n-rw-r--r-- 1 jwwin 197121  13753 Apr 30 18:27 README.en.md\n-rw-r--r-- 1 jwwin 197121  13058 Apr 30 18:27 README.md\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 adapters\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 bin\n-rw-r--r-- 1 jwwin 197121 208690 Apr 26 12:57 bun.lock\n-rw-r--r-- 1 jwwin 197121     28 Apr 26 12:57 bunfig.toml\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 19:23 desktop\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 docs\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:04 fixtures\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 21:25 node_modules\n-rw-r--r-- 1 jwwin 197121 322397 Apr 30 18:27 package-lock.json\n-rw-r--r-- 1 jwwin 197121   2621 Apr 30 18:28 package.json\n-rw-r--r-- 1 jwwin 197121    662 Apr 30 18:27 preload.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 release-notes\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 runtime\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 scripts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 src\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 stubs\n-rw-r--r-- 1 jwwin 197121    450 Apr 30 18:27 tsconfig.json",
+        "is_error": false
+      },
+      {
+        "tool_use_id": "call_01_FQxLNw9G1pv2jqoxUlZVCNZc",
+        "type": "tool_result",
+        "content": "8d8ad96 fix: add missing responseTimeoutId to test mocks\n12e194a docs: update v0.1.8 release notes with 5 code review optimizations\n2ba19b2 refactor: apply 5 code review optimizations from fork comparison\n8a0e393 merge: restore v0.1.8 modifications on top of upstream\n6ac0c31 docs: add architecture docs and auto-generate project structure\n777c596 docs: add README star history section\n48ae305 docs: make issue reports actionable for desktop triage\n670281b fix: keep desktop app running from tray after close\na68a244 Prepare 0.1.8 for remote desktop release\n0508277 fix: keep inspector context responsive",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_AWeO9xITYuGggsiZeCFz9VlZ",
+        "name": "Grep",
+        "input": {
+          "pattern": "limit",
+          "glob": "**/*.test.*",
+          "output_mode": "files_with_matches"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_w6xYrqjxLCuiydprCScKKkCy",
+        "name": "Bash",
+        "input": {
+          "command": "cat package.json | head -50",
+          "description": "Check package.json for test scripts"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_02_fVAGLSS1st2nVXaaneH9dcTB",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/*limit*"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_00_AWeO9xITYuGggsiZeCFz9VlZ"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_02_fVAGLSS1st2nVXaaneH9dcTB"
+      },
+      {
+        "tool_use_id": "call_01_w6xYrqjxLCuiydprCScKKkCy",
+        "type": "tool_result",
+        "content": "{\n  \"name\": \"claude-code-local\",\n  \"version\": \"999.0.0-local\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"bin\": {\n    \"claude-haha\": \"./bin/claude-haha\"\n  },\n  \"scripts\": {\n    \"claude-haha\": \"bash ./bin/claude-haha\",\n    \"start\": \"bash ./bin/claude-haha\",\n    \"generate:structure\": \"node scripts/generate-structure.mjs --depth 2\",\n    \"docs:dev\": \"vitepress dev docs\",\n    \"docs:build\": \"vitepress build docs\",\n    \"docs:preview\": \"vitepress preview docs\"\n  },\n  \"dependencies\": {\n    \"@anthropic-ai/sandbox-runtime\": \"^0.0.44\",\n    \"@anthropic-ai/sdk\": \"^0.80.0\",\n    \"@aws-sdk/client-bedrock-runtime\": \"^3.1020.0\",\n    \"@commander-js/extra-typings\": \"^14.0.0\",\n    \"@growthbook/growthbook\": \"^1.6.5\",\n    \"@modelcontextprotocol/sdk\": \"^1.29.0\",\n    \"@opentelemetry/api-logs\": \"^0.214.0\",\n    \"@opentelemetry/core\": \"^2.6.1\",\n    \"@opentelemetry/resources\": \"^2.6.1\",\n    \"@opentelemetry/sdk-logs\": \"^0.214.0\",\n    \"@opentelemetry/sdk-metrics\": \"^2.6.1\",\n    \"@opentelemetry/sdk-trace-base\": \"^2.6.1\",\n    \"@opentelemetry/semantic-conventions\": \"^1.40.0\",\n    \"ajv\": \"^8.18.0\",\n    \"asciichart\": \"^1.5.25\",\n    \"auto-bind\": \"^5.0.1\",\n    \"axios\": \"^1.14.0\",\n    \"bidi-js\": \"^1.0.3\",\n    \"chalk\": \"^5.6.2\",\n    \"chokidar\": \"^5.0.0\",\n    \"cli-boxes\": \"^4.0.1\",\n    \"code-excerpt\": \"^4.0.0\",\n    \"diff\": \"^8.0.4\",\n    \"emoji-regex\": \"^10.6.0\",\n    \"env-paths\": \"^4.0.0\",\n    \"execa\": \"^9.6.1\",\n    \"figures\": \"^6.1.0\",\n    \"fuse.js\": \"^7.1.0\",\n    \"get-east-asian-width\": \"^1.5.0\",\n    \"google-auth-library\": \"^10.6.2\",\n    \"highlight.js\": \"^11.11.1\",\n    \"https-proxy-agent\": \"^8.0.0\",\n    \"ignore\": \"^7.0.5\",",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_oa1k05Ib21CEJ5CsRxaCm1AN",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la fixtures/ 2>/dev/null && echo \"---\" && ls -la src/ 2>/dev/null",
+          "description": "Explore fixtures and src directories"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_CJpKvhjnBGQ5fb1hFL67o2yw",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/*test*"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_02_z0eZZH5oT9VbNpsEM6BdBuWR",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/*spec*"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_CJpKvhjnBGQ5fb1hFL67o2yw"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_02_z0eZZH5oT9VbNpsEM6BdBuWR"
+      },
+      {
+        "tool_use_id": "call_00_oa1k05Ib21CEJ5CsRxaCm1AN",
+        "type": "tool_result",
+        "content": "total 15295\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:04 .\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 ..\n-rw-r--r-- 1 jwwin 197121  43503 Apr 30 22:04 0fdc67-a0d4fd-912b5e-baffff-04bb40-1bcd05-fb8a9c-fa3094-b07c4b-b4f7f8-3f6602-a75f4f-509a1e-b2b9a1-c985cf.json\n-rw-r--r-- 1 jwwin 197121  61806 Apr 30 22:04 0fdc67-a0d4fd-912b5e-baffff-04bb40-1bcd05-fb8a9c-fa3094-b07c4b-b4f7f8-3f6602-a75f4f-509a1e.json\n-rw-r--r-- 1 jwwin 197121  60205 Apr 30 22:04 0fdc67-a0d4fd-912b5e-baffff-04bb40-1bcd05-fb8a9c-fa3094-b07c4b-b4f7f8-3f6602.json\n-rw-r--r-- 1 jwwin 197121  30847 Apr 30 22:04 0fdc67-a0d4fd-912b5e-baffff-04bb40-1bcd05-fb8a9c-fa3094-b07c4b.json\n-rw-r--r-- 1 jwwin 197121  32806 Apr 30 22:04 0fdc67-a0d4fd-912b5e-baffff-04bb40-1bcd05-fb8a9c.json\n-rw-r--r-- 1 jwwin 197121  56336 Apr 30 22:04 0fdc67-a0d4fd-912b5e-baffff-04bb40.json\n-rw-r--r-- 1 jwwin 197121  58380 Apr 30 22:02 0fdc67-a0d4fd-912b5e-baffff-36e57a-8946e5-a272c4.json\n-rw-r--r-- 1 jwwin 197121  39779 Apr 30 22:02 0fdc67-a0d4fd-912b5e-baffff-36e57a.json\n-rw-r--r-- 1 jwwin 197121  56040 Apr 30 22:00 0fdc67-a0d4fd-912b5e-baffff-701d1c-142e36-450688-9ebfcc-43ed6a-87c27d-c9aa36.json\n-rw-r--r-- 1 jwwin 197121  30226 Apr 30 22:00 0fdc67-a0d4fd-912b5e-baffff-701d1c-142e36-450688-9ebfcc-43ed6a.json\n-rw-r--r-- 1 jwwin 197121  57761 Apr 30 22:00 0fdc67-a0d4fd-912b5e-baffff-701d1c-142e36-450688.json\n-rw-r--r-- 1 jwwin 197121  43708 Apr 30 22:00 0fdc67-a0d4fd-912b5e-baffff-701d1c.json\n-rw-r--r-- 1 jwwin 197121 194865 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba-d68e2d-8b3bab-3b92ee-dc3814-afcad5-b8e5c7-b9002a-a3e2c0-959abc-ee659c.json\n-rw-r--r-- 1 jwwin 197121  67387 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba-d68e2d-8b3bab-3b92ee-dc3814-afcad5-b8e5c7-b9002a-a3e2c0.json\n-rw-r--r-- 1 jwwin 197121  69979 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba-d68e2d-8b3bab-3b92ee-dc3814-afcad5-b8e5c7.json\n-rw-r--r-- 1 jwwin 197121  70727 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba-d68e2d-8b3bab-3b92ee-dc3814.json\n-rw-r--r-- 1 jwwin 197121  76837 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba-d68e2d-8b3bab.json\n-rw-r--r-- 1 jwwin 197121  47785 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba.json\n-rw-r--r-- 1 jwwin 197121  21832 Apr 30 21:57 0fdc67-a0d4fd-912b5e.json\n-rw-r--r-- 1 jwwin 197121  39591 Apr 30 21:57 0fdc67.json\n-rw-r--r-- 1 jwwin 197121  68694 Apr 30 22:04 67d56f-471d71-d0e5ab-9b4cf4-415d9c.json\n-rw-r--r-- 1 jwwin 197121  37886 Apr 30 22:02 67d56f-471d71-d0e5ab-9b4cf4-809baf-b4bfd8-534f9b-0b80bd-3113f3.json\n-rw-r--r-- 1 jwwin 197121  22013 Apr 30 22:02 67d56f-471d71-d0e5ab-9b4cf4-809baf-b4bfd8-534f9b.json\n-rw-r--r-- 1 jwwin 197121  33917 Apr 30 22:02 67d56f-471d71-d0e5ab-9b4cf4-809baf.json\n-rw-r--r-- 1 jwwin 197121  43695 Apr 30 22:00 67d56f-471d71-d0e5ab-9b4cf4-8dc044-c046e0-c3c77e-761130-e757db-767753-3edf1f-8cb6f7-2077dd.json\n-rw-r--r-- 1 jwwin 197121  45431 Apr 30 22:00 67d56f-471d71-d0e5ab-9b4cf4-8dc044-c046e0-c3c77e-761130-e757db-767753-3edf1f.json\n-rw-r--r-- 1 jwwin 197121  44772 Apr 30 22:00 67d56f-471d71-d0e5ab-9b4cf4-8dc044-c046e0-c3c77e-761130-e757db.json\n-rw-r--r-- 1 jwwin 197121  50482 Apr 30 22:00 67d56f-471d71-d0e5ab-9b4cf4-8dc044-c046e0-c3c77e.json\n-rw-r--r-- 1 jwwin 197121  30038 Apr 30 22:00 67d56f-471d71-d0e5ab-9b4cf4-8dc044.json\n-rw-r--r-- 1 jwwin 197121  98741 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123-382031-a89815-dc772b-f0a966-b058a2-7558f0-603a13-20cee5-a8a68f-38cd15.json\n-rw-r--r-- 1 jwwin 197121 110179 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123-382031-a89815-dc772b-f0a966-b058a2-7558f0-603a13-20cee5.json\n-rw-r--r-- 1 jwwin 197121  71205 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123-382031-a89815-dc772b-f0a966-b058a2-7558f0.json\n-rw-r--r-- 1 jwwin 197121  54430 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123-382031-a89815-dc772b-f0a966.json\n-rw-r--r-- 1 jwwin 197121  65450 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123-382031-a89815.json\n-rw-r--r-- 1 jwwin 197121  45349 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123.json\n-rw-r--r-- 1 jwwin 197121  63642 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56.json\n-rw-r--r-- 1 jwwin 197121  31929 Apr 30 21:57 67d56f-471d71-d0e5ab-9b4cf4-fd5975.json\n-rw-r--r-- 1 jwwin 197121  25941 Apr 30 21:57 67d56f-471d71-d0e5ab.json\n-rw-r--r-- 1 jwwin 197121  59022 Apr 30 21:57 67d56f.json\n-rw-r--r-- 1 jwwin 197121 322869 Apr 30 22:03 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4-f851bd-0b4f00-0c62e7-dd99c6-f9c73f-24abea-2bccc3-4b8dfa-682cee-6d3037-65f4f8-66d86a-83fa1d-843f92-10a1c3-27c164-b145d2-d5c4c8-9efc84-4cb6c1-ab9298-93fb75.json\n-rw-r--r-- 1 jwwin 197121 202182 Apr 30 22:03 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4-f851bd-0b4f00-0c62e7-dd99c6-f9c73f-24abea-2bccc3-4b8dfa-682cee-6d3037-65f4f8-66d86a-83fa1d-843f92-10a1c3-27c164-b145d2-d5c4c8-9efc84-4cb6c1.json\n-rw-r--r-- 1 jwwin 197121 183736 Apr 30 22:03 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4-f851bd-0b4f00-0c62e7-dd99c6-f9c73f-24abea-2bccc3-4b8dfa-682cee-6d3037-65f4f8-66d86a-83fa1d-843f92-10a1c3-27c164-b145d2-d5c4c8.json\n-rw-r--r-- 1 jwwin 197121 178516 Apr 30 22:03 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4-f851bd-0b4f00-0c62e7-dd99c6-f9c73f-24abea-2bccc3-4b8dfa-682cee-6d3037-65f4f8-66d86a-83fa1d-843f92-10a1c3-27c164.json\n-rw-r--r-- 1 jwwin 197121 198661 Apr 30 22:03 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4-f851bd-0b4f00-0c62e7-dd99c6-f9c73f-24abea-2bccc3-4b8dfa-682cee-6d3037-65f4f8-66d86a-83fa1d-843f92.json\n-rw-r--r-- 1 jwwin 197121 178831 Apr 30 22:03 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4-f851bd-0b4f00-0c62e7-dd99c6-f9c73f-24abea-2bccc3-4b8dfa-682cee-6d3037-65f4f8-66d86a.json\n-rw-r--r-- 1 jwwin 197121 155401 Apr 30 22:03 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4-f851bd-0b4f00-0c62e7-dd99c6-f9c73f-24abea-2bccc3-4b8dfa-682cee-6d3037.json\n-rw-r--r-- 1 jwwin 197121 146122 Apr 30 22:03 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4-f851bd-0b4f00-0c62e7-dd99c6-f9c73f-24abea-2bccc3-4b8dfa.json\n-rw-r--r-- 1 jwwin 197121 151360 Apr 30 22:03 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4-f851bd-0b4f00-0c62e7-dd99c6-f9c73f-24abea.json\n-rw-r--r-- 1 jwwin 197121 159140 Apr 30 22:03 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4-f851bd-0b4f00-0c62e7-dd99c6.json\n-rw-r--r-- 1 jwwin 197121 168271 Apr 30 22:02 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4-f851bd-0b4f00.json\n-rw-r--r-- 1 jwwin 197121 148279 Apr 30 22:02 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804-f0a296-8ea4a4.json\n-rw-r--r-- 1 jwwin 197121 156144 Apr 30 22:02 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6-408b3e-685804.json\n-rw-r--r-- 1 jwwin 197121  80925 Apr 30 22:02 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6.json\n-rw-r--r-- 1 jwwin 197121  36217 Apr 30 22:02 80f6d1-e76d1e-1839aa-dfc1b6-041f3d.json\n-rw-r--r-- 1 jwwin 197121  41443 Apr 30 22:02 80f6d1-e76d1e-1839aa.json\n-rw-r--r-- 1 jwwin 197121  58427 Apr 30 22:04 80f6d1-e76d1e-2ebdb7-16c967-9dfca2-79ce8f-cf08bc.json\n-rw-r--r-- 1 jwwin 197121  96081 Apr 30 22:04 80f6d1-e76d1e-2ebdb7-16c967-9dfca2.json\n-rw-r--r-- 1 jwwin 197121  30775 Apr 30 22:04 80f6d1-e76d1e-2ebdb7.json\n-rw-r--r-- 1 jwwin 197121 127019 Apr 30 21:59 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67-53b226-db3991-4d7b93-ca6d33-089836-ba9b83-f4a328-8adc3c-7bb52d-5776c0.json\n-rw-r--r-- 1 jwwin 197121 129759 Apr 30 21:59 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67-53b226-db3991-4d7b93-ca6d33-089836-ba9b83-f4a328-8adc3c.json\n-rw-r--r-- 1 jwwin 197121 130746 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67-53b226-db3991-4d7b93-ca6d33-089836-ba9b83.json\n-rw-r--r-- 1 jwwin 197121 120912 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67-53b226-db3991-4d7b93-ca6d33.json\n-rw-r--r-- 1 jwwin 197121 129430 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67-53b226-db3991.json\n-rw-r--r-- 1 jwwin 197121  94928 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67.json\n-rw-r--r-- 1 jwwin 197121 100200 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6.json\n-rw-r--r-- 1 jwwin 197121  52091 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513.json\n-rw-r--r-- 1 jwwin 197121  53536 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4.json\n-rw-r--r-- 1 jwwin 197121  47345 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754.json\n-rw-r--r-- 1 jwwin 197121  52210 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6.json\n-rw-r--r-- 1 jwwin 197121  38652 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9.json\n-rw-r--r-- 1 jwwin 197121  41315 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716.json\n-rw-r--r-- 1 jwwin 197121  45095 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478.json\n-rw-r--r-- 1 jwwin 197121  42154 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7.json\n-rw-r--r-- 1 jwwin 197121  71412 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a.json\n-rw-r--r-- 1 jwwin 197121  46154 Apr 30 21:58 80f6d1-e76d1e-477e11.json\n-rw-r--r-- 1 jwwin 197121 201758 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15-ab8ae4-5ba270-f93ee2-766dd4-0ad9ef-b4db70-1566ee-04a1f6-b97455-a2c3fb.json\n-rw-r--r-- 1 jwwin 197121 148820 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15-ab8ae4-5ba270-f93ee2-766dd4-0ad9ef-b4db70-1566ee-04a1f6.json\n-rw-r--r-- 1 jwwin 197121 140231 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15-ab8ae4-5ba270-f93ee2-766dd4-0ad9ef-b4db70.json\n-rw-r--r-- 1 jwwin 197121 202030 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15-ab8ae4-5ba270-f93ee2-766dd4.json\n-rw-r--r-- 1 jwwin 197121 136375 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15-ab8ae4-5ba270.json\n-rw-r--r-- 1 jwwin 197121 122959 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15.json\n-rw-r--r-- 1 jwwin 197121 177323 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f.json\n-rw-r--r-- 1 jwwin 197121 140159 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1.json\n-rw-r--r-- 1 jwwin 197121 108361 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80.json\n-rw-r--r-- 1 jwwin 197121  97083 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435.json\n-rw-r--r-- 1 jwwin 197121 116397 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe.json\n-rw-r--r-- 1 jwwin 197121  48037 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be.json\n-rw-r--r-- 1 jwwin 197121  51853 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8.json\n-rw-r--r-- 1 jwwin 197121  59430 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff.json\n-rw-r--r-- 1 jwwin 197121  65358 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e.json\n-rw-r--r-- 1 jwwin 197121  40289 Apr 30 22:00 80f6d1-e76d1e-dc3932.json\n-rw-r--r-- 1 jwwin 197121  42862 Apr 30 21:58 80f6d1.json\n-rw-r--r-- 1 jwwin 197121  57003 Apr 30 22:03 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693-1af824-32784a-8aa3f1-db5816-20974a-e7101d-a221f1-c5f2f8-f7fcb9-9528f0-c77202-bc9077.json\n-rw-r--r-- 1 jwwin 197121  54142 Apr 30 22:03 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693-1af824-32784a-8aa3f1-db5816-20974a-e7101d-a221f1-c5f2f8-f7fcb9-9528f0.json\n-rw-r--r-- 1 jwwin 197121  72860 Apr 30 22:02 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693-1af824-32784a-8aa3f1-db5816-20974a-e7101d-a221f1-c5f2f8.json\n-rw-r--r-- 1 jwwin 197121  63759 Apr 30 22:02 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693-1af824-32784a-8aa3f1-db5816-20974a-e7101d.json\n-rw-r--r-- 1 jwwin 197121  53649 Apr 30 22:02 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693-1af824-32784a-8aa3f1-db5816.json\n-rw-r--r-- 1 jwwin 197121  76146 Apr 30 22:02 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693-1af824-32784a.json\n-rw-r--r-- 1 jwwin 197121  76622 Apr 30 22:01 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693.json\n-rw-r--r-- 1 jwwin 197121  68390 Apr 30 22:01 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9.json\n-rw-r--r-- 1 jwwin 197121  67289 Apr 30 22:00 a2d1ab-cceb42-37f067-cb959d-baf55a.json\n-rw-r--r-- 1 jwwin 197121  32676 Apr 30 21:58 a2d1ab-cceb42-37f067.json\n-rw-r--r-- 1 jwwin 197121  86325 Apr 30 22:01 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6-b3afb1-5ee5da-89c711-f88468-fdde60-a8d580-0576fb-893a08-811931-ec8b2a.json\n-rw-r--r-- 1 jwwin 197121  90647 Apr 30 22:01 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6-b3afb1-5ee5da-89c711-f88468-fdde60-a8d580-0576fb-893a08.json\n-rw-r--r-- 1 jwwin 197121  82412 Apr 30 22:01 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6-b3afb1-5ee5da-89c711-f88468-fdde60-a8d580.json\n-rw-r--r-- 1 jwwin 197121  37008 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6-b3afb1-5ee5da-89c711-f88468.json\n-rw-r--r-- 1 jwwin 197121  46248 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6-b3afb1-5ee5da.json\n-rw-r--r-- 1 jwwin 197121  52801 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6.json\n-rw-r--r-- 1 jwwin 197121  93641 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292.json\n-rw-r--r-- 1 jwwin 197121  72869 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94.json\n-rw-r--r-- 1 jwwin 197121  31965 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3.json\n-rw-r--r-- 1 jwwin 197121 147695 Apr 30 22:03 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-855df4-3fd4a2-2cccf8-fa9759-1e619c-6b3f23-5c4e14-9e7e88-8b5e8e-53e0b6-c395d3-c5fae0-c892b4.json\n-rw-r--r-- 1 jwwin 197121 106778 Apr 30 22:03 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-855df4-3fd4a2-2cccf8-fa9759-1e619c-6b3f23-5c4e14-9e7e88-8b5e8e-53e0b6-c395d3.json\n-rw-r--r-- 1 jwwin 197121  51448 Apr 30 22:03 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-855df4-3fd4a2-2cccf8-fa9759-1e619c-6b3f23-5c4e14-9e7e88-8b5e8e.json\n-rw-r--r-- 1 jwwin 197121  47037 Apr 30 22:02 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-855df4-3fd4a2-2cccf8-fa9759-1e619c-6b3f23-5c4e14.json\n-rw-r--r-- 1 jwwin 197121  61019 Apr 30 22:02 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-855df4-3fd4a2-2cccf8-fa9759-1e619c.json\n-rw-r--r-- 1 jwwin 197121  65509 Apr 30 22:02 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-855df4-3fd4a2-2cccf8.json\n-rw-r--r-- 1 jwwin 197121  33744 Apr 30 22:02 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-855df4.json\n-rw-r--r-- 1 jwwin 197121  20531 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7.json\n-rw-r--r-- 1 jwwin 197121  22389 Apr 30 22:00 a2d1ab-d51ec2-75f484.json\n-rw-r--r-- 1 jwwin 197121  42601 Apr 30 21:58 a2d1ab.json\n-rw-r--r-- 1 jwwin 197121   6777 Apr 30 21:57 b3d8b8-9eded5-cca257.json\n-rw-r--r-- 1 jwwin 197121  11325 Apr 30 21:57 b3d8b8.json\n-rw-r--r-- 1 jwwin 197121  59740 Apr 30 21:58 b82a15-2fb445-766ead-7d0b90-97b422-458da4-2049ec-d80009-1d277b-86aa04-2d5f7f-38c0ef-879e54.json\n-rw-r--r-- 1 jwwin 197121  25636 Apr 30 21:58 b82a15-2fb445-766ead-7d0b90-97b422-458da4-2049ec-d80009-1d277b-86aa04-2d5f7f.json\n-rw-r--r-- 1 jwwin 197121  34872 Apr 30 21:58 b82a15-2fb445-766ead-7d0b90-97b422-458da4-2049ec-d80009-1d277b.json\n-rw-r--r-- 1 jwwin 197121  42770 Apr 30 21:58 b82a15-2fb445-766ead-7d0b90-97b422-458da4-2049ec.json\n-rw-r--r-- 1 jwwin 197121  61814 Apr 30 21:58 b82a15-2fb445-766ead-7d0b90-97b422.json\n-rw-r--r-- 1 jwwin 197121  66471 Apr 30 21:58 b82a15-2fb445-766ead.json\n-rw-r--r-- 1 jwwin 197121 144442 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712-2a94c1-bdbefb-335f8d-320c6a-e1263f-f1eed5-ceadd4-33d6a6-757860-a93ff9.json\n-rw-r--r-- 1 jwwin 197121 118612 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712-2a94c1-bdbefb-335f8d-320c6a-e1263f-f1eed5-ceadd4-33d6a6.json\n-rw-r--r-- 1 jwwin 197121  76773 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712-2a94c1-bdbefb-335f8d-320c6a-e1263f-f1eed5.json\n-rw-r--r-- 1 jwwin 197121  93785 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712-2a94c1-bdbefb-335f8d-320c6a.json\n-rw-r--r-- 1 jwwin 197121 107633 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712-2a94c1-bdbefb.json\n-rw-r--r-- 1 jwwin 197121  44899 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712.json\n-rw-r--r-- 1 jwwin 197121  40131 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40.json\n-rw-r--r-- 1 jwwin 197121  82225 Apr 30 22:00 b82a15-2fb445-a41d9f-1b8c59-8ea1cc.json\n-rw-r--r-- 1 jwwin 197121  51117 Apr 30 22:00 b82a15-2fb445-a41d9f.json\n-rw-r--r-- 1 jwwin 197121  59005 Apr 30 21:58 b82a15-2fb445-a746fa-722272-5de7c4-a2ab9b-19a918-4e4e88-67b9bd.json\n-rw-r--r-- 1 jwwin 197121  67420 Apr 30 21:58 b82a15-2fb445-a746fa-722272-5de7c4-a2ab9b-19a918.json\n-rw-r--r-- 1 jwwin 197121  33103 Apr 30 21:58 b82a15-2fb445-a746fa-722272-5de7c4.json\n-rw-r--r-- 1 jwwin 197121  55514 Apr 30 21:58 b82a15-2fb445-a746fa.json\n-rw-r--r-- 1 jwwin 197121  56464 Apr 30 22:04 b82a15-2fb445-bd7791-cd1693-971b26.json\n-rw-r--r-- 1 jwwin 197121  45381 Apr 30 22:04 b82a15-2fb445-bd7791.json\n-rw-r--r-- 1 jwwin 197121  65018 Apr 30 22:02 b82a15-2fb445-be8d00-501efe-5469d3-34548d-72dc96-1953a5-f8ac0d.json\n-rw-r--r-- 1 jwwin 197121  81119 Apr 30 22:02 b82a15-2fb445-be8d00-501efe-5469d3-34548d-72dc96.json\n-rw-r--r-- 1 jwwin 197121 104460 Apr 30 22:03 b82a15-2fb445-be8d00-501efe-5469d3-34548d-74cb39-4304e2-a8fa7b-49808e-a821fa.json\n-rw-r--r-- 1 jwwin 197121  96232 Apr 30 22:03 b82a15-2fb445-be8d00-501efe-5469d3-34548d-74cb39-4304e2-a8fa7b.json\n-rw-r--r-- 1 jwwin 197121  79386 Apr 30 22:03 b82a15-2fb445-be8d00-501efe-5469d3-34548d-74cb39.json\n-rw-r--r-- 1 jwwin 197121  39539 Apr 30 22:02 b82a15-2fb445-be8d00-501efe-5469d3.json\n-rw-r--r-- 1 jwwin 197121  47157 Apr 30 22:02 b82a15-2fb445-be8d00.json\n-rw-r--r-- 1 jwwin 197121 102731 Apr 30 22:00 b82a15-2fb445-e3efc5-0b0c00-04bc3a-48acee-22b57b.json\n-rw-r--r-- 1 jwwin 197121  71984 Apr 30 22:00 b82a15-2fb445-e3efc5-0b0c00-04bc3a.json\n-rw-r--r-- 1 jwwin 197121  67235 Apr 30 22:00 b82a15-2fb445-e3efc5.json\n-rw-r--r-- 1 jwwin 197121  34220 Apr 30 21:58 b82a15.json\n-rw-r--r-- 1 jwwin 197121  30479 Apr 30 22:04 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea-f4d5fd-1b270b-c22f3e-22e765-790c7d-f49dde-458e7e-1a9b5e-960bd6-89231c.json\n-rw-r--r-- 1 jwwin 197121  30845 Apr 30 22:04 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea-f4d5fd-1b270b-c22f3e-22e765-790c7d-f49dde-458e7e-1a9b5e.json\n-rw-r--r-- 1 jwwin 197121  49182 Apr 30 22:04 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea-f4d5fd-1b270b-c22f3e-22e765-790c7d-f49dde.json\n-rw-r--r-- 1 jwwin 197121  50294 Apr 30 22:04 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea-f4d5fd-1b270b-c22f3e-22e765.json\n-rw-r--r-- 1 jwwin 197121  70004 Apr 30 22:04 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea-f4d5fd-1b270b.json\n-rw-r--r-- 1 jwwin 197121  56299 Apr 30 21:58 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea-f4d5fd-d67e92-e734af-952979-af429a-7ddf32.json\n-rw-r--r-- 1 jwwin 197121 106855 Apr 30 21:58 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea-f4d5fd-d67e92-e734af-952979.json\n-rw-r--r-- 1 jwwin 197121  43182 Apr 30 21:58 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea-f4d5fd-d67e92.json\n-rw-r--r-- 1 jwwin 197121  68295 Apr 30 21:58 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea.json\n-rw-r--r-- 1 jwwin 197121  28146 Apr 30 21:58 c6324c-8f3684-3a68cc-803471-bac3cc.json\n-rw-r--r-- 1 jwwin 197121  60063 Apr 30 22:03 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938-0c7357-e92a45-f783a0-54ded4-477927-d27441-9b2b4b-f6d05b-7ed31f-be4fba-82cb07-0f545a-7ff5aa-02db2c.json\n-rw-r--r-- 1 jwwin 197121  59535 Apr 30 22:02 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938-0c7357-e92a45-f783a0-54ded4-477927-d27441-9b2b4b-f6d05b-7ed31f-be4fba-82cb07-0f545a.json\n-rw-r--r-- 1 jwwin 197121  67460 Apr 30 22:02 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938-0c7357-e92a45-f783a0-54ded4-477927-d27441-9b2b4b-f6d05b-7ed31f-be4fba.json\n-rw-r--r-- 1 jwwin 197121  67620 Apr 30 22:02 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938-0c7357-e92a45-f783a0-54ded4-477927-d27441-9b2b4b-f6d05b.json\n-rw-r--r-- 1 jwwin 197121  87852 Apr 30 22:02 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938-0c7357-e92a45-f783a0-54ded4-477927-d27441.json\n-rw-r--r-- 1 jwwin 197121  46118 Apr 30 22:02 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938-0c7357-e92a45-f783a0-54ded4.json\n-rw-r--r-- 1 jwwin 197121  58766 Apr 30 22:02 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938-0c7357-e92a45.json\n-rw-r--r-- 1 jwwin 197121  26745 Apr 30 22:02 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938.json\n-rw-r--r-- 1 jwwin 197121  28868 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-825409-357dce-019687-402277-e54c38-d05915-0f084a.json\n-rw-r--r-- 1 jwwin 197121  37254 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-825409-357dce-019687-402277-e54c38.json\n-rw-r--r-- 1 jwwin 197121  54640 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-825409-357dce-019687.json\n-rw-r--r-- 1 jwwin 197121  44062 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-825409.json\n-rw-r--r-- 1 jwwin 197121  45279 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10.json\n-rw-r--r-- 1 jwwin 197121  25476 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d.json\n-rw-r--r-- 1 jwwin 197121  61199 Apr 30 21:58 c6324c-8f3684-3a68cc.json\n-rw-r--r-- 1 jwwin 197121  31940 Apr 30 21:57 c6324c.json\n-rw-r--r-- 1 jwwin 197121 232428 Apr 30 22:04 e1f5de-edeb96-331a07-7b77f2-2471b4-c2e285-c25a30-52b99f-dcd716-39d458-6cb4b0-03e0bb-fe3021-b8d004-662f91-165354-315ded-a37150-7ba99f-c1d250-dc5ef0.json\n-rw-r--r-- 1 jwwin 197121 238408 Apr 30 22:04 e1f5de-edeb96-331a07-7b77f2-2471b4-c2e285-c25a30-52b99f-dcd716-39d458-6cb4b0-03e0bb-fe3021-b8d004-662f91-165354-315ded-a37150-7ba99f.json\n-rw-r--r-- 1 jwwin 197121 210993 Apr 30 22:04 e1f5de-edeb96-331a07-7b77f2-2471b4-c2e285-c25a30-52b99f-dcd716-39d458-6cb4b0-03e0bb-fe3021-b8d004-662f91-165354-315ded.json\n-rw-r--r-- 1 jwwin 197121 235513 Apr 30 22:04 e1f5de-edeb96-331a07-7b77f2-2471b4-c2e285-c25a30-52b99f-dcd716-39d458-6cb4b0-03e0bb-fe3021-b8d004-662f91.json\n-rw-r--r-- 1 jwwin 197121 230128 Apr 30 22:04 e1f5de-edeb96-331a07-7b77f2-2471b4-c2e285-c25a30-52b99f-dcd716-39d458-6cb4b0-03e0bb-fe3021.json\n-rw-r--r-- 1 jwwin 197121 185500 Apr 30 22:04 e1f5de-edeb96-331a07-7b77f2-2471b4-c2e285-c25a30-52b99f-dcd716-39d458-6cb4b0.json\n-rw-r--r-- 1 jwwin 197121  89882 Apr 30 22:03 e1f5de-edeb96-331a07-7b77f2-2471b4-c2e285-c25a30-52b99f-dcd716.json\n-rw-r--r-- 1 jwwin 197121  87400 Apr 30 22:02 e1f5de-edeb96-331a07-7b77f2-2471b4-c2e285-c25a30.json\n-rw-r--r-- 1 jwwin 197121  40701 Apr 30 22:02 e1f5de-edeb96-331a07-7b77f2-2471b4.json\n-rw-r--r-- 1 jwwin 197121  54928 Apr 30 22:00 e1f5de-edeb96-331a07.json\n-rw-r--r-- 1 jwwin 197121 126951 Apr 30 22:00 e1f5de.json\n-rw-r--r-- 1 jwwin 197121   6946 Apr 30 18:27 e8c7b0.json\n-rw-r--r-- 1 jwwin 197121     24 Apr 30 22:03 token-count-448d4d249d4b.json\n-rw-r--r-- 1 jwwin 197121     24 Apr 30 22:02 token-count-693ab5a72f99.json\n-rw-r--r-- 1 jwwin 197121     24 Apr 30 22:00 token-count-ea40b3e80879.json\n---\ntotal 1425\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 .\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 ..\n-rw-r--r-- 1 jwwin 197121  46630 Apr 30 18:27 QueryEngine.ts\n-rw-r--r-- 1 jwwin 197121   3152 Apr 30 18:27 Task.ts\n-rw-r--r-- 1 jwwin 197121  29516 Apr 30 18:27 Tool.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 assistant\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 bootstrap\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 bridge\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 buddy\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 cli\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 commands\n-rw-r--r-- 1 jwwin 197121  25127 Apr 30 18:27 commands.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 components\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 constants\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 context\n-rw-r--r-- 1 jwwin 197121   6446 Apr 30 18:27 context.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 coordinator\n-rw-r--r-- 1 jwwin 197121  12626 Apr 30 18:27 cost-tracker.ts\n-rw-r--r-- 1 jwwin 197121    617 Apr 30 18:27 costHook.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 daemon\n-rw-r--r-- 1 jwwin 197121  22948 Apr 30 18:27 dialogLaunchers.tsx\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 entrypoints\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 environment-runner\n-rw-r--r-- 1 jwwin 197121  14081 Apr 30 18:27 history.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 hooks\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 ink\n-rw-r--r-- 1 jwwin 197121   3887 Apr 30 18:27 ink.ts\n-rw-r--r-- 1 jwwin 197121  57424 Apr 30 18:27 interactiveHelpers.tsx\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 jobs\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 keybindings\n-rw-r--r-- 1 jwwin 197121   7626 Apr 30 18:27 localRecoveryCli.ts\n-rw-r--r-- 1 jwwin 197121 805983 Apr 30 18:27 main.tsx\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 memdir\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 migrations\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 moreright\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 native-ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 outputStyles\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 plugins\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 proactive\n-rw-r--r-- 1 jwwin 197121   2337 Apr 30 18:27 projectOnboardingState.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 query\n-rw-r--r-- 1 jwwin 197121  68631 Apr 30 18:27 query.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 remote\n-rw-r--r-- 1 jwwin 197121   3517 Apr 30 18:27 replLauncher.tsx\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 schemas\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 screens\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 self-hosted-runner\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 server\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 services\n-rw-r--r-- 1 jwwin 197121  21038 Apr 30 18:27 setup.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 skills\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 ssh\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 state\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 tasks\n-rw-r--r-- 1 jwwin 197121   1355 Apr 30 18:27 tasks.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 tools\n-rw-r--r-- 1 jwwin 197121  17370 Apr 30 18:27 tools.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 types\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 upstreamproxy\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 utils\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 vendor\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 vim\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 voice",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "text",
+        "text": "Let me check what you've been working on with recent changes."
+      },
+      {
+        "type": "tool_use",
+        "id": "call_00_rHL32WVC71jU86exSRpVNd7w",
+        "name": "Bash",
+        "input": {
+          "command": "git status --short",
+          "description": "Check working tree status"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_y2CgaezRbGYMLP5YsaN84iTa",
+        "name": "Bash",
+        "input": {
+          "command": "git diff --name-only",
+          "description": "Check modified files"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_rHL32WVC71jU86exSRpVNd7w",
+        "type": "tool_result",
+        "content": "<persisted-output>\nOutput too large (115.7KB). Full output saved to: [CONFIG_HOME]/projects/F--codebuddycn-cc-haha/894d2c32-bf3f-42c3-b735-221efebd200c/tool-results/b02jy21j2.txt\n\nPreview (first 2KB):\n M .github/ISSUE_TEMPLATE/bug_report.md\n M .github/ISSUE_TEMPLATE/config.yml\n M .github/ISSUE_TEMPLATE/question.md\n M .github/workflows/build-desktop-dev.yml\n M .github/workflows/deploy-docs.yml\n M .github/workflows/release-desktop.yml\n M AGENTS.md\n M ARCHITECTURE.md\nAA PROJECT_STRUCTURE.md\n M README.en.md\n M README.md\n M adapters/README.md\n M adapters/common/__tests__/chat-queue.test.ts\n M adapters/common/__tests__/format.test.ts\n M adapters/common/__tests__/http-client.test.ts\n M adapters/common/__tests__/message-buffer.test.ts\n M adapters/common/__tests__/message-dedup.test.ts\n M adapters/common/__tests__/session-store.test.ts\n M adapters/common/__tests__/ws-bridge.test.ts\n M adapters/common/attachment/__tests__/attachment-limits.test.ts\n M adapters/common/attachment/__tests__/attachment-store.test.ts\n M adapters/common/attachment/__tests__/image-block-watcher.test.ts\n M adapters/common/attachment/attachment-limits.ts\n M adapters/common/attachment/attachment-store.ts\n M adapters/common/attachment/attachment-types.ts\n M adapters/common/attachment/image-block-watcher.ts\n M adapters/common/chat-queue.ts\n M adapters/common/config.ts\n M adapters/common/format.ts\n M adapters/common/http-client.ts\n M adapters/common/message-buffer.ts\n M adapters/common/message-dedup.ts\n M adapters/common/pairing.ts\n M adapters/common/session-store.ts\n M adapters/common/ws-bridge.ts\n M adapters/feishu/__tests__/card-errors.test.ts\n M adapters/feishu/__tests__/cardkit.test.ts\n M adapters/feishu/__tests__/extract-payload.test.ts\n M adapters/feishu/__tests__/feishu.test.ts\n M adapters/feishu/__tests__/flush-controller.test.ts\n M adapters/feishu/__tests__/markdown-style.test.ts\n M adapters/feishu/__tests__/media.test.ts\n M adapters/feishu/__tests__/streaming-card.test.ts\n M adapters/feishu/card-errors.ts\n M adapters/feishu/cardkit.ts\n M adapters/feishu/extract-payload.ts\n M adapters/feishu/flush-controller.ts\n M adapters/feishu/index.ts\n M adapters/feishu/markdown-style.ts\n...\n</persisted-output>",
+        "is_error": false
+      },
+      {
+        "tool_use_id": "call_01_y2CgaezRbGYMLP5YsaN84iTa",
+        "type": "tool_result",
+        "content": "<persisted-output>\nOutput too large (315.7KB). Full output saved to: [CONFIG_HOME]/projects/F--codebuddycn-cc-haha/894d2c32-bf3f-42c3-b735-221efebd200c/tool-results/b7iy8osm1.txt\n\nPreview (first 2KB):\nwarning: in the working copy of '.github/ISSUE_TEMPLATE/bug_report.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of '.github/ISSUE_TEMPLATE/config.yml', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of '.github/ISSUE_TEMPLATE/question.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of '.github/workflows/build-desktop-dev.yml', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of '.github/workflows/deploy-docs.yml', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of '.github/workflows/release-desktop.yml', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'AGENTS.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'ARCHITECTURE.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'PROJECT_STRUCTURE.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'README.en.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'adapters/README.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'adapters/common/__tests__/chat-queue.test.ts', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'adapters/common/__tests__/format.test.ts', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'adapters/common/__tests__/http-client.test.ts', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'adapters/common/__tests__/message-buffer.test.ts', LF will be replaced by CRLF the next time Git touches it\n...\n</persisted-output>\n\n<system-reminder>\nThe task tools haven't been used recently. If you're working on tasks that would benefit from tracking progress, consider using TaskCreate to add new tasks and TaskUpdate to update task status (set to in_progress when starting, completed when done). Also consider cleaning up the task list if it has become stale. Only use these if relevant to the current work. This is just a gentle reminder - ignore if not applicable. Make sure that you NEVER mention this reminder to the user\n\n</system-reminder>",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "text",
+        "text": "这是一个 Claude Code 适配器项目。我看到有一个 `attachment-limits.test.ts` 测试文件。让我看看测试框架和测试内容。"
+      },
+      {
+        "type": "tool_use",
+        "id": "call_00_9jx0fj0KSIQwoFhSrMsNjwBV",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]/adapters/common/attachment/__tests__/attachment-limits.test.ts"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_H4PxXgvZsWR3EYog5NicLqlo",
+        "name": "Read",
+        "input": {
+          "file_path": "[CWD]/adapters/common/attachment/attachment-limits.ts"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_02_oWqPfa4O0nu8BGu7HlH27j0N",
+        "name": "Bash",
+        "input": {
+          "command": "ls [CWD]/adapters/common/attachment/",
+          "description": "List attachment directory"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_01_H4PxXgvZsWR3EYog5NicLqlo",
+        "type": "tool_result",
+        "content": "1\t/**\n2\t * Size and MIME restrictions for IM attachments.\n3\t *\n4\t * Limits chosen to sit safely under both Feishu (10 MB image / 30 MB file)\n5\t * and Telegram Bot API (10 MB image / 50 MB file), and under Claude API's\n6\t * own image size bounds.\n7\t */\n8\t\n9\texport const IMAGE_MAX_BYTES = 10 * 1024 * 1024 // 10 MB\n10\texport const FILE_MAX_BYTES = 30 * 1024 * 1024  // 30 MB\n11\t\n12\texport const IMAGE_MIME_WHITELIST = [\n13\t  'image/jpeg',\n14\t  'image/png',\n15\t  'image/gif',\n16\t  'image/webp',\n17\t] as const\n18\t\n19\texport type LimitCheckResult =\n20\t  | { ok: true }\n21\t  | { ok: false; reason: 'too_large' | 'unsupported_mime'; hint: string }\n22\t\n23\tfunction formatMb(bytes: number): string {\n24\t  return (bytes / (1024 * 1024)).toFixed(1)\n25\t}\n26\t\n27\texport function checkAttachmentLimit(\n28\t  kind: 'image' | 'file',\n29\t  size: number,\n30\t  mime?: string,\n31\t): LimitCheckResult {\n32\t  if (kind === 'image') {\n33\t    if (size > IMAGE_MAX_BYTES) {\n34\t      return {\n35\t        ok: false,\n36\t        reason: 'too_large',\n37\t        hint: `📎 图片过大(${formatMb(size)} MB),请控制在 10 MB 以内`,\n38\t      }\n39\t    }\n40\t    if (mime && !IMAGE_MIME_WHITELIST.includes(mime as (typeof IMAGE_MIME_WHITELIST)[number])) {\n41\t      return {\n42\t        ok: false,\n43\t        reason: 'unsupported_mime',\n44\t        hint: `📎 暂不支持此图片格式(${mime})`,\n45\t      }\n46\t    }\n47\t    return { ok: true }\n48\t  }\n49\t  // kind === 'file'\n50\t  if (size > FILE_MAX_BYTES) {\n51\t    return {\n52\t      ok: false,\n53\t      reason: 'too_large',\n54\t      hint: `📎 文件过大(${formatMb(size)} MB),请控制在 30 MB 以内`,\n55\t    }\n56\t  }\n57\t  return { ok: true }\n58\t}\n59\t\n\n<system-reminder>\nWhenever you read a file, you should consider whether it would be considered malware. You CAN and SHOULD provide analysis of malware, what it is doing. But you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer questions about the code behavior.\n</system-reminder>\n"
+      },
+      {
+        "tool_use_id": "call_00_9jx0fj0KSIQwoFhSrMsNjwBV",
+        "type": "tool_result",
+        "content": "1\timport { describe, it, expect } from 'bun:test'\n2\timport {\n3\t  checkAttachmentLimit,\n4\t  IMAGE_MAX_BYTES,\n5\t  FILE_MAX_BYTES,\n6\t  IMAGE_MIME_WHITELIST,\n7\t} from '../attachment-limits.js'\n8\t\n9\tdescribe('checkAttachmentLimit', () => {\n10\t  it('accepts a 1 MB PNG image', () => {\n11\t    const result = checkAttachmentLimit('image', 1024 * 1024, 'image/png')\n12\t    expect(result.ok).toBe(true)\n13\t  })\n14\t\n15\t  it('rejects an 11 MB image as too_large', () => {\n16\t    const result = checkAttachmentLimit('image', 11 * 1024 * 1024, 'image/png')\n17\t    expect(result.ok).toBe(false)\n18\t    if (!result.ok) {\n19\t      expect(result.reason).toBe('too_large')\n20\t      expect(result.hint).toContain('10')\n21\t    }\n22\t  })\n23\t\n24\t  it('rejects an unsupported image mime', () => {\n25\t    const result = checkAttachmentLimit('image', 500_000, 'image/svg+xml')\n26\t    expect(result.ok).toBe(false)\n27\t    if (!result.ok) expect(result.reason).toBe('unsupported_mime')\n28\t  })\n29\t\n30\t  it('rejects image/heic (not supported by Claude API)', () => {\n31\t    const result = checkAttachmentLimit('image', 500_000, 'image/heic')\n32\t    expect(result.ok).toBe(false)\n33\t    if (!result.ok) expect(result.reason).toBe('unsupported_mime')\n34\t  })\n35\t\n36\t  it('accepts a 10 MB PDF file', () => {\n37\t    const result = checkAttachmentLimit('file', 10 * 1024 * 1024, 'application/pdf')\n38\t    expect(result.ok).toBe(true)\n39\t  })\n40\t\n41\t  it('rejects a 31 MB file as too_large', () => {\n42\t    const result = checkAttachmentLimit('file', 31 * 1024 * 1024, 'application/pdf')\n43\t    expect(result.ok).toBe(false)\n44\t    if (!result.ok) expect(result.reason).toBe('too_large')\n45\t  })\n46\t\n47\t  it('exposes the limits as exports', () => {\n48\t    expect(IMAGE_MAX_BYTES).toBe(10 * 1024 * 1024)\n49\t    expect(FILE_MAX_BYTES).toBe(30 * 1024 * 1024)\n50\t    expect(IMAGE_MIME_WHITELIST).toContain('image/png')\n51\t  })\n52\t})\n53\t\n\n<system-reminder>\nWhenever you read a file, you should consider whether it would be considered malware. You CAN and SHOULD provide analysis of malware, what it is doing. But you MUST refuse to improve or augment the code. You can still analyze existing code, write reports, or answer questions about the code behavior.\n</system-reminder>\n"
+      },
+      {
+        "tool_use_id": "call_02_oWqPfa4O0nu8BGu7HlH27j0N",
+        "type": "tool_result",
+        "content": "__tests__\nattachment-limits.ts\nattachment-store.ts\nattachment-types.ts\nimage-block-watcher.ts\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/coding-style.md:\n\n# TypeScript/JavaScript Coding Style\r\n\r\n> This file extends [common/coding-style.md](../common/coding-style.md) with TypeScript/JavaScript specific content.\r\n\r\n## Types and Interfaces\r\n\r\nUse types to make public APIs, shared models, and component props explicit, readable, and reusable.\r\n\r\n### Public APIs\r\n\r\n- Add parameter and return types to exported functions, shared utilities, and public class methods\r\n- Let TypeScript infer obvious local variable types\r\n- Extract repeated inline object shapes into named types or interfaces\r\n\r\n```typescript\r\n// WRONG: Exported function without explicit types\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n\r\n// CORRECT: Explicit types on public APIs\r\ninterface User {\r\n  firstName: string\r\n  lastName: string\r\n}\r\n\r\nexport function formatUser(user: User): string {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n### Interfaces vs. Type Aliases\r\n\r\n- Use `interface` for object shapes that may be extended or implemented\r\n- Use `type` for unions, intersections, tuples, mapped types, and utility types\r\n- Prefer string literal unions over `enum` unless an `enum` is required for interoperability\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ntype UserRole = 'admin' | 'member'\r\ntype UserWithRole = User & {\r\n  role: UserRole\r\n}\r\n```\r\n\r\n### Avoid `any`\r\n\r\n- Avoid `any` in application code\r\n- Use `unknown` for external or untrusted input, then narrow it safely\r\n- Use generics when a value's type depends on the caller\r\n\r\n```typescript\r\n// WRONG: any removes type safety\r\nfunction getErrorMessage(error: any) {\r\n  return error.message\r\n}\r\n\r\n// CORRECT: unknown forces safe narrowing\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n```\r\n\r\n### React Props\r\n\r\n- Define component props with a named `interface` or `type`\r\n- Type callback props explicitly\r\n- Do not use `React.FC` unless there is a specific reason to do so\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ninterface UserCardProps {\r\n  user: User\r\n  onSelect: (id: string) => void\r\n}\r\n\r\nfunction UserCard({ user, onSelect }: UserCardProps) {\r\n  return <button onClick={() => onSelect(user.id)}>{user.email}</button>\r\n}\r\n```\r\n\r\n### JavaScript Files\r\n\r\n- In `.js` and `.jsx` files, use JSDoc when types improve clarity and a TypeScript migration is not practical\r\n- Keep JSDoc aligned with runtime behavior\r\n\r\n```javascript\r\n/**\r\n * @param {{ firstName: string, lastName: string }} user\r\n * @returns {string}\r\n */\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n## Immutability\r\n\r\nUse spread operator for immutable updates:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  name: string\r\n}\r\n\r\n// WRONG: Mutation\r\nfunction updateUser(user: User, name: string): User {\r\n  user.name = name // MUTATION!\r\n  return user\r\n}\r\n\r\n// CORRECT: Immutability\r\nfunction updateUser(user: Readonly<User>, name: string): User {\r\n  return {\r\n    ...user,\r\n    name\r\n  }\r\n}\r\n```\r\n\r\n## Error Handling\r\n\r\nUse async/await with try-catch and narrow unknown errors safely:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ndeclare function riskyOperation(userId: string): Promise<User>\r\n\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n\r\nconst logger = {\r\n  error: (message: string, error: unknown) => {\r\n    // Replace with your production logger (for example, pino or winston).\r\n  }\r\n}\r\n\r\nasync function loadUser(userId: string): Promise<User> {\r\n  try {\r\n    const result = await riskyOperation(userId)\r\n    return result\r\n  } catch (error: unknown) {\r\n    logger.error('Operation failed', error)\r\n    throw new Error(getErrorMessage(error))\r\n  }\r\n}\r\n```\r\n\r\n## Input Validation\r\n\r\nUse Zod for schema-based validation and infer types from the schema:\r\n\r\n```typescript\r\nimport { z } from 'zod'\r\n\r\nconst userSchema = z.object({\r\n  email: z.string().email(),\r\n  age: z.number().int().min(0).max(150)\r\n})\r\n\r\ntype UserInput = z.infer<typeof userSchema>\r\n\r\nconst validated: UserInput = userSchema.parse(input)\r\n```\r\n\r\n## Console.log\r\n\r\n- No `console.log` statements in production code\r\n- Use proper logging libraries instead\r\n- See hooks for automatic detection\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/hooks.md:\n\n# TypeScript/JavaScript Hooks\r\n\r\n> This file extends [common/hooks.md](../common/hooks.md) with TypeScript/JavaScript specific content.\r\n\r\n## PostToolUse Hooks\r\n\r\nConfigure in `~/.claude/settings.json`:\r\n\r\n- **Prettier**: Auto-format JS/TS files after edit\r\n- **TypeScript check**: Run `tsc` after editing `.ts`/`.tsx` files\r\n- **console.log warning**: Warn about `console.log` in edited files\r\n\r\n## Stop Hooks\r\n\r\n- **console.log audit**: Check all modified files for `console.log` before session ends\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/patterns.md:\n\n# TypeScript/JavaScript Patterns\r\n\r\n> This file extends [common/patterns.md](../common/patterns.md) with TypeScript/JavaScript specific content.\r\n\r\n## API Response Format\r\n\r\n```typescript\r\ninterface ApiResponse<T> {\r\n  success: boolean\r\n  data?: T\r\n  error?: string\r\n  meta?: {\r\n    total: number\r\n    page: number\r\n    limit: number\r\n  }\r\n}\r\n```\r\n\r\n## Custom Hooks Pattern\r\n\r\n```typescript\r\nexport function useDebounce<T>(value: T, delay: number): T {\r\n  const [debouncedValue, setDebouncedValue] = useState<T>(value)\r\n\r\n  useEffect(() => {\r\n    const handler = setTimeout(() => setDebouncedValue(value), delay)\r\n    return () => clearTimeout(handler)\r\n  }, [value, delay])\r\n\r\n  return debouncedValue\r\n}\r\n```\r\n\r\n## Repository Pattern\r\n\r\n```typescript\r\ninterface Repository<T> {\r\n  findAll(filters?: Filters): Promise<T[]>\r\n  findById(id: string): Promise<T | null>\r\n  create(data: CreateDto): Promise<T>\r\n  update(id: string, data: UpdateDto): Promise<T>\r\n  delete(id: string): Promise<void>\r\n}\r\n```\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/security.md:\n\n# TypeScript/JavaScript Security\r\n\r\n> This file extends [common/security.md](../common/security.md) with TypeScript/JavaScript specific content.\r\n\r\n## Secret Management\r\n\r\n```typescript\r\n// NEVER: Hardcoded secrets\r\nconst apiKey = \"sk-proj-xxxxx\"\r\n\r\n// ALWAYS: Environment variables\r\nconst apiKey = process.env.OPENAI_API_KEY\r\n\r\nif (!apiKey) {\r\n  throw new Error('OPENAI_API_KEY not configured')\r\n}\r\n```\r\n\r\n## Agent Support\r\n\r\n- Use **security-reviewer** skill for comprehensive security audits\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/ecc/typescript/testing.md:\n\n# TypeScript/JavaScript Testing\r\n\r\n> This file extends [common/testing.md](../common/testing.md) with TypeScript/JavaScript specific content.\r\n\r\n## E2E Testing\r\n\r\nUse **Playwright** as the E2E testing framework for critical user flows.\r\n\r\n## Agent Support\r\n\r\n- **e2e-runner** - Playwright E2E testing specialist\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/coding-style.md:\n\n# TypeScript/JavaScript Coding Style\r\n\r\n> This file extends [common/coding-style.md](../common/coding-style.md) with TypeScript/JavaScript specific content.\r\n\r\n## Types and Interfaces\r\n\r\nUse types to make public APIs, shared models, and component props explicit, readable, and reusable.\r\n\r\n### Public APIs\r\n\r\n- Add parameter and return types to exported functions, shared utilities, and public class methods\r\n- Let TypeScript infer obvious local variable types\r\n- Extract repeated inline object shapes into named types or interfaces\r\n\r\n```typescript\r\n// WRONG: Exported function without explicit types\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n\r\n// CORRECT: Explicit types on public APIs\r\ninterface User {\r\n  firstName: string\r\n  lastName: string\r\n}\r\n\r\nexport function formatUser(user: User): string {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n### Interfaces vs. Type Aliases\r\n\r\n- Use `interface` for object shapes that may be extended or implemented\r\n- Use `type` for unions, intersections, tuples, mapped types, and utility types\r\n- Prefer string literal unions over `enum` unless an `enum` is required for interoperability\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ntype UserRole = 'admin' | 'member'\r\ntype UserWithRole = User & {\r\n  role: UserRole\r\n}\r\n```\r\n\r\n### Avoid `any`\r\n\r\n- Avoid `any` in application code\r\n- Use `unknown` for external or untrusted input, then narrow it safely\r\n- Use generics when a value's type depends on the caller\r\n\r\n```typescript\r\n// WRONG: any removes type safety\r\nfunction getErrorMessage(error: any) {\r\n  return error.message\r\n}\r\n\r\n// CORRECT: unknown forces safe narrowing\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n```\r\n\r\n### React Props\r\n\r\n- Define component props with a named `interface` or `type`\r\n- Type callback props explicitly\r\n- Do not use `React.FC` unless there is a specific reason to do so\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ninterface UserCardProps {\r\n  user: User\r\n  onSelect: (id: string) => void\r\n}\r\n\r\nfunction UserCard({ user, onSelect }: UserCardProps) {\r\n  return <button onClick={() => onSelect(user.id)}>{user.email}</button>\r\n}\r\n```\r\n\r\n### JavaScript Files\r\n\r\n- In `.js` and `.jsx` files, use JSDoc when types improve clarity and a TypeScript migration is not practical\r\n- Keep JSDoc aligned with runtime behavior\r\n\r\n```javascript\r\n/**\r\n * @param {{ firstName: string, lastName: string }} user\r\n * @returns {string}\r\n */\r\nexport function formatUser(user) {\r\n  return `${user.firstName} ${user.lastName}`\r\n}\r\n```\r\n\r\n## Immutability\r\n\r\nUse spread operator for immutable updates:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  name: string\r\n}\r\n\r\n// WRONG: Mutation\r\nfunction updateUser(user: User, name: string): User {\r\n  user.name = name // MUTATION!\r\n  return user\r\n}\r\n\r\n// CORRECT: Immutability\r\nfunction updateUser(user: Readonly<User>, name: string): User {\r\n  return {\r\n    ...user,\r\n    name\r\n  }\r\n}\r\n```\r\n\r\n## Error Handling\r\n\r\nUse async/await with try-catch and narrow unknown errors safely:\r\n\r\n```typescript\r\ninterface User {\r\n  id: string\r\n  email: string\r\n}\r\n\r\ndeclare function riskyOperation(userId: string): Promise<User>\r\n\r\nfunction getErrorMessage(error: unknown): string {\r\n  if (error instanceof Error) {\r\n    return error.message\r\n  }\r\n\r\n  return 'Unexpected error'\r\n}\r\n\r\nconst logger = {\r\n  error: (message: string, error: unknown) => {\r\n    // Replace with your production logger (for example, pino or winston).\r\n  }\r\n}\r\n\r\nasync function loadUser(userId: string): Promise<User> {\r\n  try {\r\n    const result = await riskyOperation(userId)\r\n    return result\r\n  } catch (error: unknown) {\r\n    logger.error('Operation failed', error)\r\n    throw new Error(getErrorMessage(error))\r\n  }\r\n}\r\n```\r\n\r\n## Input Validation\r\n\r\nUse Zod for schema-based validation and infer types from the schema:\r\n\r\n```typescript\r\nimport { z } from 'zod'\r\n\r\nconst userSchema = z.object({\r\n  email: z.string().email(),\r\n  age: z.number().int().min(0).max(150)\r\n})\r\n\r\ntype UserInput = z.infer<typeof userSchema>\r\n\r\nconst validated: UserInput = userSchema.parse(input)\r\n```\r\n\r\n## Console.log\r\n\r\n- No `console.log` statements in production code\r\n- Use proper logging libraries instead\r\n- See hooks for automatic detection\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/hooks.md:\n\n# TypeScript/JavaScript Hooks\r\n\r\n> This file extends [common/hooks.md](../common/hooks.md) with TypeScript/JavaScript specific content.\r\n\r\n## PostToolUse Hooks\r\n\r\nConfigure in `~/.claude/settings.json`:\r\n\r\n- **Prettier**: Auto-format JS/TS files after edit\r\n- **TypeScript check**: Run `tsc` after editing `.ts`/`.tsx` files\r\n- **console.log warning**: Warn about `console.log` in edited files\r\n\r\n## Stop Hooks\r\n\r\n- **console.log audit**: Check all modified files for `console.log` before session ends\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/patterns.md:\n\n# TypeScript/JavaScript Patterns\r\n\r\n> This file extends [common/patterns.md](../common/patterns.md) with TypeScript/JavaScript specific content.\r\n\r\n## API Response Format\r\n\r\n```typescript\r\ninterface ApiResponse<T> {\r\n  success: boolean\r\n  data?: T\r\n  error?: string\r\n  meta?: {\r\n    total: number\r\n    page: number\r\n    limit: number\r\n  }\r\n}\r\n```\r\n\r\n## Custom Hooks Pattern\r\n\r\n```typescript\r\nexport function useDebounce<T>(value: T, delay: number): T {\r\n  const [debouncedValue, setDebouncedValue] = useState<T>(value)\r\n\r\n  useEffect(() => {\r\n    const handler = setTimeout(() => setDebouncedValue(value), delay)\r\n    return () => clearTimeout(handler)\r\n  }, [value, delay])\r\n\r\n  return debouncedValue\r\n}\r\n```\r\n\r\n## Repository Pattern\r\n\r\n```typescript\r\ninterface Repository<T> {\r\n  findAll(filters?: Filters): Promise<T[]>\r\n  findById(id: string): Promise<T | null>\r\n  create(data: CreateDto): Promise<T>\r\n  update(id: string, data: UpdateDto): Promise<T>\r\n  delete(id: string): Promise<void>\r\n}\r\n```\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/security.md:\n\n# TypeScript/JavaScript Security\r\n\r\n> This file extends [common/security.md](../common/security.md) with TypeScript/JavaScript specific content.\r\n\r\n## Secret Management\r\n\r\n```typescript\r\n// NEVER: Hardcoded secrets\r\nconst apiKey = \"sk-proj-xxxxx\"\r\n\r\n// ALWAYS: Environment variables\r\nconst apiKey = process.env.OPENAI_API_KEY\r\n\r\nif (!apiKey) {\r\n  throw new Error('OPENAI_API_KEY not configured')\r\n}\r\n```\r\n\r\n## Agent Support\r\n\r\n- Use **security-reviewer** skill for comprehensive security audits\r\n\n</system-reminder>\n\n<system-reminder>\nContents of [CONFIG_HOME]/rules/typescript/testing.md:\n\n# TypeScript/JavaScript Testing\r\n\r\n> This file extends [common/testing.md](../common/testing.md) with TypeScript/JavaScript specific content.\r\n\r\n## E2E Testing\r\n\r\nUse **Playwright** as the E2E testing framework for critical user flows.\r\n\r\n## Agent Support\r\n\r\n- **e2e-runner** - Playwright E2E testing specialist\r\n\n</system-reminder>",
+        "is_error": false
+      }
+    ]
+  ],
+  "output": [
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_start",
+        "message": {
+          "id": "a249aa85-69df-4cf6-8971-ae0665135e55",
+          "type": "message",
+          "role": "assistant",
+          "model": "deepseek-v4-flash",
+          "content": [],
+          "stop_reason": null,
+          "stop_sequence": null,
+          "usage": {
+            "input_tokens": 5767,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 45952,
+            "output_tokens": 0,
+            "service_tier": "standard"
+          }
+        }
+      },
+      "ttftMs": 1553
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 0,
+        "content_block": {
+          "type": "thinking",
+          "thinking": "",
+          "signature": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Now"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " I"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " understand"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " context"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " The"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " user"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " said"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "limit"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " they"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'re"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " referring"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " to"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " `"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "attachment"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "-lim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "its"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ".test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ".ts"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "`"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " file"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " This"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " project"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " uses"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " `"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "b"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "un"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ":"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "`"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " ("
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "B"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "un"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'s"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " built"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "-in"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " framework"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ")."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " run"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " tests"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " for"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " this"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " specific"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " file"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ".\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " run"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " using"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " bun"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "signature_delta",
+          "signature": "a249aa85-69df-4cf6-8971-ae0665135e55"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-68",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:05:08.440Z",
+      "message": {
+        "id": "a249aa85-69df-4cf6-8971-ae0665135e55",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "Now I understand the context. The user said \"limit test\" - they're referring to the `attachment-limits.test.ts` file. This project uses `bun:test` (Bun's built-in test framework). Let me run the tests for this specific file.\n\nLet me run the test command using bun.",
+            "signature": "a249aa85-69df-4cf6-8971-ae0665135e55"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 5767,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 45952,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 0
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 1,
+        "content_block": {
+          "type": "text",
+          "text": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "找到了"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "！"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "测试"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "使用"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " `"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "b"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "un"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": ":"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "`"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "框架"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "。"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "我现在"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "来"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "运行"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "附件"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "限制"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "测试"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "。"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-91",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:05:08.985Z",
+      "message": {
+        "id": "a249aa85-69df-4cf6-8971-ae0665135e55",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "找到了！测试使用 `bun:test` 框架。我现在来运行附件限制测试。",
+            "citations": []
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 5767,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 45952,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 1
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 2,
+        "content_block": {
+          "type": "tool_use",
+          "id": "call_00_FnQQs674qUGzJLk3MCaenh6r",
+          "name": "Bash",
+          "input": {}
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "{"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cd"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " F"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ":/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "code"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "bud"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "dy"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cn"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "cc"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-h"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "aha"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " &&"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " bun"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " adapt"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "ers"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/common"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "attachment"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "__"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "tests"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "__"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "attachment"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-lim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "its"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ".test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ".ts"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ", "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "description"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "Run"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " attachment"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "-lim"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "its"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " tests"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " with"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": " bun"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ", "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "time"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "out"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": ": "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "300"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "00"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 2,
+        "delta": {
+          "type": "input_json_delta",
+          "partial_json": "}"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-153",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:05:10.226Z",
+      "message": {
+        "id": "a249aa85-69df-4cf6-8971-ae0665135e55",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "tool_use",
+            "id": "call_00_FnQQs674qUGzJLk3MCaenh6r",
+            "name": "Bash",
+            "input": {
+              "command": "cd [CWD] && bun test adapters/common/attachment/__tests__/attachment-limits.test.ts",
+              "description": "Run attachment-limits tests with bun",
+              "timeout": 30000
+            }
+          }
+        ],
+        "stop_reason": "tool_use",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 5767,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 45952,
+          "output_tokens": 196,
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "",
+          "iterations": [],
+          "speed": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 2
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_delta",
+        "delta": {
+          "stop_reason": "tool_use",
+          "stop_sequence": null
+        },
+        "usage": {
+          "input_tokens": 5767,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 45952,
+          "output_tokens": 196,
+          "service_tier": "standard"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_stop"
+      }
+    }
+  ]
+}

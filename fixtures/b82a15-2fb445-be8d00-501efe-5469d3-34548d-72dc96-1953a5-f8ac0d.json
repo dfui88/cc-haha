@@ -1,0 +1,2026 @@
+{
+  "input": [
+    [
+      {
+        "type": "text",
+        "text": "limit test"
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_QgT479OQgv6v1uIYA7AhuCfJ",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la",
+          "description": "List files in working directory"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_FQxLNw9G1pv2jqoxUlZVCNZc",
+        "name": "Bash",
+        "input": {
+          "command": "git log --oneline -10",
+          "description": "Check recent git history"
+        }
+      }
+    ],
+    [
+      {
+        "tool_use_id": "call_00_QgT479OQgv6v1uIYA7AhuCfJ",
+        "type": "tool_result",
+        "content": "total 811\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:04 ..\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 .claude\n-rw-r--r-- 1 jwwin 197121   2377 Apr 26 12:57 .env.example\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:00 .git\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 .github\n-rw-r--r-- 1 jwwin 197121   1167 Apr 30 11:09 .gitignore\n-rw-r--r-- 1 jwwin 197121   4106 Apr 30 18:27 AGENTS.md\n-rw-r--r-- 1 jwwin 197121  15782 Apr 30 18:27 ARCHITECTURE.md\n-rw-r--r-- 1 jwwin 197121   1854 Apr 26 12:57 LICENSE\n-rw-r--r-- 1 jwwin 197121   7348 Apr 30 18:27 PROJECT_STRUCTURE.md\n-rw-r--r-- 1 jwwin 197121  13753 Apr 30 18:27 README.en.md\n-rw-r--r-- 1 jwwin 197121  13058 Apr 30 18:27 README.md\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 adapters\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 bin\n-rw-r--r-- 1 jwwin 197121 208690 Apr 26 12:57 bun.lock\n-rw-r--r-- 1 jwwin 197121     28 Apr 26 12:57 bunfig.toml\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 19:23 desktop\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 docs\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:02 fixtures\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 21:25 node_modules\n-rw-r--r-- 1 jwwin 197121 322397 Apr 30 18:27 package-lock.json\n-rw-r--r-- 1 jwwin 197121   2621 Apr 30 18:28 package.json\n-rw-r--r-- 1 jwwin 197121    662 Apr 30 18:27 preload.ts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 release-notes\ndrwxr-xr-x 1 jwwin 197121      0 Apr 26 12:57 runtime\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 scripts\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 src\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 18:27 stubs\n-rw-r--r-- 1 jwwin 197121    450 Apr 30 18:27 tsconfig.json",
+        "is_error": false
+      },
+      {
+        "tool_use_id": "call_01_FQxLNw9G1pv2jqoxUlZVCNZc",
+        "type": "tool_result",
+        "content": "8d8ad96 fix: add missing responseTimeoutId to test mocks\n12e194a docs: update v0.1.8 release notes with 5 code review optimizations\n2ba19b2 refactor: apply 5 code review optimizations from fork comparison\n8a0e393 merge: restore v0.1.8 modifications on top of upstream\n6ac0c31 docs: add architecture docs and auto-generate project structure\n777c596 docs: add README star history section\n48ae305 docs: make issue reports actionable for desktop triage\n670281b fix: keep desktop app running from tray after close\na68a244 Prepare 0.1.8 for remote desktop release\n0508277 fix: keep inspector context responsive",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_k81LSo2V5A7n4O7y9m0DX9M8",
+        "name": "Grep",
+        "input": {
+          "pattern": "limit",
+          "glob": "**/*.test.*",
+          "-i": true
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_ID2ML4zlHzjAhgIflvBhpdp1",
+        "name": "Grep",
+        "input": {
+          "pattern": "limit",
+          "glob": "**/*.spec.*",
+          "-i": true
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_02_fbUA2CZ5LsFGdTXiYapjUqHn",
+        "name": "Bash",
+        "input": {
+          "command": "cat package.json | head -40",
+          "description": "Check package.json for test scripts"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_00_k81LSo2V5A7n4O7y9m0DX9M8"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_ID2ML4zlHzjAhgIflvBhpdp1"
+      },
+      {
+        "tool_use_id": "call_02_fbUA2CZ5LsFGdTXiYapjUqHn",
+        "type": "tool_result",
+        "content": "{\n  \"name\": \"claude-code-local\",\n  \"version\": \"999.0.0-local\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"bin\": {\n    \"claude-haha\": \"./bin/claude-haha\"\n  },\n  \"scripts\": {\n    \"claude-haha\": \"bash ./bin/claude-haha\",\n    \"start\": \"bash ./bin/claude-haha\",\n    \"generate:structure\": \"node scripts/generate-structure.mjs --depth 2\",\n    \"docs:dev\": \"vitepress dev docs\",\n    \"docs:build\": \"vitepress build docs\",\n    \"docs:preview\": \"vitepress preview docs\"\n  },\n  \"dependencies\": {\n    \"@anthropic-ai/sandbox-runtime\": \"^0.0.44\",\n    \"@anthropic-ai/sdk\": \"^0.80.0\",\n    \"@aws-sdk/client-bedrock-runtime\": \"^3.1020.0\",\n    \"@commander-js/extra-typings\": \"^14.0.0\",\n    \"@growthbook/growthbook\": \"^1.6.5\",\n    \"@modelcontextprotocol/sdk\": \"^1.29.0\",\n    \"@opentelemetry/api-logs\": \"^0.214.0\",\n    \"@opentelemetry/core\": \"^2.6.1\",\n    \"@opentelemetry/resources\": \"^2.6.1\",\n    \"@opentelemetry/sdk-logs\": \"^0.214.0\",\n    \"@opentelemetry/sdk-metrics\": \"^2.6.1\",\n    \"@opentelemetry/sdk-trace-base\": \"^2.6.1\",\n    \"@opentelemetry/semantic-conventions\": \"^1.40.0\",\n    \"ajv\": \"^8.18.0\",\n    \"asciichart\": \"^1.5.25\",\n    \"auto-bind\": \"^5.0.1\",\n    \"axios\": \"^1.14.0\",\n    \"bidi-js\": \"^1.0.3\",\n    \"chalk\": \"^5.6.2\",\n    \"chokidar\": \"^5.0.0\",\n    \"cli-boxes\": \"^4.0.1\",\n    \"code-excerpt\": \"^4.0.0\",\n    \"diff\": \"^8.0.4\",",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_Oj5pByMzeJmrMh7yGPjgoyPe",
+        "name": "Bash",
+        "input": {
+          "command": "ls -la fixtures/",
+          "description": "Check fixtures directory"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_AU6ZqER8V9k3ZdrB2RS2hbJm",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/*.test.*"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_02_uHGDsEsnTxBQfb9rMjWpqIsQ",
+        "name": "Glob",
+        "input": {
+          "pattern": "**/*.spec.*"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_01_AU6ZqER8V9k3ZdrB2RS2hbJm"
+      },
+      {
+        "type": "tool_result",
+        "content": "ripgrep is not available. Install ripgrep and ensure rg --version works in this environment.",
+        "is_error": true,
+        "tool_use_id": "call_02_uHGDsEsnTxBQfb9rMjWpqIsQ"
+      },
+      {
+        "tool_use_id": "call_00_Oj5pByMzeJmrMh7yGPjgoyPe",
+        "type": "tool_result",
+        "content": "total 9290\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 22:02 .\ndrwxr-xr-x 1 jwwin 197121      0 Apr 30 21:58 ..\n-rw-r--r-- 1 jwwin 197121  58380 Apr 30 22:02 0fdc67-a0d4fd-912b5e-baffff-36e57a-8946e5-a272c4.json\n-rw-r--r-- 1 jwwin 197121  39779 Apr 30 22:02 0fdc67-a0d4fd-912b5e-baffff-36e57a.json\n-rw-r--r-- 1 jwwin 197121  56040 Apr 30 22:00 0fdc67-a0d4fd-912b5e-baffff-701d1c-142e36-450688-9ebfcc-43ed6a-87c27d-c9aa36.json\n-rw-r--r-- 1 jwwin 197121  30226 Apr 30 22:00 0fdc67-a0d4fd-912b5e-baffff-701d1c-142e36-450688-9ebfcc-43ed6a.json\n-rw-r--r-- 1 jwwin 197121  57761 Apr 30 22:00 0fdc67-a0d4fd-912b5e-baffff-701d1c-142e36-450688.json\n-rw-r--r-- 1 jwwin 197121  43708 Apr 30 22:00 0fdc67-a0d4fd-912b5e-baffff-701d1c.json\n-rw-r--r-- 1 jwwin 197121 194865 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba-d68e2d-8b3bab-3b92ee-dc3814-afcad5-b8e5c7-b9002a-a3e2c0-959abc-ee659c.json\n-rw-r--r-- 1 jwwin 197121  67387 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba-d68e2d-8b3bab-3b92ee-dc3814-afcad5-b8e5c7-b9002a-a3e2c0.json\n-rw-r--r-- 1 jwwin 197121  69979 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba-d68e2d-8b3bab-3b92ee-dc3814-afcad5-b8e5c7.json\n-rw-r--r-- 1 jwwin 197121  70727 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba-d68e2d-8b3bab-3b92ee-dc3814.json\n-rw-r--r-- 1 jwwin 197121  76837 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba-d68e2d-8b3bab.json\n-rw-r--r-- 1 jwwin 197121  47785 Apr 30 21:58 0fdc67-a0d4fd-912b5e-baffff-9482ba.json\n-rw-r--r-- 1 jwwin 197121  21832 Apr 30 21:57 0fdc67-a0d4fd-912b5e.json\n-rw-r--r-- 1 jwwin 197121  39591 Apr 30 21:57 0fdc67.json\n-rw-r--r-- 1 jwwin 197121  37886 Apr 30 22:02 67d56f-471d71-d0e5ab-9b4cf4-809baf-b4bfd8-534f9b-0b80bd-3113f3.json\n-rw-r--r-- 1 jwwin 197121  22013 Apr 30 22:02 67d56f-471d71-d0e5ab-9b4cf4-809baf-b4bfd8-534f9b.json\n-rw-r--r-- 1 jwwin 197121  33917 Apr 30 22:02 67d56f-471d71-d0e5ab-9b4cf4-809baf.json\n-rw-r--r-- 1 jwwin 197121  43695 Apr 30 22:00 67d56f-471d71-d0e5ab-9b4cf4-8dc044-c046e0-c3c77e-761130-e757db-767753-3edf1f-8cb6f7-2077dd.json\n-rw-r--r-- 1 jwwin 197121  45431 Apr 30 22:00 67d56f-471d71-d0e5ab-9b4cf4-8dc044-c046e0-c3c77e-761130-e757db-767753-3edf1f.json\n-rw-r--r-- 1 jwwin 197121  44772 Apr 30 22:00 67d56f-471d71-d0e5ab-9b4cf4-8dc044-c046e0-c3c77e-761130-e757db.json\n-rw-r--r-- 1 jwwin 197121  50482 Apr 30 22:00 67d56f-471d71-d0e5ab-9b4cf4-8dc044-c046e0-c3c77e.json\n-rw-r--r-- 1 jwwin 197121  30038 Apr 30 22:00 67d56f-471d71-d0e5ab-9b4cf4-8dc044.json\n-rw-r--r-- 1 jwwin 197121  98741 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123-382031-a89815-dc772b-f0a966-b058a2-7558f0-603a13-20cee5-a8a68f-38cd15.json\n-rw-r--r-- 1 jwwin 197121 110179 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123-382031-a89815-dc772b-f0a966-b058a2-7558f0-603a13-20cee5.json\n-rw-r--r-- 1 jwwin 197121  71205 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123-382031-a89815-dc772b-f0a966-b058a2-7558f0.json\n-rw-r--r-- 1 jwwin 197121  54430 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123-382031-a89815-dc772b-f0a966.json\n-rw-r--r-- 1 jwwin 197121  65450 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123-382031-a89815.json\n-rw-r--r-- 1 jwwin 197121  45349 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56-dc892a-d25123.json\n-rw-r--r-- 1 jwwin 197121  63642 Apr 30 21:58 67d56f-471d71-d0e5ab-9b4cf4-fd5975-c1080b-b73e56.json\n-rw-r--r-- 1 jwwin 197121  31929 Apr 30 21:57 67d56f-471d71-d0e5ab-9b4cf4-fd5975.json\n-rw-r--r-- 1 jwwin 197121  25941 Apr 30 21:57 67d56f-471d71-d0e5ab.json\n-rw-r--r-- 1 jwwin 197121  59022 Apr 30 21:57 67d56f.json\n-rw-r--r-- 1 jwwin 197121  80925 Apr 30 22:02 80f6d1-e76d1e-1839aa-dfc1b6-041f3d-04938e-1327e6.json\n-rw-r--r-- 1 jwwin 197121  36217 Apr 30 22:02 80f6d1-e76d1e-1839aa-dfc1b6-041f3d.json\n-rw-r--r-- 1 jwwin 197121  41443 Apr 30 22:02 80f6d1-e76d1e-1839aa.json\n-rw-r--r-- 1 jwwin 197121 127019 Apr 30 21:59 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67-53b226-db3991-4d7b93-ca6d33-089836-ba9b83-f4a328-8adc3c-7bb52d-5776c0.json\n-rw-r--r-- 1 jwwin 197121 129759 Apr 30 21:59 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67-53b226-db3991-4d7b93-ca6d33-089836-ba9b83-f4a328-8adc3c.json\n-rw-r--r-- 1 jwwin 197121 130746 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67-53b226-db3991-4d7b93-ca6d33-089836-ba9b83.json\n-rw-r--r-- 1 jwwin 197121 120912 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67-53b226-db3991-4d7b93-ca6d33.json\n-rw-r--r-- 1 jwwin 197121 129430 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67-53b226-db3991.json\n-rw-r--r-- 1 jwwin 197121  94928 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6-5b9ad8-2dcd67.json\n-rw-r--r-- 1 jwwin 197121 100200 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513-194a2d-a772b6.json\n-rw-r--r-- 1 jwwin 197121  52091 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4-49c5bd-c8a513.json\n-rw-r--r-- 1 jwwin 197121  53536 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754-2dbcdb-2f46d4.json\n-rw-r--r-- 1 jwwin 197121  47345 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6-4418be-b18754.json\n-rw-r--r-- 1 jwwin 197121  52210 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9-1309d9-b0d7e6.json\n-rw-r--r-- 1 jwwin 197121  38652 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716-188b07-84d7a9.json\n-rw-r--r-- 1 jwwin 197121  41315 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478-1bfc58-b7f716.json\n-rw-r--r-- 1 jwwin 197121  45095 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7-6bd844-a89478.json\n-rw-r--r-- 1 jwwin 197121  42154 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a-d5e607-020af7.json\n-rw-r--r-- 1 jwwin 197121  71412 Apr 30 21:58 80f6d1-e76d1e-477e11-752956-6bb32a.json\n-rw-r--r-- 1 jwwin 197121  46154 Apr 30 21:58 80f6d1-e76d1e-477e11.json\n-rw-r--r-- 1 jwwin 197121 201758 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15-ab8ae4-5ba270-f93ee2-766dd4-0ad9ef-b4db70-1566ee-04a1f6-b97455-a2c3fb.json\n-rw-r--r-- 1 jwwin 197121 148820 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15-ab8ae4-5ba270-f93ee2-766dd4-0ad9ef-b4db70-1566ee-04a1f6.json\n-rw-r--r-- 1 jwwin 197121 140231 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15-ab8ae4-5ba270-f93ee2-766dd4-0ad9ef-b4db70.json\n-rw-r--r-- 1 jwwin 197121 202030 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15-ab8ae4-5ba270-f93ee2-766dd4.json\n-rw-r--r-- 1 jwwin 197121 136375 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15-ab8ae4-5ba270.json\n-rw-r--r-- 1 jwwin 197121 122959 Apr 30 22:01 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f-fb8f75-a5ab15.json\n-rw-r--r-- 1 jwwin 197121 177323 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1-b6ca58-4fab4f.json\n-rw-r--r-- 1 jwwin 197121 140159 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80-b7578d-5ee7b1.json\n-rw-r--r-- 1 jwwin 197121 108361 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435-95f421-6b2e80.json\n-rw-r--r-- 1 jwwin 197121  97083 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe-9bcd7b-88d435.json\n-rw-r--r-- 1 jwwin 197121 116397 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be-f2d534-a011fe.json\n-rw-r--r-- 1 jwwin 197121  48037 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8-20ade8-1977be.json\n-rw-r--r-- 1 jwwin 197121  51853 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff-d72e2e-eba0e8.json\n-rw-r--r-- 1 jwwin 197121  59430 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e-11ddc7-3840ff.json\n-rw-r--r-- 1 jwwin 197121  65358 Apr 30 22:00 80f6d1-e76d1e-dc3932-8818b8-5bab7e.json\n-rw-r--r-- 1 jwwin 197121  40289 Apr 30 22:00 80f6d1-e76d1e-dc3932.json\n-rw-r--r-- 1 jwwin 197121  42862 Apr 30 21:58 80f6d1.json\n-rw-r--r-- 1 jwwin 197121  72860 Apr 30 22:02 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693-1af824-32784a-8aa3f1-db5816-20974a-e7101d-a221f1-c5f2f8.json\n-rw-r--r-- 1 jwwin 197121  63759 Apr 30 22:02 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693-1af824-32784a-8aa3f1-db5816-20974a-e7101d.json\n-rw-r--r-- 1 jwwin 197121  53649 Apr 30 22:02 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693-1af824-32784a-8aa3f1-db5816.json\n-rw-r--r-- 1 jwwin 197121  76146 Apr 30 22:02 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693-1af824-32784a.json\n-rw-r--r-- 1 jwwin 197121  76622 Apr 30 22:01 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9-1e0fe9-bf7693.json\n-rw-r--r-- 1 jwwin 197121  68390 Apr 30 22:01 a2d1ab-cceb42-37f067-cb959d-baf55a-e60969-6ac1f9.json\n-rw-r--r-- 1 jwwin 197121  67289 Apr 30 22:00 a2d1ab-cceb42-37f067-cb959d-baf55a.json\n-rw-r--r-- 1 jwwin 197121  32676 Apr 30 21:58 a2d1ab-cceb42-37f067.json\n-rw-r--r-- 1 jwwin 197121  86325 Apr 30 22:01 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6-b3afb1-5ee5da-89c711-f88468-fdde60-a8d580-0576fb-893a08-811931-ec8b2a.json\n-rw-r--r-- 1 jwwin 197121  90647 Apr 30 22:01 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6-b3afb1-5ee5da-89c711-f88468-fdde60-a8d580-0576fb-893a08.json\n-rw-r--r-- 1 jwwin 197121  82412 Apr 30 22:01 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6-b3afb1-5ee5da-89c711-f88468-fdde60-a8d580.json\n-rw-r--r-- 1 jwwin 197121  37008 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6-b3afb1-5ee5da-89c711-f88468.json\n-rw-r--r-- 1 jwwin 197121  46248 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6-b3afb1-5ee5da.json\n-rw-r--r-- 1 jwwin 197121  52801 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292-77dced-62c8c6.json\n-rw-r--r-- 1 jwwin 197121  93641 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94-e88aab-d81292.json\n-rw-r--r-- 1 jwwin 197121  72869 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3-ff2178-8d4b94.json\n-rw-r--r-- 1 jwwin 197121  31965 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-3049a3.json\n-rw-r--r-- 1 jwwin 197121  33744 Apr 30 22:02 a2d1ab-d51ec2-75f484-ab6504-9f38b7-99cea3-855df4.json\n-rw-r--r-- 1 jwwin 197121  20531 Apr 30 22:00 a2d1ab-d51ec2-75f484-ab6504-9f38b7.json\n-rw-r--r-- 1 jwwin 197121  22389 Apr 30 22:00 a2d1ab-d51ec2-75f484.json\n-rw-r--r-- 1 jwwin 197121  42601 Apr 30 21:58 a2d1ab.json\n-rw-r--r-- 1 jwwin 197121   6777 Apr 30 21:57 b3d8b8-9eded5-cca257.json\n-rw-r--r-- 1 jwwin 197121  11325 Apr 30 21:57 b3d8b8.json\n-rw-r--r-- 1 jwwin 197121  59740 Apr 30 21:58 b82a15-2fb445-766ead-7d0b90-97b422-458da4-2049ec-d80009-1d277b-86aa04-2d5f7f-38c0ef-879e54.json\n-rw-r--r-- 1 jwwin 197121  25636 Apr 30 21:58 b82a15-2fb445-766ead-7d0b90-97b422-458da4-2049ec-d80009-1d277b-86aa04-2d5f7f.json\n-rw-r--r-- 1 jwwin 197121  34872 Apr 30 21:58 b82a15-2fb445-766ead-7d0b90-97b422-458da4-2049ec-d80009-1d277b.json\n-rw-r--r-- 1 jwwin 197121  42770 Apr 30 21:58 b82a15-2fb445-766ead-7d0b90-97b422-458da4-2049ec.json\n-rw-r--r-- 1 jwwin 197121  61814 Apr 30 21:58 b82a15-2fb445-766ead-7d0b90-97b422.json\n-rw-r--r-- 1 jwwin 197121  66471 Apr 30 21:58 b82a15-2fb445-766ead.json\n-rw-r--r-- 1 jwwin 197121 144442 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712-2a94c1-bdbefb-335f8d-320c6a-e1263f-f1eed5-ceadd4-33d6a6-757860-a93ff9.json\n-rw-r--r-- 1 jwwin 197121 118612 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712-2a94c1-bdbefb-335f8d-320c6a-e1263f-f1eed5-ceadd4-33d6a6.json\n-rw-r--r-- 1 jwwin 197121  76773 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712-2a94c1-bdbefb-335f8d-320c6a-e1263f-f1eed5.json\n-rw-r--r-- 1 jwwin 197121  93785 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712-2a94c1-bdbefb-335f8d-320c6a.json\n-rw-r--r-- 1 jwwin 197121 107633 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712-2a94c1-bdbefb.json\n-rw-r--r-- 1 jwwin 197121  44899 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40-923868-357712.json\n-rw-r--r-- 1 jwwin 197121  40131 Apr 30 22:01 b82a15-2fb445-a41d9f-1b8c59-8ea1cc-c781a6-9fab40.json\n-rw-r--r-- 1 jwwin 197121  82225 Apr 30 22:00 b82a15-2fb445-a41d9f-1b8c59-8ea1cc.json\n-rw-r--r-- 1 jwwin 197121  51117 Apr 30 22:00 b82a15-2fb445-a41d9f.json\n-rw-r--r-- 1 jwwin 197121  59005 Apr 30 21:58 b82a15-2fb445-a746fa-722272-5de7c4-a2ab9b-19a918-4e4e88-67b9bd.json\n-rw-r--r-- 1 jwwin 197121  67420 Apr 30 21:58 b82a15-2fb445-a746fa-722272-5de7c4-a2ab9b-19a918.json\n-rw-r--r-- 1 jwwin 197121  33103 Apr 30 21:58 b82a15-2fb445-a746fa-722272-5de7c4.json\n-rw-r--r-- 1 jwwin 197121  55514 Apr 30 21:58 b82a15-2fb445-a746fa.json\n-rw-r--r-- 1 jwwin 197121  39539 Apr 30 22:02 b82a15-2fb445-be8d00-501efe-5469d3.json\n-rw-r--r-- 1 jwwin 197121  47157 Apr 30 22:02 b82a15-2fb445-be8d00.json\n-rw-r--r-- 1 jwwin 197121 102731 Apr 30 22:00 b82a15-2fb445-e3efc5-0b0c00-04bc3a-48acee-22b57b.json\n-rw-r--r-- 1 jwwin 197121  71984 Apr 30 22:00 b82a15-2fb445-e3efc5-0b0c00-04bc3a.json\n-rw-r--r-- 1 jwwin 197121  67235 Apr 30 22:00 b82a15-2fb445-e3efc5.json\n-rw-r--r-- 1 jwwin 197121  34220 Apr 30 21:58 b82a15.json\n-rw-r--r-- 1 jwwin 197121  56299 Apr 30 21:58 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea-f4d5fd-d67e92-e734af-952979-af429a-7ddf32.json\n-rw-r--r-- 1 jwwin 197121 106855 Apr 30 21:58 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea-f4d5fd-d67e92-e734af-952979.json\n-rw-r--r-- 1 jwwin 197121  43182 Apr 30 21:58 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea-f4d5fd-d67e92.json\n-rw-r--r-- 1 jwwin 197121  68295 Apr 30 21:58 c6324c-8f3684-3a68cc-803471-bac3cc-51bf62-2897ea.json\n-rw-r--r-- 1 jwwin 197121  28146 Apr 30 21:58 c6324c-8f3684-3a68cc-803471-bac3cc.json\n-rw-r--r-- 1 jwwin 197121  87852 Apr 30 22:02 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938-0c7357-e92a45-f783a0-54ded4-477927-d27441.json\n-rw-r--r-- 1 jwwin 197121  46118 Apr 30 22:02 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938-0c7357-e92a45-f783a0-54ded4.json\n-rw-r--r-- 1 jwwin 197121  58766 Apr 30 22:02 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938-0c7357-e92a45.json\n-rw-r--r-- 1 jwwin 197121  26745 Apr 30 22:02 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-6b7938.json\n-rw-r--r-- 1 jwwin 197121  28868 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-825409-357dce-019687-402277-e54c38-d05915-0f084a.json\n-rw-r--r-- 1 jwwin 197121  37254 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-825409-357dce-019687-402277-e54c38.json\n-rw-r--r-- 1 jwwin 197121  54640 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-825409-357dce-019687.json\n-rw-r--r-- 1 jwwin 197121  44062 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10-e40b0c-825409.json\n-rw-r--r-- 1 jwwin 197121  45279 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d-7b778d-1e8c10.json\n-rw-r--r-- 1 jwwin 197121  25476 Apr 30 22:00 c6324c-8f3684-3a68cc-803471-c2266d.json\n-rw-r--r-- 1 jwwin 197121  61199 Apr 30 21:58 c6324c-8f3684-3a68cc.json\n-rw-r--r-- 1 jwwin 197121  31940 Apr 30 21:57 c6324c.json\n-rw-r--r-- 1 jwwin 197121  40701 Apr 30 22:02 e1f5de-edeb96-331a07-7b77f2-2471b4.json\n-rw-r--r-- 1 jwwin 197121  54928 Apr 30 22:00 e1f5de-edeb96-331a07.json\n-rw-r--r-- 1 jwwin 197121 126951 Apr 30 22:00 e1f5de.json\n-rw-r--r-- 1 jwwin 197121   6946 Apr 30 18:27 e8c7b0.json\n-rw-r--r-- 1 jwwin 197121     24 Apr 30 22:02 token-count-693ab5a72f99.json\n-rw-r--r-- 1 jwwin 197121     24 Apr 30 22:00 token-count-ea40b3e80879.json",
+        "is_error": false
+      }
+    ],
+    [
+      null,
+      {
+        "type": "tool_use",
+        "id": "call_00_S9YHo6OFwJ0E3uNIQiWjU7lW",
+        "name": "Bash",
+        "input": {
+          "command": "ls src/ | head -30",
+          "description": "List src directory structure"
+        }
+      },
+      {
+        "type": "tool_use",
+        "id": "call_01_G5lAkej5FRPcCwBs1wgUxfeR",
+        "name": "Bash",
+        "input": {
+          "command": "find . -name \"*.test.*\" -o -name \"*.spec.*\" 2>/dev/null | head -30",
+          "description": "Find test files"
+        }
+      }
+    ],
+    [
+      {
+        "type": "tool_result",
+        "content": "This Bash command contains multiple operations. The following part requires approval: find . -name *.test.* -o -name *.spec.* 2> /dev/null",
+        "is_error": true,
+        "tool_use_id": "call_01_G5lAkej5FRPcCwBs1wgUxfeR"
+      },
+      {
+        "tool_use_id": "call_00_S9YHo6OFwJ0E3uNIQiWjU7lW",
+        "type": "tool_result",
+        "content": "QueryEngine.ts\nTask.ts\nTool.ts\nassistant\nbootstrap\nbridge\nbuddy\ncli\ncommands\ncommands.ts\ncomponents\nconstants\ncontext\ncontext.ts\ncoordinator\ncost-tracker.ts\ncostHook.ts\ndaemon\ndialogLaunchers.tsx\nentrypoints\nenvironment-runner\nhistory.ts\nhooks\nink\nink.ts\ninteractiveHelpers.tsx\njobs\nkeybindings\nlocalRecoveryCli.ts\nmain.tsx\n\n<system-reminder>\nThe task tools haven't been used recently. If you're working on tasks that would benefit from tracking progress, consider using TaskCreate to add new tasks and TaskUpdate to update task status (set to in_progress when starting, completed when done). Also consider cleaning up the task list if it has become stale. Only use these if relevant to the current work. This is just a gentle reminder - ignore if not applicable. Make sure that you NEVER mention this reminder to the user\n\n</system-reminder>",
+        "is_error": false
+      }
+    ]
+  ],
+  "output": [
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_start",
+        "message": {
+          "id": "c28fb05f-3434-40ab-b1d9-9dafa3107f28",
+          "type": "message",
+          "role": "assistant",
+          "model": "deepseek-v4-flash",
+          "content": [],
+          "stop_reason": null,
+          "stop_sequence": null,
+          "usage": {
+            "input_tokens": 277,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 37248,
+            "output_tokens": 0,
+            "service_tier": "standard"
+          }
+        }
+      },
+      "ttftMs": 668
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 0,
+        "content_block": {
+          "type": "thinking",
+          "thinking": "",
+          "signature": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "The"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " find"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " command"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " didn"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "'t"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " produce"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " results"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " in"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " the"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " output"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ","
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " which"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " is"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " odd"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " Let"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " me"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " try"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " a"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " simpler"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " approach"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " -"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " just"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " looking"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " for"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " files"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " differently"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": ".\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "But"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " this"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " is"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " getting"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " too"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " speculative"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " The"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " user"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " just"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " said"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " \""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "limit"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "\""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " which"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " is"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " very"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " t"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "erse"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " I"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " should"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " ask"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " them"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " what"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " they"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": " mean"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "thinking_delta",
+          "thinking": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 0,
+        "delta": {
+          "type": "signature_delta",
+          "signature": "c28fb05f-3434-40ab-b1d9-9dafa3107f28"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-61",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:02:53.488Z",
+      "message": {
+        "id": "c28fb05f-3434-40ab-b1d9-9dafa3107f28",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "The find command didn't produce results in the output, which is odd. Let me try a simpler approach - just looking for test files differently.\n\nBut this is getting too speculative. The user just said \"limit test\" which is very terse. I should ask them what they mean.",
+            "signature": "c28fb05f-3434-40ab-b1d9-9dafa3107f28"
+          }
+        ],
+        "stop_reason": null,
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 277,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 37248,
+          "output_tokens": 0,
+          "service_tier": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 0
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_start",
+        "index": 1,
+        "content_block": {
+          "type": "text",
+          "text": ""
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "你的"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "意思"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "不太"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "明确"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "。"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "`"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "limit"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " test"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "`"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "可以"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "指"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "几"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "件事"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "：\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "1"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " **"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "运行"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "项目中"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "与"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " limit"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "相关的"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "测试"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "**"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " —"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "如果有"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " `"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "limit"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "`"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "相关的"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "测试"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "用例"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "2"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " **"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "进行"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "极限"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "压力"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "测试"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "**"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " —"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "针对"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "某个"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "功能"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "3"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " **"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "测试"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "某个"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "限"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "流"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "/"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "限制"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "功能"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "**"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " —"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " "
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "比如"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "速率"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "限制"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "、"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "并发"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "限制"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "等"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "4"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "."
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": " **"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "其他"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "**\n\n"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "能"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "具体"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "说明"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "一下"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "吗"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "？"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "你想"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "测试"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "什么"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "，"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "或者"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "想"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "让我"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "帮你"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "找"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "什么"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_delta",
+        "index": 1,
+        "delta": {
+          "type": "text_delta",
+          "text": "？"
+        }
+      }
+    },
+    {
+      "uuid": "UUID-159",
+      "requestId": "REQUEST_ID",
+      "timestamp": "2026-04-30T14:02:54.980Z",
+      "message": {
+        "id": "c28fb05f-3434-40ab-b1d9-9dafa3107f28",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "你的意思不太明确。`limit test` 可以指几件事：\n\n1. **运行项目中与 limit 相关的测试** — 如果有 `limit` 相关的测试用例\n2. **进行极限/压力测试** — 针对某个功能\n3. **测试某个限流/限制功能** — 比如速率限制、并发限制等\n4. **其他**\n\n能具体说明一下吗？你想测试什么，或者想让我帮你找什么？",
+            "citations": []
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 277,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 37248,
+          "output_tokens": 154,
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "",
+          "iterations": [],
+          "speed": "standard"
+        }
+      },
+      "type": "assistant"
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "content_block_stop",
+        "index": 1
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_delta",
+        "delta": {
+          "stop_reason": "end_turn",
+          "stop_sequence": null
+        },
+        "usage": {
+          "input_tokens": 277,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 37248,
+          "output_tokens": 154,
+          "service_tier": "standard"
+        }
+      }
+    },
+    {
+      "type": "stream_event",
+      "event": {
+        "type": "message_stop"
+      }
+    }
+  ]
+}
