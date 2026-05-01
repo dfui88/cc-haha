@@ -190,9 +190,12 @@ export class ConversationService {
 
     this.readErrorStream(sessionId, proc)
 
-    proc.exited.then((code) => {
-      this.handleProcessExit(sessionId, proc, code)
-    })
+    // NOTE: handleProcessExit is intentionally NOT registered before the
+    // startup grace period. The proc.exited.then() microtask would fire
+    // BEFORE the await Promise.race() can resume, causing handleProcessExit
+    // to delete the session — and with it, stderrLines — before
+    // buildStartupError can read them. We register it only after the
+    // startup window is past.
 
     const STARTUP_GRACE_MS = 3000
     const earlyExitCode = await Promise.race([
@@ -203,8 +206,36 @@ export class ConversationService {
     ])
 
     if (earlyExitCode !== null) {
+      // Yield to event loop so async readErrorStream can capture stderr
+      // before we inspect it. Without this, the CLI can exit faster than
+      // the reader.read() promise resolves, losing the detail.
+      await new Promise((resolve) => setTimeout(resolve, 100))
+
+      const stderrLog = this.sessions.get(sessionId)?.stderrLines ?? []
       const startupError = this.buildStartupError(sessionId, earlyExitCode)
       this.sessions.delete(sessionId)
+
+      // Write stderr to a temp file for debugging CLI startup failures
+      // in the desktop app, where console.error is not visible to the user.
+      if (stderrLog.length > 0) {
+        const stderrText = stderrLog.join('\n')
+        console.error(
+          `[ConversationService] stderr for ${sessionId}:\n${stderrText}`,
+        )
+        try {
+          const logDir = path.join(os.tmpdir(), 'claude-haha-logs')
+          fs.mkdirSync(logDir, { recursive: true })
+          const logPath = path.join(logDir, `cli-stderr-${sessionId}.log`)
+          fs.writeFileSync(
+            logPath,
+            `[${new Date().toISOString()}] CLI exited with code ${earlyExitCode}\n${'='.repeat(60)}\n${stderrText}\n`,
+            'utf-8',
+          )
+          console.error(`[ConversationService] Wrote stderr log to ${logPath}`)
+        } catch (logErr) {
+          console.error('[ConversationService] Failed to write stderr log:', logErr)
+        }
+      }
 
       if (this.clearStaleLock(sessionId)) {
         console.log(
@@ -218,6 +249,11 @@ export class ConversationService {
       )
       throw startupError
     }
+
+    // Startup succeeded — now register the runtime exit handler
+    proc.exited.then((code) => {
+      this.handleProcessExit(sessionId, proc, code)
+    })
 
     if (shouldReplacePlaceholder || !launchInfo) {
       await sessionService.appendSessionMetadata(sessionId, {
@@ -539,6 +575,10 @@ export class ConversationService {
     if (session.sdkSocket) {
       session.sdkSocket.send(line)
     } else {
+      const MAX_PENDING_OUTBOUND = 2000
+      if (session.pendingOutbound.length >= MAX_PENDING_OUTBOUND) {
+        session.pendingOutbound.shift()
+      }
       session.pendingOutbound.push(line)
     }
     return true

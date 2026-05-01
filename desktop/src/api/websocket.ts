@@ -13,8 +13,11 @@ type Connection = {
   pendingMessages: ClientMessage[]
 }
 
+const MAX_PENDING_MESSAGES = 500
+
 class WebSocketManager {
   private connections = new Map<string, Connection>()
+  private generation = 0
 
   isConnected(sessionId: string): boolean {
     const conn = this.connections.get(sessionId)
@@ -26,6 +29,7 @@ class WebSocketManager {
   }
 
   connect(sessionId: string) {
+    this.generation++
     const existing = this.connections.get(sessionId)
     if (
       existing &&
@@ -121,6 +125,9 @@ class WebSocketManager {
     }
 
     conn.pendingMessages.push(message)
+    if (conn.pendingMessages.length > MAX_PENDING_MESSAGES) {
+      conn.pendingMessages.splice(0, conn.pendingMessages.length - MAX_PENDING_MESSAGES)
+    }
 
     if (
       conn.ws.readyState === WebSocket.CLOSED ||
@@ -167,9 +174,11 @@ class WebSocketManager {
     }
 
     const delay = Math.min(1000 * 2 ** conn.reconnectAttempt, 30_000)
+    const gen = ++this.generation
     conn.reconnectAttempt++
 
     conn.reconnectTimer = setTimeout(() => {
+      if (gen !== this.generation) return // stale reconnect, discarded
       if (this.connections.get(sessionId) === conn && !conn.intentionalClose) {
         conn.reconnectTimer = null
         this.connect(sessionId)

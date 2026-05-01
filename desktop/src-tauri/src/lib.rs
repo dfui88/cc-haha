@@ -18,11 +18,13 @@ use serde::Serialize;
 use tauri::menu::{MenuBuilder, MenuItemBuilder, SubmenuBuilder};
 use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
 use tauri::Emitter;
-use tauri::{AppHandle, Manager, RunEvent, State, WindowEvent};
+use tauri::{AppHandle, Manager, RunEvent, State};
 use tauri_plugin_shell::{
     process::{CommandChild, CommandEvent},
     ShellExt,
 };
+
+mod deploy;
 
 const SERVER_STARTUP_LOG_LIMIT: usize = 80;
 const MAIN_WINDOW_LABEL: &str = "main";
@@ -145,16 +147,6 @@ fn mark_app_quitting(app: &AppHandle) {
             *is_quitting = true;
         }
     }
-}
-
-fn should_hide_to_tray(app: &AppHandle, label: &str) -> bool {
-    if label != MAIN_WINDOW_LABEL {
-        return false;
-    }
-
-    app.try_state::<AppExitState>()
-        .and_then(|state| state.is_quitting.lock().ok().map(|value| !*value))
-        .unwrap_or(true)
 }
 
 fn show_main_window(app: &AppHandle) {
@@ -747,6 +739,33 @@ fn stop_server_sidecar(app: &AppHandle) {
     };
 
     if let Some(runtime) = guard.runtime.take() {
+        // Step 1: Try graceful shutdown via HTTP /api/shutdown,
+        // so the server flushes session storage before exiting.
+        let addr_str = runtime.url.trim_start_matches("http://");
+        if let Some((host, port_str)) = addr_str.split_once(':') {
+            if let Ok(port) = port_str.parse::<u16>() {
+                if let Ok(addr) = format!("{}:{}", host, port).parse::<SocketAddr>() {
+                    if let Ok(mut stream) =
+                        TcpStream::connect_timeout(&addr, Duration::from_secs(2))
+                    {
+                        let request = format!(
+                            "GET /api/shutdown HTTP/1.1\r\nHost: {}\r\nConnection: close\r\n\r\n",
+                            addr
+                        );
+                        let _ = stream.write_all(request.as_bytes());
+                        let _ = stream.flush();
+                        // Read until server closes (signals flush complete)
+                        let mut buf = [0u8; 1024];
+                        let _ = stream.read(&mut buf);
+                    }
+                }
+            }
+        }
+
+        // Step 2: Give time for the async write queue to drain
+        thread::sleep(Duration::from_millis(1500));
+
+        // Step 3: Force kill if still alive
         let _ = runtime.child.kill();
     }
 }
@@ -1038,11 +1057,22 @@ pub fn run() {
                 let _ = app.emit("native-menu-navigate", "settings");
             }
             _ => {}
+        })
+        .on_window_event(|window, event| {
+            if let WindowEvent::CloseRequested { .. } = event {
+                let app = window.app_handle();
+                mark_app_quitting(&app);
+                stop_server_sidecar(&app);
+                stop_adapters_sidecar(&app);
+                app.exit(0);
+            }
         });
 
     let app = builder
         .setup(|app| {
             setup_system_tray(app)?;
+
+            deploy::deploy_claude_resources(&app.handle());
 
             let state = app.state::<ServerState>();
             let mut guard = state
@@ -1074,16 +1104,6 @@ pub fn run() {
         .expect("error while building tauri application");
 
     app.run(|app_handle, event| match event {
-        RunEvent::WindowEvent {
-            label,
-            event: WindowEvent::CloseRequested { api, .. },
-            ..
-        } if should_hide_to_tray(app_handle, &label) => {
-            api.prevent_close();
-            if let Some(window) = app_handle.get_webview_window(&label) {
-                let _ = window.hide();
-            }
-        }
         #[cfg(target_os = "macos")]
         RunEvent::Reopen {
             has_visible_windows: false,
@@ -1104,3 +1124,5 @@ pub fn run() {
         _ => {}
     });
 }
+
+

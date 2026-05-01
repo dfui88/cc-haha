@@ -65,6 +65,29 @@ const prewarmedSessions = new Set<string>()
 const prewarmIdleTimers = new Map<string, ReturnType<typeof setTimeout>>()
 const DEFAULT_PREWARM_IDLE_TIMEOUT_MS = 5 * 60_000
 
+/**
+ * Periodic heartbeat intervals for active message processing.
+ * Sends status updates to the client to reset the response timeout
+ * while waiting for the CLI to produce its first output.
+ */
+const processingHeartbeats = new Map<string, ReturnType<typeof setInterval>>()
+
+function startProcessingHeartbeat(sessionId: string, ws: ServerWebSocket<WebSocketData>): void {
+  stopProcessingHeartbeat(sessionId)
+  // Send a status heartbeat every 60s to keep the client-side timeout alive
+  processingHeartbeats.set(sessionId, setInterval(() => {
+    sendMessage(ws, { type: 'status', state: 'thinking' })
+  }, 60_000))
+}
+
+function stopProcessingHeartbeat(sessionId: string): void {
+  const existing = processingHeartbeats.get(sessionId)
+  if (existing) {
+    clearInterval(existing)
+    processingHeartbeats.delete(sessionId)
+  }
+}
+
 export function getSlashCommands(sessionId: string): Array<{ name: string; description: string }> {
   return sessionSlashCommands.get(sessionId) || []
 }
@@ -185,6 +208,7 @@ export const handleWebSocket = {
     computerUseApprovalService.cancelSession(sessionId)
     activeSessions.delete(sessionId)
     conversationService.clearOutputCallbacks(sessionId)
+    stopProcessingHeartbeat(sessionId)
 
     // Schedule delayed cleanup: if the client doesn't reconnect within 30 seconds,
     // stop the CLI subprocess to avoid leaking resources.
@@ -309,6 +333,12 @@ async function handleUserMessage(
     return
   }
 
+  // Start a periodic heartbeat to keep the client-side response timeout alive
+  // while the CLI is processing (which may take a while for slow APIs like DeepSeek).
+  // The heartbeat is stopped when the first CLI output arrives via the output callback
+  // (see rebindSessionOutput -> clearOutputCallbacks + onOutput).
+  startProcessingHeartbeat(sessionId, ws)
+
   userMessageSent = true
 }
 
@@ -323,6 +353,7 @@ async function handleDesktopClearCommand(
   sessionSlashCommands.delete(sessionId)
   sessionTitleState.delete(sessionId)
   cleanupStreamState(sessionId)
+  stopProcessingHeartbeat(sessionId)
 
   try {
     await sessionService.clearSessionTranscript(sessionId, workDir || undefined)
@@ -566,6 +597,7 @@ function handleStopGeneration(ws: ServerWebSocket<WebSocketData>) {
   console.log(`[WS] Stop generation requested for session: ${sessionId}`)
 
   sessionStopRequested.add(sessionId)
+  stopProcessingHeartbeat(sessionId)
 
   if (conversationService.hasSession(sessionId)) {
     // First try graceful interrupt via SDK control message
@@ -1217,6 +1249,11 @@ function rebindSessionOutput(
     if (options?.shouldForward && !options.shouldForward(cliMsg)) {
       return
     }
+
+    // Stop the processing heartbeat once CLI output starts flowing.
+    // Subsequent data will reset the client-side timeout naturally via
+    // handleServerMessage -> resetResponseTimeout in chatStore.ts.
+    stopProcessingHeartbeat(sessionId)
 
     const serverMsgs = translateCliMessage(cliMsg, sessionId)
     for (const msg of serverMsgs) {

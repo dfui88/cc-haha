@@ -130,7 +130,10 @@ let msgCounter = 0
 const nextId = () => `msg-${++msgCounter}-${Date.now()}`
 
 // Response timeout: auto-stop generation if no server activity for this duration
-const RESPONSE_TIMEOUT_MS = 180_000 // 3 minutes
+const RESPONSE_TIMEOUT_MS = 600_000 // 10 minutes (DeepSeek API can be slow for complex requests)
+
+/** Max in-memory messages per session; older messages are trimmed automatically. */
+const MAX_IN_MEMORY_MESSAGES = 300
 
 /**
  * Schedule a response timeout for a session. If the timeout fires, the generation
@@ -260,7 +263,11 @@ function updateSessionIn(
 ): Record<string, PerSessionState> {
   const session = sessions[sessionId]
   if (!session) return sessions
-  return { ...sessions, [sessionId]: { ...session, ...updater(session) } }
+  const updatedSession: PerSessionState = { ...session, ...updater(session) }
+  if (updatedSession.messages.length > MAX_IN_MEMORY_MESSAGES) {
+    updatedSession.messages = updatedSession.messages.slice(-MAX_IN_MEMORY_MESSAGES)
+  }
+  return { ...sessions, [sessionId]: updatedSession }
 }
 
 async function fetchAndMapSessionHistory(sessionId: string) {

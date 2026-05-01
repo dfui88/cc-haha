@@ -135,6 +135,19 @@ export function startServer(port = PORT, host = HOST) {
         return handleHahaOAuthCallback(url)
       }
 
+      // Graceful shutdown — flush session storage before exiting
+      if (url.pathname === '/api/shutdown') {
+        console.log('[Server] Shutdown requested, flushing session data...')
+        try {
+          const { flushSessionStorage } = await import('../utils/sessionStorage.js')
+          await flushSessionStorage()
+          console.log('[Server] Session data flushed successfully')
+        } catch (err) {
+          console.error('[Server] Session flush error:', err)
+        }
+        process.exit(0)
+      }
+
       // REST API
       if (url.pathname.startsWith('/api/')) {
         // Enforce authentication when required

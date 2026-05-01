@@ -12,5 +12,12 @@
 | **Enter 键无响应** | `modifiers-napi` native 包缺失，`isModifierPressed()` 抛异常导致 `handleEnter` 中断，`onSubmit` 永远不执行 | 加 try-catch 容错 |
 | setup 被跳过 | `preload.ts` 自动设置 `LOCAL_RECOVERY=1` 跳过全部初始化 | 移除默认设置 |
 | **CLI 启动失败 (Desktop)** | `shouldStripInheritedProviderEnv(null)` 中 `providerId !== undefined` 把 `null` 当作有效 provider，清空了全部认证环境变量 | 改为 `typeof providerId === 'string'`（`conversationService.ts:727`） |
+| **CLI 启动失败 (Desktop) — 根本原因** | `handler.ts` 中 `getRuntimeSettings()` 有未解决的 Git 合并冲突，`providerId: activeId` 被 `<<<<<<< Updated upstream / ======= / >>>>>>> Stashed changes` 包裹，导致 `providerId` 未返回 | 移除合并冲突标记，恢复 `providerId: activeId`（`handler.ts:1325`） |
 | **settings.json 被覆盖** | `updateManagedSettings()` 使用 `Object.assign` 盲目合并，前端原始 JSON 编辑器写入的 `ACTIVE_PROVIDER`、顶层 `ANTHROPIC_*` 等过期 key 被持久化到文件 | 添加 `STALE_SETTINGS_KEYS` 黑名单 + 自动剥离顶层 `ANTHROPIC_*` key（`providerService.ts`） |
 | **自动更新地址更新** | Desktop Tauri 更新器指向 `NanmiCoder/cc-haha`，更新日志指向 `anthropics/claude-code` | 全部改为 `dfui88/cc-haha`（`tauri.conf.json`、`releaseNotes.ts`、`Settings.tsx`、`Sidebar.tsx`） |
+| **Skill 路径回退失败** | `import.meta.url` 路径解析只依赖 `CLAUDE_PROJECT_DIR`，未设置时回退到字面量 `$HOME/project` 导致 skill-rules.json 找不到 | 增加 3 级回退：环境变量 → hook input cwd → 脚本目录树搜索（`skill-activation-prompt.ts`） |
+| **Skill hook 性能慢** | `UserPromptSubmit` hook 用 `npx tsx` 执行 TypeScript，每次冷启动 Node.js + tsx 编译，阻塞 200-500ms | 预编译为 `.js`，shell 脚本直接 `node ...skill-activation-prompt.js`，延迟降至 ~40-130ms |
+| **UserPromptSubmit 阻塞** | `skill-activation-prompt.sh` 每次用户消息都同步执行，完成后才发送给 AI 模型 | shell 脚本去掉 `cd` + `npx tsx`，直接用 `node` 执行预编译 JS（`showcase-hooks/`） |
+| **MSI 打包技能/Agents** | 安装后需要手动下载技能和 Agents，没有预装 | `bundled/claude/` → Tauri resources → `deploy.rs` 首次启动自动复制到 `~/.claude/`（Rust `deploy_claude_resources()`，354 文件，3.5MB） |
+| **WiX ICE30 重复文件错误** | Tauri glob pattern `skills/**` 在只有平铺文件时匹配失败，多次构建产生重复 Component 引用 | 改用 Tauri 数组格式 `resources: ["bundled/claude"]`，避免 glob 歧义（`tauri.conf.json`） |
+| **MSI 打包运行配置 + 自动技能 Hook** | 安装后 hooks、定时任务配置、设置模板缺失，无法开箱即用自动技能激活 | `bundled/claude/hooks/` + `scheduled_tasks.json` + `settings.json`（空模型配置模板）→ `deploy.rs` 新增文件级部署，首次启动复制到 `~/.claude/` |
