@@ -1,13 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/nicegui/nicegui/main/nicegui/static/tauri-schema-v2.json",
   "productName": "Claude Code Haha",
-  "version": "0.1.22",
+  "version": "0.1.30",
   "identifier": "com.claude-code-haha.desktop",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420",
     "beforeDevCommand": "bun run build:sidecars && bun run dev",
-    "beforeBuildCommand": "bun run build && bun run build:sidecars"
+    "beforeBuildCommand": "node scripts/build-before.mjs"
   },
   "app": {
     "windows": [

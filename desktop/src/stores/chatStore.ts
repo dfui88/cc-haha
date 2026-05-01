@@ -130,7 +130,7 @@ let msgCounter = 0
 const nextId = () => `msg-${++msgCounter}-${Date.now()}`
 
 // Response timeout: auto-stop generation if no server activity for this duration
-const RESPONSE_TIMEOUT_MS = 600_000 // 10 minutes (DeepSeek API can be slow for complex requests)
+const RESPONSE_TIMEOUT_MS = 1_800_000 // 30 minutes (accommodates long builds and slow API responses)
 
 /** Max in-memory messages per session; older messages are trimmed automatically. */
 const MAX_IN_MEMORY_MESSAGES = 300
