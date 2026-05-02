@@ -33,8 +33,12 @@ desktop/package-lock.json
 # Desktop brand asset candidates (keep only selected ones in public/)
 desktop/brand-assets/
 
-# Claude local config & auto-generated
-.claude/
+# Claude local config & auto-generated (track rules, agents, skills; ignore the rest)
+.claude/*
+!.claude/rules/
+!.claude/agents/
+!.claude/skills/
+!.claude/CLAUDE.md
 
 # Superpowers plans & specs (local only)
 docs/superpowers/

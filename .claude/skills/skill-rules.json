@@ -1,0 +1,374 @@
+{
+  "version": "1.0",
+  "description": "技能自动激活规则 - 根据用户输入自动匹配合适技能",
+  "skills": {
+    "frontend-design": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "创建独特、生产级的前端界面设计",
+      "promptTriggers": {
+        "keywords": ["设计页面", "UI设计", "界面", "landing", "hero", "bento", "动画", "前端设计", "视觉"],
+        "intentPatterns": ["(设计|创建|制作).*?(页面|界面|UI|前端)", "(design|create).*?(landing|hero|page)"]
+      }
+    },
+    "frontend-dev-guidelines": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "React/TypeScript 前端开发最佳实践",
+      "promptTriggers": {
+        "keywords": ["React", "component", "组件", "tsx", "hook", "state", "前端开发"],
+        "intentPatterns": ["(create|add|fix).*?(component|hook|React|state)"]
+      }
+    },
+    "api-connector-builder": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "构建 API 连接器或集成适配器",
+      "promptTriggers": {
+        "keywords": ["连接器", "集成", "adapter", "适配器", "第三方对接", "webhook", "connector"],
+        "intentPatterns": ["(build|add).*?(connector|integration|adapter|集成|对接)", "(connect|integrate).*?(API|external)"]
+      }
+    },
+    "claude-api": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "Anthropic Claude API 模式：Message API、Tool Use、Streaming",
+      "promptTriggers": {
+        "keywords": ["Claude API", "Anthropic", "Message API", "Tool Use", "streaming", "Claude SDK"],
+        "intentPatterns": ["(use|call).*?Claude.*?API", "Claude.*?(stream|tool|function)"]
+      }
+    },
+    "tdd-workflow": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "测试驱动开发：80%+ 覆盖率、AAA 模式",
+      "promptTriggers": {
+        "keywords": ["TDD", "测试驱动", "test first", "单元测试", "覆盖率", "AAA pattern"],
+        "intentPatterns": ["(write|add).*?(test|spec|单元测试)", "TDD.*?(workflow|approach)"]
+      }
+    },
+    "e2e-testing": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "Playwright E2E 测试模式",
+      "promptTriggers": {
+        "keywords": ["E2E", "e2e测试", "Playwright", "端到端", "browser test"],
+        "intentPatterns": ["(write|create).*?(e2e|playwright|end.to.end)"]
+      }
+    },
+    "security-review": {
+      "type": "domain", "enforcement": "suggest", "priority": "critical",
+      "description": "代码安全审查：认证、输入验证、漏洞",
+      "promptTriggers": {
+        "keywords": ["安全审查", "security review", "漏洞", "OWASP", "渗透", "安全审计"],
+        "intentPatterns": ["(review|audit|check).*?(security|safe|vulnerability)", "安全.*?(审查|审计)"]
+      }
+    },
+    "github-ops": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "GitHub 仓库运营：Issue、PR、Release、Actions",
+      "promptTriggers": {
+        "keywords": ["GitHub", "Issue", "PR", "Pull Request", "Release", "Actions", "git"],
+        "intentPatterns": ["(manage|create|update).*?(issue|PR|release|workflow|git)"]
+      }
+    },
+    "deployment-patterns": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "部署工作流：CI/CD、Docker、k8s、发布",
+      "promptTriggers": {
+        "keywords": ["部署", "CI/CD", "Docker", "k8s", "release", "上线", "发布"],
+        "intentPatterns": ["(deploy|发布|上线).*?(app|service)", "(setup|configure).*?(CI|CD|deploy)"]
+      }
+    },
+    "mcp-server-patterns": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "构建 MCP 服务器",
+      "promptTriggers": {
+        "keywords": ["MCP", "Model Context Protocol", "MCP server", "MCP tool"],
+        "intentPatterns": ["(create|build).*?MCP.*?(server|tool)"]
+      }
+    },
+    "deep-research": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "多源深度研究：Web 搜索、文档分析、对比",
+      "promptTriggers": {
+        "keywords": ["研究", "调查", "分析", "对比", "竞品", "市场调研", "research"],
+        "intentPatterns": ["(research|analyze|investigate).*?(market|competitor|topic)", "对比.*?(方案|产品)"]
+      }
+    },
+    "database-migrations": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "数据库迁移：Prisma、Drizzle、Knex",
+      "promptTriggers": {
+        "keywords": ["migration", "迁移", "数据库迁移", "Prisma", "schema变更"],
+        "intentPatterns": ["(create|run).*?(migration|迁移)", "change.*?database.*?schema"]
+      }
+    },
+    "error-tracking": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "Sentry 错误追踪和性能监控",
+      "promptTriggers": {
+        "keywords": ["Sentry", "错误追踪", "异常监控", "APM", "error tracking"],
+        "intentPatterns": ["(setup|configure).*?(Sentry|error tracking)", "(fix|debug).*?(error|exception)"]
+      }
+    },
+    "search-first": {
+      "type": "domain", "enforcement": "suggest", "priority": "high",
+      "description": "先调研再编码：写代码前搜索现有方案",
+      "promptTriggers": {
+        "keywords": ["先调研", "search first", "现有方案", "现成的", "有没有现成"],
+        "intentPatterns": ["(research|search).*?(before|existing)", "有没有.*?(库|方案|实现)"]
+      }
+    },
+    "blueprint": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "将目标转化为实施计划",
+      "promptTriggers": {
+        "keywords": ["计划", "roadmap", "里程碑", "实施计划", "执行方案"],
+        "intentPatterns": ["(create|draft).*?(plan|roadmap|blueprint)", "如何.*?(实现|达成)"]
+      }
+    },
+    "product-capability": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "将 PRD 转化为可执行任务和测试",
+      "promptTriggers": {
+        "keywords": ["PRD", "产品需求", "产品文档", "需求分析", "product"],
+        "intentPatterns": ["(write|review).*?(PRD|product.*?requirement|需求)"]
+      }
+    },
+    "prompt-optimizer": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "优化提示词",
+      "promptTriggers": {
+        "keywords": ["提示词优化", "prompt optimize", "prompt engineering"],
+        "intentPatterns": ["(optimize|improve).*?(prompt|提示词)", "如何.*?prompt"]
+      }
+    },
+    "article-writing": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "撰写文章、博客、技术文档",
+      "promptTriggers": {
+        "keywords": ["写文章", "写博客", "技术文章", "blog", "article", "教程", "tutorial"],
+        "intentPatterns": ["(write|create).*?(article|blog|post|tutorial|文档)"]
+      }
+    },
+    "backend-dev-guidelines": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "Node.js/Express/TypeScript 后端开发",
+      "promptTriggers": {
+        "keywords": ["backend", "后端", "API", "route", "middleware", "controller"],
+        "intentPatterns": ["(create|add|implement).*?(route|endpoint|API|controller|service)"]
+      }
+    },
+    "weather-fetcher": {
+      "type": "domain", "enforcement": "suggest", "priority": "low",
+      "description": "查询天气",
+      "promptTriggers": {
+        "keywords": ["天气", "weather", "温度", "forecast", "降雨"],
+        "intentPatterns": ["(check|get|查询).*?(weather|天气|温度)"]
+      }
+    },
+    "docker-patterns": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "Docker 最佳实践",
+      "promptTriggers": {
+        "keywords": ["Docker", "Dockerfile", "docker-compose", "container", "容器"],
+        "intentPatterns": ["(create|optimize).*?(Docker|container|镜像)"]
+      }
+    },
+    "python-patterns": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "Python 惯用写法",
+      "promptTriggers": {
+        "keywords": ["Python", "python", "pip", "asyncio", "FastAPI", "Django"],
+        "intentPatterns": ["(write|fix).*?Python.*?(code|script)"]
+      }
+    },
+    "golang-patterns": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "Go 语言惯用模式",
+      "promptTriggers": {
+        "keywords": ["Go", "golang", "goroutine", "channel", "go mod"],
+        "intentPatterns": ["(write|build).*?(Go|golang).*?(app|service)"]
+      }
+    },
+    "rust-patterns": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "Rust 惯用模式",
+      "promptTriggers": {
+        "keywords": ["Rust", "rust", "cargo", "crate", "ownership"],
+        "intentPatterns": ["(write|build).*?Rust.*?(code|crate)"]
+      }
+    },
+    "coding-standards": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "编码规范：命名、格式、架构",
+      "promptTriggers": {
+        "keywords": ["编码规范", "代码规范", "lint", "eslint", "prettier", "code style"],
+        "intentPatterns": ["(setup).*?(lint|eslint|prettier|formatter)", "规范.*?(代码|命名)"]
+      }
+    },
+    "configure-ecc": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "Claude Code 配置",
+      "promptTriggers": {
+        "keywords": ["ECC config", "Claude配置", "settings.json"],
+        "intentPatterns": ["(configure|setup|install).*?(Claude Code|ECC)"]
+      }
+    },
+    "hookify-rules": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "配置钩子自动化工作流",
+      "promptTriggers": {
+        "keywords": ["hook", "钩子", "自动化规则", "PreToolUse"],
+        "intentPatterns": ["(create|setup).*?(hook|钩子|auto.*?trigger)"]
+      }
+    },
+    "claude-devfleet": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "多代理编码工作流编排",
+      "promptTriggers": {
+        "keywords": ["多代理", "multi-agent", "并行开发", "workflow"],
+        "intentPatterns": ["(orchestrate|manage).*?(agent|multi.*?agent)", "并行.*?(开发|构建)"]
+      }
+    },
+    "knowledge-ops": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "知识库管理",
+      "promptTriggers": {
+        "keywords": ["知识库", "RAG", "文档管理", "wiki", "knowledge"],
+        "intentPatterns": ["(setup|build).*?(knowledge|知识库|RAG)"]
+      }
+    },
+    "agent-browser": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "浏览器自动化",
+      "promptTriggers": {
+        "keywords": ["浏览器", "Playwright", "网页自动化", "browser"],
+        "intentPatterns": ["(automate|control).*?(browser|网页)", "打开.*?(网站|网页)"]
+      }
+    },
+    "data-scraper-agent": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "AI 驱动的数据抓取器",
+      "promptTriggers": {
+        "keywords": ["爬虫", "抓取", "crawl", "数据采集", "scraper"],
+        "intentPatterns": ["(build|write).*?(scraper|crawler|爬虫)"]
+      }
+    },
+    "verification-loop": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "全面的会话验证检查",
+      "promptTriggers": {
+        "keywords": ["验证", "quality check", "质量检查", "全面检查", "pre-commit"],
+        "intentPatterns": ["(verify|check|validate).*?(code|quality|all|全部)"]
+      }
+    },
+    "cost-aware-llm-pipeline": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "LLM 成本优化",
+      "promptTriggers": {
+        "keywords": ["LLM cost", "成本优化", "省钱", "token消耗"],
+        "intentPatterns": ["(optimize|reduce).*?(cost|spend|token|消耗)"]
+      }
+    },
+    "skill-developer": {
+      "type": "domain", "enforcement": "suggest", "priority": "medium",
+      "description": "创建和管理 Claude Code 技能",
+      "promptTriggers": {
+        "keywords": ["create skill", "add skill", "skill rules", "skill-rules.json"],
+        "intentPatterns": ["(create|add|modify).*?skill", "skill.*?(work|trigger)"]
+      }
+    },
+    "weather-svg-creator": {
+      "type": "domain", "enforcement": "suggest", "priority": "low",
+      "description": "创建天气 SVG 卡片",
+      "promptTriggers": {
+        "keywords": ["天气卡片", "weather card", "weather SVG"],
+        "intentPatterns": ["(create|make).*?(weather|天气).*?(SVG|card)"]
+      }
+    },
+    "seo": {
+      "type": "domain", "enforcement": "suggest", "priority": "low",
+      "description": "SEO 优化",
+      "promptTriggers": {
+        "keywords": ["SEO", "搜索引擎优化", "排名", "关键词"],
+        "intentPatterns": ["(optimize|audit).*?(SEO|search|排名)"]
+      }
+    },
+    "jira-integration": {
+      "type": "domain", "enforcement": "suggest", "priority": "low",
+      "description": "Jira 集成",
+      "promptTriggers": {
+        "keywords": ["Jira", "工单", "ticket", "sprint"],
+        "intentPatterns": ["(find|create|update).*?Jira.*?(ticket|issue)"]
+      }
+    },
+    "project-flow-ops": {
+      "type": "domain", "enforcement": "suggest", "priority": "low",
+      "description": "跨平台项目执行追踪",
+      "promptTriggers": {
+        "keywords": ["项目追踪", "进度", "task management", "project tracking"],
+        "intentPatterns": ["(track|manage|update).*?(project|task|进度)"]
+      }
+    },
+    "email-ops": {
+      "type": "domain", "enforcement": "suggest", "priority": "low",
+      "description": "邮件管理",
+      "promptTriggers": {
+        "keywords": ["email", "邮件", "inbox", "Gmail"],
+        "intentPatterns": ["(manage|handle).*?(email|邮件|inbox)"]
+      }
+    },
+    "investor-materials": {
+      "type": "domain", "enforcement": "suggest", "priority": "low",
+      "description": "创建融资路演材料",
+      "promptTriggers": {
+        "keywords": ["融资", "pitch deck", "投资人", "路演", "BP"],
+        "intentPatterns": ["(create|make).*?(pitch deck|融资|路演)"]
+      }
+    },
+    "brand-voice": {
+      "type": "domain", "enforcement": "suggest", "priority": "low",
+      "description": "提取和定义写作风格指南",
+      "promptTriggers": {
+        "keywords": ["品牌语调", "写作风格", "tone of voice", "风格指南"],
+        "intentPatterns": ["(define|create).*?(brand voice|tone|风格)"]
+      }
+    },
+    "frontend-slides": {
+      "type": "domain", "enforcement": "suggest", "priority": "low",
+      "description": "创建 HTML 演示文稿",
+      "promptTriggers": {
+        "keywords": ["slides", "演示文稿", "slideshow", "PPT"],
+        "intentPatterns": ["(create|make).*?(slides|presentation)"]
+      }
+    },
+    "springboot-patterns": {
+      "type": "domain", "enforcement": "suggest", "priority": "low",
+      "description": "Spring Boot 架构模式",
+      "promptTriggers": {
+        "keywords": ["Spring Boot", "Spring", "JPA", "Java backend"],
+        "intentPatterns": ["(build|create).*?Spring.*?(boot|app|service)"]
+      }
+    },
+    "laravel-patterns": {
+      "type": "domain", "enforcement": "suggest", "priority": "low",
+      "description": "Laravel 架构模式",
+      "promptTriggers": {
+        "keywords": ["Laravel", "Eloquent", "PHP", "artisan"],
+        "intentPatterns": ["(build|create).*?Laravel.*?(app|model|controller)"]
+      }
+    },
+    "build-windows-x64": {
+      "type": "domain", "enforcement": "automatic", "priority": "high",
+      "description": "Windows 构建 5 条规则：固定 GUID、生成 fix+版本号.txt、MSI 自动加版本号、打开构建文件夹、更新文档",
+      "promptTriggers": {
+        "keywords": ["构建Windows", "build windows", "打包", "MSI", "安装包", "WiX", "windows构建", "windows build", "构建规则", "重新构建"],
+        "intentPatterns": ["(build|构建|打包).*?(windows|MSI|安装包)", "Windows.*?(构建|build|打包|规则)"]
+      }
+    },
+    "rebuild-sidecar": {
+      "type": "domain", "enforcement": "automatic", "priority": "high",
+      "description": "重新构建 sidecar 二进制：编译 claude-sidecar 并提示重启桌面应用",
+      "promptTriggers": {
+        "keywords": ["rebuild", "重构建", "重编译", "重新编译", "build sidecar", "编译sidecar"],
+        "intentPatterns": ["(重新|重)(构建|编译|build)", "(rebuild|build).*?(sidecar|二进制)"]
+      }
+    }
+  }
+}
