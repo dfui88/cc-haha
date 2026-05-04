@@ -16,6 +16,7 @@ type SessionStore = {
   error: string | null
   selectedProjects: string[]
   availableProjects: string[]
+  serverReady: boolean
 
   fetchSessions: (project?: string) => Promise<void>
   createSession: (workDir?: string, title?: string) => Promise<string>
@@ -24,6 +25,7 @@ type SessionStore = {
   updateSessionTitle: (id: string, title: string) => void
   setActiveSession: (id: string | null) => void
   setSelectedProjects: (projects: string[]) => void
+  setServerReady: () => void
 }
 
 export const useSessionStore = create<SessionStore>((set, get) => ({
@@ -33,6 +35,7 @@ export const useSessionStore = create<SessionStore>((set, get) => ({
   error: null,
   selectedProjects: [],
   availableProjects: [],
+  serverReady: false,
 
   fetchSessions: async (project?: string) => {
     const reqId = ++_fetchRequestId
@@ -148,4 +151,9 @@ export const useSessionStore = create<SessionStore>((set, get) => ({
 
   setActiveSession: (id) => set({ activeSessionId: id }),
   setSelectedProjects: (projects) => set({ selectedProjects: projects }),
+  setServerReady: () => {
+    set({ serverReady: true })
+    // Server 就绪后立即加载会话列表，此时 baseUrl 已正确设置
+    get().fetchSessions()
+  },
 }))

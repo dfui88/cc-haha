@@ -11,6 +11,7 @@ import { TabBar } from './TabBar'
 import { StartupErrorView } from './StartupErrorView'
 import { useTabStore, SETTINGS_TAB_ID } from '../../stores/tabStore'
 import { useChatStore } from '../../stores/chatStore'
+import { useSessionStore } from '../../stores/sessionStore'
 
 export function AppShell() {
   const fetchSettings = useSettingsStore((s) => s.fetchAll)
@@ -23,6 +24,10 @@ export function AppShell() {
     const bootstrap = async () => {
       try {
         await initializeDesktopServerUrl()
+        // Server URL 已设置，标记就绪让 Sidebar 加载会话列表
+        if (!cancelled) {
+          useSessionStore.getState().setServerReady()
+        }
         await fetchSettings()
         await useTabStore.getState().restoreTabs()
         const { activeTabId: activeId, tabs } = useTabStore.getState()

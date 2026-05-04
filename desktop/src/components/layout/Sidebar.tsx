@@ -36,8 +36,11 @@ export function Sidebar() {
   const [renamingId, setRenamingId] = useState<string | null>(null)
   const [renameValue, setRenameValue] = useState('')
 
+  // 只在非 Tauri 环境（纯 web）时立即加载；Tauri 环境由 AppShell bootstrap 驱动
   useEffect(() => {
-    fetchSessions()
+    if (!isTauri) {
+      fetchSessions()
+    }
   }, [fetchSessions])
 
   useEffect(() => {
