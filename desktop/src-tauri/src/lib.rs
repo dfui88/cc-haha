@@ -93,19 +93,32 @@ struct TerminalExitPayload {
 
 #[tauri::command]
 fn get_server_url(state: State<'_, ServerState>) -> Result<String, String> {
-    let guard = state
-        .0
-        .lock()
-        .map_err(|_| "desktop server state is unavailable".to_string())?;
+    // Sidecar 在后台线程中启动，这里轮询等待最多 12 秒
+    let deadline = Instant::now() + Duration::from_secs(12);
 
-    if let Some(runtime) = guard.runtime.as_ref() {
-        return Ok(runtime.url.clone());
+    loop {
+        let guard = state
+            .0
+            .lock()
+            .map_err(|_| "desktop server state is unavailable".to_string())?;
+
+        if let Some(runtime) = guard.runtime.as_ref() {
+            return Ok(runtime.url.clone());
+        }
+
+        if let Some(ref err) = guard.startup_error {
+            return Err(err.clone());
+        }
+
+        // 还没就绪，释放锁后等待再试
+        drop(guard);
+
+        if Instant::now() >= deadline {
+            return Err("desktop server did not start within timeout".to_string());
+        }
+
+        thread::sleep(Duration::from_millis(200));
     }
-
-    Err(guard
-        .startup_error
-        .clone()
-        .unwrap_or_else(|| "desktop server did not start".to_string()))
 }
 
 /// 前端在设置页保存飞书 / Telegram 凭据后调用，触发 adapter sidecar 热重启。
