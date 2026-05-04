@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code Haha — 项目架构</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1c25;
+    --surface2: #242734;
+    --border: #2e3140;
+    --text: #e1e4ed;
+    --text2: #8b8fa3;
+    --accent: #7c6af0;
+    --accent2: #5b8def;
+    --green: #4cc9a0;
+    --red: #f26b6b;
+    --yellow: #f5c842;
+    --font: 'SF Mono', 'Cascadia Code', 'JetBrains Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.7;
+    padding: 0;
+  }
+  /* Header */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 24px 40px;
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .header p {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+  .header .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  /* Layout */
+  .layout { display: flex; min-height: calc(100vh - 80px); }
+  .sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .sidebar a {
+    display: block;
+    padding: 6px 20px;
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.15s;
+  }
+  .sidebar a:hover, .sidebar a.active { color: #fff; }
+  .sidebar .section-title {
+    padding: 12px 20px 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text2);
+    font-weight: 600;
+  }
+  .main {
+    flex: 1;
+    padding: 32px 48px;
+    max-width: 960px;
+  }
+  /* Content */
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    color: #fff;
+  }
+  h2:first-child { margin-top: 0; }
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 28px 0 12px;
+    color: #fff;
+  }
+  h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 20px 0 8px;
+    color: var(--text);
+  }
+  p { margin: 8px 0; color: var(--text); }
+  /* Code blocks */
+  pre {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: var(--font);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 16px 0;
+    color: var(--text);
+  }
+  code {
+    font-family: var(--font);
+    font-size: 13px;
+    background: var(--surface);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  pre code { background: none; padding: 0; border-radius: 0; }
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    background: var(--surface);
+    color: var(--text2);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  td { color: var(--text); }
+  tr:hover td { background: var(--surface); }
+  /* Tags */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-family: var(--font);
+  }
+  .tag-react { background: #61dafb22; color: #61dafb; }
+  .tag-rust { background: #dea58422; color: #dea584; }
+  .tag-bun { background: #f9f1db22; color: #f9f1db; }
+  .tag-ts { background: #3178c622; color: #3178c6; }
+  .tag-python { background: #ffd43b22; color: #ffd43b; }
+  /* Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .card h4 { margin: 0 0 6px; font-size: 14px; }
+  .card p { margin: 0; font-size: 12px; color: var(--text2); }
+  /* Architecture diagram */
+  .arch {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 20px 0;
+    font-family: var(--font);
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre;
+    overflow-x: auto;
+    color: var(--text);
+  }
+  /* Arrow flow */
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin: 8px 0;
+    font-family: var(--font);
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .flow-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--text);
+    text-align: center;
+  }
+  /* Message types grid */
+  .msg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .msg-col h4 { font-size: 13px; margin-bottom: 8px; }
+  .msg-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    font-family: var(--font);
+    font-size: 12px;
+  }
+  .msg-item .dir { font-size: 10px; color: var(--text2); margin-bottom: 2px; }
+  .msg-item .name { color: var(--accent2); }
+  .msg-item .desc { color: var(--text2); font-size: 11px; }
+  /* Numbers in headings */
+  .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  /* Responsive */
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 20px; }
+    .header { padding: 16px 20px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .msg-grid { grid-template-columns: 1fr; }
+  }
+  /* Nav links */
+  .nav-links { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; }
+  .nav-links a { color: var(--accent2); text-decoration: none; font-size: 13px; }
+  .nav-links a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Claude Code Haha <span class="badge">v0.2.0</span></h1>
+  <p>项目架构分析 — 2026-05-04</p>
+</div>
+
+<div class="layout">
+
+<nav class="sidebar">
+  <div class="section-title">概述</div>
+  <a href="#overview">整体架构</a>
+  <a href="#layers">四层结构</a>
+
+  <div class="section-title">前端</div>
+  <a href="#frontend">技术栈</a>
+  <a href="#routing">路由设计</a>
+
+  <div class="section-title">后端</div>
+  <a href="#backend">技术栈</a>
+  <a href="#api">API 端点</a>
+
+  <div class="section-title">通信</div>
+  <a href="#communication">双通道通信</a>
+  <a href="#websocket">WebSocket 消息</a>
+
+  <div class="section-title">Tauri</div>
+  <a href="#tauri">桌面壳集成</a>
+
+  <div class="section-title">流程</div>
+  <a href="#flow-chat">聊天流程</a>
+  <a href="#flow-tool">工具调用</a>
+  <a href="#flow-proxy">Provider 代理</a>
+
+  <div class="section-title">状态管理</div>
+  <a href="#stores">Zustand Store</a>
+
+  <div class="section-title">其他</div>
+  <a href="#structure">目录结构</a>
+  <a href="#tech">技术栈总结</a>
+</nav>
+
+<main class="main">
+
+<!-- 整体架构 -->
+<h2 id="overview"><span class="num">1</span>整体架构</h2>
+<p>Claude Code Haha 是一个基于 <strong>Anthropic Claude Code CLI</strong> 的桌面端 AI 聊天客户端，采用 Tauri 壳 + React 前端 + Bun 后端的三层架构。</p>
+
+<h3 id="layers">四层结构</h3>
+<div class="arch">
+┌─────────────────────────────────────────────────────────────┐
+│  Tauri 桌面壳 (Rust)                                         │
+│  窗口管理 / 原生对话框 / 自动更新 / 进程生命周期               │
+│  终端伪终端 / 文件对话框 / 侧边进程(Sidecar)管理               │
+├─────────────────────────────────────────────────────────────┤
+│  React 前端 (desktop/src/)                                   │
+│  TSX + Tailwind CSS 4 + Zustand 5 状态管理                    │
+│  Vite 6 构建 / 多标签页管理 / 流式渲染                         │
+├─────────────────────────────────────────────────────────────┤
+│  Bun 后端 (src/server/)                                      │
+│  Bun.serve() 原生 HTTP + WebSocket                           │
+│  REST API (20+ 端点) + WS 实时通信                            │
+│  管理 Claude CLI 子进程                                       │
+├─────────────────────────────────────────────────────────────┤
+│  Claude CLI (AI 引擎)                                        │
+│  实际对话处理 / 工具调用 / 流式输出                            │
+│  stream-json + vscode-jsonrpc 通信                           │
+└─────────────────────────────────────────────────────────────┘</div>
+
+<!-- 前端 -->
+<h2 id="frontend"><span class="num">2</span>前端技术栈</h2>
+<div class="card-grid">
+  <div class="card"><h4><span class="tag tag-react">React 18.3</span></h4><p>组件化 UI 渲染，React StrictMode</p></div>
+  <div class="card"><h4><span class="tag tag-ts">TypeScript 5.9</span></h4><p>严格模式，路径别名 @/ → src/</p></div>
+  <div class="card"><h4>Vite 6</h4><p>开发 HMR :1420，生产打包</p></div>
+  <div class="card"><h4>Tailwind CSS 4</h4><p>原子化 CSS，@tailwindcss/vite 插件</p></div>
+  <div class="card"><h4>Zustand 5</h4><p>23 个 Store，按功能拆分状态管理</p></div>
+  <div class="card"><h4>Vitest 3</h4><p>单元测试 + Testing Library</p></div>
+  <div class="card"><h4>lucide-react</h4><p>SVG 图标库</p></div>
+  <div class="card"><h4>marked + shiki</h4><p>Markdown 渲染 + 代码高亮</p></div>
+  <div class="card"><h4>mermaid</h4><p>流程图/时序图渲染</p></div>
+  <div class="card"><h4>xterm.js</h4><p>内嵌命令行终端</p></div>
+  <div class="card"><h4>@tauri-apps/api</h4><p>原生能力调用（对话框/终端/更新）</p></div>
+</div>
+
+<h3 id="routing">路由设计</h3>
+<p>无传统路由库（无 React Router）。采用 Zustand 的 <code>tabStore</code> 管理多标签页：</p>
+<pre>tabStore.activeTabId → ContentRouter 组件
+  ├── session-xxx → &lt;ChatPage /&gt;        ← 聊天会话
+  ├── settings    → &lt;SettingsPage /&gt;     ← 设置
+  ├── scheduled   → &lt;ScheduledTasks /&gt;   ← 定时任务
+  └── terminal    → &lt;TerminalPage /&gt;     ← 终端</pre>
+<p>每个标签页独立持久化到 localStorage，支持关闭恢复和标题自动生成。</p>
+
+<!-- 后端 -->
+<h2 id="backend"><span class="num">3</span>后端技术栈</h2>
+<div class="card-grid">
+  <div class="card"><h4><span class="tag tag-bun">Bun</span></h4><p>HTTP+WebSocket 服务器运行环境</p></div>
+  <div class="card"><h4>Bun.serve() 原生</h4><p>无框架，直接使用 fetch handler</p></div>
+  <div class="card"><h4>Zod 4</h4><p>Schema 验证</p></div>
+  <div class="card"><h4>@anthropic-ai/sdk 0.80</h4><p>Claude API 官方客户端</p></div>
+  <div class="card"><h4>MCP SDK</h4><p>Model Context Protocol</p></div>
+  <div class="card"><h4>vscode-jsonrpc</h4><p>CLI 子进程 JSON-RPC 通信</p></div>
+  <div class="card"><h4>chokidar</h4><p>配置目录实时监听</p></div>
+  <div class="card"><h4>OpenTelemetry</h4><p>日志/指标/追踪</p></div>
+</div>
+
+<h3 id="api">API 端点（20+）</h3>
+<table>
+  <tr><th>端点</th><th>方法</th><th>说明</th></tr>
+  <tr><td><code>/api/sessions</code></td><td>GET/POST</td><td>会话 CRUD</td></tr>
+  <tr><td><code>/api/sessions/:id/chat</code></td><td>GET</td><td>聊天记录</td></tr>
+  <tr><td><code>/api/settings/user</code></td><td>GET/PUT</td><td>用户设置</td></tr>
+  <tr><td><code>/api/providers</code></td><td>GET</td><td>AI Provider 列表</td></tr>
+  <tr><td><code>/api/models</code></td><td>GET</td><td>模型列表</td></tr>
+  <tr><td><code>/api/proxy</code></td><td>POST</td><td>AI 请求代理</td></tr>
+  <tr><td><code>/api/search</code></td><td>GET</td><td>Web 搜索</td></tr>
+  <tr><td><code>/api/scheduled-tasks</code></td><td>GET</td><td>定时任务</td></tr>
+  <tr><td><code>/api/skills</code></td><td>GET</td><td>技能列表</td></tr>
+  <tr><td><code>/api/plugins</code></td><td>GET</td><td>插件列表</td></tr>
+  <tr><td><code>/api/agents</code></td><td>GET</td><td>Agent 列表</td></tr>
+  <tr><td><code>/api/mcp</code></td><td>GET</td><td>MCP 配置</td></tr>
+  <tr><td><code>/api/diagnostics</code></td><td>GET</td><td>诊断信息</td></tr>
+  <tr><td><code>/health</code></td><td>GET</td><td>健康检查</td></tr>
+</table>
+
+<!-- 通信 -->
+<h2 id="communication"><span class="num">4</span>前后端通信方式</h2>
+<p>采用<strong>双通道通信架构</strong>：REST API + WebSocket</p>
+
+<h3>REST API</h3>
+<pre>前端 api.get('/api/sessions')
+  → fetch('http://127.0.0.1:3456/api/sessions', { signal: AbortSignal.timeout(30000) })
+  → Bun.serve() → router.ts → API handler
+  ← JSON Response</pre>
+<table>
+  <tr><th>参数</th><th>值</th></tr>
+  <tr><td>默认端口</td><td>3456</td></tr>
+  <tr><td>超时</td><td>30 秒</td></tr>
+  <tr><td>认证</td><td>localhost 免认证</td></tr>
+  <tr><td>CORS</td><td>自动附加</td></tr>
+</table>
+
+<h3 id="websocket">WebSocket 实时消息</h3>
+<pre>wsManager.connect(sessionId)
+  → WebSocket('ws://127.0.0.1:3456/ws/{sessionId}')</pre>
+<table>
+  <tr><th>能力</th><th>说明</th></tr>
+  <tr><td>自动重连</td><td>指数退避 1s ~ 30s</td></tr>
+  <tr><td>消息队列</td><td>最多缓存 500 条</td></tr>
+  <tr><td>心跳</td><td>每 30 秒 ping</td></tr>
+  <tr><td>连接隔离</td><td>每个 sessionId 独立连接</td></tr>
+</table>
+
+<h4>消息类型</h4>
+<div class="msg-grid">
+  <div class="msg-col">
+    <h4>客户端 → 服务端</h4>
+    <div class="msg-item"><div class="dir">→</div><span class="name">user_message</span><div class="desc">发送用户消息</div></div>
+    <div class="msg-item"><div class="dir">→</div><span class="name">stop_generation</span><div class="desc">停止 AI 生成</div></div>
+    <div class="msg-item"><div class="dir">→</div><span class="name">permission_response</span><div class="desc">响应权限请求</div></div>
+    <div class="msg-item"><div class="dir">→</div><span class="name">set_runtime_config</span><div class="desc">切换 Provider/Model</div></div>
+    <div class="msg-item"><div class="dir">→</div><span class="name">ping</span><div class="desc">心跳</div></div>
+  </div>
+  <div class="msg-col">
+    <h4>服务端 → 客户端</h4>
+    <div class="msg-item"><div class="dir">←</div><span class="name">content_start</span><div class="desc">新内容块开始</div></div>
+    <div class="msg-item"><div class="dir">←</div><span class="name">content_delta</span><div class="desc">流式增量内容</div></div>
+    <div class="msg-item"><div class="dir">←</div><span class="name">tool_use_complete</span><div class="desc">工具调用完成</div></div>
+    <div class="msg-item"><div class="dir">←</div><span class="name">tool_result</span><div class="desc">工具执行结果</div></div>
+    <div class="msg-item"><div class="dir">←</div><span class="name">thinking</span><div class="desc">AI 思考过程</div></div>
+    <div class="msg-item"><div class="dir">←</div><span class="name">message_complete</span><div class="desc">消息完成含 Token</div></div>
+    <div class="msg-item"><div class="dir">←</div><span class="name">status</span><div class="desc">状态更新</div></div>
+    <div class="msg-item"><div class="dir">←</div><span class="name">error</span><div class="desc">错误信息</div></div>
+  </div>
+</div>
+
+<!-- Tauri -->
+<h2 id="tauri"><span class="num">5</span>Tauri 桌面壳集成</h2>
+<pre>Tauri 主进程 (Rust)
+  │
+  ├── beforeBuildCommand: node scripts/build-before.mjs
+  │   ├── tsc -b && vite build          ← 前端构建
+  │   └── bun run build:sidecars         ← 后端 sidecar 构建
+  │
+  ├── 加载前端:
+  │   ├── 开发模式: http://localhost:1420 (Vite HMR)
+  │   └── 生产模式: ../dist (静态文件)
+  │
+  ├── Rust Commands:
+  │   ├── get_server_url()    → 返回后端地址
+  │   ├── terminal_spawn()    → 启动伪终端
+  │   ├── terminal_write()    → 写入终端
+  │   ├── terminal_resize()   → 调整大小
+  │   └── terminal_kill()     → 关闭终端
+  │
+  ├── Sidecar:
+  │   ├── externalBin: ["binaries/claude-sidecar"]
+  │   └── Bun.serve() 作为独立进程运行
+  │
+  └── 前端启动流程:
+      1. 检测 Tauri 环境
+      2. invoke('get_server_url')
+      3. 设置 api baseUrl
+      4. 轮询 /health 等待就绪（30 次 × 250ms）</pre>
+
+<!-- 流程 -->
+<h2 id="flow-chat"><span class="num">6</span>核心流程</h2>
+
+<h3>聊天消息流程</h3>
+<div class="flow">
+  <span class="flow-box">用户输入</span>
+  <span>→</span>
+  <span class="flow-box">ChatInput</span>
+  <span>→</span>
+  <span class="flow-box">WebSocket</span>
+  <span>→</span>
+  <span class="flow-box">Bun 服务端</span>
+  <span>→</span>
+  <span class="flow-box">CLI 子进程</span>
+  <span>→</span>
+  <span class="flow-box">AI 推理</span>
+</div>
+<pre>用户输入 → ChatInput.tsx
+  → chatStore.sendMessage()
+  → WebSocket { type: 'user_message' }
+  → ws/handler.ts → handleUserMessage()
+  → conversationService.sendMessage() 写入 CLI stdin
+  → Claude CLI 推理 → stdout stream-json
+  → conversationService.onOutput() 解析
+  → WebSocket 推送: content_start → content_delta
+    → tool_use_complete → tool_result → message_complete
+  → chatStore.handleServerMessage()
+  → MessageList.tsx 流式渲染</pre>
+
+<h3 id="flow-tool">工具调用流程</h3>
+<div class="flow">
+  <span class="flow-box">AI 决定</span>
+  <span>→</span>
+  <span class="flow-box">tool_use_complete</span>
+  <span>→</span>
+  <span class="flow-box">ToolCallBlock</span>
+  <span>→</span>
+  <span class="flow-box">CLI 执行</span>
+  <span>→</span>
+  <span class="flow-box">tool_result</span>
+  <span>→</span>
+  <span class="flow-box">送回 AI</span>
+</div>
+<pre>AI 决定调用工具
+  → 服务端发送 tool_use_complete
+  → 前端渲染 ToolCallBlock ("运行中...")
+  → CLI 执行工具 (Bash/文件/搜索等 55+ 工具)
+  → 服务端发送 tool_result
+  → 前端 ToolResultBlock 渲染结果
+  → 结果送回 AI 继续生成</pre>
+
+<h3 id="flow-proxy">AI Provider 代理流程</h3>
+<pre>桌面端请求 (Anthropic Messages API 格式)
+  → POST /api/proxy 或 /v1/messages
+  → handleProxyRequest()
+    ├── anthropic 格式 → 直接透传
+    ├── openai_chat → anthropicToOpenaiChat() 转换
+    └── openai_responses → anthropicToOpenaiResponses() 转换
+  → 上游 AI API (Anthropic / OpenAI 兼容 / AWS Bedrock)
+  → 响应转回 Anthropic 格式 → 返回前端</pre>
+
+<!-- 状态管理 -->
+<h2 id="stores"><span class="num">7</span>状态管理架构</h2>
+<table>
+  <tr><th>Store</th><th>职责</th></tr>
+  <tr><td>chatStore</td><td>聊天核心 — messages, streamingText, WebSocket</td></tr>
+  <tr><td>sessionStore</td><td>会话 CRUD，活跃会话管理</td></tr>
+  <tr><td>tabStore</td><td>标签页管理，持久化/恢复</td></tr>
+  <tr><td>settingsStore</td><td>应用配置，Provider 配置</td></tr>
+  <tr><td>uiStore</td><td>界面状态（主题、侧边栏宽度）</td></tr>
+  <tr><td>providerStore</td><td>自定义 Provider 列表</td></tr>
+  <tr><td>teamStore</td><td>Agent 团队配置</td></tr>
+  <tr><td>taskStore</td><td>定时任务管理</td></tr>
+  <tr><td>skillStore</td><td>技能管理</td></tr>
+  <tr><td>pluginStore</td><td>插件管理</td></tr>
+  <tr><td>mcpStore</td><td>MCP Server 配置</td></tr>
+  <tr><td>agentStore</td><td>Agent 配置</td></tr>
+  <tr><td>updateStore</td><td>自动更新状态</td></tr>
+</table>
+
+<!-- 目录结构 -->
+<h2 id="structure"><span class="num">8</span>目录结构</h2>
+<pre>F:\codebuddycn\cc-haha\
+├── src/                          # CLI 核心代码 (Bun)
+│   ├── server/                   # HTTP/WS 服务器
+│   │   ├── api/                  # 19 个 REST API handler
+│   │   ├── services/             # 21 个服务模块
+│   │   ├── ws/                   # WebSocket 处理器
+│   │   ├── proxy/                # AI Provider 代理
+│   │   ├── router.ts
+│   │   └── index.ts
+│   ├── tools/                    # 55+ 工具
+│   ├── services/                 # 通用服务
+│   ├── tasks/                    # 任务系统
+│   └── utils/                    # 工具函数
+│
+├── desktop/                      # 桌面端
+│   ├── src/                      # React 前端
+│   │   ├── components/           # 组件（chat/layout/shared/tasks...）
+│   │   ├── stores/               # 23 个 Zustand store
+│   │   ├── pages/                # 18 个页面
+│   │   ├── api/                  # 前后端 API 通信
+│   │   ├── types/                # 类型定义
+│   │   ├── i18n/                 # 国际化 (zh/en)
+│   │   └── theme/                # 主题样式
+│   ├── src-tauri/                # Tauri Rust 原生代码
+│   └── scripts/                  # 构建脚本
+│
+├── adapters/                     # AI 提供商适配器
+├── runtime/                      # Python 运行时
+├── docs/                         # 文档
+├── scripts/                      # 工具脚本
+├── CHANGELOG.md                  # 版本变更日志
+├── PROJECT_OVERVIEW.md           # 项目概览
+└── PROJECT_ARCHITECTURE.md       # 本文档 MD 版</pre>
+
+<!-- 总结 -->
+<h2 id="tech"><span class="num">9</span>技术栈总结</h2>
+<table>
+  <tr><th>类别</th><th>技术</th></tr>
+  <tr><td>桌面壳</td><td><span class="tag tag-rust">Tauri 2.x</span> + <span class="tag tag-rust">Rust 2021</span></td></tr>
+  <tr><td>前端框架</td><td><span class="tag tag-react">React 18.3</span> + <span class="tag tag-ts">TypeScript 5.9</span></td></tr>
+  <tr><td>构建工具</td><td>Vite 6</td></tr>
+  <tr><td>样式</td><td>Tailwind CSS 4</td></tr>
+  <tr><td>状态管理</td><td>Zustand 5</td></tr>
+  <tr><td>后端</td><td><span class="tag tag-bun">Bun</span> (Bun.serve 原生)</td></tr>
+  <tr><td>AI SDK</td><td>@anthropic-ai/sdk 0.80</td></tr>
+  <tr><td>Schema</td><td>Zod 4</td></tr>
+  <tr><td>AI Provider</td><td>Anthropic / OpenAI 兼容 / AWS Bedrock</td></tr>
+  <tr><td>内嵌终端</td><td>xterm.js + Tauri plugin-shell</td></tr>
+  <tr><td>安装包</td><td>NSIS/WiX (Windows), DMG (macOS)</td></tr>
+  <tr><td>国际化</td><td>自建 i18n (zh/en)</td></tr>
+  <tr><td>测试</td><td>Vitest + Testing Library</td></tr>
+</table>
+
+<h3>架构特点</h3>
+<ol style="margin: 12px 0; padding-left: 20px;">
+  <li style="margin-bottom: 6px;"><strong>Sidecar 架构</strong> — Bun 服务器作为独立进程运行，Tauri 管理其生命周期</li>
+  <li style="margin-bottom: 6px;"><strong>双通道通信</strong> — REST API 用于数据查询，WebSocket 用于实时消息推送</li>
+  <li style="margin-bottom: 6px;"><strong>Provider 适配层</strong> — 支持任意 OpenAI 兼容 API，协议自动转换</li>
+  <li style="margin-bottom: 6px;"><strong>流式渲染</strong> — AI 响应通过 WebSocket 实时推送，前端逐块渲染</li>
+  <li style="margin-bottom: 6px;"><strong>多标签页</strong> — 无传统路由，通过 Zustand 管理标签页，支持持久化恢复</li>
+  <li style="margin-bottom: 6px;"><strong>状态隔离</strong> — 每个会话独立状态，23 个 Store 按职责拆分</li>
+  <li style="margin-bottom: 6px;"><strong>超时保护</strong> — 前端 30 分钟响应超时，WebSocket 心跳保持连接</li>
+  <li style="margin-bottom: 6px;"><strong>CLI 子进程管理</strong> — 自动启动/停止/重启 Claude CLI 进程</li>
+</ol>
+
+<div class="nav-links">
+  <a href="../index.html">← 返回首页</a>
+  <a href="https://github.com/dfui88/cc-haha">GitHub →</a>
+</div>
+
+</main>
+</div>
+
+</body>
+</html>
