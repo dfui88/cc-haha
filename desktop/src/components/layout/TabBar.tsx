@@ -33,7 +33,7 @@ export function TabBar() {
 
   useEffect(() => {
     if (!isTauri) return
-    import(/* @vite-ignore */ '@tauri-apps/api/window')
+    import('@tauri-apps/api/window')
       .then(({ getCurrentWindow }) => {
         const win = getCurrentWindow()
         startDraggingRef.current = () => win.startDragging()

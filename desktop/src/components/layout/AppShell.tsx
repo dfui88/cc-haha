@@ -56,7 +56,7 @@ export function AppShell() {
   // Listen for macOS native menu navigation events (About / Settings)
   useEffect(() => {
     let unlisten: (() => void) | undefined
-    import(/* @vite-ignore */ '@tauri-apps/api/event')
+    import('@tauri-apps/api/event')
       .then(({ listen }) =>
         listen<string>('native-menu-navigate', (event) => {
           const target = event.payload as SettingsTab | 'settings'

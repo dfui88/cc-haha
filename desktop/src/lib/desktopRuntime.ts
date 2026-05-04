@@ -1,8 +1,17 @@
 import { getDefaultBaseUrl, setBaseUrl } from '../api/client'
 
+let _tauriInvoke: (<T>(cmd: string, args?: Record<string, unknown>) => Promise<T>) | null = null
+
 export function isTauriRuntime() {
   if (typeof window === 'undefined') return false
   return '__TAURI_INTERNALS__' in window || '__TAURI__' in window
+}
+
+async function ensureTauriCore() {
+  if (!_tauriInvoke) {
+    _tauriInvoke = (await import('@tauri-apps/api/core')).invoke
+  }
+  return _tauriInvoke!
 }
 
 export async function initializeDesktopServerUrl() {
@@ -20,7 +29,7 @@ export async function initializeDesktopServerUrl() {
   }
 
   try {
-    const { invoke } = await import(/* @vite-ignore */ '@tauri-apps/api/core')
+    const invoke = await ensureTauriCore()
     const serverUrl = await invoke<string>('get_server_url')
     setBaseUrl(serverUrl)
     await waitForHealth(serverUrl)

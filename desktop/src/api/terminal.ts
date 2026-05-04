@@ -19,11 +19,19 @@ export type TerminalExitPayload = {
 
 type Unlisten = () => void
 
+async function getTauriInvoke(): Promise<typeof import('@tauri-apps/api/core')> {
+  return await import('@tauri-apps/api/core')
+}
+
+async function getTauriEvent(): Promise<typeof import('@tauri-apps/api/event')> {
+  return await import('@tauri-apps/api/event')
+}
+
 async function invoke<T>(command: string, args?: Record<string, unknown>): Promise<T> {
   if (!isTauriRuntime()) {
     throw new Error('Terminal is available in the desktop app runtime.')
   }
-  const api = await import(/* @vite-ignore */ '@tauri-apps/api/core')
+  const api = await getTauriInvoke()
   return api.invoke<T>(command, args)
 }
 
@@ -47,12 +55,12 @@ export const terminalApi = {
   },
 
   async onOutput(handler: (payload: TerminalOutputPayload) => void): Promise<Unlisten> {
-    const events = await import(/* @vite-ignore */ '@tauri-apps/api/event')
+    const events = await getTauriEvent()
     return events.listen<TerminalOutputPayload>('terminal-output', (event) => handler(event.payload))
   },
 
   async onExit(handler: (payload: TerminalExitPayload) => void): Promise<Unlisten> {
-    const events = await import(/* @vite-ignore */ '@tauri-apps/api/event')
+    const events = await getTauriEvent()
     return events.listen<TerminalExitPayload>('terminal-exit', (event) => handler(event.payload))
   },
 }
