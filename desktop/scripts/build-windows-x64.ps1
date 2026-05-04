@@ -112,12 +112,13 @@ function Get-LatestArtifact {
 function Get-StagedArtifactName {
   param([string]$ArtifactName)
 
+  $ver = $script:appVersion
   switch -Regex ($ArtifactName) {
     '^latest\.json$' { return 'latest.json' }
-    '\.msi\.zip\.sig$' { return "Claude-Code-Haha_${appVersion}_windows_x64_msi.msi.zip.sig" }
-    '\.msi\.zip$' { return "Claude-Code-Haha_${appVersion}_windows_x64_msi.msi.zip" }
-    '\.msi\.sig$' { return "Claude-Code-Haha_${appVersion}_windows_x64_msi.msi.sig" }
-    '\.msi$' { return "Claude-Code-Haha_${appVersion}_windows_x64_msi.msi" }
+    '\.msi\.zip\.sig$' { return "Claude-Code-Haha_${ver}_windows_x64_zh-CN.msi.zip.sig" }
+    '\.msi\.zip$' { return "Claude-Code-Haha_${ver}_windows_x64_zh-CN.msi.zip" }
+    '\.msi\.sig$' { return "Claude-Code-Haha_${ver}_windows_x64_zh-CN.msi.sig" }
+    '\.msi$' { return "Claude-Code-Haha_${ver}_windows_x64_zh-CN.msi" }
     default { return $ArtifactName }
   }
 }
@@ -165,7 +166,7 @@ function Update-Version {
 
   # Update Cargo.toml
   $cargoPath = Join-Path $DesktopDir 'src-tauri\Cargo.toml'
-  (Get-Content $cargoPath -Raw) -replace '^version = "[\d.]+"', "version = `"$newVersion`"" | Set-Content $cargoPath -NoNewline
+  (Get-Content $cargoPath -Raw) -replace '(?m)^version = "[\d.]+"', "version = `"$newVersion`"" | Set-Content $cargoPath -NoNewline
 
   # Update the script-level variable so subsequent steps use the new version
   $script:appVersion = $newVersion
@@ -223,8 +224,7 @@ function Write-ReleaseNotes {
   }
   ($entry + $existing) | Set-Content $notesPath -Encoding UTF8
 
-  $notesCount = $notes.Count
-  Write-Step "Release notes written: $notesPath ($notesCount changes)"
+  Write-Step "Release notes written: $notesPath ($($notes.Count) changes)"
 }
 
 Assert-WindowsHost
@@ -355,7 +355,7 @@ $buildNotes = @(
     "Rust         : $rustVersion"
     ""
     "--- Output ---"
-    "MSI          : $msiPlaceholder"
+    "MSI (zh-CN)  : $msiPlaceholder"
     "Output dir   : $activeOutputDir"
     ""
     "--- Prerequisites ---"
@@ -379,6 +379,16 @@ $buildNotes = @(
 )
 Set-Content -Path (Join-Path $activeOutputDir 'BUILD_NOTES.txt') -Value $buildNotes -Encoding UTF8
 Write-Step "Build notes written early: $(Join-Path $activeOutputDir 'BUILD_NOTES.txt')"
+
+# Collect fix notes from env var (semicolon-separated)
+$fixNotesLines = @()
+if ($env:FIX_NOTES) {
+    $fixNotesLines = $env:FIX_NOTES -split ';' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
+    Write-Step "Using fix notes from FIX_NOTES env var"
+} else {
+    $fixNotesLines = @("额外修复内容")
+    Write-Step "No FIX_NOTES set, using default"
+}
 
 # Write fix+version.txt early (Chinese repair notes)
 $repairNotes = @(
@@ -409,6 +419,9 @@ $repairNotes = @(
     "--- 安装说明 ---"
     "双击 MSI 文件即可安装。安装完成后从开始菜单启动 Claude Code Haha。"
     ""
+    "================================"
+    "--- 修复说明 ---"
+    ($fixNotesLines | ForEach-Object { "$_" })
     "================================"
 )
 Set-Content -Path (Join-Path $activeOutputDir "fix+$appVersion.txt") -Value $repairNotes -Encoding UTF8
@@ -450,6 +463,11 @@ foreach ($root in $bundleRoots) {
   foreach ($pattern in $artifactPatterns) {
     $artifacts = Get-ChildItem -Path $root -Recurse -File -Filter $pattern -ErrorAction SilentlyContinue
     foreach ($artifact in $artifacts) {
+      # Skip en-US MSI — only copy zh-CN to output directory
+      if ($artifact.Name -match '_en-US\.msi') {
+        Write-Step "Skipping en-US MSI: $($artifact.Name)"
+        continue
+      }
       $destinationName = Get-StagedArtifactName -ArtifactName $artifact.Name
       $destination = Join-Path $activeOutputDir $destinationName
       Copy-Item -LiteralPath $artifact.FullName -Destination $destination -Force
@@ -465,7 +483,7 @@ foreach ($root in $bundleRoots) {
 $msiInstaller = Get-LatestArtifact -SearchRoots @(
   (Join-Path $tauriTargetDir "$targetTriple\release\bundle\msi"),
   (Join-Path $tauriTargetDir 'release\bundle\msi')
-) -Patterns @('*.msi')
+) -Patterns @('*_zh-CN.msi')
 
 $msiInstallerPath = if ($msiInstaller) { $msiInstaller.FullName } else { 'not found' }
 
@@ -484,7 +502,11 @@ Set-Content -Path (Join-Path $activeOutputDir 'BUILD_INFO.txt') -Value $buildInf
 # Prompt for release notes so users can see what changed in this build
 # Pre-set to avoid Read-Host hanging in non-interactive mode (e.g. CI / background)
 if (-not $env:RELEASE_NOTES) { $env:RELEASE_NOTES = 'Auto build' }
-Write-ReleaseNotes -OutputDir $activeOutputDir -Version $appVersion
+try {
+  Write-ReleaseNotes -OutputDir $activeOutputDir -Version $script:appVersion
+} catch {
+  Write-Step "WARNING: Write-ReleaseNotes failed: $_"
+}
 
 # Wrapper to prevent post-build errors from silently stopping the script
   # Generate human-readable build notes (BUILD_NOTES.txt) alongside the MSI.
@@ -521,7 +543,7 @@ $buildNotes = @(
   "Rust         : $rustVersion"
   ""
   "--- Output ---"
-  "MSI          : $msiInstallerPath"
+  "MSI (zh-CN)  : $msiInstallerPath"
   "Output dir   : $activeOutputDir"
   ""
   "--- Prerequisites ---"
@@ -592,6 +614,9 @@ $repairNotes = @(
     "--- 安装说明 ---"
     "双击 MSI 文件即可安装。安装完成后从开始菜单启动 Claude Code Haha。"
     ""
+    "================================"
+    "--- 修复说明 ---"
+    ($fixNotesLines | ForEach-Object { "$_" })
     "================================"
 )
 Set-Content -Path $repairNotesPath -Value $repairNotes -Encoding UTF8

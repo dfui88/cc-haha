@@ -1,7 +1,7 @@
 /**
  * SearchService — 工作区文件搜索 & 会话历史搜索
  *
- * 优先使用 ripgrep (rg)，不可用时降级到 grep。
+ * 优先使用 ripgrep (rg)，不可用时降级到 grep，最后降级到纯 Node.js 文件系统搜索。
  */
 
 import { spawn } from 'child_process'
@@ -56,7 +56,16 @@ export class SearchService {
       }
     }
 
-    return this.searchWithGrep(query, cwd, maxResults, options)
+    const hasGrep = await this.commandExists('grep')
+    if (hasGrep) {
+      try {
+        return await this.searchWithGrep(query, cwd, maxResults, options)
+      } catch {
+        // grep failed or is not available; fall back to a portable search.
+      }
+    }
+
+    return this.searchWithFilesystem(query, cwd, maxResults, options)
   }
 
   // ---------------------------------------------------------------------------
@@ -286,6 +295,105 @@ export class SearchService {
   }
 
   // ---------------------------------------------------------------------------
+  // Portable filesystem fallback
+  // ---------------------------------------------------------------------------
+
+  private async searchWithFilesystem(
+    query: string,
+    cwd: string,
+    maxResults: number,
+    options?: {
+      glob?: string
+      caseSensitive?: boolean
+    },
+  ): Promise<SearchResult[]> {
+    const results: SearchResult[] = []
+    const needle = options?.caseSensitive === false ? query.toLowerCase() : query
+
+    await this.searchDirectory(cwd, needle, results, maxResults, {
+      caseSensitive: options?.caseSensitive !== false,
+      glob: options?.glob,
+    })
+
+    return results
+  }
+
+  private async searchDirectory(
+    dir: string,
+    needle: string,
+    results: SearchResult[],
+    maxResults: number,
+    options: {
+      caseSensitive: boolean
+      glob?: string
+    },
+  ): Promise<void> {
+    if (results.length >= maxResults) return
+
+    let entries: import('fs').Dirent[]
+    try {
+      entries = await fs.readdir(dir, { withFileTypes: true })
+    } catch {
+      return
+    }
+
+    const tasks: Promise<void>[] = []
+    for (const entry of entries) {
+      if (results.length >= maxResults) break
+      if (entry.name === 'node_modules' || entry.name === '.git') continue
+
+      const fullPath = path.join(dir, entry.name)
+      if (entry.isDirectory()) {
+        tasks.push(this.searchDirectory(fullPath, needle, results, maxResults, options))
+        continue
+      }
+
+      if (!entry.isFile()) continue
+      if (options.glob && !this.matchesSimpleGlob(entry.name, options.glob)) continue
+
+      tasks.push(this.searchFile(fullPath, needle, results, maxResults, options.caseSensitive))
+    }
+    await Promise.all(tasks)
+  }
+
+  private async searchFile(
+    filePath: string,
+    needle: string,
+    results: SearchResult[],
+    maxResults: number,
+    caseSensitive: boolean,
+  ): Promise<void> {
+    let content: string
+    try {
+      const buffer = await fs.readFile(filePath)
+      if (buffer.includes(0)) return
+      content = buffer.toString('utf8')
+    } catch {
+      return
+    }
+
+    const lines = content.split(/\r?\n/)
+    for (let index = 0; index < lines.length && results.length < maxResults; index++) {
+      const haystack = caseSensitive ? lines[index] : lines[index].toLowerCase()
+      if (!haystack.includes(needle)) continue
+
+      results.push({
+        file: filePath,
+        line: index + 1,
+        text: lines[index],
+      })
+    }
+  }
+
+  private matchesSimpleGlob(fileName: string, glob: string): boolean {
+    // 限制 glob 长度和 * 数量防止 ReDoS
+    if (glob.length > 200 || (glob.match(/\*/g) || []).length > 10) return false
+    if (!glob.includes('*')) return fileName === glob
+    const escaped = glob.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*')
+    try { return new RegExp(`^${escaped}$`).test(fileName) } catch { return false }
+  }
+
+  // ---------------------------------------------------------------------------
   // 工具方法
   // ---------------------------------------------------------------------------
 
@@ -318,7 +426,8 @@ export class SearchService {
   /** 检测命令是否存在 */
   private commandExists(cmd: string): Promise<boolean> {
     return new Promise((resolve) => {
-      const proc = spawn('which', [cmd], { stdio: 'ignore' })
+      const lookup = process.platform === 'win32' ? 'where' : 'which'
+      const proc = spawn(lookup, [cmd], { stdio: 'ignore' })
       proc.on('close', (code) => resolve(code === 0))
       proc.on('error', () => resolve(false))
     })

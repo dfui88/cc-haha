@@ -69,3 +69,19 @@ runtime/__pycache__
 
 # IDE
 .idea
+.vscode
+.codebuddy/
+.trae/
+
+# Agents / plugin local state
+.agents/
+
+# Claude skills symlinks (local clones of marketplace skills)
+.claude/skills/*/
+
+# Bun build cache
+desktop/.bun-build
+desktop/.18ab1dbffe7d9ae7-*.bun-build
+
+# Skill lock file (auto-generated)
+skills-lock.json

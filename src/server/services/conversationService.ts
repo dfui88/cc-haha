@@ -32,7 +32,11 @@ type SessionProcess = {
   sdkToken: string
   sdkSocket: { send(data: string): void } | null
   pendingOutbound: string[]
+  startupPending: boolean
+  startupExitCode: number | null
+  stdoutLines: string[]
   stderrLines: string[]
+  outputDrain: Promise<void>
   sdkMessages: any[]
   initMessage: any | null
   pendingPermissionRequests: Map<
@@ -49,6 +53,7 @@ type SessionStartOptions = {
   permissionMode?: string
   model?: string
   effort?: string
+  thinking?: 'enabled' | 'adaptive' | 'disabled'
   providerId?: string | null
   locale?: string
 }
@@ -62,7 +67,8 @@ export class ConversationStartupError extends Error {
       | 'CLI_AUTH_REQUIRED'
       | 'CLI_SESSION_CONFLICT'
       | 'CLI_START_FAILED'
-      | 'CLI_SPAWN_FAILED',
+      | 'CLI_SPAWN_FAILED'
+      | 'SESSION_DELETED',
     readonly retryable = false,
   ) {
     super(message)
@@ -72,6 +78,7 @@ export class ConversationStartupError extends Error {
 
 export class ConversationService {
   private sessions = new Map<string, SessionProcess>()
+  private deletedSessions = new Set<string>()
   private providerService = new ProviderService()
 
   private buildSessionCliArgs(
@@ -107,12 +114,25 @@ export class ConversationService {
     sdkUrl: string,
     options?: SessionStartOptions,
   ): Promise<void> {
+    if (this.deletedSessions.has(sessionId)) {
+      throw new ConversationStartupError(
+        `Session was deleted before startup completed: ${sessionId}`,
+        'SESSION_DELETED',
+      )
+    }
     if (this.sessions.has(sessionId)) return
 
     const launchInfo = await sessionService.getSessionLaunchInfo(sessionId)
     const shouldResume = !!launchInfo && launchInfo.transcriptMessageCount > 0
     const shouldReplacePlaceholder =
       !!launchInfo && launchInfo.transcriptMessageCount === 0
+
+    if (this.deletedSessions.has(sessionId)) {
+      throw new ConversationStartupError(
+        `Session was deleted before startup completed: ${sessionId}`,
+        'SESSION_DELETED',
+      )
+    }
 
     if (shouldReplacePlaceholder) {
       await sessionService.deleteSessionFile(sessionId)
@@ -140,7 +160,7 @@ export class ConversationService {
     )
 
     console.log(
-      `[ConversationService] Starting CLI for ${sessionId}, cwd: ${workDir} (process.cwd()=${process.cwd()}, CALLER_DIR will be pinned to workDir)`,
+      `[ConversationService] Starting CLI for ${sessionId}, args: ${JSON.stringify(args)}, cwd: ${workDir}`,
     )
 
     // IMPORTANT (Bug#5): 必须覆盖子进程继承的 CALLER_DIR / PWD。
@@ -161,7 +181,7 @@ export class ConversationService {
         cwd: workDir,
         env: childEnv,
         stdin: 'pipe',
-        stdout: 'ignore',  // CLI communicates via SDK WebSocket, not stdout
+        stdout: 'pipe',
         stderr: 'pipe',
       })
     } catch (spawnErr) {
@@ -181,21 +201,25 @@ export class ConversationService {
       sdkToken: this.getSdkTokenFromUrl(sdkUrl),
       sdkSocket: null,
       pendingOutbound: [],
+      startupPending: true,
+      startupExitCode: null,
+      stdoutLines: [],
       stderrLines: [],
+      outputDrain: Promise.resolve(),
       sdkMessages: [],
       initMessage: null,
       pendingPermissionRequests: new Map(),
     }
     this.sessions.set(sessionId, session)
 
-    this.readErrorStream(sessionId, proc)
+    session.outputDrain = Promise.all([
+      this.readProcessOutputStream(sessionId, proc.stdout, 'stdout'),
+      this.readProcessOutputStream(sessionId, proc.stderr, 'stderr'),
+    ]).then(() => undefined)
 
-    // NOTE: handleProcessExit is intentionally NOT registered before the
-    // startup grace period. The proc.exited.then() microtask would fire
-    // BEFORE the await Promise.race() can resume, causing handleProcessExit
-    // to delete the session — and with it, stderrLines — before
-    // buildStartupError can read them. We register it only after the
-    // startup window is past.
+    proc.exited.then((code) => {
+      void this.handleProcessExit(sessionId, proc, code)
+    })
 
     const STARTUP_GRACE_MS = 3000
     const earlyExitCode = await Promise.race([
@@ -205,14 +229,11 @@ export class ConversationService {
       ),
     ])
 
-    if (earlyExitCode !== null) {
-      // Yield to event loop so async readErrorStream can capture stderr
-      // before we inspect it. Without this, the CLI can exit faster than
-      // the reader.read() promise resolves, losing the detail.
-      await new Promise((resolve) => setTimeout(resolve, 100))
-
+    const startupExitCode = earlyExitCode ?? session.startupExitCode
+    if (startupExitCode !== null) {
+      await this.waitForProcessOutputDrain(session)
       const stderrLog = this.sessions.get(sessionId)?.stderrLines ?? []
-      const startupError = this.buildStartupError(sessionId, earlyExitCode)
+      const startupError = this.buildStartupError(sessionId, startupExitCode)
       this.sessions.delete(sessionId)
 
       // Write stderr to a temp file for debugging CLI startup failures
@@ -228,7 +249,7 @@ export class ConversationService {
           const logPath = path.join(logDir, `cli-stderr-${sessionId}.log`)
           fs.writeFileSync(
             logPath,
-            `[${new Date().toISOString()}] CLI exited with code ${earlyExitCode}\n${'='.repeat(60)}\n${stderrText}\n`,
+            `[${new Date().toISOString()}] CLI exited with code ${startupExitCode}\n${'='.repeat(60)}\n${stderrText}\n`,
             'utf-8',
           )
           console.error(`[ConversationService] Wrote stderr log to ${logPath}`)
@@ -245,15 +266,12 @@ export class ConversationService {
       }
 
       console.error(
-        `[ConversationService] CLI exited with code ${earlyExitCode} for ${sessionId}: ${startupError.message}`,
+        `[ConversationService] CLI exited with code ${startupExitCode} for ${sessionId}: ${startupError.message}`,
       )
       throw startupError
     }
 
-    // Startup succeeded — now register the runtime exit handler
-    proc.exited.then((code) => {
-      this.handleProcessExit(sessionId, proc, code)
-    })
+    session.startupPending = false
 
     if (shouldReplacePlaceholder || !launchInfo) {
       await sessionService.appendSessionMetadata(sessionId, {
@@ -523,17 +541,23 @@ export class ConversationService {
     }
   }
 
+  markSessionDeleted(sessionId: string): void {
+    this.deletedSessions.add(sessionId)
+    this.stopSession(sessionId)
+  }
+
   getActiveSessions(): string[] {
     return Array.from(this.sessions.keys())
   }
 
-  private async readErrorStream(
+  private async readProcessOutputStream(
     sessionId: string,
-    proc: ReturnType<typeof Bun.spawn>,
+    stream: ReadableStream | null | undefined,
+    streamName: 'stdout' | 'stderr',
   ): Promise<void> {
-    if (!proc.stderr) return
+    if (!stream) return
 
-    const reader = (proc.stderr as ReadableStream).getReader()
+    const reader = stream.getReader()
     const decoder = new TextDecoder()
 
     try {
@@ -550,18 +574,36 @@ export class ConversationService {
             .split('\n')
             .map((entry) => entry.trim())
             .filter(Boolean)) {
-            session.stderrLines.push(line)
-            if (session.stderrLines.length > 20) {
-              session.stderrLines.splice(0, 10)
+            const lines =
+              streamName === 'stderr' ? session.stderrLines : session.stdoutLines
+            lines.push(this.redactProcessOutput(line))
+            if (lines.length > 20) {
+              lines.splice(0, 10)
             }
           }
         }
 
-        console.error(`[CLI:${sessionId}] ${text.trim()}`)
+        const logLine = this.redactProcessOutput(text.trim())
+        if (streamName === 'stderr') {
+          console.error(`[CLI:${sessionId}:stderr] ${logLine}`)
+        } else {
+          console.log(`[CLI:${sessionId}:stdout] ${logLine}`)
+        }
       }
     } catch {
-      // stderr read failures should not kill the session
+      // Process output read failures should not kill the session.
     }
+  }
+
+  private async waitForProcessOutputDrain(
+    session: SessionProcess,
+    timeoutMs = 250,
+  ): Promise<void> {
+    const outputDrain = session.outputDrain ?? Promise.resolve()
+    await Promise.race([
+      outputDrain.catch(() => undefined),
+      new Promise<void>((resolve) => setTimeout(resolve, timeoutMs)),
+    ])
   }
 
   private sendSdkMessage(
@@ -638,6 +680,10 @@ export class ConversationService {
       args.push('--effort', options.effort)
     }
 
+    if (options?.thinking) {
+      args.push('--thinking', options.thinking)
+    }
+
     if (options?.locale === 'zh') {
       args.push('--append-system-prompt', '请用中文回复。你是一位AI助手，请始终用中文回答用户的问题。')
     }
@@ -668,6 +714,7 @@ export class ConversationService {
       'ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES',
       'ANTHROPIC_DEFAULT_OPUS_MODEL',
       'ANTHROPIC_DEFAULT_OPUS_MODEL_SUPPORTED_CAPABILITIES',
+      'CC_HAHA_SEND_DISABLED_THINKING',
     ] as const
 
     const cleanEnv = { ...process.env }
@@ -956,6 +1003,13 @@ export class ConversationService {
     }
 
     return ''
+  }
+
+  private redactProcessOutput(line: string): string {
+    return line
+      .replace(/(ANTHROPIC_API_KEY|ANTHROPIC_AUTH_TOKEN)[=:]\s*\S+/gi, '$1=[REDACTED]')
+      .replace(/(api[_-]?key|auth[_-]?token|access[_-]?token)[=:]\s*\S+/gi, '$1=[REDACTED]')
+      .replace(/Bearer\s+\S+/gi, 'Bearer [REDACTED]')
   }
 
   private buildUserContent(

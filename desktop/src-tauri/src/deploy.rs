@@ -31,19 +31,27 @@ pub fn deploy_claude_resources(app: &tauri::AppHandle) -> u64 {
     };
 
     // Directory pairs: (source_relative, destination_relative_to_home)
-    let dir_pairs: [(&str, &str); 3] = [
+    let dir_pairs: [(&str, &str); 5] = [
         ("bundled/claude/skills", ".claude/skills"),
         ("bundled/claude/agents", ".claude/agents"),
         ("bundled/claude/hooks", ".claude/hooks"),
+        ("bundled/claude/rules", ".claude/rules"),
+        ("bundled/claude/commands", ".claude/commands"),
     ];
 
     // File pairs: (source_relative, destination_relative_to_home)
-    let file_pairs: [(&str, &str); 2] = [
+    let file_pairs: [(&str, &str); 5] = [
         (
             "bundled/claude/scheduled_tasks.json",
             ".claude/scheduled_tasks.json",
         ),
-        ("bundled/claude/settings.json", ".claude/settings.json"),
+        ("bundled/claude/CLAUDE.md", ".claude/CLAUDE.md"),
+        ("bundled/claude/AGENTS.md", ".claude/AGENTS.md"),
+        (
+            "bundled/claude/marketplace.json",
+            ".claude/marketplace.json",
+        ),
+        ("bundled/claude/plugin.json", ".claude/plugin.json"),
     ];
 
     let mut total = 0u64;

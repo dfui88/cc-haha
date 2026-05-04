@@ -7,13 +7,15 @@ import { ConfirmDialog } from '../components/shared/ConfirmDialog'
 import { Input } from '../components/shared/Input'
 import { Button } from '../components/shared/Button'
 import { Dropdown } from '../components/shared/Dropdown'
-import type { PermissionMode, EffortLevel, ThemeMode } from '../types/settings'
+import type { PermissionMode, EffortLevel, ThemeMode, WebSearchMode, WebSearchSettings } from '../types/settings'
 import type { Locale } from '../i18n'
 import type { SavedProvider, UpdateProviderInput, ProviderTestResult, ModelMapping, ApiFormat } from '../types/provider'
 import type { ProviderPreset } from '../types/providerPreset'
 import { AdapterSettings } from './AdapterSettings'
 import { useAgentStore } from '../stores/agentStore'
 import { useSessionStore } from '../stores/sessionStore'
+import { useChatStore } from '../stores/chatStore'
+import { useTabStore } from '../stores/tabStore'
 import type { AgentDefinition, AgentSource } from '../api/agents'
 import { MarkdownRenderer } from '../components/markdown/MarkdownRenderer'
 import { useSkillStore } from '../stores/skillStore'
@@ -23,6 +25,7 @@ import { usePluginStore } from '../stores/pluginStore'
 import { PluginList } from '../components/plugins/PluginList'
 import { PluginDetail } from '../components/plugins/PluginDetail'
 import { ComputerUseSettings } from './ComputerUseSettings'
+import { DiagnosticsSettings } from './DiagnosticsSettings'
 import { McpSettings } from './McpSettings'
 import { TerminalSettings } from './TerminalSettings'
 import { useUIStore, type SettingsTab } from '../stores/uiStore'
@@ -58,6 +61,7 @@ export function Settings() {
             <TabButton icon="auto_awesome" label={t('settings.tab.skills')} active={activeTab === 'skills'} onClick={() => setActiveTab('skills')} />
             <TabButton icon="extension" label={t('settings.tab.plugins')} active={activeTab === 'plugins'} onClick={() => setActiveTab('plugins')} />
             <TabButton icon="mouse" label={t('settings.tab.computerUse')} active={activeTab === 'computerUse'} onClick={() => setActiveTab('computerUse')} />
+            <TabButton icon="monitor_heart" label={t('settings.tab.diagnostics')} active={activeTab === 'diagnostics'} onClick={() => setActiveTab('diagnostics')} />
           </div>
           <div className="border-t border-[var(--color-border)]/40 pt-1">
             <TabButton icon="info" label={t('settings.tab.about')} active={activeTab === 'about'} onClick={() => setActiveTab('about')} />
@@ -76,6 +80,7 @@ export function Settings() {
           {activeTab === 'skills' && <SkillSettings />}
           {activeTab === 'plugins' && <PluginSettings />}
           {activeTab === 'computerUse' && <ComputerUseSettings />}
+          {activeTab === 'diagnostics' && <DiagnosticsSettings />}
           {activeTab === 'about' && <AboutSettings />}
         </div>
       </div>
@@ -348,6 +353,9 @@ function buildFallbackPreset(provider?: SavedProvider): ProviderPreset {
 }
 
 function openExternalUrl(url: string) {
+  // 阻止 file:// 协议 — 只在 UI 中打开 http(s) 链接
+  if (url.startsWith('file:')) return
+
   if (!isTauriRuntime()) {
     window.open(url, '_blank', 'noopener,noreferrer')
     return
@@ -843,7 +851,14 @@ function ProviderFormModal({ open, onClose, mode, provider, presets }: ProviderF
 
 function PermissionSettings() {
   const { permissionMode, setPermissionMode } = useSettingsStore()
+  const setSessionPermissionMode = useChatStore((s) => s.setSessionPermissionMode)
+  const activeTabId = useTabStore((s) => s.activeTabId)
   const t = useTranslation()
+
+  const handlePermissionChange = (mode: PermissionMode) => {
+    void setPermissionMode(mode)
+    if (activeTabId) setSessionPermissionMode(activeTabId, mode)
+  }
 
   const MODES: Array<{ mode: PermissionMode; icon: string; label: string; desc: string }> = [
     { mode: 'default', icon: 'verified_user', label: t('settings.permissions.default'), desc: t('settings.permissions.defaultDesc') },
@@ -863,7 +878,7 @@ function PermissionSettings() {
           return (
             <button
               key={mode}
-              onClick={() => setPermissionMode(mode)}
+              onClick={() => handlePermissionChange(mode)}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl border transition-all text-left ${
                 isSelected
                   ? 'border-[var(--color-brand)] bg-[var(--color-surface-container)] shadow-[var(--shadow-focus-ring)]'
@@ -900,8 +915,21 @@ function GeneralSettings() {
     setTheme,
     skipWebFetchPreflight,
     setSkipWebFetchPreflight,
+    thinkingEnabled,
+    setThinkingEnabled,
+    webSearch,
+    setWebSearch,
   } = useSettingsStore()
   const t = useTranslation()
+  const [webSearchDraft, setWebSearchDraft] = useState<WebSearchSettings>({ ...webSearch })
+
+  const webSearchDirty = webSearchDraft.mode !== webSearch.mode
+    || webSearchDraft.tavilyApiKey !== webSearch.tavilyApiKey
+    || webSearchDraft.braveApiKey !== webSearch.braveApiKey
+
+  useEffect(() => {
+    setWebSearchDraft({ ...webSearch })
+  }, [webSearch])
 
   const EFFORT_LABELS: Record<EffortLevel, string> = {
     low: t('settings.general.effort.low'),
@@ -999,6 +1027,106 @@ function GeneralSettings() {
             </div>
           </div>
         </label>
+      </div>
+
+      {/* Thinking Mode */}
+      <div className="mt-8">
+        <h2 className="text-base font-semibold text-[var(--color-text-primary)] mb-1">{t('settings.general.thinkingTitle')}</h2>
+        <p className="text-sm text-[var(--color-text-tertiary)] mb-3">{t('settings.general.thinkingDescription')}</p>
+        <label className="flex items-start gap-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-container-low)] px-4 py-3 cursor-pointer hover:border-[var(--color-border-focus)] transition-colors">
+          <input
+            type="checkbox"
+            checked={thinkingEnabled}
+            onChange={(e) => void setThinkingEnabled(e.target.checked)}
+            className="mt-0.5 h-4 w-4 rounded border-[var(--color-border)] text-[var(--color-brand)] focus:ring-[var(--color-brand)]"
+          />
+          <div className="min-w-0">
+            <div className="text-sm font-medium text-[var(--color-text-primary)]">
+              {t('settings.general.thinkingEnabled')}
+            </div>
+            <div className="text-xs text-[var(--color-text-tertiary)] mt-1 leading-5">
+              {t('settings.general.thinkingHint')}
+            </div>
+          </div>
+        </label>
+      </div>
+
+      {/* Web Search */}
+      <div className="mt-8">
+        <h2 className="text-base font-semibold text-[var(--color-text-primary)] mb-1">{t('settings.general.webSearchTitle')}</h2>
+        <p className="text-sm text-[var(--color-text-tertiary)] mb-3">{t('settings.general.webSearchDescription')}</p>
+        <div className="flex gap-2 mb-4">
+          {(['auto', 'tavily', 'brave', 'anthropic', 'disabled'] as WebSearchMode[]).map((mode) => (
+            <button
+              key={mode}
+              onClick={() => setWebSearchDraft((prev) => ({ ...prev, mode }))}
+              className={`flex-1 py-2 text-xs font-semibold rounded-lg border transition-all ${
+                webSearchDraft.mode === mode
+                  ? 'bg-[var(--color-brand)] text-white border-[var(--color-brand)]'
+                  : 'border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)]'
+              }`}
+            >
+              {t(`settings.general.webSearchMode${mode.charAt(0).toUpperCase() + mode.slice(1)}` as any)}
+            </button>
+          ))}
+        </div>
+        {webSearchDraft.mode === 'tavily' && (
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-1.5">
+              Tavily {t('settings.general.webSearchTavilyKey')}
+            </label>
+            <input
+              type="password"
+              value={webSearchDraft.tavilyApiKey || ''}
+              onChange={(e) => setWebSearchDraft((prev) => ({ ...prev, tavilyApiKey: e.target.value }))}
+              placeholder="tvly-..."
+              className="w-full px-3 py-2 text-sm rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-container-low)] text-[var(--color-text-primary)] placeholder-[var(--color-text-tertiary)] focus:outline-none focus:border-[var(--color-border-focus)] focus:ring-1 focus:ring-[var(--color-border-focus)]"
+            />
+            <div className="flex items-center gap-2 mt-1">
+              <a href="https://tavily.com" target="_blank" rel="noopener noreferrer" className="text-xs text-[var(--color-brand)] hover:underline">
+                {t('settings.general.webSearchGetApiKey')}
+              </a>
+              <span className="text-xs text-[var(--color-text-tertiary)]">|</span>
+              <span className="text-xs text-[var(--color-text-tertiary)]">{t('settings.general.webSearchFreeTier')}</span>
+            </div>
+          </div>
+        )}
+        {webSearchDraft.mode === 'brave' && (
+          <div className="mb-3">
+            <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-1.5">
+              Brave {t('settings.general.webSearchBraveKey')}
+            </label>
+            <input
+              type="password"
+              value={webSearchDraft.braveApiKey || ''}
+              onChange={(e) => setWebSearchDraft((prev) => ({ ...prev, braveApiKey: e.target.value }))}
+              placeholder={t('settings.general.webSearchBraveKey')}
+              className="w-full px-3 py-2 text-sm rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-container-low)] text-[var(--color-text-primary)] placeholder-[var(--color-text-tertiary)] focus:outline-none focus:border-[var(--color-border-focus)] focus:ring-1 focus:ring-[var(--color-border-focus)]"
+            />
+            <div className="flex items-center gap-2 mt-1">
+              <a href="https://brave.com/search/api/" target="_blank" rel="noopener noreferrer" className="text-xs text-[var(--color-brand)] hover:underline">
+                {t('settings.general.webSearchGetApiKey')}
+              </a>
+              <span className="text-xs text-[var(--color-text-tertiary)]">|</span>
+              <span className="text-xs text-[var(--color-text-tertiary)]">{t('settings.general.webSearchFreeTier')}</span>
+            </div>
+          </div>
+        )}
+        {webSearchDraft.mode === 'anthropic' && (
+          <div className="text-xs text-[var(--color-text-tertiary)] bg-[var(--color-surface-container-low)] rounded-lg px-3 py-2 mb-3">
+            {t('settings.general.webSearchHint')}
+          </div>
+        )}
+        {webSearchDirty && (
+          <div className="flex justify-end mt-3">
+            <button
+              onClick={() => setWebSearch(webSearchDraft)}
+              className="px-4 py-1.5 text-xs font-semibold rounded-lg bg-[var(--color-brand)] text-white hover:opacity-90 transition-opacity"
+            >
+              {t('common.save')}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

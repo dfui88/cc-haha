@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { settingsApi } from '../api/settings'
 import { modelsApi } from '../api/models'
-import type { PermissionMode, EffortLevel, ModelInfo, ThemeMode } from '../types/settings'
+import type { PermissionMode, EffortLevel, ModelInfo, ThemeMode, WebSearchSettings } from '../types/settings'
 import type { Locale } from '../i18n'
 import { useUIStore } from './uiStore'
 
@@ -24,6 +24,8 @@ type SettingsStore = {
   locale: Locale
   theme: ThemeMode
   skipWebFetchPreflight: boolean
+  thinkingEnabled: boolean
+  webSearch: WebSearchSettings
   isLoading: boolean
   error: string | null
 
@@ -34,7 +36,11 @@ type SettingsStore = {
   setLocale: (locale: Locale) => void
   setTheme: (theme: ThemeMode) => Promise<void>
   setSkipWebFetchPreflight: (enabled: boolean) => Promise<void>
+  setThinkingEnabled: (enabled: boolean) => Promise<void>
+  setWebSearch: (settings: WebSearchSettings) => Promise<void>
 }
+
+let updateNonce = 0
 
 export const useSettingsStore = create<SettingsStore>((set, get) => ({
   permissionMode: 'default',
@@ -45,6 +51,8 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   locale: getStoredLocale(),
   theme: useUIStore.getState().theme,
   skipWebFetchPreflight: true,
+  thinkingEnabled: true,
+  webSearch: { mode: 'auto', tavilyApiKey: '', braveApiKey: '' },
   isLoading: false,
   error: null,
 
@@ -70,6 +78,8 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
         effortLevel: level,
         theme,
         skipWebFetchPreflight: userSettings.skipWebFetchPreflight !== false,
+        thinkingEnabled: userSettings.alwaysThinkingEnabled !== false,
+        webSearch: userSettings.webSearch ?? { mode: 'auto', tavilyApiKey: '', braveApiKey: '' },
         isLoading: false,
         error: null,
       })
@@ -132,6 +142,28 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
       await settingsApi.updateUser({ skipWebFetchPreflight: enabled })
     } catch {
       set({ skipWebFetchPreflight: prev })
+    }
+  },
+
+  setThinkingEnabled: async (enabled) => {
+    const nonce = ++updateNonce
+    const prev = get().thinkingEnabled
+    set({ thinkingEnabled: enabled })
+    try {
+      await settingsApi.updateUser({ alwaysThinkingEnabled: enabled })
+    } catch {
+      if (nonce === updateNonce) set({ thinkingEnabled: prev })
+    }
+  },
+
+  setWebSearch: async (settings) => {
+    const nonce = ++updateNonce
+    const prev = get().webSearch
+    set({ webSearch: settings })
+    try {
+      await settingsApi.updateUser({ webSearch: settings })
+    } catch {
+      if (nonce === updateNonce) set({ webSearch: prev })
     }
   },
 }))

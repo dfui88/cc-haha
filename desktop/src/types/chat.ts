@@ -44,6 +44,7 @@ export type UIAttachment = {
 
 export type ServerMessage =
   | { type: 'connected'; sessionId: string }
+  | { type: 'permission_mode_updated'; mode: string }
   | { type: 'content_start'; blockType: 'text' | 'tool_use'; toolName?: string; toolUseId?: string; parentToolUseId?: string }
   | { type: 'content_delta'; text?: string; toolInput?: string }
   | { type: 'tool_use_complete'; toolName: string; toolUseId: string; input: unknown; parentToolUseId?: string }

@@ -60,6 +60,7 @@ const runtimeOverrides = new Map<string, {
 
 const runtimeTransitionPromises = new Map<string, Promise<void>>()
 const sessionStartupPromises = new Map<string, Promise<void>>()
+const lastResolvedStartupWorkDirs = new Map<string, string>()
 const prewarmPendingSessions = new Set<string>()
 const prewarmedSessions = new Set<string>()
 const prewarmIdleTimers = new Map<string, ReturnType<typeof setTimeout>>()
@@ -148,9 +149,17 @@ export const handleWebSocket = {
     }
 
     try {
-      const message = JSON.parse(
+      const parsed = JSON.parse(
         typeof rawMessage === 'string' ? rawMessage : rawMessage.toString()
-      ) as ClientMessage
+      )
+
+      // 运行时验证：确保消息是对象且 type 为有效字符串
+      if (typeof parsed !== 'object' || parsed === null || typeof parsed.type !== 'string' || !parsed.type) {
+        sendError(ws, 'Invalid message: missing or invalid type', 'VALIDATION_ERROR')
+        return
+      }
+
+      const message = parsed as ClientMessage
 
       switch (message.type) {
         case 'user_message':
@@ -454,7 +463,9 @@ function handleSetPermissionMode(
   }
 
   const ok = conversationService.setPermissionMode(sessionId, message.mode)
-  if (!ok) {
+  if (ok) {
+    sendMessage(ws, { type: 'permission_mode_updated', mode: message.mode })
+  } else {
     console.warn(`[WS] Ignored permission mode update for inactive session ${sessionId}`)
   }
 }
@@ -544,6 +555,7 @@ async function restartSessionWithPermissionMode(
       `?token=${encodeURIComponent(crypto.randomUUID())}`
     await conversationService.startSession(sessionId, workDir, sdkUrl, runtimeSettings)
 
+    sendMessage(ws, { type: 'permission_mode_updated', mode })
     sendMessage(ws, { type: 'status', state: 'idle' })
     console.log(`[WS] Restarted CLI for ${sessionId} with permission mode: ${mode}`)
   } catch (err) {
@@ -702,6 +714,7 @@ function cleanupSessionRuntimeState(sessionId: string) {
   runtimeOverrides.delete(sessionId)
   runtimeTransitionPromises.delete(sessionId)
   sessionStartupPromises.delete(sessionId)
+  lastResolvedStartupWorkDirs.delete(sessionId)
   clearPrewarmState(sessionId)
 }
 
@@ -796,6 +809,7 @@ async function ensureCliSessionStarted(
 
   const startup = (async () => {
     const workDir = await resolveSessionWorkDir(sessionId)
+    lastResolvedStartupWorkDirs.set(sessionId, workDir)
     const runtimeSettings = await getRuntimeSettings(sessionId)
     const sdkUrl =
       `ws://${ws.data.serverHost}:${ws.data.serverPort}/sdk/${sessionId}` +
@@ -1027,6 +1041,17 @@ function translateCliMessage(cliMsg: any, sessionId: string): ServerMessage[] {
     case 'control_request': {
       // 权限请求 — CLI 需要用户授权才能执行工具
       if (cliMsg.request?.subtype === 'can_use_tool') {
+        // 若 session 已处于 bypassPermissions 模式，自动允许所有工具执行
+        if (conversationService.getSessionPermissionMode(sessionId) === 'bypassPermissions') {
+          conversationService.respondToPermission(
+            sessionId,
+            cliMsg.request_id,
+            true,
+            'always',
+            cliMsg.request.input as Record<string, unknown> | undefined,
+          )
+          return []
+        }
         return [{
           type: 'permission_request',
           requestId: cliMsg.request_id,
@@ -1266,25 +1291,42 @@ function rebindSessionOutput(
   })
 }
 
-async function getRuntimeSettings(sessionId?: string): Promise<{
+type RuntimeSettings = {
   permissionMode?: string
   model?: string
   effort?: string
+  thinking?: 'disabled'
   providerId?: string | null
   locale?: string
-}> {
+}
+
+async function getRuntimeSettings(sessionId?: string): Promise<RuntimeSettings> {
   const runtimeOverride = sessionId ? runtimeOverrides.get(sessionId) : undefined
   if (runtimeOverride) {
+    if (typeof runtimeOverride.providerId === 'string') {
+      const { providers } = await providerService.listProviders()
+      const providerExists = providers.some((provider) => provider.id === runtimeOverride.providerId)
+      if (!providerExists) {
+        console.warn(
+          `[WS] Ignoring stale runtime provider id for ${sessionId}: ${runtimeOverride.providerId}`,
+        )
+        runtimeOverrides.delete(sessionId!)
+        return getDefaultRuntimeSettings()
+      }
+    }
+
     const userSettings = await settingsService.getUserSettings()
     const effort =
       typeof userSettings.effort === 'string' && userSettings.effort.trim()
         ? userSettings.effort
         : undefined
+    const thinking = resolveDesktopThinkingMode(userSettings)
 
     return {
       permissionMode: await settingsService.getPermissionMode().catch(() => undefined),
       model: runtimeOverride.modelId,
       effort,
+      thinking,
       providerId: runtimeOverride.providerId,
       locale: typeof userSettings.locale === 'string' && (userSettings.locale === 'zh' || userSettings.locale === 'en') ? userSettings.locale : undefined,
     }
@@ -1296,6 +1338,18 @@ async function getRuntimeSettings(sessionId?: string): Promise<{
     try {
       const persisted = await sessionService.getRuntimeConfig(sessionId)
       if (persisted && persisted.modelId) {
+        // Validate persisted provider still exists
+        if (typeof persisted.providerId === 'string') {
+          const { providers } = await providerService.listProviders()
+          const providerExists = providers.some((provider) => provider.id === persisted.providerId)
+          if (!providerExists) {
+            console.warn(
+              `[WS] Ignoring stale persisted runtime provider id for ${sessionId}: ${persisted.providerId}`,
+            )
+            runtimeOverrides.delete(sessionId)
+            return getDefaultRuntimeSettings()
+          }
+        }
         // Populate in-memory cache to avoid repeated file reads
         runtimeOverrides.set(sessionId, persisted)
         const userSettings = await settingsService.getUserSettings()
@@ -1303,10 +1357,12 @@ async function getRuntimeSettings(sessionId?: string): Promise<{
           typeof userSettings.effort === 'string' && userSettings.effort.trim()
             ? userSettings.effort
             : undefined
+        const thinking = resolveDesktopThinkingMode(userSettings)
         return {
           permissionMode: await settingsService.getPermissionMode().catch(() => undefined),
           model: persisted.modelId,
           effort,
+          thinking,
           providerId: persisted.providerId,
           locale: typeof userSettings.locale === 'string' && (userSettings.locale === 'zh' || userSettings.locale === 'en') ? userSettings.locale : undefined,
         }
@@ -1318,10 +1374,21 @@ async function getRuntimeSettings(sessionId?: string): Promise<{
     }
   }
 
+  return getDefaultRuntimeSettings()
+}
+
+async function getDefaultRuntimeSettings(): Promise<RuntimeSettings> {
   // Check if a custom provider is active
-  const { activeId } = await providerService.listProviders()
+  const { providers, activeId } = await providerService.listProviders()
+  let resolvedActiveId = activeId
+  if (activeId && !providers.some((provider) => provider.id === activeId)) {
+    console.warn(`[WS] Active provider id is stale, falling back to official provider: ${activeId}`)
+    resolvedActiveId = null
+    await providerService.activateOfficial()
+  }
+
   const userSettings = await settingsService.getUserSettings()
-  const providerSettings = activeId
+  const providerSettings = resolvedActiveId
     ? await providerService.getManagedSettings()
     : undefined
   const modelSettings = providerSettings ?? userSettings
@@ -1333,9 +1400,10 @@ async function getRuntimeSettings(sessionId?: string): Promise<{
     typeof userSettings.effort === 'string' && userSettings.effort.trim()
       ? userSettings.effort
       : undefined
+  const thinking = resolveDesktopThinkingMode(userSettings)
 
   let model: string | undefined
-  if (activeId) {
+  if (resolvedActiveId) {
     // Provider is active — only consult provider-managed cc-haha settings.
     // Global ~/.claude/settings.json model values must not bleed into provider mode.
     const baseModel =
@@ -1359,9 +1427,16 @@ async function getRuntimeSettings(sessionId?: string): Promise<{
     permissionMode: await settingsService.getPermissionMode().catch(() => undefined),
     model,
     effort,
-    providerId: activeId,
+    thinking,
+    providerId: resolvedActiveId,
     locale: typeof userSettings.locale === 'string' && (userSettings.locale === 'zh' || userSettings.locale === 'en') ? userSettings.locale : undefined,
   }
+}
+
+function resolveDesktopThinkingMode(
+  settings: Record<string, unknown>,
+): 'disabled' | undefined {
+  return settings.alwaysThinkingEnabled === false ? 'disabled' : undefined
 }
 
 function enqueueRuntimeTransition(

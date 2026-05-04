@@ -75,6 +75,10 @@ export function buildRenderModel(messages: UIMessage[]): RenderModel {
   }
 
   for (const msg of messages) {
+    // Skip empty assistant_text messages
+    if (msg.type === 'assistant_text' && !msg.content) {
+      continue
+    }
     if (msg.type === 'tool_result' && toolUseIds.has(msg.toolUseId)) {
       continue
     }

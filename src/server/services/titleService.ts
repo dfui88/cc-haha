@@ -8,6 +8,8 @@
 
 import { ProviderService } from './providerService.js'
 import { sessionService } from './sessionService.js'
+import { PROVIDER_PRESETS } from '../config/providerPresets.js'
+import { getSettingsWithErrors } from '../../utils/settings/settings.js'
 
 const TITLE_MAX_LEN = 50
 
@@ -70,6 +72,8 @@ export async function generateTitle(
     const model = resolvedProvider.models.haiku || resolvedProvider.models.main
     const url = `${resolvedProvider.baseUrl.replace(/\/+$/, '')}/v1/messages`
 
+    const disableThinking = shouldDisableThinkingForTitle(resolvedProvider.presetId)
+
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -82,6 +86,7 @@ export async function generateTitle(
         max_tokens: 100,
         system: TITLE_SYSTEM_PROMPT,
         messages: [{ role: 'user', content: trimmed.slice(0, 2000) }],
+        ...(disableThinking ? { thinking: { type: 'disabled' } } : {}),
       }),
       signal: AbortSignal.timeout(15_000),
     })
@@ -110,7 +115,35 @@ export async function generateTitle(
 
 /**
  * Persist an AI-generated title to the session's JSONL file.
+ * Returns `true` if the title was saved, `false` if skipped (e.g. custom title exists).
  */
-export async function saveAiTitle(sessionId: string, title: string): Promise<void> {
-  await sessionService.appendAiTitle(sessionId, title)
+export async function saveAiTitle(sessionId: string, title: string): Promise<boolean> {
+  try {
+    const launchInfo = await sessionService.getSessionLaunchInfo(sessionId)
+    if (!launchInfo) return false
+    if (launchInfo.customTitle) return false
+
+    await sessionService.appendAiTitle(sessionId, title)
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Check if thinking should be explicitly disabled for title generation.
+ * Returns true when the user has disabled thinking globally AND the active
+ * provider preset declares CC_HAHA_SEND_DISABLED_THINKING in its defaultEnv.
+ */
+export function shouldDisableThinkingForTitle(presetId: string): boolean {
+  try {
+    const { settings } = getSettingsWithErrors()
+    if (settings.alwaysThinkingEnabled !== false) return false
+
+    const preset = PROVIDER_PRESETS.find((p) => p.id === presetId)
+    if (!preset?.defaultEnv) return false
+    return 'CC_HAHA_SEND_DISABLED_THINKING' in preset.defaultEnv
+  } catch {
+    return false
+  }
 }

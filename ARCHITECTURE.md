@@ -220,9 +220,11 @@ handleProxyRequest()
 useSessionStore         会话列表、增删改查、活跃会话
 useTabStore             标签页管理、持久化、恢复
 useChatStore            聊天消息、WebSocket、发送/接收
-useSettingsStore        设置项、Provider 列表
+useSettingsStore        设置项、Provider 列表、thinkingEnabled、webSearch
 useUiStore              界面状态（主题、侧边栏宽度）
 useSessionRuntimeStore  会话运行时（上下文、选择器）
+useUpdateStore          自动更新状态
+useCliTaskStore         CLI 任务管理
 ```
 
 ### 4.2 数据流原则
@@ -273,8 +275,7 @@ useSessionRuntimeStore  会话运行时（上下文、选择器）
 | **窗口管理** | Tauri Window API，自定义标题栏 |
 | **原生对话框** | `@tauri-apps/plugin-dialog`（文件选择） |
 | **自动更新** | `@tauri-apps/plugin-updater`（GitHub Releases） |
-| **进程管理** | `tauri::api::process::Command`（启动 sidecar） |
-| **Shell 集成** | `@tauri-apps/plugin-shell`（终端/命令） |
+| **Shell** | `@tauri-apps/plugin-shell`（打开外部 URL、sidecar 进程管理） |
 | **文件系统** | `@tauri-apps/plugin-fs`（文件操作） |
 
 ### 5.2 Sidecar 通信
@@ -285,17 +286,24 @@ useSessionRuntimeStore  会话运行时（上下文、选择器）
 格式: JSON
 
 REST 端点:
-  GET    /api/sessions           → 会话列表
-  POST   /api/sessions           → 创建会话
-  DELETE /api/sessions/:id       → 删除会话
-  PUT    /api/sessions/:id/rename → 重命名
-  GET    /api/sessions/:id/chat  → 获取聊天记录
-  POST   /api/proxy              → 代理 AI 请求
-  GET    /api/skills             → 技能列表
+  GET    /api/sessions                → 会话列表
+  POST   /api/sessions                → 创建会话
+  DELETE /api/sessions/:id            → 删除会话
+  PUT    /api/sessions/:id/rename     → 重命名
+  GET    /api/sessions/:id/chat       → 获取聊天记录
+  POST   /api/proxy                   → 代理 AI 请求
+  GET    /api/skills                  → 技能列表
+  GET    /api/settings/user           → 用户设置
+  PUT    /api/settings/user           → 更新用户设置
+  GET    /api/diagnostics             → 诊断信息
+  GET    /api/diagnostics/logs        → 日志列表
+  DELETE /api/diagnostics/logs        → 清除日志
+  GET    /api/diagnostics/export      → 导出诊断包
 
 WebSocket:
   /ws → 实时消息推送
     消息类型: chat_chunk, session_update, session_title_updated
+  /ws?channel=sdk → SDK 负载通道
 ```
 
 ### 5.3 国际化 (i18n)
@@ -304,11 +312,35 @@ WebSocket:
 自动检测: localStorage → 系统语言 → 默认 'zh'
 
 语言包:
-  zh.ts → 中文 (默认)
-  en.ts → English
+  zh.ts → 中文 (默认)  — Record<TranslationKey, string>
+  en.ts → English      — as const 对象，导出 TranslationKey 类型
+
+类型安全: TranslationKey = keyof typeof en
+          确保 zh.ts 包含 en.ts 的所有键
 
 使用:
   useTranslation() hook → t('key') → 翻译文本
+  t('key', { var: value }) → 模板插值 (如 '{days}d / {size} max')
+
+支持页面:
+  Settings 通用/Provider/Agent/MCP/Skills/Diagnostics 标签
+```
+
+### 5.4 诊断系统 (Diagnostics)
+
+```
+诊断页面 (DiagnosticsSettings.tsx):
+  ├── 概览信息 (版本、平台、架构、运行时间)
+  ├── 事件日志 (WebSocket 事件、错误记录)
+  ├── 日志管理 (查看目录、清除日志、配置保留策略)
+  ├── 导出诊断包 (导出为 JSON bundle)
+  └── 复制摘要 (快速复制诊断摘要到剪贴板)
+
+数据来源:
+  GET  /api/diagnostics        → 诊断概览
+  GET  /api/diagnostics/logs   → 日志列表
+  GET  /api/diagnostics/export → 导出诊断包
+  DELETE /api/diagnostics/logs → 清除日志
 ```
 
 ### 5.4 智能 Provider 适配
@@ -334,25 +366,29 @@ WebSocket:
 ### 构建流程
 
 ```
-1. Vite 构建 React 前端 → dist/
-2. Bun 打包 sidecar → binaries/claude-sidecar.exe
-3. Tauri 构建 → 打包 MSI 安装包
-4. PowerShell 脚本自动化:
-   ├── 安装依赖 (bun install)
-   ├── 配置构建环境 (MSVC)
-   ├── 执行构建
-   └── 复制产物到 build-artifacts/
+1. build-windows-x64.ps1 编排完整流程:
+   ├── 版本号 patch +1 (tauri.conf.json / package.json / Cargo.toml)
+   ├── 固定 WiX upgradeCode
+   ├── 智能依赖安装 (node_modules 已存在则跳过)
+   ├── 生成 fix+版本号.txt / BUILD_NOTES.txt (超时保险，构建前写入)
+   ├── build-before.mjs 并行执行:
+   │   ├── 前端构建: tsc -b && vite build → dist/
+   │   └── sidecar 构建: bun build → binaries/claude-sidecar.exe
+   ├── cargo tauri build → MSI 安装包
+   ├── 覆盖更新构建笔记 (写入实际 MSI 路径)
+   └── 自动打开输出目录 + 系统通知
 ```
 
 ### 产物
 
 ```
 build-artifacts/windows-x64/
-  ├── Claude-Code-Haha_0.1.8_windows_x64_msi.msi    ← 安装包
-  ├── Claude-Code-Haha_0.1.8_windows_x64_msi.msi.sig ← 签名
-  ├── Claude-Code-Haha_0.1.8_windows_x64_msi.msi.zip ← 压缩包
-  ├── latest.json                                    ← 更新信息
-  └── BUILD_INFO.txt                                 ← 构建信息
+  ├── Claude-Code-Haha_0.1.xx_windows_x64_msi.msi    ← 安装包
+  ├── Claude-Code-Haha_0.1.xx_windows_x64_msi.msi.sig ← 签名
+  ├── Claude-Code-Haha_0.1.xx_windows_x64_msi.msi.zip ← 压缩包
+  ├── latest.json                                       ← 更新信息
+  ├── BUILD_NOTES.txt                                   ← 英文构建笔记
+  └── fix+0.1.xx.txt                                    ← 中文修复说明
 ```
 
 ---

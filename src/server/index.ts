@@ -15,6 +15,7 @@ import { handleProxyRequest } from './proxy/handler.js'
 import { ProviderService } from './services/providerService.js'
 import { handleHahaOAuthCallback } from './api/haha-oauth.js'
 import { ensureDesktopCliLauncherInstalled } from './services/desktopCliLauncherService.js'
+import { diagnosticsService } from './services/diagnosticsService.js'
 
 function readArgValue(flag: string): string | undefined {
   const args = process.argv.slice(2)
@@ -226,6 +227,9 @@ export function startServer(port = PORT, host = HOST) {
 
     websocket: handleWebSocket,
   })
+
+  // Install console capture for diagnostics
+  diagnosticsService.installConsoleCapture()
 
   // Start watching ~/.claude/teams/ for real-time WebSocket push
   teamWatcher.start()

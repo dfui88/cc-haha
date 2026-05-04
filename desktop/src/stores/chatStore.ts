@@ -260,11 +260,12 @@ function updateSessionIn(
   sessions: Record<string, PerSessionState>,
   sessionId: string,
   updater: (s: PerSessionState) => Partial<PerSessionState>,
+  skipTrim = false,
 ): Record<string, PerSessionState> {
   const session = sessions[sessionId]
   if (!session) return sessions
   const updatedSession: PerSessionState = { ...session, ...updater(session) }
-  if (updatedSession.messages.length > MAX_IN_MEMORY_MESSAGES) {
+  if (!skipTrim && updatedSession.messages.length > MAX_IN_MEMORY_MESSAGES) {
     updatedSession.messages = updatedSession.messages.slice(-MAX_IN_MEMORY_MESSAGES)
   }
   return { ...sessions, [sessionId]: updatedSession }
@@ -543,7 +544,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         return { sessions: updateSessionIn(state.sessions, sessionId, (s) => ({
           messages: uiMessages,
           agentTaskNotifications: { ...s.agentTaskNotifications, ...restoredNotifications },
-        })) }
+        }), true) }
       })
       if (lastTodos && lastTodos.length > 0) {
         const taskStore = useCLITaskStore.getState()
@@ -588,7 +589,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
             elapsedTimer: null,
             responseTimeoutId: null,
             statusVerb: '',
-          })),
+          }), true),
         }
       })
 
@@ -628,6 +629,13 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
     switch (msg.type) {
       case 'connected':
+        break
+
+      case 'permission_mode_updated':
+        update(() => ({
+          pendingPermission: null,
+          pendingComputerUsePermission: null,
+        }))
         break
 
       case 'status':

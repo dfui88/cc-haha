@@ -181,6 +181,7 @@ import { endQueryProfile, queryCheckpoint } from 'src/utils/queryProfiler.js'
 import {
   modelSupportsAdaptiveThinking,
   modelSupportsThinking,
+  shouldSendExplicitDisabledThinking,
   type ThinkingConfig,
 } from 'src/utils/thinking.js'
 import {
@@ -1627,6 +1628,19 @@ async function* queryModel(
           type: 'enabled',
         } satisfies BetaMessageStreamParams['thinking']
       }
+    }
+
+    const modelCanThink = modelSupportsThinking(options.model)
+    const sendsExplicitDisabledThinking =
+      !(hasThinking && modelCanThink) && shouldSendExplicitDisabledThinking()
+
+    if (sendsExplicitDisabledThinking) {
+      thinking = { type: 'disabled' } satisfies BetaMessageStreamParams['thinking']
+      // Skip effort configuration when explicitly disabling thinking — effort
+      // is only meaningful when thinking is enabled.
+      delete outputConfig.effort
+      const effortBetaIdx = betasParams.indexOf(EFFORT_BETA_HEADER)
+      if (effortBetaIdx !== -1) betasParams.splice(effortBetaIdx, 1)
     }
 
     // Get API context management strategies if enabled

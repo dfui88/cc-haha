@@ -700,6 +700,14 @@ export const SettingsSchema = lazySchema(() =>
           'When false, thinking is disabled. When absent or true, thinking is ' +
             'enabled automatically for supported models.',
         ),
+      webSearch: z
+        .object({
+          mode: z.enum(['auto', 'anthropic', 'tavily', 'brave', 'disabled']).optional(),
+          tavilyApiKey: z.string().optional(),
+          braveApiKey: z.string().optional(),
+        })
+        .optional()
+        .describe('Web search backend configuration'),
       effortLevel: z
         .enum(
           process.env.USER_TYPE === 'ant'
