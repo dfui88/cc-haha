@@ -531,6 +531,50 @@ try {
   Write-Step "WARNING: Write-ReleaseNotes failed: $_"
 }
 
+# Generate latest.json for Tauri updater (Tauri 2.x does not produce this automatically)
+function Write-LatestJson {
+  param(
+    [string]$OutputDir,
+    [string]$Version,
+    [string]$SignaturePath,
+    [string]$MsiName
+  )
+
+  if (-not (Test-Path $SignaturePath)) {
+    Write-Step "WARNING: Signature file not found at $SignaturePath, skipping latest.json"
+    return
+  }
+
+  # Read signature as raw text (not PowerShell object) to avoid extra properties
+  $signature = [System.IO.File]::ReadAllText($SignaturePath).Trim()
+  $utcDate = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+
+  $latestJson = @{
+    version  = $Version
+    notes    = "Auto build v$Version"
+    pub_date = $utcDate
+    platforms = @{
+      "windows-x86_64" = @{
+        signature = $signature
+        url       = "https://github.com/dfui88/cc-haha/releases/download/v$Version/$MsiName"
+      }
+    }
+  }
+
+  $jsonPath = Join-Path $OutputDir 'latest.json'
+  $latestJson | ConvertTo-Json -Depth 10 | Set-Content -Path $jsonPath -Encoding UTF8
+  Write-Step "latest.json generated: $jsonPath"
+}
+
+# Generate latest.json from the zh-CN .msi.sig
+$zhSigPath = Join-Path $activeOutputDir "Claude-Code-Haha_${appVersion}_windows_x64_zh-CN.msi.sig"
+$zhMsiName = "Claude-Code-Haha_${appVersion}_windows_x64_zh-CN.msi"
+if (Test-Path $zhSigPath) {
+  Write-LatestJson -OutputDir $activeOutputDir -Version $appVersion -SignaturePath $zhSigPath -MsiName $zhMsiName
+} else {
+  Write-Step "WARNING: zh-CN .msi.sig not found at $zhSigPath, skipping latest.json"
+}
+
 # Wrapper to prevent post-build errors from silently stopping the script
   # Generate human-readable build notes (BUILD_NOTES.txt) alongside the MSI.
 # Using English-only strings in the script to avoid Windows PowerShell encoding

@@ -1074,29 +1074,42 @@ pub fn run() {
 
             deploy::deploy_claude_resources(&app.handle());
 
-            let state = app.state::<ServerState>();
-            let mut guard = state
-                .0
-                .lock()
-                .map_err(|_| IoError::new(ErrorKind::Other, "server state lock poisoned"))?;
-
-            match start_server_sidecar(&app.handle()) {
-                Ok(runtime) => {
-                    guard.runtime = Some(runtime);
-                    guard.startup_error = None;
-                }
-                Err(err) => {
-                    eprintln!("[desktop] failed to start local server: {err}");
-                    guard.runtime = None;
-                    guard.startup_error = Some(err);
-                }
+            // Show the main window immediately so the event loop starts and
+            // frontend JS can begin rendering the skeleton UI. Sidecar startup
+            // (which may block up to 10s waiting for the TCP port) runs in a
+            // background thread — once ready, it writes ServerState and spawns
+            // the adapter sidecar.
+            if let Some(window) = app.get_webview_window(MAIN_WINDOW_LABEL) {
+                let _ = window.show();
+                let _ = window.set_focus();
             }
-            drop(guard);
 
-            // server 起来之后再起 adapter sidecar —— start_adapters_sidecar
-            // 内部会从 ServerState 读 server URL 注入 ADAPTER_SERVER_URL env，
-            // 让 adapter 连上动态端口。
-            spawn_and_track_adapters_sidecar(&app.handle());
+            let handle = app.handle().clone();
+            std::thread::spawn(move || {
+                match start_server_sidecar(&handle) {
+                    Ok(runtime) => {
+                        if let Some(state) = handle.try_state::<ServerState>() {
+                            if let Ok(mut guard) = state.0.lock() {
+                                guard.runtime = Some(runtime);
+                                guard.startup_error = None;
+                            }
+                        }
+                        // server 就绪后再起 adapter sidecar，
+                        // 内部会从 ServerState 读 server URL 注入 env
+                        spawn_and_track_adapters_sidecar(&handle);
+                    }
+                    Err(err) => {
+                        eprintln!("[desktop] failed to start local server: {err}");
+                        if let Some(state) = handle.try_state::<ServerState>() {
+                            if let Ok(mut guard) = state.0.lock() {
+                                guard.startup_error = Some(err.clone());
+                            }
+                        }
+                        // Notify frontend so it can show StartupErrorView
+                        let _ = handle.emit("desktop-server-error", &err);
+                    }
+                }
+            });
 
             Ok(())
         })

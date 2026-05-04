@@ -19,9 +19,8 @@
      - **规则 3** — 前端构建（`tsc -b && vite build`）与 sidecar 构建并行执行，通过 `build-before.mjs` 协调
      - **规则 4** — 自动将 `tauri.conf.json`、`package.json`、`Cargo.toml` 的 patch 版本 +1
      - **规则 5** — 构建完成后：播放系统通知音、弹出 Windows Toast 通知、显示绿色 BUILD COMPLETE! 横幅（含版本号和耗时）、自动打开输出目录
-     - **规则 6** — 在 `build-artifacts/windows-x64/` 中生成 `fix+新版本号.txt`（中文修复说明）和 `BUILD_NOTES.txt`（英文构建笔记）。Notes 文件在 `cargo build` **之前**提前生成（防超时保险），构建完成后用实际 MSI 路径覆盖更新
-     - **规则 9** — 构建完成后提交并推送所有变更到 GitHub
-     - **规则 10** — 生成签名文件（需提前设置 `TAURI_SIGNING_PRIVATE_KEY`）
+     - **规则 6** — 在 `build-artifacts/windows-x64/` 中生成 `fix+新版本号.txt`（中文修复说明）和 `BUILD_NOTES.txt`（英文构建笔记）。Notes 文件在 `cargo build` **之前**提前生成（防超时保险），构建完成后用实际 MSI 路径覆盖更新     
+     - **规则 7** — 生成签名文件（需提前设置 `TAURI_SIGNING_PRIVATE_KEY`）
 
 3. **验证构建产物**
    - 确认 MSI 安装包已生成
@@ -86,13 +85,14 @@ Notes 文件分两阶段生成：
 - `git commit` 提交并注明版本号和修复内容
 - `git push` 推送到 GitHub remote（若网络不通则先本地提交，稍后重试推送）
 
-### 10. 生成签名文件（`TAURI_SIGNING_PRIVATE_KEY`）
-构建时需要生成 `.msi.sig`、`.msi.zip.sig`、`latest.json` 等 updater 签名产物：
+### 10. 生成签名文件和 latest.json（`TAURI_SIGNING_PRIVATE_KEY`）
+构建时需要生成 `.msi.sig`、`latest.json` 等 updater 签名产物：
 
 - **准备私钥**：构建前确保已设置环境变量 `TAURI_SIGNING_PRIVATE_KEY`（Tauri 签名私钥）和 `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`（可选）
 - **生成公钥**：若私钥可用，运行 `bun x tauri signer generate -k <私钥文件路径>` 生成 `tauri-private.key.pub`，此文件应提交到仓库
-- **检查产物**：构建完成后检查输出目录是否包含 `.msi.sig`、`.msi.zip.sig`、`latest.json`
-- **无私钥场景**：若无私钥（本地开发构建），脚本自动禁用 updater 产物，BUILD_NOTES.txt 标注 `Not signed`
+- **Tauri 2.x 只生成 `.msi.sig`**，不生成 `latest.json`。脚本在 post-build 阶段自动调用 `Write-LatestJson`，从 `.msi.sig` 读取签名纯文本（`[System.IO.File]::ReadAllText`，避免 PowerShell 对象属性污染）生成 `latest.json`
+- **检查产物**：构建完成后检查输出目录是否包含 `.msi.sig`、`latest.json`
+- **无私钥场景**：若无私钥（本地开发构建），脚本自动禁用 updater 产物，BUILD_NOTES.txt 标注 `Not signed`，同时跳过 `latest.json` 生成
 
 ## 注意事项（避免常见错误）
 

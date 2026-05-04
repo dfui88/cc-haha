@@ -11,21 +11,17 @@ import { TabBar } from './TabBar'
 import { StartupErrorView } from './StartupErrorView'
 import { useTabStore, SETTINGS_TAB_ID } from '../../stores/tabStore'
 import { useChatStore } from '../../stores/chatStore'
-import { useTranslation } from '../../i18n'
 
 export function AppShell() {
   const fetchSettings = useSettingsStore((s) => s.fetchAll)
   const sidebarOpen = useUIStore((s) => s.sidebarOpen)
-  const [ready, setReady] = useState(false)
   const [startupError, setStartupError] = useState<string | null>(null)
-  const t = useTranslation()
 
   useEffect(() => {
     let cancelled = false
 
     const bootstrap = async () => {
       try {
-        // Wait for server, settings, and tabs to all be ready before showing UI
         await initializeDesktopServerUrl()
         await fetchSettings()
         await useTabStore.getState().restoreTabs()
@@ -34,14 +30,9 @@ export function AppShell() {
         if (activeId && activeTab?.type === 'session') {
           useChatStore.getState().connectToSession(activeId)
         }
-
-        if (!cancelled) {
-          setReady(true)
-        }
       } catch (error) {
         if (!cancelled) {
           setStartupError(error instanceof Error ? error.message : String(error))
-          setReady(false)
         }
       }
     }
@@ -71,18 +62,24 @@ export function AppShell() {
     return () => { unlisten?.() }
   }, [])
 
+  // Listen for async sidecar startup errors (Rust background thread)
+  useEffect(() => {
+    let unlisten: (() => void) | undefined
+    import('@tauri-apps/api/event')
+      .then(({ listen }) =>
+        listen<string>('desktop-server-error', (event) => {
+          setStartupError(event.payload)
+        }),
+      )
+      .then((fn) => { unlisten = fn })
+      .catch(() => {})
+    return () => { unlisten?.() }
+  }, [])
+
   useKeyboardShortcuts()
 
   if (startupError) {
     return <StartupErrorView error={startupError} />
-  }
-
-  if (!ready) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-[var(--color-surface)] text-[var(--color-text-secondary)]">
-        {t('app.launching')}
-      </div>
-    )
   }
 
   return (
