@@ -13,20 +13,29 @@
    ```bash
    cd desktop && .\scripts\build-windows-x64.ps1
    ```
-   - 脚本自动执行规则 1~6：
+   - 脚本自动执行规则 1~10：
      - **规则 1** — 固定 `upgradeCode` 为 `5239b781-4d78-504f-8bff-4b9d88752c74`
      - **规则 2** — 智能安装：若 `node_modules` 已存在则跳过 `bun install`（设 `FORCE_INSTALL=1` 强制重装）
      - **规则 3** — 前端构建（`tsc -b && vite build`）与 sidecar 构建并行执行，通过 `build-before.mjs` 协调
      - **规则 4** — 自动将 `tauri.conf.json`、`package.json`、`Cargo.toml` 的 patch 版本 +1
      - **规则 5** — 构建完成后：播放系统通知音、弹出 Windows Toast 通知、显示绿色 BUILD COMPLETE! 横幅（含版本号和耗时）、自动打开输出目录
      - **规则 6** — 在 `build-artifacts/windows-x64/` 中生成 `fix+新版本号.txt`（中文修复说明）和 `BUILD_NOTES.txt`（英文构建笔记）。Notes 文件在 `cargo build` **之前**提前生成（防超时保险），构建完成后用实际 MSI 路径覆盖更新
+     - **规则 9** — 构建完成后提交并推送所有变更到 GitHub
+     - **规则 10** — 生成签名文件（需提前设置 `TAURI_SIGNING_PRIVATE_KEY`）
 
 3. **验证构建产物**
    - 确认 MSI 安装包已生成
+   - 确认签名文件（`.msi.sig`、`.msi.zip.sig`、`latest.json`）已生成（若配置了私钥）
    - 确认 `fix+版本号.txt` 已生成且内容正确
    - 确认版本号已递增
 
-4. **更新说明文档（规则 8）**
+4. **提交并推送（规则 9）**
+   - `git add` 暂存所有变更
+   - `git commit` 提交（含版本号、修复说明、签名公钥等）
+   - `git push` 推送到 GitHub
+   - 若网络不通，先本地提交，稍后重试推送
+
+5. **更新说明文档（规则 8）**
    - 如果构建规则有任何变化，同步更新本文件（CLAUDE.md）和 `desktop/README.md`
 
 ### Windows 构建规则（8 条）
@@ -70,6 +79,20 @@ Notes 文件分两阶段生成：
 
 ### 8. 更新项目说明文档
 每次构建规则发生变化时，同步更新本文件（CLAUDE.md）以及 `desktop/README.md` 中的构建说明，保持文档与构建脚本一致。
+
+### 9. Git 提交与推送
+构建完成后必须执行：
+- `git add` 暂存所有变更（含版本号递增、新生成的 `wix/main.wxs`、`tauri-private.key.pub` 等）
+- `git commit` 提交并注明版本号和修复内容
+- `git push` 推送到 GitHub remote（若网络不通则先本地提交，稍后重试推送）
+
+### 10. 生成签名文件（`TAURI_SIGNING_PRIVATE_KEY`）
+构建时需要生成 `.msi.sig`、`.msi.zip.sig`、`latest.json` 等 updater 签名产物：
+
+- **准备私钥**：构建前确保已设置环境变量 `TAURI_SIGNING_PRIVATE_KEY`（Tauri 签名私钥）和 `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`（可选）
+- **生成公钥**：若私钥可用，运行 `bun x tauri signer generate -k <私钥文件路径>` 生成 `tauri-private.key.pub`，此文件应提交到仓库
+- **检查产物**：构建完成后检查输出目录是否包含 `.msi.sig`、`.msi.zip.sig`、`latest.json`
+- **无私钥场景**：若无私钥（本地开发构建），脚本自动禁用 updater 产物，BUILD_NOTES.txt 标注 `Not signed`
 
 ## 注意事项（避免常见错误）
 
