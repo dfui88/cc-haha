@@ -1,7 +1,7 @@
 {
   "name": "claude-code-desktop",
   "private": true,
-  "version": "0.1.54",
+  "version": "0.1.67",
   "type": "module",
   "scripts": {
     "dev": "vite",

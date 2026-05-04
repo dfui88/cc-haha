@@ -12,7 +12,6 @@ import type { AdapterFileConfig } from '../types/adapter'
  */
 async function notifyTauriRestartAdapters(): Promise<void> {
   try {
-    // 用 dynamic import 避开 SSR / non-tauri 测试环境的硬依赖
     const { invoke } = await import('@tauri-apps/api/core')
     await invoke('restart_adapters_sidecar')
   } catch (err) {

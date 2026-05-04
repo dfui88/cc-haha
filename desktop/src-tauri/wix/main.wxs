@@ -1,0 +1,95 @@
+<?if $(sys.BUILDARCH)="x86"?>
+    <?define Win64 = "no" ?>
+    <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+<?elseif $(sys.BUILDARCH)="x64"?>
+    <?define Win64 = "yes" ?>
+    <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+<?elseif $(sys.BUILDARCH)="arm64"?>
+    <?define Win64 = "yes" ?>
+    <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+<?else?>
+    <?error Unsupported value of sys.BUILDARCH=$(sys.BUILDARCH)?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product
+            Id="*"
+            Name="!(loc.ProductName)"
+            UpgradeCode="5239b781-4d78-504f-8bff-4b9d88752c74"
+            Language="2052"
+            Manufacturer="!(loc.ManufacturerName)"
+            Version="!(loc.ProductVersion)">
+
+        <Package Id="*"
+                 Keywords="Installer"
+                 InstallerVersion="450"
+                 Languages="2052"
+                 Compressed="yes"
+                 InstallScope="perMachine"
+                 SummaryCodepage="936"/>
+
+        <MajorUpgrade AllowDowngrades="yes"/>
+
+        <MediaTemplate EmbedCab="yes"/>
+
+        <Property Id="ApplicationFolderName" Value="!(loc.ApplicationFolderName)" />
+        <Property Id="WixAppFolder" Value="WixPerMachineFolder" />
+
+        <Property Id="LaunchApp" Value="0" />
+
+        <Property Id="INSTALLDIR">
+            <RegistrySearch Id="PrevInstallDir"
+                            Root="HKLM"
+                            Key="Software\!(loc.ManufacturerName)\!(loc.ProductName)"
+                            Name="InstallDir"
+                            Type="directory"
+                            Win64="$(var.Win64)"/>
+        </Property>
+
+        <Feature Id="InstallAppFeature"
+                 Title="!(loc.InstallAppFeature)"
+                 Level="1"
+                 ConfigurableDirectory="INSTALLDIR">
+            <ComponentGroupRef Id="AppComponents"/>
+            <ComponentRef Id="InstalledApp"/>
+            <ComponentGroupRef Id="Shortcuts"/>
+        </Feature>
+
+        <Feature Id="PathEnvVarFeature"
+                 Title="!(loc.PathEnvVarFeature)"
+                 Level="1"
+                 AllowAdvertise="no"
+                 InstallDefault="local"
+                 Absent="allow"
+                 Description="!(loc.PathEnvVarFeature)">
+            <ComponentRef Id="PATHEnvironmentVariable"/>
+        </Feature>
+
+        <CustomAction Id="LaunchApplication"
+                      Impersonate="yes"
+                      Execute="immediate"
+                      DirectoryId="INSTALLDIR"
+                      ExeCommand=""
+                      Return="asyncNoWait"
+                      FileKey="LaunchApplication"
+                      />
+
+        <InstallExecuteSequence>
+            <RemoveExistingProducts After="InstallValidate"/>
+            <Custom Action="LaunchApplication" After="InstallFinalize">
+                <![CDATA[(&LaunchApp = 3) OR ((&LaunchApp = 2) AND NOT Installed)]]>
+            </Custom>
+        </InstallExecuteSequence>
+
+        <UIRef Id="WixUI_Mondo"/>
+        <WixVariable Id="WixUISupportPerMachine" Value="1"/>
+        <WixVariable Id="WixUISupportPerUser" Value="0"/>
+
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR"/>
+        <Property Id="ApplicationFolderName" Value="!(loc.ApplicationFolderName)"/>
+        <Property Id="WixAppFolder" Value="WixPerMachineFolder"/>
+
+        <Icon Id="icon.ico" SourceFile="!(loc.ProductIcon)"/>
+        <Property Id="ARPPRODUCTICON" Value="icon.ico"/>
+    </Product>
+</Wix>

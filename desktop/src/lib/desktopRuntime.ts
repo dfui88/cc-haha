@@ -58,6 +58,8 @@ async function waitForHealth(serverUrl: string) {
       lastError = error
     }
 
+    // First attempt is immediate; subsequent retries wait 250ms
+    if (attempt === 0) continue
     await new Promise((resolve) => setTimeout(resolve, 250))
   }
 

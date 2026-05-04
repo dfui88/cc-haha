@@ -284,6 +284,14 @@ $tauriBuildArgs = @(
 
 $tempConfigPath = $null
 if (-not $env:TAURI_SIGNING_PRIVATE_KEY) {
+  # Fallback: read from TAURI_SIGNING_PRIVATE_KEY_PATH if set
+  if ($env:TAURI_SIGNING_PRIVATE_KEY_PATH -and (Test-Path $env:TAURI_SIGNING_PRIVATE_KEY_PATH)) {
+    $env:TAURI_SIGNING_PRIVATE_KEY = Get-Content $env:TAURI_SIGNING_PRIVATE_KEY_PATH -Raw
+    Write-Step "TAURI_SIGNING_PRIVATE_KEY loaded from $($env:TAURI_SIGNING_PRIVATE_KEY_PATH)"
+  }
+}
+
+if (-not $env:TAURI_SIGNING_PRIVATE_KEY) {
   $tempConfigPath = Join-Path ([System.IO.Path]::GetTempPath()) 'cc-haha.tauri.local.windows.json'
   $tempConfig = @{
     bundle = @{
@@ -473,6 +481,21 @@ foreach ($root in $bundleRoots) {
       Copy-Item -LiteralPath $artifact.FullName -Destination $destination -Force
       # Update timestamp to current build time (Copy-Item preserves source timestamp)
       (Get-Item $destination).LastWriteTime = Get-Date
+
+      # Force MSI ProductLanguage to 2052 (zh-CN) so installer UI shows Chinese
+      if ($destination -match '\.msi$' -and -not ($destination -match '\.msi\.(sig|zip)$')) {
+        try {
+          $msiDb = (New-Object -ComObject WindowsInstaller.Installer).OpenDatabase($destination, 1)
+          $view = $msiDb.OpenView("UPDATE \`"Property\`" SET \`"Value\`"='2052' WHERE \`"Property\`"='ProductLanguage'")
+          $view.Execute()
+          $view.Close()
+          $msiDb.Commit()
+          [System.Runtime.Interopservices.Marshal]::ReleaseComObject($msiDb) | Out-Null
+          Write-Step "Forced ProductLanguage to 2052 (zh-CN) for MSI: $destinationName"
+        } catch {
+          Write-Step "WARNING: Could not set ProductLanguage for MSI: $_"
+        }
+      }
       if (-not $copiedArtifacts.Contains($destination)) {
         $copiedArtifacts.Add($destination) | Out-Null
       }

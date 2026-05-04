@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { MarkdownRenderer } from '../markdown/MarkdownRenderer'
 import { MessageActionBar } from './MessageActionBar'
 import { InlineImageGallery } from './InlineImageGallery'
@@ -8,7 +9,12 @@ type Props = {
 }
 
 export function AssistantMessage({ content, isStreaming }: Props) {
-  const documentLayout = shouldUseDocumentLayout(content)
+  const documentLayoutRef = useRef(false)
+  // Lock the layout decision once streaming starts, preventing layout shift
+  // as content grows. Non-streaming messages evaluate normally (stable content).
+  const documentLayout = isStreaming
+    ? (documentLayoutRef.current || (documentLayoutRef.current = shouldUseDocumentLayout(content)))
+    : shouldUseDocumentLayout(content)
 
   return (
     <div className="group mb-5 flex justify-start">

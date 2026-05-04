@@ -25,16 +25,16 @@ export function AppShell() {
 
     const bootstrap = async () => {
       try {
+        // Wait for server, settings, and tabs to all be ready before showing UI
         await initializeDesktopServerUrl()
         await fetchSettings()
-
-        // Restore tabs from localStorage
         await useTabStore.getState().restoreTabs()
         const { activeTabId: activeId, tabs } = useTabStore.getState()
         const activeTab = tabs.find((tab) => tab.sessionId === activeId)
         if (activeId && activeTab?.type === 'session') {
           useChatStore.getState().connectToSession(activeId)
         }
+
         if (!cancelled) {
           setReady(true)
         }
