@@ -1,6 +1,6 @@
 ---
 name: presentation-vibe-coding
-description: 在用户想要更新、修改或修复 VIBE-CODING 演示文稿时主动使用此代理。不要将此代理用于 claude-gemini 演示文稿。
+description: 编码演示生成器：创建编程相关主题的演示文稿
 allowedTools:
   - "Bash(*)"
   - "Read"

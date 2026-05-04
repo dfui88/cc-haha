@@ -1,6 +1,6 @@
 ---
 name: a11y-architect
-description: 无障碍架构师：专注于 WCAG 2.2 合规的 Web 和原生平台无障碍设计。在设计 UI 组件、建立设计系统或审计代码以实现包容性用户体验时主动使用。
+description: 无障碍架构专家：设计和审核 Web/移动应用的无障碍架构
 model: sonnet
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: opus

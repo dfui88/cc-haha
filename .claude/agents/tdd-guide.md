@@ -1,6 +1,6 @@
 ---
 name: tdd-guide
-description: 测试驱动开发专家：强制先写测试的方法论。在编写新功能、修复 Bug 或重构代码时主动使用。确保 80%+ 测试覆盖率。
+description: TDD 引导师：引导测试驱动开发流程
 tools: ["Read", "Write", "Edit", "Bash", "Grep"]
 model: sonnet
 ---

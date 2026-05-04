@@ -1,6 +1,6 @@
 ---
 name: chief-of-staff
-description: 个人沟通幕僚：处理邮件、Slack、LINE 和 Messenger 的分类与回复。
+description: 参谋长：协调多代理工作流、任务分配和进度跟踪
 tools: ["Read", "Grep", "Glob", "Bash", "Edit", "Write"]
 model: opus
 ---

@@ -1,6 +1,6 @@
 ---
 name: go-reviewer
-description: Go 代码审查专家：专精于地道的 Go 写法、并发模式、错误处理和性能。Go 项目必须使用。
+description: Go 代码审查员：审查 Go 代码质量和并发安全性
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---

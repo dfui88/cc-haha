@@ -1,6 +1,6 @@
 ---
 name: silent-failure-hunter
-description: 审查代码中的静默失败、被吞掉的错误、不良后备方案和缺失的错误传播。
+description: 静默失败猎手：检测和修复无声错误和异常
 model: sonnet
 tools: [Read, Grep, Glob, Bash]
 ---

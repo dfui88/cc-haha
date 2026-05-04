@@ -1,6 +1,6 @@
 ---
 name: kotlin-reviewer
-description: Kotlin 和 Android/KMP 代码审查员。
+description: Kotlin 代码审查员：审查 Kotlin 代码质量和习惯用法
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---

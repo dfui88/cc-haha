@@ -1,6 +1,6 @@
 ---
 name: rust-reviewer
-description: Rust 代码审查专家：专精于所有权、生命周期、错误处理、unsafe 使用和惯用模式。Rust 项目必须使用。
+description: Rust 代码审查员：审查 Rust 代码安全性和习惯用法
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---

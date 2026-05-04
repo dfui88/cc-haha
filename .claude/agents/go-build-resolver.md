@@ -1,6 +1,6 @@
 ---
 name: go-build-resolver
-description: Go 构建、vet 和编译错误解决专家。
+description: Go 构建解决器：分析和修复 Go 编译错误
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

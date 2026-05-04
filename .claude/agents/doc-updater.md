@@ -1,6 +1,6 @@
 ---
 name: doc-updater
-description: 文档和代码地图专家：主动用于更新代码地图和文档。
+description: 文档更新器：自动更新文档以及映代码变更
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: haiku
 ---

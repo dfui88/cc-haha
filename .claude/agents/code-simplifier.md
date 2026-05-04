@@ -1,6 +1,6 @@
 ---
 name: code-simplifier
-description: 简化并优化代码以提高清晰度、一致性和可维护性，同时保留原有行为。
+description: 代码简化器：减少复杂性、消除重复、提高可读性
 model: sonnet
 tools: [Read, Write, Edit, Bash, Grep, Glob]
 ---

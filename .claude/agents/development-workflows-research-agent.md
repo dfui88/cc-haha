@@ -1,6 +1,6 @@
 ---
 name: development-workflows-research-agent
-description: 研究代理：获取 GitHub 仓库信息，统计代理/技能/命令数量，获取星标数，分析 Claude Code 工作流仓库
+description: 开发工作流研究员：研究最佳开发工作流和工具链
 model: sonnet
 color: cyan
 allowedTools:

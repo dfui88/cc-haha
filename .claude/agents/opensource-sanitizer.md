@@ -1,6 +1,6 @@
 ---
 name: opensource-sanitizer
-description: 验证开源分支在发布前已完全净化。开源管道技能的第二阶段。在任何公开发布前主动使用。
+description: 开源清理器：清理开源项目中的敏感信息
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---

@@ -1,6 +1,6 @@
 ---
 name: java-reviewer
-description: Java 和 Spring Boot 代码审查专家：专精于分层架构、JPA 模式、安全和并发。Spring Boot 项目必须使用。
+description: Java 代码审查员：审查 Java 代码质量和架构
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---

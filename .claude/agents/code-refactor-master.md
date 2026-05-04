@@ -1,6 +1,6 @@
 ---
 name: code-refactor-master
-description: 重构代码以改善组织结构、架构清晰度或可维护性。
+description: 重构大师：规划和执行代码重构
 model: opus
 color: cyan
 ---

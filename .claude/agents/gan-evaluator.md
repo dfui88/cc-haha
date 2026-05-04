@@ -1,6 +1,6 @@
 ---
 name: gan-evaluator
-description: GAN 框架 — 评估代理：通过 Playwright 测试正在运行的应用程序，按评分标准评分，并向生成器提供可操作的反馈。
+description: GAN 评估器：评估生成对抗网络的输出质量
 tools: ["Read", "Write", "Bash", "Grep", "Glob"]
 model: opus
 color: red

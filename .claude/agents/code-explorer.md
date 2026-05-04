@@ -1,6 +1,6 @@
 ---
 name: code-explorer
-description: 通过追踪执行路径、映射架构层和记录依赖关系，深入分析现有代码库功能，为新开发提供信息。
+description: 代码探索器：分析和理解大型代码库的结构
 model: sonnet
 tools: [Read, Grep, Glob, Bash]
 ---

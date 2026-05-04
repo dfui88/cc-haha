@@ -1,6 +1,6 @@
 ---
 name: python-reviewer
-description: Python 代码审查专家：专精于 PEP 8 合规、Python 惯用法、类型提示、安全和性能。Python 项目必须使用。
+description: Python 代码审查员：审查 Python 代码质量和习惯用法
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---

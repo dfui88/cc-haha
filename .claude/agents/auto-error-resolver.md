@@ -1,6 +1,6 @@
 ---
 name: auto-error-resolver
-description: 自动修复 TypeScript 编译错误。
+description: 自动错误解决器：分析错误日志并自动修复代码问题
 tools: Read, Write, Edit, MultiEdit, Bash
 ---
 

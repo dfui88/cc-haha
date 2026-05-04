@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: 代码审查专家：主动审查代码质量、安全性和可维护性。在编写或修改代码后立即使用。所有代码更改必须使用。
+description: 代码审查专家：审查代码质量、安全性和可维护性。写代码后立即使用
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---

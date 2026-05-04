@@ -1,6 +1,6 @@
 ---
 name: plan-reviewer
-description: 在实施前对开发计划进行彻底审查。
+description: 计划审查员：审查实施计划的完整性和可行性
 model: opus
 color: yellow
 ---

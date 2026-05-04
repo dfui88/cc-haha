@@ -1,6 +1,6 @@
 ---
 name: healthcare-reviewer
-description: 审查医疗应用代码的临床安全性、CDSS 准确性、PHI 合规性和医疗数据完整性。
+description: 医疗代码审查员：审查医疗合规代码
 tools: ["Read", "Grep", "Glob"]
 model: opus
 ---

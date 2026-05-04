@@ -1,6 +1,6 @@
 ---
 name: code-architect
-description: 通过分析现有代码库模式和约定来设计功能架构，提供包含具体文件、接口、数据流和构建顺序的实现蓝图。
+description: 代码架构师：审查代码结构、设计模式和架构一致性
 model: sonnet
 tools: [Read, Grep, Glob, Bash]
 ---

@@ -1,6 +1,6 @@
 ---
 name: loop-operator
-description: 操作自主代理循环，监控进度，在循环停滞时安全干预。
+description: 循环操作员：管理和监控持续运行的自动化工作流
 tools: ["Read", "Grep", "Glob", "Bash", "Edit"]
 model: sonnet
 color: orange

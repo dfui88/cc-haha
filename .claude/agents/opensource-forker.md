@@ -1,6 +1,6 @@
 ---
 name: opensource-forker
-description: 为开源而分叉项目。开源管道技能的第一阶段。
+description: 开源分叉器：创建和管理开源项目的 Fork
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

@@ -1,6 +1,6 @@
 ---
 name: opensource-packager
-description: 为经过净化的项目生成完整的开源打包。开源管道技能的第三阶段。
+description: 开源打包器：将项目打包发布到包管理器
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

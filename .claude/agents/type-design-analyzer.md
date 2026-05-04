@@ -1,6 +1,6 @@
 ---
 name: type-design-analyzer
-description: 分析类型设计的封装性、不变表达式、实用性和强制性。
+description: 类型设计分析员：分析 TypeScript 类型系统设计
 model: sonnet
 tools: [Read, Grep, Glob, Bash]
 ---

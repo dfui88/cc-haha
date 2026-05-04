@@ -1,6 +1,6 @@
 ---
 name: csharp-reviewer
-description: C# 代码审查专家：专精于 .NET 约定、异步模式、安全、可空引用类型和性能。C# 项目必须使用。
+description: C# 代码审查员：审查 C# 代码质量和最佳实践
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---

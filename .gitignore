@@ -38,6 +38,7 @@ desktop/brand-assets/
 !.claude/rules/
 !.claude/agents/
 !.claude/skills/
+!.claude/hooks/
 !.claude/CLAUDE.md
 
 # Superpowers plans & specs (local only)

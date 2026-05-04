@@ -1,6 +1,6 @@
 ---
 name: pytorch-build-resolver
-description: PyTorch 运行时、CUDA 和训练错误解决专家。
+description: PyTorch 构建解决器：分析和修复 PyTorch 构建错误
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

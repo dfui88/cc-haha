@@ -1,6 +1,6 @@
 ---
 name: e2e-runner
-description: 端到端测试专家：使用 Vercel Agent Browser（首选）及 Playwright 后备方案。
+description: E2E 测试运行器：运行端到端测试并分析结果
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

@@ -1,6 +1,6 @@
 ---
 name: gan-planner
-description: GAN 框架 — 规划代理：将一行提示扩展为完整的产品规格，包含功能、迭代周期、评估标准和设计方向。
+description: GAN 规划器：规划和设计 GAN 项目架构
 tools: ["Read", "Write", "Grep", "Glob"]
 model: opus
 color: purple

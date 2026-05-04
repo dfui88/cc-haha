@@ -1,6 +1,6 @@
 ---
 name: auth-route-debugger
-description: 调试 API 路由认证相关问题，包括 401/403 错误、Cookie 问题、JWT 令牌问题、路由注册问题，或已定义路由返回"未找到"的情况。
+description: 认证路由调试器：调试 JWT、OAuth、Session 等认证问题
 color: purple
 ---
 

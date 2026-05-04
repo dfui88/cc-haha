@@ -1,6 +1,6 @@
 ---
 name: auth-route-tester
-description: 在实现或修改路由后测试路由。
+description: 认证路由测试器：测试带认证的 API 路由
 model: sonnet
 color: green
 ---

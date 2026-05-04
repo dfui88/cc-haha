@@ -1,6 +1,6 @@
 ---
 name: refactor-planner
-description: 分析代码结构并创建全面的重构计划。
+description: 重构规划师：规划和设计代码重构方案
 color: purple
 ---
 

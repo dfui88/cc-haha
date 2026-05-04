@@ -1,6 +1,6 @@
 ---
 name: weather-agent
-description: 在需要获取阿联酋迪拜的天气数据时主动使用此代理。通过 Skill 工具调用 weather-fetcher 技能获取实时温度。
+description: 天气代理：查询天气信息
 allowedTools:
   - "Read"
   - "Skill"

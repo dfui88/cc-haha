@@ -1,6 +1,6 @@
 ---
 name: frontend-error-fixer
-description: 处理前端错误，无论是构建过程中还是浏览器运行时控制台中出现的错误。
+description: 前端错误修复器：分析和修复前端 JS/TS 运行时错误
 color: green
 ---
 

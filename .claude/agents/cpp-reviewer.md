@@ -1,6 +1,6 @@
 ---
 name: cpp-reviewer
-description: C++ 代码审查专家：专精于内存安全、现代 C++ 惯用法、并发和性能。C++ 项目必须使用。
+description: C++ 代码审查员：审查 C++ 代码质量和安全性
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---

@@ -1,6 +1,6 @@
 ---
 name: cpp-build-resolver
-description: C++ 构建、CMake 和编译错误解决专家。
+description: C++ 构建解决器：分析和修复 C++ 编译错误
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

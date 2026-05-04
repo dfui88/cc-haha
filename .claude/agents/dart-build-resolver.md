@@ -1,6 +1,6 @@
 ---
 name: dart-build-resolver
-description: Dart/Flutter 构建、分析和依赖错误解决专家。
+description: Dart 构建解决器：分析和修复 Dart/Flutter 编译错误
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

@@ -1,6 +1,6 @@
 ---
 name: kotlin-build-resolver
-description: Kotlin/Gradle 构建、编译和依赖错误解决专家。
+description: Kotlin 构建解决器：分析和修复 Kotlin/Gradle 构建错误
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

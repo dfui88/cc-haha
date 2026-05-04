@@ -1,6 +1,6 @@
 ---
 name: gan-generator
-description: GAN 框架 — 生成代理：根据规范实现功能，读取评估器反馈，迭代直到达到质量标准。
+description: GAN 生成器：创建和训练生成对抗网络
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: opus
 color: green

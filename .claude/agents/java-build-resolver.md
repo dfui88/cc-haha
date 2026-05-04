@@ -1,6 +1,6 @@
 ---
 name: java-build-resolver
-description: Java/Maven/Gradle 构建、编译和依赖错误解决专家。
+description: Java 构建解决器：分析和修复 Java/Maven/Gradle 构建错误
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

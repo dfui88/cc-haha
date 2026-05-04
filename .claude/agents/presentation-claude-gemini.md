@@ -1,6 +1,6 @@
 ---
 name: presentation-claude-gemini
-description: 在用户想要更新、修改、重新排列或修复 CLAUDE-GEMINI 演示文稿时主动使用此代理。不要将此代理用于 vibe-coding 演示文稿。
+description: 演示文稿生成器：创建 AI 相关主题的演示文稿
 allowedTools:
   - "Bash(*)"
   - "Read"

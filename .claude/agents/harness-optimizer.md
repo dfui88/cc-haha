@@ -1,6 +1,6 @@
 ---
 name: harness-optimizer
-description: 分析并改进本地代理框架配置，提升可靠性、降低成本和提高吞吐量。
+description: 工具链优化器：优化 Claude Code 配置和运行环境
 tools: ["Read", "Grep", "Glob", "Bash", "Edit"]
 model: sonnet
 color: teal

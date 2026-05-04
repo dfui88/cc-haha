@@ -1,6 +1,6 @@
 ---
 name: pr-test-analyzer
-description: 审查 PR 测试覆盖质量和完整性，重点关注行为覆盖和真实缺陷预防。
+description: PR 测试分析员：分析 PR 的测试覆盖率和质量
 model: sonnet
 tools: [Read, Grep, Glob, Bash]
 ---

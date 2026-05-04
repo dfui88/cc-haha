@@ -1,6 +1,6 @@
 ---
 name: build-error-resolver
-description: 构建和 TypeScript 错误解决专家。在构建失败或出现类型错误时主动使用。
+description: 构建错误解决器：分析和修复编译/构建错误
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

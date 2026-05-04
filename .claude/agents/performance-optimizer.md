@@ -1,6 +1,6 @@
 ---
 name: performance-optimizer
-description: 性能分析和优化专家：主动用于识别瓶颈、优化慢代码、减少打包体积和改善运行时性能。
+description: 性能优化师：分析和优化应用性能
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

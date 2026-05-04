@@ -1,6 +1,6 @@
 ---
 name: database-reviewer
-description: PostgreSQL 数据库专家：专精于查询优化、模式设计、安全和性能。
+description: 数据库审查员：审查 SQL 查询、模式设计和性能
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

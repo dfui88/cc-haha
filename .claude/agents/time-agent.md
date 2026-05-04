@@ -1,6 +1,6 @@
 ---
 name: time-agent-pkt
-description: 显示巴基斯坦标准时间（PKT，UTC+5）的当前时间。
+description: 时间代理：提供当前时间和相关功能
 allowedTools:
   - "Bash(*)"
   - "Read"

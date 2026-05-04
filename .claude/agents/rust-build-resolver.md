@@ -1,6 +1,6 @@
 ---
 name: rust-build-resolver
-description: Rust 构建、编译和依赖错误解决专家。
+description: Rust 构建解决器：分析和修复 Rust 编译错误
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---

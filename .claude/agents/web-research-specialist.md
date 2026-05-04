@@ -1,6 +1,6 @@
 ---
 name: web-research-specialist
-description: 在需要在互联网上研究信息时使用此代理，特别是用于调试问题、寻找技术问题解决方案或从多个来源收集全面信息。
+description: 网络研究员：进行在线调研和信息收集
 model: sonnet
 color: blue
 ---

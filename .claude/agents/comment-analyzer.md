@@ -1,6 +1,6 @@
 ---
 name: comment-analyzer
-description: 分析代码注释的准确性、完整性、可维护性和注释腐化风险。
+description: 评论分析器：分析用户反馈和代码评论中的关键信息
 model: sonnet
 tools: [Read, Grep, Glob, Bash]
 ---

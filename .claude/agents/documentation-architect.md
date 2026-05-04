@@ -1,6 +1,6 @@
 ---
 name: documentation-architect
-description: 创建、更新或改进代码库任意部分的文档。
+description: 文档架构师：设计和组织项目文档结构
 model: inherit
 color: blue
 ---

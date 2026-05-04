@@ -1,6 +1,6 @@
 ---
 name: code-architecture-reviewer
-description: 审查最近编写的代码，确保其遵循最佳实践、架构一致性和系统集成。
+description: 代码架构审查员：评估代码架构质量和设计决策
 model: sonnet
 color: blue
 ---

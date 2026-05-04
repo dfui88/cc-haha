@@ -1,6 +1,6 @@
 ---
 name: conversation-analyzer
-description: 分析对话记录，发现值得通过钩子预防的行为。
+description: 对话分析器：分析对话历史提取关键决策和行动项
 model: sonnet
 tools: [Read, Grep]
 ---

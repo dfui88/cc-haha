@@ -1,6 +1,6 @@
 ---
 name: flutter-reviewer
-description: Flutter 和 Dart 代码审查员。
+description: Flutter 审查员：审查 Flutter/Dart 代码质量和模式
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---

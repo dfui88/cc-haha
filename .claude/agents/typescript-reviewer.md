@@ -1,6 +1,6 @@
 ---
 name: typescript-reviewer
-description: TypeScript/JavaScript 代码审查专家：专精于类型安全、异步正确性、Node/Web 安全和惯用模式。TypeScript/JavaScript 项目必须使用。
+description: TypeScript 审查员：审查 TypeScript 类型和代码质量
 tools: ["Read", "Grep", "Glob", "Bash"]
 model: sonnet
 ---

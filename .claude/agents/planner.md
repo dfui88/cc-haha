@@ -1,6 +1,6 @@
 ---
 name: planner
-description: 规划和重构专家：在用户请求功能实现、架构更改或复杂重构时主动使用。自动激活用于规划任务。
+description: 规划师：创建详细的实施计划和任务分解
 tools: ["Read", "Grep", "Glob"]
 model: opus
 ---

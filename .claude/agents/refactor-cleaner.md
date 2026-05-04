@@ -1,6 +1,6 @@
 ---
 name: refactor-cleaner
-description: 死代码清理和整合专家：主动用于移除未使用代码、重复代码和重构。
+description: 重构清理器：清理重构后遗留的死代码
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
 ---
