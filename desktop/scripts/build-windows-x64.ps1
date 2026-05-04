@@ -469,7 +469,9 @@ foreach ($root in $bundleRoots) {
   }
 
   foreach ($pattern in $artifactPatterns) {
-    $artifacts = Get-ChildItem -Path $root -Recurse -File -Filter $pattern -ErrorAction SilentlyContinue
+    # Only copy the most recently built artifact (skip older historical MSI artifacts)
+    $artifacts = Get-ChildItem -Path $root -Recurse -File -Filter $pattern -ErrorAction SilentlyContinue |
+      Sort-Object LastWriteTime -Descending | Select-Object -First 1
     foreach ($artifact in $artifacts) {
       # Skip en-US MSI — only copy zh-CN to output directory
       if ($artifact.Name -match '_en-US\.msi') {
@@ -478,7 +480,12 @@ foreach ($root in $bundleRoots) {
       }
       $destinationName = Get-StagedArtifactName -ArtifactName $artifact.Name
       $destination = Join-Path $activeOutputDir $destinationName
-      Copy-Item -LiteralPath $artifact.FullName -Destination $destination -Force
+      try {
+        Copy-Item -LiteralPath $artifact.FullName -Destination $destination -Force -ErrorAction Stop
+      } catch {
+        Write-Step "WARNING: Could not copy artifact '$($artifact.Name)': $_"
+        continue
+      }
       # Update timestamp to current build time (Copy-Item preserves source timestamp)
       (Get-Item $destination).LastWriteTime = Get-Date
 
